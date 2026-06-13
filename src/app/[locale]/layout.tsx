@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../dashboard/dashboard.css";
+import "./dashboard/dashboard.css";
 import { NextIntlClientProvider } from "next-intl";
 
 const inter = Inter({
