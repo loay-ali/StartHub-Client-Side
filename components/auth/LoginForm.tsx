@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function LoginForm() {
   return (
     <div className="flex items-center justify-center bg-surface px-6 py-10">
@@ -37,9 +38,12 @@ export default function LoginForm() {
               Remember me
             </label>
 
-            <button type="button" className="text-primary hover:underline">
+            <Link
+              href="/forgot-password"
+              className="text-primary hover:underline"
+            >
               Forgot password?
-            </button>
+            </Link>
           </div>
 
           <button
