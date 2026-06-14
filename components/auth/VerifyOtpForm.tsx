@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 export default function VerifyOtpForm() {
+  const router = useRouter();
+
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -40,7 +43,7 @@ export default function VerifyOtpForm() {
 
     if (!pastedData) return;
 
-    const newOtp = [...otp];
+    const newOtp = ["", "", "", "", "", ""];
 
     pastedData.split("").forEach((digit, index) => {
       if (index < 6) {
@@ -50,10 +53,8 @@ export default function VerifyOtpForm() {
 
     setOtp(newOtp);
 
-    const lastIndex = Math.min(pastedData.length, 6);
-
-    if (lastIndex < 6) {
-      inputRefs.current[lastIndex]?.focus();
+    if (pastedData.length < 6) {
+      inputRefs.current[pastedData.length]?.focus();
     } else {
       inputRefs.current[5]?.focus();
     }
@@ -74,7 +75,7 @@ export default function VerifyOtpForm() {
 
     console.log("OTP:", code);
 
-    // router.push("/reset-password");
+    router.push("/reset-password");
   };
 
   return (
