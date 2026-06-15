@@ -1,0 +1,26 @@
+export const plans = [
+  {
+    id: 1,
+    name: "Basic",
+    monthlyPrice: 29,
+    yearlyPrice: 290,
+    tokens: "10K",
+    users: 5,
+    storage: "10 GB",
+    support: "Standard",
+    aiCredits: "-",
+    isRecommended: false,
+  },
+  {
+    id: 2,
+    name: "Premium",
+    monthlyPrice: 99,
+    yearlyPrice: 990,
+    tokens: "100K",
+    users: 50,
+    storage: "100 GB",
+    support: "Priority",
+    aiCredits: "Included",
+    isRecommended: true,
+  },
+];

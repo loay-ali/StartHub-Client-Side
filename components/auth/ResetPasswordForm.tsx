@@ -2,13 +2,50 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FiLock } from "react-icons/fi";
 
 export default function ResetPasswordForm() {
   const router = useRouter();
 
+  const [password, setPassword] = useState("");
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [errors, setErrors] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const newErrors = {
+      password: "",
+      confirmPassword: "",
+    };
+
+    let isValid = true;
+
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+      isValid = false;
+    }
+
+    if (!confirmPassword.trim()) {
+      newErrors.confirmPassword = "Please confirm your password";
+      isValid = false;
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!isValid) return;
 
     // TODO: Call Reset Password API
 
@@ -35,10 +72,29 @@ export default function ResetPasswordForm() {
 
               <input
                 type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+
+                  if (errors.password) {
+                    setErrors((prev) => ({
+                      ...prev,
+                      password: "",
+                    }));
+                  }
+                }}
                 placeholder="Enter new password"
-                className="w-full rounded-xl border border-border py-3 pl-12 pr-4 shadow-sm outline-none transition focus:border-primary"
+                className={`w-full rounded-xl py-3 pl-12 pr-4 shadow-sm outline-none transition ${
+                  errors.password
+                    ? "border border-red-500"
+                    : "border border-border focus:border-primary"
+                }`}
               />
             </div>
+
+            {errors.password && (
+              <p className="mt-2 text-sm text-red-500">{errors.password}</p>
+            )}
           </div>
 
           <div>
@@ -51,10 +107,31 @@ export default function ResetPasswordForm() {
 
               <input
                 type="password"
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+
+                  if (errors.confirmPassword) {
+                    setErrors((prev) => ({
+                      ...prev,
+                      confirmPassword: "",
+                    }));
+                  }
+                }}
                 placeholder="Confirm password"
-                className="w-full rounded-xl border border-border py-3 pl-12 pr-4 shadow-sm outline-none transition focus:border-primary"
+                className={`w-full rounded-xl py-3 pl-12 pr-4 shadow-sm outline-none transition ${
+                  errors.confirmPassword
+                    ? "border border-red-500"
+                    : "border border-border focus:border-primary"
+                }`}
               />
             </div>
+
+            {errors.confirmPassword && (
+              <p className="mt-2 text-sm text-red-500">
+                {errors.confirmPassword}
+              </p>
+            )}
           </div>
 
           <button

@@ -9,15 +9,22 @@ export default function VerifyOtpForm() {
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
+  const [error, setError] = useState("");
+
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (value: string, index: number) => {
     if (!/^\d*$/.test(value)) return;
 
     const newOtp = [...otp];
+
     newOtp[index] = value.slice(-1);
 
     setOtp(newOtp);
+
+    if (error) {
+      setError("");
+    }
 
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
@@ -53,6 +60,8 @@ export default function VerifyOtpForm() {
 
     setOtp(newOtp);
 
+    setError("");
+
     if (pastedData.length < 6) {
       inputRefs.current[pastedData.length]?.focus();
     } else {
@@ -63,6 +72,8 @@ export default function VerifyOtpForm() {
   const handleResend = () => {
     setOtp(["", "", "", "", "", ""]);
 
+    setError("");
+
     inputRefs.current[0]?.focus();
 
     console.log("Resend Code");
@@ -72,6 +83,14 @@ export default function VerifyOtpForm() {
     e.preventDefault();
 
     const code = otp.join("");
+
+    if (code.length !== 6) {
+      setError("Please enter the complete 6-digit code");
+
+      return;
+    }
+
+    setError("");
 
     console.log("OTP:", code);
 
@@ -102,14 +121,23 @@ export default function VerifyOtpForm() {
                 onChange={(e) => handleChange(e.target.value, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 onPaste={handlePaste}
-                className="h-14 w-14 rounded-xl border border-border text-center text-xl font-semibold outline-none transition focus:border-primary"
+                className={`h-14 w-14 rounded-xl text-center text-xl font-semibold outline-none transition ${
+                  error
+                    ? "border border-red-500"
+                    : "border border-border focus:border-primary"
+                }`}
               />
             ))}
           </div>
 
+          {error && (
+            <p className="mt-3 text-center text-sm text-red-500">{error}</p>
+          )}
+
           <button
             type="submit"
-            className="mt-8 w-full rounded-xl bg-primary py-3 font-semibold text-white transition hover:opacity-90"
+            disabled={otp.join("").length !== 6}
+            className="mt-8 w-full rounded-xl bg-primary py-3 font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Verify Code
           </button>
