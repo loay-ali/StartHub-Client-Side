@@ -1,9 +1,41 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FiMail } from "react-icons/fi";
 
 export default function ForgotPasswordForm() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+
+  const [error, setError] = useState("");
+
+  const validateEmail = (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    return emailRegex.test(value);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    setError("");
+
+    router.push("/verify-otp");
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface px-6 py-10">
       <div className="w-full max-w-md rounded-3xl border border-border bg-background p-8 shadow-xl">
@@ -15,7 +47,7 @@ export default function ForgotPasswordForm() {
           Enter your email address and we'll send you a verification code.
         </p>
 
-        <form className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <div>
             <label className="mb-2 block text-sm font-medium">
               Email Address
@@ -26,18 +58,32 @@ export default function ForgotPasswordForm() {
 
               <input
                 type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+
+                  if (error) {
+                    setError("");
+                  }
+                }}
                 placeholder="Enter your email"
-                className="w-full rounded-xl border border-border bg-background py-3 pl-12 pr-4 shadow-sm outline-none transition focus:border-primary"
+                className={`w-full rounded-xl bg-background py-3 pl-12 pr-4 shadow-sm outline-none transition ${
+                  error
+                    ? "border border-red-500"
+                    : "border border-border focus:border-primary"
+                }`}
               />
             </div>
+
+            {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
           </div>
 
-          <Link
-            href="/verify-otp"
-            className="block w-full rounded-xl bg-primary py-3 text-center font-semibold text-white transition hover:opacity-90"
+          <button
+            type="submit"
+            className="w-full rounded-xl bg-primary py-3 font-semibold text-white transition hover:opacity-90"
           >
             Send Verification Code
-          </Link>
+          </button>
         </form>
 
         <Link
