@@ -1,29 +1,47 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 import { FiChevronDown, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
+
+import config from '@/constants/config';
 
 export default function UserMenu() {
   const [open, setOpen] = useState(false);
 
+  const [isLogout,setIsLogout] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
+    if( ! isLogout ) {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node)
+        ) {
+          setOpen(false);
+        }
+      };
 
-    document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }else {
+      fetch(config.apiUrl +'/auth/logout',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      }).then(res => res.json())
+      .then(res => {
+        //[edit]
+      });
+    }
+  }, [isLogout]);
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -62,8 +80,8 @@ export default function UserMenu() {
 
           <hr className="my-2 border-border" />
 
-          <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-danger transition hover:bg-red-50">
-            <FiLogOut />
+          <button onClick = {() => setIsLogout(true)} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-danger transition hover:bg-red-50">
+            { isLogout ? <AiOutlineLoading className = 'spinner-loading'/>:<FiLogOut />}
             Logout
           </button>
         </div>

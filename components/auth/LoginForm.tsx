@@ -1,5 +1,80 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+
+import config from '@/constants/config';
+
+import { useEffect, useState } from 'react';
+
 import Link from "next/link";
+import { AiOutlineLoading } from 'react-icons/ai';
+import { FaExclamationCircle } from 'react-icons/fa';
+
 export default function LoginForm() {
+
+  const t = useTranslations();
+
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+
+  const [emailError,setEmailError] = useState('');
+  const [passwordError,setPasswordError] = useState('');
+
+  const [isInvalid,setIsInvalid] = useState(false);
+
+  const [isLogin,setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if( isLogin ) {
+      setIsInvalid(false);
+
+      if( email == '' ) {
+        setEmailError(t('public.auth.email-required'));
+        setIsLogin(false);
+        return;
+      }
+
+      if( email.length < 3 ) {
+        setEmailError(t('public.auth.email-must-be-more-than-3-characters'));
+        setIsLogin(false);
+        return;
+      }
+
+      if( password == '' ) {
+        setPasswordError(t('public.auth.password-required'));
+        setIsLogin(false);
+        return;
+      }
+
+      if( password.length < 8 ) {
+        setPasswordError(t('public.auth.passowrd-must-be-more-than-8-characters'));
+        setIsLogin(false);
+        return;
+      }
+
+      fetch(config.apiUrl +'/auth/login',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email,password})
+      }).then(res => {
+        if( res.status == 401 ) {
+          setIsInvalid(true);
+        }else {
+          return res.json();
+        }
+      })
+      .then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.warn(err);
+      }).finally(() => {
+        setIsLogin(false);
+      });
+    }
+  },[isLogin]);
+
   return (
     <div className="flex items-center justify-center bg-surface px-6 py-10">
       <div className="w-full max-w-md">
@@ -11,15 +86,27 @@ export default function LoginForm() {
           Sign in to continue to your dashboard
         </p>
 
-        <form className="mt-8 space-y-5">
+        {isInvalid ? <p className = 'flex items-center gap-3 text-red-500 text-center'>
+          <FaExclamationCircle />
+          {t('public.auth.invalid-email-or-password')}
+        </p>:''}
+
+        <section className="mt-8 space-y-5">
           <div>
             <label className="mb-2 block text-sm font-medium">Email</label>
 
             <input
               type="email"
+              onInput = {(event) => {
+                setEmailError('');
+                setEmail(event.currentTarget.value)}}
               placeholder="Enter your email"
               className="w-full rounded-xl border border-border bg-background px-4 py-3 shadow-sm outline-none transition focus:border-primary"
             />
+
+            <span className = 'text-red-500 flex gap-2 items-center'>
+              {emailError ? <><FaExclamationCircle/>{emailError}</>:''}
+            </span>
           </div>
 
           <div>
@@ -27,9 +114,17 @@ export default function LoginForm() {
 
             <input
               type="password"
+              onInput = {(event) => {
+                setPasswordError('');
+                setPassword(event.currentTarget.value);
+              }}
               placeholder="Enter your password"
               className="w-full rounded-xl border border-border bg-background px-4 py-3 shadow-sm outline-none transition focus:border-primary"
             />
+
+            <span className = 'text-red-500 flex gap-2 items-center'>
+              {passwordError ? <><FaExclamationCircle/>{passwordError}</>:''}
+            </span>
           </div>
 
           <div className="flex items-center justify-between text-sm">
@@ -47,12 +142,18 @@ export default function LoginForm() {
           </div>
 
           <button
+            onClick = {() => setIsLogin(true)}
             type="submit"
-            className="w-full rounded-xl bg-primary py-3 font-semibold text-white transition hover:opacity-90"
+            className="button flex justify-center"
           >
-            Sign In
+            {! isLogin ? 'Sign In':<AiOutlineLoading className = 'spinner-loading' />}
           </button>
-        </form>
+
+          <section className = 'flex gap-3'>
+            <p>New Here ?</p>
+            <Link href = '/register' className = 'button secondary'>Join Now</Link>
+          </section>
+        </section>
       </div>
     </div>
   );
