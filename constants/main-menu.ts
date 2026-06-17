@@ -22,6 +22,6 @@ export default [
     {
         'slug': 'contact',
         'name': "Contact",
-        'href': '/contact'
+        'href': '/contact-us'
     }
 ];

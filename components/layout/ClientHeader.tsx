@@ -25,7 +25,7 @@ export default function Header() {
             {MenuLinks.map(ele => {
                 return (
             <Link href = {ele.href} key = {ele.slug}>
-                ele.name
+                {ele.name}
             </Link>)
             })}
             
