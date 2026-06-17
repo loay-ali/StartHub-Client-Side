@@ -5,7 +5,7 @@ export default function DashboardHome() {
   return (
     <>
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <StatsCard
+        {/*<StatsCard
           title="Total Companies"
           value="125"
           change="+12% this month"
@@ -31,7 +31,7 @@ export default function DashboardHome() {
           value="$12.5K"
           change="+15% this month"
           icon={<FiDollarSign size={20} />}
-        />
+        />*/}
       </div>
 
       <RecentCompaniesTable />

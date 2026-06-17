@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FiHome, FiUsers, FiSettings } from "react-icons/fi";
+import { FaClipboardList } from "react-icons/fa6";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
@@ -74,6 +75,26 @@ export default function Sidebar() {
           }}
         />
 
+        {!collapsed && <SidebarSection title="Services" />}
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "Services",
+            href: "/dashboard/order-service",
+            icon: <FaClipboardList />,
+            children: [
+              {
+                title: "Order Service",
+                href: "/dashboard/order-service"
+              },
+              {
+                title: "My Orders",
+                href: "/dashboard/my-orders"
+              }
+            ]
+          }} />
+
         {!collapsed && <SidebarSection title="Account Management" />}
 
         <SidebarLink
@@ -81,7 +102,7 @@ export default function Sidebar() {
           item={{
             title: "Settings",
             href: "/settings",
-            icon: <FiSettings />,
+            icon: <FiSettings />
           }}
         />
       </div>
