@@ -10,3 +10,13 @@ export async function getServices():Promise<Service[]> {
 
     return (await res.json()).data;
 }
+
+export async function getServiceData(serviceId:string):Promise<Service|undefined> {
+    const res = await fetch(config.apiUrl +'/service/'+ serviceId);
+
+    if( res.status != 200 ) {
+        return;
+    }
+
+    return (await res.json()).data;
+}
