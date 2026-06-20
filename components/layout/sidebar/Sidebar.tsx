@@ -1,16 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { FiHome, FiUsers, FiSettings } from "react-icons/fi";
 import { FaClipboardList } from "react-icons/fa6";
+import { RiLogoutBoxFill } from "react-icons/ri";
+import { AiOutlineLoading } from "react-icons/ai";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
 import SidebarSection from "./SidebarSection";
 import SidebarBrand from "./SidebarBrand";
+import config from "@/constants/config";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+
+  const [isLogout,setIsLogout] = useState(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if( isLogout ) {
+      fetch(config.apiUrl +'/auth/logout',{
+        method: "POST",
+        credentials: 'include'
+      }).then(res => {
+        if( res.status === 200 ) {
+          router.replace('/');
+        }else {
+          setIsLogout(false);
+        }
+      });
+    }
+  },[isLogout]);
 
   return (
     <aside
@@ -103,6 +127,16 @@ export default function Sidebar() {
             title: "Settings",
             href: "/settings",
             icon: <FiSettings />
+          }}  />
+
+        <SidebarLink
+          action = {() => setIsLogout(true)}
+          className = "bg-red-50"
+          collapsed={collapsed}
+          item={{
+            title: "logout",
+            href: "#",
+            icon: isLogout ? <AiOutlineLoading className = 'loading-spinner' />:<RiLogoutBoxFill />
           }}
         />
       </div>

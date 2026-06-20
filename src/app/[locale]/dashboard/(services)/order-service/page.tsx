@@ -4,6 +4,7 @@ import ChooseService from '@/components/dashboard/pages/orderService/ChooseServi
 import ServiceData from '@/components/dashboard/pages/orderService/ServiceData';
 
 import Link from 'next/link';
+import OrderPlaced from "@/components/dashboard/pages/orderService/Congrats";
 
 export default async function OrderService({
   searchParams
@@ -33,10 +34,10 @@ export default async function OrderService({
                         {currentStep === 1 && <ChooseService/>}
                         {currentStep === 2 && <ServiceData searchParams = {searchParams}/>}
                         {currentStep === 3 && <>Step 3</>}
-                        {currentStep === 4 && <>Step 4</>}
+                        {currentStep === 4 && <OrderPlaced />}
                     </section>
 
-                    {currentStep >= 1 && currentStep <= 4 && (
+                    {currentStep >= 1 && currentStep < 4 && (
                     <div className="mt-12 flex justify-between border-t border-border pt-8">
                         <Link
                         href={'?step='+ (currentStep - 1)}
@@ -49,7 +50,7 @@ export default async function OrderService({
                         href={'?step='+ (currentStep + 1)}
                         className="rounded-xl bg-primary px-6 py-3 font-medium text-white transition hover:opacity-90"
                         >
-                        {currentStep === 4 ? "Complete Registration" : "Next"}
+                        {currentStep === 3 ? "Finish Ordering" : "Next"}
                         </Link>
                     </div>
                     )}

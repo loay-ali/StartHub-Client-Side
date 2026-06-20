@@ -11,11 +11,15 @@ import { SidebarLinkItem } from "@/types/sidebar";
 interface SidebarLinkProps {
   item: SidebarLinkItem;
   collapsed?: boolean;
+  className?: string;
+  action?:Function;
 }
 
 export default function SidebarLink({
+  className,
   item,
   collapsed = false,
+  action
 }: SidebarLinkProps) {
   const pathname = usePathname();
 
@@ -35,6 +39,7 @@ export default function SidebarLink({
           isActive
             ? "bg-primary-light text-primary-dark"
             : "text-text-secondary hover:bg-slate-100 hover:text-text-primary",
+            (className ? className:'')
         )}
       >
         {item.icon}
@@ -45,12 +50,13 @@ export default function SidebarLink({
   return (
     <div>
       <button
-        onClick={() => hasChildren && setExpanded(!expanded)}
+        onClick={() => action ? action():hasChildren && setExpanded(!expanded)}
         className={clsx(
           "flex w-full items-center justify-between rounded-xl px-4 py-3 transition-all duration-200",
           isActive
             ? "bg-primary-light text-primary-dark"
             : "text-text-secondary hover:bg-slate-100 hover:text-text-primary",
+            (className ? className:'')
         )}
       >
         <div className="flex items-center gap-3">
