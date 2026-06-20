@@ -20,3 +20,13 @@ export async function getServiceData(serviceId:string):Promise<Service|undefined
 
     return (await res.json()).data;
 }
+
+export async function getUserServiceOrders() {
+    const res = await fetch(config.apiUrl +'/service-orders/my-orders');
+
+    if( res.status != 200 ) {
+        return [];
+    }
+
+    return await res.json();
+}

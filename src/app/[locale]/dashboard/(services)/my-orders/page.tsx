@@ -1,53 +1,17 @@
-'use client';
-
-import { useState } from "react";
 import CollectionPage from "@/components/collection/CollectionPage";
+import { getUserServiceOrders } from "@/src/services/services";
 
-    const initialCompanies = [
-    {
-        id: 1,
-        name: "StartHub",
-        users: 150,
-        storage: "200 GB",
-        price: 99,
-        status: "Active",
-    },
-    {
-        id: 2,
-        name: "TechNova",
-        users: 80,
-        storage: "100 GB",
-        price: 49,
-        status: "Pending",
-    },
-    {
-        id: 3,
-        name: "ByteForge",
-        users: 220,
-        storage: "500 GB",
-        price: 199,
-        status: "Active",
-    },
-    {
-        id: 4,
-        name: "CloudNet",
-        users: 45,
-        storage: "50 GB",
-        price: 29,
-        status: "Inactive",
-    },
-    ];
 
-export default function MyOrders() {
+export default async function MyOrders() {
 
-    const [companies, setCompanies] = useState(initialCompanies);
+    //const orders = await getUserServiceOrders();
 
-    const handleDelete = (company: (typeof initialCompanies)[number]) => {
-    setCompanies((prev) => prev.filter((item) => item.id !== company.id));
+    const handleDelete = () => {
+    
     };
 
-    const handleEdit = (company: (typeof initialCompanies)[number]) => {
-    console.log("Edit company:", company);
+    const handleEdit = () => {
+    
 
     // هنا بعدين ممكن:
     // router.push(`/companies/${company.id}/edit`);
@@ -55,61 +19,50 @@ export default function MyOrders() {
 
     return (
     <CollectionPage
-        title="Companies"
-        data={companies}
+        title="My Orders"
+        data={[]}
         columns={[
         {
-            key: "name",
-            label: "Company Name",
-            sortable: true,
+            key: "id",
+            label: "#",
         },
 
         {
-            key: "users",
-            label: "Users",
+            key: "service",
+            label: "Service",
             sortable: true,
 
-            value: (row) => <strong>{row.users} Users</strong>,
+            value: "Service Name",
         },
 
         {
-            key: "storage",
-            label: "Storage",
+            key: "created_at",
+            label: "Order Date",
             sortable: true,
-        },
-
-        {
-            key: "price",
-            label: "Price",
-            sortable: true,
-
-            value: (row) => (
-            <span className="font-semibold text-primary">${row.price}</span>
-            ),
         },
 
         {
             key: "status",
             label: "Status",
 
-            value: (row) => (
+            value: /*(row) => (
             <span
                 className={`rounded-full px-3 py-1 text-xs font-medium ${
-                row.status === "Active"
+                'Active' === "Active"
                     ? "bg-green-100 text-green-700"
-                    : row.status === "Pending"
+                    : 'Pending' === "Pending"
                     ? "bg-yellow-100 text-yellow-700"
                     : "bg-red-100 text-red-700"
                 }`}
             >
-                {row.status}
+                {'status'}
             </span>
-            ),
+            )*/'Status Value',
         },
         ]}
-        onAdd={() => console.log("Add new")}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
+        //onAdd={() => console.log("Add new")}
+        //onEdit={handleEdit}
+        //onDelete={handleDelete}
     />
     );
 

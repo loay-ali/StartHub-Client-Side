@@ -5,16 +5,28 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { FiChevronDown, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 
 import config from '@/constants/config';
+import Link from "next/link";
 
 export default function UserMenu() {
   const [open, setOpen] = useState(false);
 
+  const [isGettingWhoAmI,setIsGettingWhoAmI] = useState(true);
   const [isLogout,setIsLogout] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [whoAmI,setWhoAmI] = useState({fullname: "Loay Ali",role: "ADMIN"})
+
   useEffect(() => {
     if( ! isLogout ) {
+
+      if( isGettingWhoAmI ) {
+        fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
+          .then(res => res.json())
+          .then(res => setWhoAmI(res))
+          .finally(() => setIsGettingWhoAmI(false));
+      }
+
       const handleClickOutside = (event: MouseEvent) => {
         if (
           dropdownRef.current &&
@@ -41,7 +53,7 @@ export default function UserMenu() {
         //[edit]
       });
     }
-  }, [isLogout]);
+  }, [isLogout,isGettingWhoAmI]);
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -54,9 +66,9 @@ export default function UserMenu() {
         </div>
 
         <div className="hidden text-left md:block">
-          <p className="font-semibold text-text-primary">StartHub</p>
+          <p className="font-semibold text-text-primary">{whoAmI.fullname}</p>
 
-          <p className="text-sm text-text-secondary">Admin</p>
+          <p className="text-sm text-text-secondary">{whoAmI.role}</p>
         </div>
 
         <FiChevronDown
@@ -68,10 +80,10 @@ export default function UserMenu() {
 
       {open && (
         <div className="absolute right-0 top-full z-50 mt-3 w-56 rounded-2xl border border-border bg-surface p-2 shadow-lg transition hover:shadow-xl">
-          <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-slate-50">
+          <Link href = "/dashboard/profile" className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-slate-50">
             <FiUser />
             Profile
-          </button>
+          </Link>
 
           <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-slate-50">
             <FiSettings />

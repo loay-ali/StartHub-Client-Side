@@ -9,3 +9,13 @@ export async function authCheck() {
 
     return false;
 }
+
+export async function getNotifications() {
+    const res = await fetch(config.apiUrl +'/user/notifications');
+    
+    if( res.status == 200 ) {
+        return await res.json();
+    }
+
+    return [];
+}
