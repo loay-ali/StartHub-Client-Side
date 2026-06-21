@@ -3,11 +3,11 @@ interface StepperProps {
 }
 
 const steps = [
+  "Company",
+  "Founder",
   "BMC Method",
   "BMC Analysis",
   "BMC Score",
-  "Company",
-  "Founder",
   "Payment",
   "Complete",
 ];

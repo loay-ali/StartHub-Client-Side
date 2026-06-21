@@ -1,8 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
-
 import Stepper from "./components/Stepper";
 
 import BmcMethodStep from "./steps/BmcMethodStep";
@@ -14,16 +9,18 @@ import FounderInfoStep from "./steps/FounderInfoStep";
 import PaymentStep from "./steps/PaymentStep";
 import SuccessStep from "./steps/SuccessStep";
 
-export default function RegistrationPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+export default async function RegistrationPage({params}:{params: Promise<{step: number,bmcMethod: 'upload'|'ai'}>}) {
+  const currentParams = await params;
 
-  const [bmcMethod, setBmcMethod] = useState<"upload" | "ai" | null>(null);
+  const currentStep = currentParams.step;
+
+  const bmcMethod= currentParams.bmcMethod ?? null;
 
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const handleMethodSelect = (method: "upload" | "ai") => {
     setBmcMethod(method);
-    setCurrentStep(2);
+    setCurrentStep(4);
   };
 
   const handleNext = () => {
@@ -70,29 +67,31 @@ export default function RegistrationPage() {
           }}
           className="mt-12"
         >
-          {currentStep === 1 && <BmcMethodStep onSelect={handleMethodSelect} />}
+          {currentStep === 1 && <CompanyInfoStep />}
 
-          {currentStep === 2 && bmcMethod === "upload" && (
+          {currentStep === 2 && <FounderInfoStep />}
+
+
+          {currentStep === 3 && <BmcMethodStep onSelect={handleMethodSelect} />}
+
+
+          {currentStep === 4 && bmcMethod === "upload" && (
             <UploadBmcStep
-              selectedFile={uploadedFile}
-              onFileSelect={setUploadedFile}
+            selectedFile={uploadedFile}
+            onFileSelect={setUploadedFile}
             />
           )}
 
-          {currentStep === 2 && bmcMethod === "ai" && <AiDiscoveryStep />}
+          {currentStep === 4 && bmcMethod === "ai" && <AiDiscoveryStep />}
 
-          {currentStep === 3 && <BmcScoreStep />}
-
-          {currentStep === 4 && <CompanyInfoStep />}
-
-          {currentStep === 5 && <FounderInfoStep />}
+          {currentStep === 5 && <BmcScoreStep />}
 
           {currentStep === 6 && <PaymentStep />}
 
           {currentStep === 7 && <SuccessStep />}
         </motion.div>
 
-        {currentStep > 1 && currentStep < 7 && (
+        {currentStep >= 1 && currentStep < 7 && (
           <div className="mt-12 flex justify-between border-t border-border pt-8">
             <button
               onClick={handleBack}
