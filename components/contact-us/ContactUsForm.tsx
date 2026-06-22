@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FiUser,
   FiMail,
@@ -10,11 +10,17 @@ import {
   FiLinkedin,
 } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
+import { AiOutlineLoading } from "react-icons/ai";
+import { FaEnvelopeCircleCheck } from "react-icons/fa6";
+import config from "@/constants/config";
 
 export default function ContactUsForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
+  const [isLoading,setIsLoading] = useState(true);
+  const [isDone,setIsDone] = useState(document.cookie.indexOf('SHContactUs') != -1 ? true:false);
 
   const [errors, setErrors] = useState({
     name: "",
@@ -26,7 +32,35 @@ export default function ContactUsForm() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+
+    if( isLoading ) {
+      fetch(config.apiUrl +'/contact-us/leave-message',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fullname: name,
+          email,
+          message
+        })
+      }).then(res => {
+        if( res.status == 201 ) {
+          setIsDone(true);
+          const expireDate = new Date();
+          
+          expireDate.setTime(expireDate.getTime() + (24*60*60*1000));
+          document.cookie ='SHContactUs=1;expires='+ expireDate.toUTCString();
+        }
+      }).finally(() => {
+        setIsLoading(false);
+      });
+    }
+
+  },[isLoading]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors = {
@@ -62,23 +96,17 @@ export default function ContactUsForm() {
 
     if (!isValid) return;
 
-    console.log({
-      name,
-      email,
-      message,
-    });
-
-    alert("Message sent successfully!");
-
-    setName("");
-    setEmail("");
-    setMessage("");
+    setIsLoading(true);
   };
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <div className="rounded-3xl border border-border bg-gradient-to-br from-surface to-background p-10 shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
-        <div className="text-center">
+        {isDone ? (
+          <section className = 'flex flex-col justify-center items-center gap-10'>
+            <FaEnvelopeCircleCheck size = {50} color = "#28a745" />
+            <strong className = 'text-center'>We've Received Your Message, Thank You For Your Feedback</strong>
+          </section>):(<><div className="text-center">
           <div className="mb-4 inline-flex rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
             💬 Get In Touch
           </div>
@@ -167,10 +195,12 @@ export default function ContactUsForm() {
           </div>
 
           <button
+            style = {{opacity: isLoading ? 0.5:1}}
+            disabled = {isLoading}
             type="submit"
-            className="w-full rounded-xl bg-gradient-to-r from-primary to-primary-dark py-3 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+            className="flex justify-center cursor-pointer w-full rounded-xl bg-gradient-to-r from-primary to-primary-dark py-3 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
           >
-            Send Message
+            {isLoading ? <AiOutlineLoading className = 'spinner-loading'/>:<>Send Message</>}
           </button>
         </form>
 
@@ -208,7 +238,7 @@ export default function ContactUsForm() {
               <FaXTwitter size={20} />
             </a>
           </div>
-        </div>
+        </div></>)}
       </div>
     </div>
   );

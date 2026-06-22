@@ -2,7 +2,8 @@ import { FiUsers, FiDatabase, FiZap, FiCheck } from "react-icons/fi";
 import { FiStar } from "react-icons/fi";
 type PlanCardProps = {
   name: string;
-  price: number;
+  monthlyPrice: number;
+  yearlyPrice:number;
   billingCycle: "monthly" | "yearly";
   tokens: string;
   users: number;
@@ -14,7 +15,8 @@ type PlanCardProps = {
 
 export default function PlanCard({
   name,
-  price,
+  monthlyPrice,
+  yearlyPrice,
   billingCycle,
   tokens,
   users,
@@ -23,6 +25,7 @@ export default function PlanCard({
   selected,
   onSelect,
 }: PlanCardProps) {
+  
   return (
     <div
       className={`relative rounded-3xl border bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
@@ -45,14 +48,14 @@ export default function PlanCard({
         <h3 className="text-2xl font-bold text-text-primary">{name}</h3>
 
         <div className="mt-6">
-          <span className="text-5xl font-bold">${price}</span>
+          <span className="text-5xl font-bold">${billingCycle == 'monthly' ? monthlyPrice:yearlyPrice}</span>
 
           <span className="text-text-secondary">
             /{billingCycle === "monthly" ? "month" : "year"}
           </span>
 
           {billingCycle === "yearly" && (
-            <p className="mt-2 text-sm font-medium text-green-600">Save 20%</p>
+            <p className="mt-2 text-sm font-medium text-green-600">Save <strong>{Math.round((((monthlyPrice * 12) - yearlyPrice)) / (monthlyPrice * 12) * 100)}%</strong></p>
           )}
         </div>
       </div>

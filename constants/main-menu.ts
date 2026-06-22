@@ -7,7 +7,7 @@ export default [
     {
         'slug': 'features',
         'name': "Features",
-        'href': '#'
+        'href': '/features'
     },
     {
         'slug': 'pricing',
