@@ -7,19 +7,14 @@ export async function init() {
         credentials: 'include'
     });
 
-    console.log(response.status);
-
-    if( response.status == 200 ) {
-        const res = await response.json();
-
-        return res;
+    if( response.status == 201 ) {
+        return await response.json();
     }
 }
 
 export async function startRegisteration() {
-    await fetch(config.apiUrl +'/registration/register',{
-        method: 'POST',
-        credentials: 'include'
+    const res = await fetch(config.apiUrl +'/registration/register',{
+        method: 'POST'
     });
 
     return true;

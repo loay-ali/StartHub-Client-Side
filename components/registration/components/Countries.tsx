@@ -1,4 +1,4 @@
-export default function Countries({name,className}:{name:string,className?:string}) {
+export default function Countries({value,className,onChange}:{value?:string,className?:string,onChange:Function|undefined}) {
     const countries = {
         'eg': 'Egypt',
         'ksa': 'Kingdom Saudi Arabia',
@@ -19,7 +19,7 @@ export default function Countries({name,className}:{name:string,className?:strin
     };
     
     return (
-        <select name = {name} className = {className}>
+        <select defaultValue = {value} onChange = {(ele) => onChange?.(ele)} className = {className}>
             {Object.entries(countries).map(country => {
                 return (
                     <option value = {country[0]}>

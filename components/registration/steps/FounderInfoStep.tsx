@@ -1,6 +1,6 @@
 import { FiUser, FiMail, FiPhone, FiLock, FiUploadCloud } from "react-icons/fi";
 
-export default function FounderInfoStep() {
+export default function FounderInfoStep({setImage,setFirstname,setLastname,setPhone,setEmail,setPassword,setConfirmPassword}:any) {
   return (
     <div className="mx-auto max-w-5xl">
       <div className="mb-10">
@@ -26,7 +26,7 @@ export default function FounderInfoStep() {
               </p>
             </div>
 
-            <input type="file" accept=".png,.jpg,.jpeg" className="hidden" />
+            <input onInput = {(ele) => setImage(ele.currentTarget.files?.[0])} type="file" accept=".png,.jpg,.jpeg" className="hidden" />
           </label>
         </div>
 
@@ -38,6 +38,7 @@ export default function FounderInfoStep() {
               <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                onInput = {(ele) => setFirstname(ele.currentTarget.value)}
                 placeholder="First Name"
                 className="w-full rounded-xl border border-border py-3 pl-11 pr-4"
               />
@@ -47,6 +48,7 @@ export default function FounderInfoStep() {
               <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+              onInput = {(ele) => setLastname(ele.currentTarget.value)}
                 placeholder="Last Name"
                 className="w-full rounded-xl border border-border py-3 pl-11 pr-4"
               />
@@ -56,6 +58,7 @@ export default function FounderInfoStep() {
               <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                onInput = {(ele) => setEmail(ele.currentTarget.value)}
                 type="email"
                 placeholder="Email Address"
                 className="w-full rounded-xl border border-border py-3 pl-11 pr-4"
@@ -66,6 +69,7 @@ export default function FounderInfoStep() {
               <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                onInput = {(ele) => setPhone(ele.currentTarget.value)}
                 placeholder="Phone Number"
                 className="w-full rounded-xl border border-border py-3 pl-11 pr-4"
               />
@@ -81,6 +85,7 @@ export default function FounderInfoStep() {
               <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                onInput = {(ele) => setPassword(ele.currentTarget.value)}
                 type="password"
                 placeholder="Password"
                 className="w-full rounded-xl border border-border py-3 pl-11 pr-4"
@@ -91,6 +96,7 @@ export default function FounderInfoStep() {
               <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                onInput = {(ele) => setConfirmPassword(ele.currentTarget.value)}
                 type="password"
                 placeholder="Confirm Password"
                 className="w-full rounded-xl border border-border py-3 pl-11 pr-4"

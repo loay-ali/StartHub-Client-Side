@@ -1,6 +1,6 @@
 import { FiCheckCircle, FiTrendingUp } from "react-icons/fi";
 
-export default function BmcScoreStep() {
+export default function BmcScoreStep({score}:{score:number}) {
   return (
     <div className="mx-auto max-w-4xl">
       <div className="text-center">
@@ -20,14 +20,14 @@ export default function BmcScoreStep() {
           BMC Score
         </p>
 
-        <div className="mt-4 text-7xl font-bold text-primary">85</div>
+        <div className="mt-4 text-7xl font-bold text-primary" style = {{color: score > 20 ? '#28a745':'#dc3515'}}>{score}</div>
 
-        <p className="mt-2 text-xl font-semibold text-green-600">
-          Excellent Business Potential
+        <p className="mt-2 text-xl font-semibold" style = {{color: score > 20 ? '#28a745':'#dc3515'}}>
+          {score > 20 ? <>Excellent Business Potential</>:<>Low Chance</>}
         </p>
       </div>
 
-      <div className="mt-8 rounded-3xl border border-border p-8">
+      {/*<div className="mt-8 rounded-3xl border border-border p-8">
         <h3 className="mb-6 text-xl font-semibold">Key Strengths</h3>
 
         <div className="space-y-4">
@@ -55,7 +55,7 @@ export default function BmcScoreStep() {
             <span>High market opportunity</span>
           </div>
         </div>
-      </div>
+      </div>*/}
     </div>
   );
 }
