@@ -104,14 +104,14 @@ export default function CollectionTable<T extends Record<string, any>>({
           </thead>
 
           <tbody>
-            {sortedData.map((row, index) => (
+            {data.length == 0 ? (<tr><td style = {{textAlign:"center",padding:"8px"}} colSpan = {9}>No Results</td></tr>):sortedData.map((row, index) => (
               <tr
                 key={index}
                 className="border-b border-border transition hover:bg-background"
               >
                 {columns.map((column) => (
                   <td key={String(column.key)} className="px-5 py-4">
-                    {column.value
+                    {column.value && typeof column.value == 'function'
                       ? column.value(row)
                       : String(row[column.key as keyof typeof row] ?? "")}
                   </td>

@@ -23,3 +23,7 @@ body {
   background-color: var(--color-background);
   color: var(--color-text-primary);
 }
+
+.button {
+  @apply bg-gray-500 py-2 p-5 rounded text-white cursor-pointer m-2
+}

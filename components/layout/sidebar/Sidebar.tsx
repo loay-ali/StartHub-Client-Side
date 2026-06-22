@@ -3,16 +3,22 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { FiHome, FiUsers, FiSettings } from "react-icons/fi";
+import { FiHome, FiUsers } from "react-icons/fi";
 import { FaClipboardList } from "react-icons/fa6";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { AiOutlineLoading } from "react-icons/ai";
+import { FaBuilding } from "react-icons/fa";
+import { BsClipboard2Data } from "react-icons/bs";
+import { AiOutlineTeam } from "react-icons/ai";
+import { TbCoins } from "react-icons/tb";
+import { LuBriefcaseBusiness } from "react-icons/lu";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
 import SidebarSection from "./SidebarSection";
 import SidebarBrand from "./SidebarBrand";
 import config from "@/constants/config";
+
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -79,27 +85,78 @@ export default function Sidebar() {
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Companies",
-            href: "/companies",
+            title: "HR",
+            href: "/feature/hr",
+            icon: <BsClipboard2Data />,
+          }}
+        />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "Teams",
+            href: "/feature/teams",
+            icon: <AiOutlineTeam />,
+          }}
+        />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "Finance",
+            href: "/feature/finance",
+            icon: <TbCoins />,
+          }}
+        />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "BMC",
+            href: "/feature/bmc",
+            icon: <LuBriefcaseBusiness />,
+          }}
+        />
+
+        {!collapsed && <SidebarSection title="Company" />}
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "Users",
+            href: "/users",
             icon: <FiUsers />,
             children: [
               {
-                title: "All Companies",
-                href: "/companies",
+                title: "All Users",
+                href: "/dashboard/users/all",
               },
               {
-                title: "Pending Companies",
-                href: "/companies/pending",
-              },
-              {
-                title: "Suspended Companies",
-                href: "/companies/suspended",
-              },
+                title: "Add User",
+                href: "/dashboard/users/new",
+              }
             ],
           }}
         />
 
-        {!collapsed && <SidebarSection title="Services" />}
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "Departments",
+            href: "/departments",
+            icon: <FaBuilding />,
+            children: [
+              {
+                title: "All Departments",
+                href: "/dashboard/departments/all",
+              },
+              {
+                title: "Add Department",
+                href: "/dashboard/departments/new",
+              }
+            ],
+          }}
+        />
 
         <SidebarLink
           collapsed={collapsed}
@@ -118,16 +175,6 @@ export default function Sidebar() {
               }
             ]
           }} />
-
-        {!collapsed && <SidebarSection title="Account Management" />}
-
-        <SidebarLink
-          collapsed={collapsed}
-          item={{
-            title: "Settings",
-            href: "/settings",
-            icon: <FiSettings />
-          }}  />
 
         <SidebarLink
           action = {() => setIsLogout(true)}
