@@ -5,6 +5,10 @@
   --color-primary-dark: #0f766e;
   --color-primary-light: #99f6e4;
 
+  --color-accent: #8b5cf6;
+  --color-accent-light: #c4b5fd;
+  --color-accent-dark: #6d28d9;
+
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
@@ -12,6 +16,7 @@
 
   --color-background: #f8fafc;
   --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
   --color-border: #e2e8f0;
 
   --color-text-primary: #0f172a;
