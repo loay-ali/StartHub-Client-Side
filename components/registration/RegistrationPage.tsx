@@ -8,32 +8,14 @@ import CompanyInfoStep from "./steps/CompanyInfoStep";
 import FounderInfoStep from "./steps/FounderInfoStep";
 import PaymentStep from "./steps/PaymentStep";
 import SuccessStep from "./steps/SuccessStep";
+import { init } from "@/src/services/registeration";
 
-export default async function RegistrationPage({params}:{params: Promise<{step: number,bmcMethod: 'upload'|'ai'}>}) {
-  const currentParams = await params;
+export default async function RegistrationPage() {
 
-  const currentStep = currentParams.step;
+  const getCurrentData = await init();
+  let currentStep = 1;
 
-  const bmcMethod= currentParams.bmcMethod ?? null;
-
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-
-  const handleMethodSelect = (method: "upload" | "ai") => {
-    setBmcMethod(method);
-    setCurrentStep(4);
-  };
-
-  const handleNext = () => {
-    if (currentStep === 2 && bmcMethod === "upload" && !uploadedFile) {
-      return;
-    }
-
-    setCurrentStep((prev) => Math.min(prev + 1, 7));
-  };
-
-  const handleBack = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
-  };
+  console.log(getCurrentData);
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -50,58 +32,40 @@ export default async function RegistrationPage({params}:{params: Promise<{step: 
 
         <Stepper currentStep={currentStep} />
 
-        <motion.div
-          key={currentStep}
-          initial={{
-            opacity: 0,
-            y: 20,
-            scale: 0.98,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            scale: 1,
-          }}
-          transition={{
-            duration: 0.35,
-          }}
-          className="mt-12"
-        >
+        <section>
           {currentStep === 1 && <CompanyInfoStep />}
 
           {currentStep === 2 && <FounderInfoStep />}
 
 
-          {currentStep === 3 && <BmcMethodStep onSelect={handleMethodSelect} />}
+          {currentStep === 3 && <BmcMethodStep onSelect={() => {}} />}
 
 
-          {currentStep === 4 && bmcMethod === "upload" && (
+          {currentStep === 4 && /*bmcMethod === "upload" &&*/ (
             <UploadBmcStep
-            selectedFile={uploadedFile}
-            onFileSelect={setUploadedFile}
+            selectedFile={null}//uploadedFile}
+            onFileSelect={(file:File):void => {}}//setUploadedFile}
             />
           )}
 
-          {currentStep === 4 && bmcMethod === "ai" && <AiDiscoveryStep />}
+          {currentStep === 4 /*&& bmcMethod === "ai"*/ && <AiDiscoveryStep />}
 
           {currentStep === 5 && <BmcScoreStep />}
 
           {currentStep === 6 && <PaymentStep />}
 
           {currentStep === 7 && <SuccessStep />}
-        </motion.div>
+        </section>
 
         {currentStep >= 1 && currentStep < 7 && (
           <div className="mt-12 flex justify-between border-t border-border pt-8">
             <button
-              onClick={handleBack}
               className="rounded-xl border border-border px-6 py-3 transition hover:bg-slate-50"
             >
               Back
             </button>
 
             <button
-              onClick={handleNext}
               className="rounded-xl bg-primary px-6 py-3 font-medium text-white transition hover:opacity-90"
             >
               {currentStep === 6 ? "Complete Registration" : "Next"}

@@ -1,8 +1,13 @@
 import { FiUploadCloud } from "react-icons/fi";
 
+import Form from 'next/form';
+import Countries from "../components/Countries";
+
 export default function CompanyInfoStep() {
   return (
-    <div className="mx-auto max-w-5xl">
+    <Form action = {async (formData:FormData) => {
+      'use server';
+    }} className="mx-auto max-w-5xl">
       <div className="mb-10">
         <h2 className="text-3xl font-bold">Company Information</h2>
 
@@ -27,6 +32,7 @@ export default function CompanyInfoStep() {
             </div>
 
             <input
+              name = 'compnay-logo'
               type="file"
               accept=".png,.jpg,.jpeg,.svg"
               className="hidden"
@@ -39,11 +45,12 @@ export default function CompanyInfoStep() {
 
           <div className="grid gap-5 md:grid-cols-2">
             <input
+              name = 'company-name'
               placeholder="Company Name"
               className="rounded-xl border border-border px-4 py-3"
             />
 
-            <select className="rounded-xl border border-border px-4 py-3">
+            <select name = 'company-industry' className="rounded-xl border border-border px-4 py-3">
               <option>Industry</option>
               <option>Technology</option>
               <option>Artificial Intelligence</option>
@@ -58,14 +65,12 @@ export default function CompanyInfoStep() {
 
           <div className="grid gap-5 md:grid-cols-2">
             <input
+              name = 'company-website'
               placeholder="Website URL"
               className="rounded-xl border border-border px-4 py-3"
             />
 
-            <input
-              placeholder="Country"
-              className="rounded-xl border border-border px-4 py-3"
-            />
+            <Countries className = "rounded-xl border border-border px-4 py-3" name = "company-country"/>
           </div>
         </div>
 
@@ -73,7 +78,7 @@ export default function CompanyInfoStep() {
           <h3 className="mb-6 text-xl font-semibold">Company Metrics</h3>
 
           <div className="grid gap-5 md:grid-cols-2">
-            <select className="rounded-xl border border-border px-4 py-3">
+            <select name = 'company-size' className="rounded-xl border border-border px-4 py-3">
               <option>Company Size</option>
               <option>1-10 Employees</option>
               <option>11-50 Employees</option>
@@ -82,13 +87,14 @@ export default function CompanyInfoStep() {
             </select>
 
             <input
-              type="number"
-              placeholder="Founded Year"
+              type="month"
+              name = 'company-founded-in'
+              placeholder="Founded Date"
               className="rounded-xl border border-border px-4 py-3"
             />
           </div>
         </div>
       </div>
-    </div>
+    </Form>
   );
 }

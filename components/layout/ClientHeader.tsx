@@ -18,7 +18,7 @@ export default function Header() {
     return (
     <header className = 'flex items-center justify-between p-3'>
         <Link href = '/' id = 'identity' className='flex items-center justify-between gap-3'>
-            <h1><img src = '/starthub.png' className = 'w-[50px]'/></h1>
+            <h1><img src = '/starthub.png' className = 'w-[100px]'/></h1>
         </Link>
 
         <nav className = 'flex items-center justify-between gap-5 mx-5'>

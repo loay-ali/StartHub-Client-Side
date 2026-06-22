@@ -12,9 +12,6 @@ export default async function MyOrders() {
 
     const handleEdit = () => {
     
-
-    // هنا بعدين ممكن:
-    // router.push(`/companies/${company.id}/edit`);
     };
 
     return (

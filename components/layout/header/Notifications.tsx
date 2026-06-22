@@ -8,7 +8,7 @@ import { RiInformation2Fill } from "react-icons/ri";
 import { CiCircleCheck } from "react-icons/ci";
 import { MdCancel } from "react-icons/md";
 
-export default async function Notifications() {
+export default function Notifications() {
   //const notifications:Notification[] = await getNotifications() ?? [];
   const notifications:Notification[] = [{id: 'hll',name: 'Service Is Done',type: 'DONE',description: "Service Is Done",createdAt: "2026-06-20T00:00:00"}];
 
@@ -23,7 +23,7 @@ export default async function Notifications() {
     
       <ul className = 'border-b-1 border-gray-500 absolute left-[-150px] top-[100%] pt-5 w-[300px] bg-white z-1 hidden group-hover:block shadow-gray-500'>
         {notifications.map((noti:Notification) => {
-          return (<li className = 'p-2'>
+          return (<li className = 'p-2' key = {noti.id}>
             <header className = 'flex items-center justify-start'>
               {noti.type == 'ERROR' ? <MdError size = {35} color = "#dc43545" />:(
                 noti.type == 'WARNING' ? <PiWarningDiamondFill size = {35} color = "yellow"/>:(
