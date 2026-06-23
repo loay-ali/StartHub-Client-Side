@@ -12,6 +12,7 @@ import { BsClipboard2Data } from "react-icons/bs";
 import { AiOutlineTeam } from "react-icons/ai";
 import { TbCoins } from "react-icons/tb";
 import { LuBriefcaseBusiness } from "react-icons/lu";
+import { FaRankingStar } from "react-icons/fa6";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
@@ -81,6 +82,29 @@ export default function Sidebar() {
         />
 
         {!collapsed && <SidebarSection title="Features" />}
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "Recruitments",
+            href: "/feature/recruitment",
+            icon: <FaRankingStar />,
+            children: [
+              {
+                title: "Posted Jobs",
+                href: "/dashboard/jobs/list"
+              },
+              {
+                title: "Candidates",
+                href: "/dashboard/candidates/list"
+              },
+              {
+                title: "Interviews",
+                href: "/dashboard/interviews/list"
+              }
+            ]
+          }}
+        />
 
         <SidebarLink
           collapsed={collapsed}
