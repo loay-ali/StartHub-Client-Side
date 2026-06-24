@@ -75,10 +75,10 @@ export default function UserMenu({email}:{email:string}) {
             Profile
           </Link>
 
-          <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-slate-50">
+          {/*<button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-slate-50">
             <FiSettings />
             Settings
-          </button>
+          </button>*/}
 
           <hr className="my-2 border-border" />
 
