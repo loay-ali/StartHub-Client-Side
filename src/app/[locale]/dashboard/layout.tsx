@@ -4,10 +4,6 @@ import "./dashboard.css";
 
 import DashboardLayout from "@/components/layout/dashboard-layout/DashboardLayout";
 
-import { authCheck } from "@/src/services/auth";
-
-import { redirect } from "next/navigation";
-
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -23,8 +19,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  //if( await authCheck() == false ) return redirect('/login');
 
   return (
     <html lang="en" className="h-full antialiased">

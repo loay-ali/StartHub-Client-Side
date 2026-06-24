@@ -30,5 +30,22 @@ body {
 }
 
 .button {
-  @apply bg-gray-500 py-2 p-5 rounded text-white cursor-pointer m-2
+  @apply bg-gray-500 py-2 p-5 rounded text-white cursor-pointer my-2
+}
+
+.form-group {
+  @apply flex flex-col gap-1 my-5;
+
+  input,select {
+    @apply border-1 rounded p-2;
+  }
+}
+
+@keyframes spin {
+    0% { transform:rotate(0deg)}
+    100% { transform:rotate(360deg)}
+}
+
+.spinner-loading {
+    animation: spin 1.25s linear infinite;
 }

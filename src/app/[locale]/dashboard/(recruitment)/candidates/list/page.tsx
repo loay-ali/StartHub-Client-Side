@@ -17,7 +17,9 @@ export default async function CandidatesList() {
     const [candidates,setCandidates] = useState([]);
 
     const [isDeleting,setIsDeleting] = useState('');
-    const [isLoading,setIsLoading] = useState(false);
+    const [confirmRemoving,setConfirmRemoving] = useState(false);
+
+    const [isLoading,setIsLoading] = useState(true);
     const [hasError,setHasError] = useState(false);
 
     useEffect(() => {
@@ -67,6 +69,8 @@ export default async function CandidatesList() {
         data = {candidates}
         columns = {[
         ]}/>
-    {isDeleting != '' && <AreYouSureWindow title = "You Really Want To Delete The Candidate ?" />}
+    {isDeleting != '' && confirmRemoving == false && <AreYouSureWindow confirmCallback = {() => {
+        setConfirmRemoving(true);
+    }}  setWindowState = {setIsDeleting} title = "You Really Want To Delete The Candidate ?" />}
     </>);
 }

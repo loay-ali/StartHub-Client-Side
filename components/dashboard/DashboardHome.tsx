@@ -1,6 +1,9 @@
+'use client';
+
 import StatsCard from "./StatsCard";
 import RecentCompaniesTable from "./RecentCompaniesTable";
 import { FiUsers, FiBriefcase, FiDollarSign, FiActivity } from "react-icons/fi";
+import AIWindow from "../ai/window/window";
 export default function DashboardHome() {
   return (
     <>
@@ -34,7 +37,7 @@ export default function DashboardHome() {
         />*/}
       </div>
 
-      <RecentCompaniesTable />
+      {/* <RecentCompaniesTable /> */}
     </>
   );
 }

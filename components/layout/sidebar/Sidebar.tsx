@@ -130,6 +130,15 @@ export default function Sidebar() {
             title: "Finance",
             href: "/feature/finance",
             icon: <TbCoins />,
+            children: [
+              {title: "New Revenue Bill",href: "/dashboard/bills/new/revenue"},
+              {title: "New Expense Bill",href: "/dashboard/bills/new/expenses"},
+
+              {title: "Reports",href: "/dashboard/reports/list"},
+
+              {title: "Accounts",href: "/dashboard/accounts/list"},
+              {title: "Transactions",href: "/dashboard/transactions/list"},
+            ]
           }}
         />
 

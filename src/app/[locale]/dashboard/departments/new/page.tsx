@@ -16,18 +16,18 @@ export default function NewDepartment() {
 
     useEffect(() => {
         if( isSubmitting ) {
-            fetch(config.apiUrl +'/user',{
+            fetch(config.apiUrl +'/departments',{
                 method: 'POST',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: department_name,
+                    name: department_name
                 })
             }).then(res => {
                 if( res.status == 201 ) {
-                    router.replace('/dashboard/users/all');
+                    router.replace('/dashboard/departments/all');
                 }
             }).finally(() => {
                 setIsSubmitting(false);

@@ -9,10 +9,13 @@ import { useEffect, useState } from 'react';
 import Link from "next/link";
 import { AiOutlineLoading } from 'react-icons/ai';
 import { FaExclamationCircle } from 'react-icons/fa';
+import { redirect } from 'next/navigation';
 
 export default function LoginForm() {
 
   const t = useTranslations();
+
+  const [isLoggedIn,setIsLoggedIn] = useState<boolean|null>(null);
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -25,6 +28,18 @@ export default function LoginForm() {
   const [isLogin,setIsLogin] = useState(false);
 
   useEffect(() => {
+    if( isLoggedIn == null ) {
+      fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
+        .then(res => {
+          console.log(res);
+          if( res.status == 200 ) {
+            redirect('/dashboard');
+          }else {
+            setIsLoggedIn(false);
+          }
+        })
+    }
+
     if( isLogin ) {
       setIsInvalid(false);
 
@@ -54,19 +69,21 @@ export default function LoginForm() {
 
       fetch(config.apiUrl +'/auth/login',{
         method: 'POST',
+        credentials: "include",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({email,password})
       }).then(res => {
-        if( res.status == 401 ) {
+
+        if( res.status == 401 || res.status == 403 ) {
           setIsInvalid(true);
         }else {
           return res.json();
         }
       })
       .then(res => {
-        console.log(res);
+        redirect('/dashboard');
       }).catch(err => {
         console.warn(err);
       }).finally(() => {

@@ -16,6 +16,11 @@ type Props<T> = {
   onAdd?: () => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
+
+  addLink?:string;
+  editLink?:Function;
+
+  isDeleting?: boolean;
 };
 
 export default function CollectionPage<T extends Record<string, any>>({
@@ -25,6 +30,9 @@ export default function CollectionPage<T extends Record<string, any>>({
   onAdd,
   onEdit,
   onDelete,
+  addLink,
+  editLink,
+  isDeleting
 }: Props<T>) {
   const [search, setSearch] = useState("");
 
@@ -92,6 +100,8 @@ export default function CollectionPage<T extends Record<string, any>>({
         data={paginatedData}
         onEdit={onEdit}
         onDelete={onDelete}
+        isDeleting={isDeleting}
+        editLink={editLink}
       />
 
       <CollectionPagination

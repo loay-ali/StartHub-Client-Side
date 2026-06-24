@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FiUsers, FiDatabase, FiZap, FiCheck } from "react-icons/fi";
 import { FiStar } from "react-icons/fi";
 type PlanCardProps = {
@@ -11,9 +12,11 @@ type PlanCardProps = {
   isRecommended?: boolean;
   selected?: boolean;
   onSelect?: () => void;
+  id:string;
 };
 
 export default function PlanCard({
+  id,
   name,
   monthlyPrice,
   yearlyPrice,
@@ -84,10 +87,11 @@ export default function PlanCard({
         </div>
       </div>
 
-      <button
+      <Link
+        href = {"/register?plan="+ id}
         type="button"
         onClick={onSelect}
-        className={`mt-8 w-full rounded-xl py-3 font-medium transition ${
+        className={`block text-center mt-8 w-full rounded-xl py-3 font-medium transition ${
           selected
             ? "bg-green-500 text-white"
             : isRecommended
@@ -95,8 +99,8 @@ export default function PlanCard({
               : "border border-border hover:bg-slate-50"
         }`}
       >
-        {selected ? "✓ Selected" : "Select Plan"}
-      </button>
+        Select Plan
+      </Link>
     </div>
   );
 }

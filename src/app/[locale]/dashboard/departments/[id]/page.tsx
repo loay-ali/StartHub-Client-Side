@@ -14,6 +14,8 @@ export default async function EditDeparment({params}:{params:{id:string}}) {
 
     const departmentData = await getSingleDepartment(params.id);
 
+    console.log(departmentData);
+
     if( ! departmentData ) {
         return (<section className = 'flex flex-col justify-center items-center gap-5'>
             <GrDocumentMissing size = {50} />

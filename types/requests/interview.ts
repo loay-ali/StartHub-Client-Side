@@ -1,0 +1,6 @@
+export default class interview {
+    id!:string;
+
+    candidateId!: string;
+    jobId!:string;
+}

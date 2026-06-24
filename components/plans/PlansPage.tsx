@@ -48,9 +48,10 @@ export default async function PlansPage({duration}:{duration:'monthly'|'yearly'}
         </div>
       </div>
 
-      <div className="mx-auto mt-16 grid max-w-5xl gap-8 md:grid-cols-2">
+      <div className="mx-auto mt-16 grid max-w-5xl gap-8 md:grid-cols-3">
         {plans.map((plan:Plan) => (
           <PlanCard
+            id={plan.id}
             key={plan.id}
             name={plan.name}
             monthlyPrice={plan.monthlyPrice}

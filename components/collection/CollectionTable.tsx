@@ -3,8 +3,10 @@
 import { useMemo, useState } from "react";
 
 import { FiChevronDown, FiChevronUp, FiEdit, FiTrash2 } from "react-icons/fi";
+import { AiOutlineLoading } from "react-icons/ai";
 
 import { CollectionColumn } from "./types";
+import Link from "next/link";
 
 type Props<T> = {
   columns: CollectionColumn<T>[];
@@ -12,6 +14,10 @@ type Props<T> = {
 
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
+
+  editLink?:Function;
+
+  isDeleting?:boolean;
 };
 
 export default function CollectionTable<T extends Record<string, any>>({
@@ -19,6 +25,8 @@ export default function CollectionTable<T extends Record<string, any>>({
   data,
   onEdit,
   onDelete,
+  isDeleting,
+  editLink
 }: Props<T>) {
   const [sortKey, setSortKey] = useState<string | null>(null);
 
@@ -131,7 +139,7 @@ export default function CollectionTable<T extends Record<string, any>>({
                         </button>
                       )}
 
-                      {onDelete && (
+                      {isDeleting ? (<AiOutlineLoading color = "#dc3545" className = 'spinner-loading'/>):(onDelete && (
                         <button
                           type="button"
                           onClick={() => onDelete(row)}
@@ -140,7 +148,7 @@ export default function CollectionTable<T extends Record<string, any>>({
                           <FiTrash2 />
                           Delete
                         </button>
-                      )}
+                      ))}
                     </div>
                   </td>
                 )}
