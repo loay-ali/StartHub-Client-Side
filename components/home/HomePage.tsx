@@ -13,9 +13,9 @@ import { PageBg } from "./shared";
 
 export default function HomePage() {
   return (
-    <main>
-      <PageBg />
-      <HeroSection />
+    <main className = 'pt-20'>
+      {/* <PageBg /> */}
+      <HeroSection/>
       <ProblemSection />
       <SolutionSection />
       <DashboardSection />

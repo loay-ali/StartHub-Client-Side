@@ -19,8 +19,10 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="h-full antialiased">
-      <body className="min-h-full">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      <body className="min-h-full pt-40">
+        <NextIntlClientProvider>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
