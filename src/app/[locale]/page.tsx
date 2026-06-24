@@ -1,11 +1,11 @@
-import { useTranslations } from "next-intl";
+﻿import HomePage from "@/components/home/HomePage";
+import Header from "@/components/layout/ClientHeader";
 
-export default function Home() {
-  const t = useTranslations('public');
-
+export default function Page() {
   return (
     <>
-      {t('homepage.hello-world')}
+      <Header />
+      <HomePage />
     </>
   );
 }
