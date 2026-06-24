@@ -15,7 +15,7 @@ export default function SidebarBrand({
         collapsed ? "justify-center" : "justify-between"
       }`}
     >
-      <Link
+      {/*<Link
         href="/dashboard"
         className="flex items-center gap-3 overflow-hidden"
       >
@@ -30,7 +30,7 @@ export default function SidebarBrand({
             <p className="text-xs text-text-secondary">Client Dashboard</p>
           </div>
         )}
-      </Link>
+      </Link>*/}
 
       {!collapsed && (
         <button

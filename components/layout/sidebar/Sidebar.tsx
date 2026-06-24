@@ -21,7 +21,7 @@ import SidebarBrand from "./SidebarBrand";
 import config from "@/constants/config";
 
 
-export default function Sidebar() {
+export default function Sidebar({email,companyName}:{email:string,companyName:string}) {
   const [collapsed, setCollapsed] = useState(false);
 
   const [isLogout,setIsLogout] = useState(false);

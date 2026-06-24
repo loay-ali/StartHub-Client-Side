@@ -9,9 +9,11 @@ import { useEffect, useState } from 'react';
 import Link from "next/link";
 import { AiOutlineLoading } from 'react-icons/ai';
 import { FaExclamationCircle } from 'react-icons/fa';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+
+  const router = useRouter();
 
   const t = useTranslations();
 
@@ -31,9 +33,8 @@ export default function LoginForm() {
     if( isLoggedIn == null ) {
       fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
         .then(res => {
-          console.log(res);
           if( res.status == 200 ) {
-            redirect('/dashboard');
+            router.replace('/dashboard');
           }else {
             setIsLoggedIn(false);
           }
@@ -83,7 +84,7 @@ export default function LoginForm() {
         }
       })
       .then(res => {
-        redirect('/dashboard');
+        router.replace('/dashboard');
       }).catch(err => {
         console.warn(err);
       }).finally(() => {

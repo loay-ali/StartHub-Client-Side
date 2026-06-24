@@ -1,22 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
+import config from "@/constants/config";
+import { redirect } from "next/navigation";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+
+  const [userData,setUserData] = useState<any>({});
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if( isLoggedIn == false ) {
+      fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
+        .then(res => {
+          if( res.status == 200 ) {
+            setIsLoggedIn(true);
+            return res.json();
+          }else {
+            redirect('/login');
+          }
+        }).then((res) => {
+          setUserData(res);
+        })
+    }
+  },[]);
+
+  if( isLoggedIn == false ) {
+    return (<>Loading...</>)
+  }
 
   return (
     <div className="flex min-h-screen bg-background">
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
-        <Sidebar />
+        <Sidebar email = {userData.email} companyName = {'hello'} />
       </div>
 
       {/* Mobile Sidebar */}
@@ -28,13 +54,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           />
 
           <div className="fixed left-0 top-0 z-50 md:hidden">
-            <Sidebar />
+            <Sidebar email = {userData.email} companyName = {'hello'}/>
           </div>
         </>
       )}
 
       <div className="min-w-0 flex flex-1 flex-col">
-        <Header onMenuClick={() => setSidebarOpen(true)} />
+        <Header email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </div>

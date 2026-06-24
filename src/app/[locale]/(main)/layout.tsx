@@ -8,7 +8,9 @@ export default function MainLayout({
   return (
     <>
       <Header />
-      {children}
+      <section className = 'pt-20'>
+        {children}
+      </section>
     </>
   );
 }

@@ -7,25 +7,15 @@ import { FiChevronDown, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 import config from '@/constants/config';
 import Link from "next/link";
 
-export default function UserMenu() {
+export default function UserMenu({email}:{email:string}) {
   const [open, setOpen] = useState(false);
 
-  const [isGettingWhoAmI,setIsGettingWhoAmI] = useState(true);
   const [isLogout,setIsLogout] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const [whoAmI,setWhoAmI] = useState({fullname: "Loay Ali",role: "ADMIN"})
-
   useEffect(() => {
     if( ! isLogout ) {
-
-      if( isGettingWhoAmI ) {
-        fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
-          .then(res => res.json())
-          .then(res => setWhoAmI(res))
-          .finally(() => setIsGettingWhoAmI(false));
-      }
 
       const handleClickOutside = (event: MouseEvent) => {
         if (
@@ -53,7 +43,7 @@ export default function UserMenu() {
         //[edit]
       });
     }
-  }, [isLogout,isGettingWhoAmI]);
+  }, [isLogout]);
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -66,9 +56,9 @@ export default function UserMenu() {
         </div>
 
         <div className="hidden text-left md:block">
-          <p className="font-semibold text-text-primary">{whoAmI.fullname}</p>
+          <p className="font-semibold text-text-primary">{email}</p>
 
-          <p className="text-sm text-text-secondary">{whoAmI.role}</p>
+          {/*<p className="text-sm text-text-secondary">{whoAmI.role}</p>*/}
         </div>
 
         <FiChevronDown
