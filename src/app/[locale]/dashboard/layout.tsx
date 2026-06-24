@@ -1,5 +1,5 @@
+﻿import { Inter } from "next/font/google";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./dashboard.css";
 
 import DashboardLayout from "@/components/layout/dashboard-layout/DashboardLayout";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "StartHub Client Dashboard",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -1,6 +1,7 @@
 {
     "public": {
         "homepage": {
+            "hello-world": "Hello World"
         },
         "auth": {
             "email-required": "E-Mail Is Required",
