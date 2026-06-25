@@ -24,7 +24,7 @@ export const C = {
   textMuted: "#7fa89e",
 
   // Brand — teal only
-  primary:   "#0571d3",
+  primary:   "#05d39fff",
   primaryDk: "#0f766e",
   primaryDkk:"#0a5c55",
   primaryLt: "#5eead4",

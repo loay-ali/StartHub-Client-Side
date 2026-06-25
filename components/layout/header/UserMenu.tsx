@@ -49,41 +49,34 @@ export default function UserMenu({email}:{email:string}) {
     <div ref={dropdownRef} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-3 rounded-xl p-2 transition hover:bg-slate-50"
+        className="flex items-center gap-2.5 rounded-xl border border-[#14b8a6]/15 bg-white/70 py-1.5 px-2.5 hover:border-[#14b8a6]/40 hover:bg-slate-50/80 transition-all duration-200"
       >
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary font-bold text-white">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#14b8a6] to-[#0f766e] font-bold text-white text-sm shadow-sm">
           S
         </div>
 
         <div className="hidden text-left md:block">
-          <p className="font-semibold text-text-primary">{email}</p>
-
-          {/*<p className="text-sm text-text-secondary">{whoAmI.role}</p>*/}
+          <p className="text-sm font-semibold text-slate-700 truncate max-w-[120px]">{email}</p>
         </div>
 
         <FiChevronDown
-          className={`transition-transform duration-200 ${
+          className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${
             open ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-3 w-56 rounded-2xl border border-border bg-surface p-2 shadow-lg transition hover:shadow-xl">
-          <Link href = "/dashboard/profile" className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-slate-50">
-            <FiUser />
+        <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-2xl border border-slate-100 bg-white/95 backdrop-blur-md p-2 shadow-xl">
+          <Link href="/dashboard/profile" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-left font-medium text-slate-700 transition hover:bg-[#14b8a6]/5 hover:text-[#14b8a6]">
+            <FiUser className="h-4 w-4" />
             Profile
           </Link>
 
-          {/*<button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition hover:bg-slate-50">
-            <FiSettings />
-            Settings
-          </button>*/}
+          <hr className="my-1.5 border-slate-100" />
 
-          <hr className="my-2 border-border" />
-
-          <button onClick = {() => setIsLogout(true)} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-danger transition hover:bg-red-50">
-            { isLogout ? <AiOutlineLoading className = 'spinner-loading'/>:<FiLogOut />}
+          <button onClick={() => setIsLogout(true)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-left font-medium text-red-500 transition hover:bg-red-50">
+            {isLogout ? <AiOutlineLoading className="spinner-loading h-4 w-4" /> : <FiLogOut className="h-4 w-4" />}
             Logout
           </button>
         </div>
