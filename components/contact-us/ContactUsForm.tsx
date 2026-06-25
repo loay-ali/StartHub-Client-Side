@@ -104,14 +104,14 @@ export default function ContactUsForm() {
       <div className="rounded-3xl border border-border bg-gradient-to-br from-surface to-background p-10 shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
         {isDone ? (
           <section className = 'flex flex-col justify-center items-center gap-10'>
-            <FaEnvelopeCircleCheck size = {50} color = "#28a745" />
+            <FaEnvelopeCircleCheck size = {50} className = 'text-primary' />
             <strong className = 'text-center'>We've Received Your Message, Thank You For Your Feedback</strong>
           </section>):(<><div className="text-center">
           <div className="mb-4 inline-flex rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
             💬 Get In Touch
           </div>
 
-          <h1 className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-5xl font-bold text-transparent">
+          <h1 className="bg-gradient-to-tr from-primary to-secondary bg-clip-text text-5xl font-bold text-transparent">
             Contact Us
           </h1>
 
@@ -198,7 +198,7 @@ export default function ContactUsForm() {
             style = {{opacity: isLoading ? 0.5:1}}
             disabled = {isLoading}
             type="submit"
-            className="flex justify-center cursor-pointer w-full rounded-xl bg-gradient-to-r from-primary to-primary-dark py-3 font-semibold text-white shadow-lg transition hover:scale-[1.02]"
+            className="button"
           >
             {isLoading ? <AiOutlineLoading className = 'spinner-loading'/>:<>Send Message</>}
           </button>

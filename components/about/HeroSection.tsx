@@ -18,7 +18,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <span className="bg-primary-light text-primary-dark inline-flex rounded-full px-4 py-2 text-sm font-medium">
+            <span className="bg-primary text-secondary inline-flex rounded-full px-4 py-2 text-sm font-medium">
               AI-Powered Startup Intelligence
             </span>
 

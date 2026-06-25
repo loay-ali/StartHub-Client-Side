@@ -35,7 +35,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   },[]);
 
   if( isLoggedIn == false ) {
-    return (<>Loading...</>)
+    //return (<>Loading...</>)
   }
 
   return (

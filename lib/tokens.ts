@@ -3,6 +3,8 @@
 // MUI + Tailwind compatible — use these everywhere
 
 export const C = {
+  special: "#dc3545",
+
   // Backgrounds
   bg:        "#ffffff",   // page root — pure white
   surface:   "#f8fffe",   // very faint teal tint
@@ -22,7 +24,7 @@ export const C = {
   textMuted: "#7fa89e",
 
   // Brand — teal only
-  primary:   "#14b8a6",
+  primary:   "#0571d3",
   primaryDk: "#0f766e",
   primaryDkk:"#0a5c55",
   primaryLt: "#5eead4",

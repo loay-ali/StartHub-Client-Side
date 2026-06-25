@@ -20,7 +20,7 @@ export default function JobsList() {
     const router = useRouter();
 
     useEffect(() => {
-        if(isLoading) {
+        /*if(isLoading) {
             fetch(config.apiUrl +'/jobs',{credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
@@ -31,7 +31,7 @@ export default function JobsList() {
             }).finally(() => {
                 setIsLoading(false);
             });
-        }
+        }*/
 
         if(isRemoving != '' && confirmRemoving) {
             fetch(config.apiUrl +'/jobs/'+ isRemoving,{

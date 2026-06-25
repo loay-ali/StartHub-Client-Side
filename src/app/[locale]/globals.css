@@ -1,18 +1,18 @@
 ﻿@import "tailwindcss";
 
 @theme {
-    --color-primary: #14b8a6;
-    --color-secondary: #99f6e4;
+    --color-primary: #0571d3;
+    --color-secondary: #F2F2FF;
 }
 
 /* Elements */
 .button {
-  @apply w-full rounded-xl bg-primary py-3 font-semibold text-white transition hover:opacity-90;
+  @apply w-full rounded-xl bg-primary py-3 font-semibold text-secondary transition hover:opacity-90;
 }
 
 .button.secondary {
 
-    @apply w-full text-center rounded-xl py-2 px-3 font-semibold transition hover:opacity-90 bg-secondary text-gray-700;
+    @apply w-full text-center rounded-xl py-2 px-3 font-semibold border-primary border-1 transition hover:opacity-90 bg-secondary text-primary;
 }
 
 /* Common */
