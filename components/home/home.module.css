@@ -449,111 +449,246 @@
   font-weight: 800;
 }
 
+/* ============================================================
+   Problem section — asymmetric anti-grid bento on tablet/desktop,
+   single-DOM scroll-snap carousel on mobile (CSS only, no
+   duplicated markup between the two layouts). Used exclusively by
+   ProblemSection.tsx — safe to evolve without touching any other
+   section above or below this block.
+   ============================================================ */
+
 .problemSection {
   position: relative;
   z-index: 1;
-  padding: 96px 0;
+  padding: clamp(64px, 9vw, 96px) 0;
   background: #ffffff;
 }
 
-.bentoGrid {
+.swipeHint {
+  display: none;
+  margin: 4px 0 18px;
+  text-align: center;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1.35fr 1fr;
+  grid-template-areas:
+    "hero side1"
+    "hero side2"
+    "pivot pivot";
   gap: 16px;
 }
 
-.bentoSpan2 {
-  grid-column: span 2;
+.grid > [data-area="hero"] {
+  grid-area: hero;
+}
+.grid > [data-area="side1"] {
+  grid-area: side1;
+}
+.grid > [data-area="side2"] {
+  grid-area: side2;
+}
+.grid > [data-area="pivot"] {
+  grid-area: pivot;
 }
 
-.bentoCardWhite,
-.bentoCardTinted {
+.slot {
+  min-width: 0;
   height: 100%;
-  min-height: 245px;
-  padding: 28px;
-  border-radius: 22px;
+}
+.slot > * {
+  height: 100%;
+}
+
+.dots {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(10, 15, 14, 0.16);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.dotActive {
+  width: 22px;
+  background: #14b8a6;
+}
+
+.dot:focus-visible,
+.toolPill:focus-visible {
+  outline: 2px solid #14b8a6;
+  outline-offset: 3px;
+}
+
+/* Card shell — light skeuomorphism: layered soft shadow at rest,
+   a tactile press on hover/active instead of a flat floating lift. */
+
+.card {
   position: relative;
   overflow: hidden;
-}
-
-.bentoCardWhite {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 22px;
   background: #ffffff;
-  border: 1px solid #e2faf5;
-  box-shadow: 0 1px 4px rgba(10, 15, 14, 0.04);
+  border: 1px solid #e7f5f2;
+  box-shadow: 0 1px 2px rgba(10, 15, 14, 0.04), 0 30px 56px -34px rgba(10, 15, 14, 0.18);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s ease,
+    border-color 0.32s ease;
 }
 
-.bentoCardTinted {
-  background: #f8fffe;
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(20, 184, 166, 0.3);
+  box-shadow: 0 1px 2px rgba(10, 15, 14, 0.05), 0 38px 70px -30px rgba(10, 15, 14, 0.22);
 }
 
-.cardLift {
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+.card:active {
+  transform: translateY(-1px) scale(0.992);
+  box-shadow: 0 1px 2px rgba(10, 15, 14, 0.05), 0 14px 28px -18px rgba(10, 15, 14, 0.2);
 }
 
-.cardLift:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(20, 184, 166, 0.13);
-  border-color: rgba(20, 184, 166, 0.35);
+.variantHero {
+  padding: 36px 34px;
+  background: linear-gradient(165deg, #ffffff, #fcfffe);
 }
 
-.painIconWrap,
-.painIconWrapSm {
+.variantSide {
+  padding: 26px 26px;
+  background: linear-gradient(135deg, rgba(10, 15, 14, 0.018), transparent);
+}
+
+.variantPivot {
+  padding: 32px 34px;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), transparent);
+}
+
+/* Faint grain — reserved for the two anchor cards (hero + pivot)
+   only, so the texture reads as a deliberate signature rather than
+   a blanket filter over every surface. */
+
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+.cardInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pivotInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.iconWrap,
+.iconWrapLg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   border-radius: 14px;
-}
-
-.painIconWrap {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 22px;
-}
-
-.painIconWrapSm {
-  width: 42px;
-  height: 42px;
   margin-bottom: 18px;
 }
 
-.painH3Lg,
-.painH3Sm {
-  color: #0a0f0e;
+.iconWrap {
+  width: 42px;
+  height: 42px;
+}
+
+.iconWrapLg {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 22px;
+}
+
+.pivotInner .iconWrapLg {
+  margin-bottom: 0;
+}
+
+.cardText {
+  position: relative;
+  z-index: 1;
+}
+
+.title,
+.titleHero {
   font-family: "Inter Tight", system-ui, sans-serif;
   font-weight: 800;
-  line-height: 1.15;
+  color: #0a0f0e;
+  line-height: 1.18;
 }
 
-.painH3Lg {
-  max-width: 480px;
-  font-size: 25px;
+.title {
+  font-size: clamp(17px, 1.6vw, 19px);
+  margin-bottom: 10px;
 }
 
-.painH3Sm {
-  font-size: 19px;
+.titleHero {
+  font-size: clamp(23px, 2.6vw, 28px);
+  max-width: 460px;
+  margin-bottom: 12px;
 }
 
-.painBody,
-.painBodySm {
-  margin-top: 12px;
+.body,
+.bodyHero {
   color: #4b6b65;
   line-height: 1.75;
 }
 
-.painBody {
-  max-width: 620px;
-  font-size: 14.5px;
-}
-
-.painBodySm {
+.body {
   font-size: 13.5px;
 }
 
-.gradText {
+.bodyHero {
+  font-size: 14.5px;
+  max-width: 560px;
+}
+
+/* Headline accent — gradient text plus one signature kinetic
+   moment, native scroll-driven CSS, no JS. Falls back to a static
+   gradient word wherever animation-timeline isn't supported. */
+
+.accentText {
   background: linear-gradient(125deg, #14b8a6 0%, #0f766e 55%, #0d9488 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+@supports (animation-timeline: view()) {
+  .kineticWord {
+    animation: kineticWeight linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 35%;
+  }
 }
 
 .toolChaosWrap {
@@ -590,9 +725,14 @@
   color: #1a2e2b;
   background: #ffffff;
   border: 1px solid rgba(20, 184, 166, 0.16);
-  box-shadow: 0 8px 24px rgba(20, 184, 166, 0.07);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 8px 24px rgba(20, 184, 166, 0.07);
   font-size: 12px;
   font-weight: 800;
+  transform: translateY(0) rotate(var(--r, 0deg));
+  animation-name: pillFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 .toolChaosDivider {
@@ -636,6 +776,29 @@
   }
 }
 
+/* The jitter is the point, not decoration: a dozen tools drifting
+   independently is the visual argument for "no connection, no
+   clarity" directly beneath it. */
+@keyframes pillFloat {
+  from {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  to {
+    transform: translateY(-4px) rotate(var(--r, 0deg));
+  }
+}
+
+@keyframes kineticWeight {
+  from {
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  to {
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+}
+
 @media (max-width: 1020px) {
   .heroGrid {
     grid-template-columns: 1fr;
@@ -647,8 +810,12 @@
     order: 2;
   }
 
-  .bentoGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "hero hero"
+      "side1 side2"
+      "pivot pivot";
   }
 }
 
@@ -658,13 +825,8 @@
   }
 
   .heroChecklist,
-  .heroStats,
-  .bentoGrid {
+  .heroStats {
     grid-template-columns: 1fr;
-  }
-
-  .bentoSpan2 {
-    grid-column: auto;
   }
 
   .heroCtas {
@@ -686,6 +848,38 @@
     font-size: 10px;
     padding: 7px 9px;
   }
+
+  .swipeHint {
+    display: block;
+  }
+
+  .grid {
+    display: flex;
+    grid-template-areas: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 4px 12px;
+    margin: 0 -4px;
+    scrollbar-width: none;
+  }
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+  .grid > .slot {
+    flex: 0 0 86%;
+    scroll-snap-align: center;
+  }
+
+  .dots {
+    display: flex;
+  }
+
+  .pivotInner {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -695,5 +889,19 @@
   .orbitCancelCcw,
   .shimmerText {
     animation-duration: 0.001ms;
+  }
+
+  .card,
+  .dot {
+    transition: none !important;
+  }
+
+  .toolPill,
+  .kineticWord {
+    animation: none !important;
+  }
+
+  .kineticWord {
+    font-weight: 900;
   }
 }

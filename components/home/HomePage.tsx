@@ -9,7 +9,7 @@ import ProblemSection from "./ProblemSection";
 import SolutionSection from "./SolutionSection";
 import TestimonialsSection from "./TestimonialsSection";
 import UseCasesSection from "./UseCasesSection";
-import { PageBg } from "./shared";
+// import { PageBg } from "./shared";
 
 export default function HomePage() {
   return (
