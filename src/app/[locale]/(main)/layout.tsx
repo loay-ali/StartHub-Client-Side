@@ -11,7 +11,9 @@ export default function MainLayout({
     <>
       <MouseGlow/>
       <Header />
-      {children}
+      <section className = 'pt-20'>
+        {children}
+      </section>
     </>
   );
 }

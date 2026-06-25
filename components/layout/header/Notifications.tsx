@@ -1,6 +1,8 @@
 import { getNotifications } from "@/src/services/auth";
 import Notification from "@/types/requests/notification";
 
+import Link from 'next/link';
+
 import { FiBell } from "react-icons/fi";
 import { MdError } from "react-icons/md";
 import { PiWarningDiamondFill } from "react-icons/pi";
@@ -14,7 +16,7 @@ export default function Notifications() {
 
   return (
     <>
-    <button className="group relative rounded-xl border border-border p-3">
+    <Link href = '/dashboard/notifications' className="group relative rounded-xl border border-border p-3">
       <FiBell size={20} />
 
       <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-danger text-xs font-semibold text-white">
@@ -43,7 +45,7 @@ export default function Notifications() {
           </li>);
         })}
       </ul>
-    </button>
+    </Link>
     </>
   );
 }

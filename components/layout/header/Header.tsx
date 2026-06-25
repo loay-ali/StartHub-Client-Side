@@ -8,9 +8,10 @@ import UserMenu from "./UserMenu";
 
 interface HeaderProps {
   onMenuClick?: () => void;
+  email:string;
 }
 
-export default function Header({ onMenuClick }: HeaderProps) {
+export default function Header({ email,onMenuClick }: HeaderProps) {
   return (
     <header className="flex h-20 items-center justify-between border-b border-border bg-surface px-4 md:px-6">
       <div className="flex items-center flex-1 max-w-md">
@@ -32,7 +33,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
         <Notifications />
 
-        <UserMenu />
+        <UserMenu email = {email} />
       </div>
     </header>
   );
