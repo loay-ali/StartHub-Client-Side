@@ -84,7 +84,7 @@
 .sectionSub {
   max-width: 680px;
   margin: 18px auto 0;
-  color: #4b6b65;
+  color: #777;
   font-size: 16px;
   line-height: 1.8;
 }
@@ -108,7 +108,7 @@
 
 .heroDotGrid {
   opacity: 0.55;
-  background-image: radial-gradient(rgba(20, 184, 166, 0.18) 1px, transparent 1px);
+  background-image: radial-gradient(var(--color-primary) 1px, transparent 1px);
   background-size: 22px 22px;
   mask-image: linear-gradient(to bottom, black, transparent 78%);
 }
@@ -133,7 +133,7 @@
   border-radius: 999px;
   border: 1px solid rgba(20, 184, 166, 0.2);
   background: rgba(255, 255, 255, 0.78);
-  color: #0f766e;
+  color: var(--color-primary);
   font-size: 12px;
   font-weight: 800;
   box-shadow: 0 8px 30px rgba(20, 184, 166, 0.08);
@@ -143,7 +143,7 @@
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #14b8a6;
+  background: var(--color-primary);
   box-shadow: 0 0 0 5px rgba(20, 184, 166, 0.1);
 }
 
@@ -157,7 +157,7 @@
 }
 
 .shimmerText {
-  background: linear-gradient(100deg, #0f766e 30%, #14b8a6 50%, #5eead4 55%, #0f766e 70%);
+  background: linear-gradient(100deg, var(--color-primary) 30%, var(--color-primary-light) 50%, var(--color-primary-light) 55%, var(--color-primary) 70%);
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
@@ -167,15 +167,17 @@
 
 .heroSubtext {
   max-width: 620px;
-  margin-top: 22px;
-  color: #1a2e2b;
+  color: var(--color-primary);
   font-size: 18px;
+  font-weight: bolder;
   line-height: 1.75;
+
+  margin-block:30px;
 }
 
 .heroSocialProof {
   margin-top: 16px;
-  color: #4b6b65;
+  color: var(--color-primary);
   font-size: 14px;
   font-weight: 700;
 }
@@ -230,14 +232,16 @@
 
 .btnPrimary {
   color: #ffffff;
-  background: linear-gradient(135deg, #14b8a6, #0f766e);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
   box-shadow: 0 8px 30px rgba(20, 184, 166, 0.28);
+
+  cursor:pointer;
 }
 
 .btnGhost {
   color: #0a0f0e;
   background: #ffffff;
-  border: 1.5px solid #a7f3d0;
+  border: 1.5px solid var(--color-primary);
 }
 
 .btnPrimary:hover,
@@ -250,7 +254,7 @@
 }
 
 .btnGhost:hover {
-  border-color: #14b8a6;
+  border-color: var(--color-primary);
   box-shadow: 0 8px 24px rgba(20, 184, 166, 0.13);
 }
 
@@ -263,7 +267,7 @@
 }
 
 .heroStatNum {
-  color: #0f766e;
+  color: var(--color-primary);
   font-family: "Inter Tight", system-ui, sans-serif;
   font-size: 30px;
   font-weight: 900;
@@ -375,11 +379,11 @@
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: #14b8a6;
+  background: var(--color-primary);
 }
 
 .chipDotOuter {
-  background: #22c55e;
+  background: #000;
 }
 
 .orbitCore {
@@ -390,7 +394,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: linear-gradient(145deg, #14b8a6, #0f766e);
+  background: linear-gradient(145deg, var(--color-primary), var(--color-primary-light));
   color: #ffffff;
   box-shadow: 0 0 0 14px rgba(20, 184, 166, 0.08), 0 24px 60px rgba(20, 184, 166, 0.22);
 }
@@ -677,7 +681,7 @@
    gradient word wherever animation-timeline isn't supported. */
 
 .accentText {
-  background: linear-gradient(125deg, #14b8a6 0%, #0f766e 55%, #0d9488 100%);
+  background: linear-gradient(125deg, var(--color-primary) 0%, var(--color-primary-light) 55%, var(--color-primary) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -700,7 +704,7 @@
 }
 
 .toolChaosLabel {
-  color: #0f766e;
+  color: var(--color-primary);
   font-size: 12px;
   font-weight: 900;
   text-align: center;

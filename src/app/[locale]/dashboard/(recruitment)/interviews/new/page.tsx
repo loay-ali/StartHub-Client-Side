@@ -25,5 +25,8 @@ export default async function NewInterview() {
             </section>))
     }
 
-    return (<></>);
+    return (
+    <section className = 'flex flex-col p-2 bg-white rounded shadow m-10 mx-auto'>
+        
+    </section>);
 }

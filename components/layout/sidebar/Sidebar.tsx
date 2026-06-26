@@ -22,7 +22,7 @@ import config from "@/constants/config";
 
 
 export default function Sidebar({email,companyName}:{email:string,companyName:string}) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const [isLogout,setIsLogout] = useState(false);
 
@@ -87,7 +87,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
           collapsed={collapsed}
           item={{
             title: "Recruitments",
-            href: "/feature/recruitment",
+            href: "/dashboard/jobs/list",
             icon: <FaRankingStar />,
             children: [
               {

@@ -1,7 +1,11 @@
 ﻿@import "tailwindcss";
 
 @theme {
+    /* Change Those Below ( Starthub Team ) */
     --color-primary: #0571d3;
+    --color-primary-light: #8cc7fc;
+    /* Change Those Above ( Starthub Team */
+
     --color-secondary: #F2F2FF;
 }
 
@@ -57,14 +61,14 @@ button {
 }
 
 .grad-text {
-    background: linear-gradient(125deg, #14b8a6 0%, #0f766e 55%, #0d9488 100%);
+    background: linear-gradient(125deg, var(--color-primary) 0%, var(--color-primary-light) 55%, var(--color-primary) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .shimmer-text {
-    background: linear-gradient(100deg, #0f766e 30%, #14b8a6 50%, #5eead4 55%, #0f766e 70%);
+    background: linear-gradient(100deg, var(--color-primary) 30%, var(--color-primary-light) 50%, var(--color-primary-light) 55%, var(--color-primary) 70%);
     background-size: 200% auto;
     background-clip: text;
     -webkit-background-clip: text;
@@ -85,7 +89,7 @@ button {
 
 .btn-primary {
     color: #ffffff;
-    background: linear-gradient(135deg, #14b8a6, #0f766e);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
     box-shadow: 0 8px 30px rgba(20,184,166,.28);
 }
 

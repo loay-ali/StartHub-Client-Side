@@ -3,7 +3,7 @@ import Link from "next/link"
 export default function Footer () {
     return (
         <>
-        <footer className = 'bg-secondary p-5 grid grid-cols-1 md:grid-cols-3'>
+        <footer className = 'mt-20 bg-secondary p-5 grid grid-cols-1 md:grid-cols-3'>
             <section className = 'flex flex-col justify-center items-center py-5'>
                 <img src = '/starthub.png' width = {150} />
                 <p className = 'ms-20 pt-2'>

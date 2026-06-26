@@ -6,6 +6,7 @@ import { FiChevronDown, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 
 import config from '@/constants/config';
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function UserMenu({email}:{email:string}) {
   const [open, setOpen] = useState(false);
@@ -13,6 +14,8 @@ export default function UserMenu({email}:{email:string}) {
   const [isLogout,setIsLogout] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     if( ! isLogout ) {
@@ -40,7 +43,7 @@ export default function UserMenu({email}:{email:string}) {
         credentials: 'include'
       }).then(res => res.json())
       .then(res => {
-        //[edit]
+        router.replace('/login');
       });
     }
   }, [isLogout]);

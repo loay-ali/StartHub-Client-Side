@@ -25,8 +25,6 @@ export default function CompanyIdentity({
             </p>
           </div>
         </div>
-
-        <span className="text-text-muted">⌄</span>
       </div>
     </div>
   );

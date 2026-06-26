@@ -1,5 +1,5 @@
 export default class Service {
-    id!:string;
+    _id!:string;
 
     name!:string;
 

@@ -8,7 +8,8 @@ export default async function ChooseService() {
 
     return (<section className = 'grid grid-cols-3 gap-4'>
         {services.map(service => {
-            return <ServiceCard key = {service.id} service = {service}/>;
+
+            return <ServiceCard key = {service._id} service = {service}/>;
         })}
     </section>);
 }

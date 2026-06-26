@@ -94,7 +94,11 @@ export default function LoginForm() {
   },[isLogin]);
 
   return (
-    <div className="flex items-center justify-center bg-surface px-6 py-10">
+    <div className="flex items-center justify-center bg-surface px-6 py-10" onKeyDown={(event) => {
+      if( event.key == 'Enter' ) {
+        setIsLogin(true);
+      }
+    }}>
       <div className="w-full max-w-md">
         <div className="mb-10 flex items-center gap-3"></div>
 

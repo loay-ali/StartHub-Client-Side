@@ -1,11 +1,12 @@
 "use client";
 // src/components/home/PricingSection.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
+import config from "@/constants/config";
 
-const plans = [
+/*const plans = [
   {
     name: "Starter", price: 149, hi: false, cta: "Try Free for 14 Days",
     sub: "For early-stage teams getting visibility for the first time.",
@@ -21,10 +22,28 @@ const plans = [
     sub: "For venture-backed companies that need custom security and control.",
     features: ["Everything in Growth", "Custom AI Agent training", "SSO & advanced security", "Dedicated success manager", "Custom integrations", "SLA guarantee", "Unlimited members", "On-prem option"],
   },
-];
+];*/
 
 export default function PricingSection() {
   const [annual, setAnnual] = useState(true);
+
+  const [isLoadingPlans,setIsLoadingPlans] = useState(true);
+  const [plans,setPlans] = useState([]);
+
+  useEffect(() => {
+    if( isLoadingPlans ) {
+      fetch(config.apiUrl +'/plans')
+        .then(res => res.status == 200 ? res.json():Promise.reject())
+        .then(res => {
+          setIsLoadingPlans(false);
+          setPlans(res);
+          console.log(res);
+        });
+    }
+  },[isLoadingPlans]);
+
+  return <>Hello</>
+
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
