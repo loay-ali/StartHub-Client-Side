@@ -5,6 +5,7 @@ import ServiceData from '@/components/dashboard/pages/orderService/ServiceData';
 
 import Link from 'next/link';
 import OrderPlaced from "@/components/dashboard/pages/orderService/Congrats";
+import PaymentSection from "@/components/payment/Payment";
 
 export default async function OrderService({
   searchParams
@@ -33,7 +34,7 @@ export default async function OrderService({
                     <section>
                         {currentStep === 1 && <ChooseService/>}
                         {currentStep === 2 && <ServiceData searchParams = {searchParams}/>}
-                        {currentStep === 3 && <>Step 3</>}
+                        {currentStep === 3 && <PaymentSection price = {50} url = "#"/>}
                         {currentStep === 4 && <OrderPlaced />}
                     </section>
 

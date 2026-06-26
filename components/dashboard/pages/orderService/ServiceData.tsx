@@ -28,7 +28,7 @@ export default async function ServiceData({searchParams}:{searchParams: Promise<
 
         <section className = 'flex flex-col'>
         {service.neededData.map(field => {
-            return (<>
+            return (<div className = 'form-group' key = {field.slug}>
             <label htmlFor = {field.slug}>{field.title}</label>
             {field.type == 'TEXT' ? (
                 <input name = {field.slug} className = 'border-1 p-1' type = 'text' />
@@ -37,7 +37,7 @@ export default async function ServiceData({searchParams}:{searchParams: Promise<
                     {field.values?.map((ele) => <option value = {ele}>{ele}</option>)}
                 </select>
             ):null)}
-            </>);
+            </div>);
         })}
         </section>
 
