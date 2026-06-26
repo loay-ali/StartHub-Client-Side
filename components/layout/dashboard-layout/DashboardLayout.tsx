@@ -68,7 +68,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
         <main className="flex-1 p-4 md:p-6">{children}</main>
 
-        <AIMainButton />
+        <AIMainButton setOpen ={() => setIsUsingAI(s => !s)} opened = {isUsingAI}/>
         <AIWindow open = {isUsingAI} closeWindow={() => setIsUsingAI(false)}/>
       </div>
     </div>

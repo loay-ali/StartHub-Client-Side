@@ -1,14 +1,49 @@
 import Link from "next/link"
+import { FaXTwitter } from "react-icons/fa6"
+import { FiFacebook, FiInstagram, FiLinkedin } from "react-icons/fi"
+import { AiOutlineToTop } from "react-icons/ai";
+import BackToTop from "./BackToTop";
 
 export default function Footer () {
     return (
         <>
-        <footer className = 'mt-20 bg-secondary p-5 grid grid-cols-1 md:grid-cols-3'>
+        <footer id = 'main-footer' className = 'mt-20 bg-secondary p-5 grid grid-cols-1 md:grid-cols-3'>
+            <BackToTop />
             <section className = 'flex flex-col justify-center items-center py-5'>
                 <img src = '/starthub.png' width = {150} />
                 <p className = 'ms-20 pt-2'>
                     a platform that combines business intelligence, artificial intelligence, and recruitment analysis to help startups make smarter decisions with confidence.
                 </p>
+
+                <div className="mt-5 flex justify-center gap-4">
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FiFacebook size={22} />
+                    </a>
+
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FiInstagram size={22} />
+                    </a>
+
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FiLinkedin size={22} />
+                    </a>
+
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FaXTwitter size={20} />
+                    </a>
+                </div>
             </section>
 
             <section className = 'flex flex-col text-center'>
@@ -47,7 +82,7 @@ export default function Footer () {
                 </ul>
             </section>
         </footer>
-        <section className = 'bg-gray-300 text-center p-2 text-black font-bolder'>
+        <section style = {{borderRadius: '45px 45px 0 0'}} className = 'mt-[-22.5px] z-9 relative bg-primary text-white text-center p-2 font-bolder'>
             Starthub - All Rights Reserved 2025
         </section>
         </>

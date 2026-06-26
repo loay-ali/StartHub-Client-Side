@@ -35,7 +35,7 @@ export default function Header() {
     }
 
     return (
-    <header className = 'm-5 fixed w-[80vw] left-[10vw] top-[20px] rounded shadow z-99999 flex items-center justify-between p-3 bg-white '>
+    <header id = 'main-header' className = 'm-5 fixed w-[80vw] left-[10vw] top-[20px] rounded shadow z-99999 flex items-center justify-between p-3 bg-white '>
         <Link href = '/' id = 'identity' className='flex items-center justify-between gap-3'>
             <h1><img src = '/starthub.png' className = 'w-[100px]'/></h1>
         </Link>

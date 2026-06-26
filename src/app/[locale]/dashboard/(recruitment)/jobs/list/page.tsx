@@ -1,5 +1,6 @@
 'use client';
 
+import AISection from "@/components/ai/section/AISection";
 import CollectionPage from "@/components/collection/CollectionPage";
 import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
@@ -69,6 +70,7 @@ export default function JobsList() {
     {isRemoving != '' && confirmRemoving == false && <AreYouSureWindow confirmCallback = {() => {
         setConfirmRemoving(true);
     }} setWindowState = {setIsRemoving} title = "Delete a Job Post"/>}
+    <AISection title = "Suggesting Jobs To Look For"/>
     <CollectionPage
         title = "Jobs List"
         data = {jobs}
