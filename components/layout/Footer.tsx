@@ -6,7 +6,8 @@ import BackToTop from "./BackToTop";
 
 export default function Footer() {
     return (
-        <footer style={{ position: 'relative', zIndex: 10, background: '#0f1f1d' }}>
+        <footer id = 'main-footer' style={{ position: 'relative', zIndex: 10, background: '#0f1f1d' }}>
+            <BackToTop />
             <div style={{
                 maxWidth: 1280,
                 margin: '0 auto',
@@ -21,6 +22,36 @@ export default function Footer() {
                     <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.7, maxWidth: 260 }}>
                         Business intelligence, AI, and recruitment analysis — unified for startups.
                     </p>
+
+                <div className="mt-5 flex justify-start gap-4">
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FiFacebook size={22} />
+                    </a>
+
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FiInstagram size={22} />
+                    </a>
+
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FiLinkedin size={22} />
+                    </a>
+
+                    <a
+                    href="#"
+                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
+                    >
+                    <FaXTwitter size={20} />
+                    </a>
+                </div>
                 </div>
 
                 {/* Platform */}

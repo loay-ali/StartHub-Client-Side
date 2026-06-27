@@ -55,7 +55,7 @@ export default function Header() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
-        className="fixed w-[92vw] md:w-[85vw] lg:w-[80vw] left-1/2 -translate-x-1/2 top-[20px] rounded-2xl bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none z-[99999] flex flex-col transition-all duration-500 hover:shadow-[#14b8a6]/5"
+        className="fixed w-[92vw] md:w-[85vw] lg:w-[80vw] left-1/2 -translate-x-1/2 top-[20px] rounded-2xl bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none z-[99999] flex justify-between p-2 py-1 transition-all duration-500 hover:shadow-[#14b8a6]/5"
         id = 'main-header'>
         <Link href="/" id="identity" className="flex items-center justify-between gap-3">
             <h1>
