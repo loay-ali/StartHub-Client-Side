@@ -3,23 +3,23 @@ import { useState, useEffect, useRef } from "react";
 import { ArrowRight, ChevronRight, Check, Zap } from "lucide-react";
 import styles from "./home.module.css";
 
-/* ── Orbit data ─────────────────────────────────────────────── */
+/* ================= Orbit data ================= */
 const innerChips = [
-  { label: "HR",               angle: -90    },
-  { label: "Finance",          angle: -38.57 },
-  { label: "Operations",       angle:  12.86 },
-  { label: "Recruitment",      angle:  64.29 },
-  { label: "Sales",            angle: 115.71 },
-  { label: "Analytics",        angle: 167.14 },
+  { label: "HR", angle: -90 },
+  { label: "Finance", angle: -38.57 },
+  { label: "Operations", angle: 12.86 },
+  { label: "Recruitment", angle: 64.29 },
+  { label: "Sales", angle: 115.71 },
+  { label: "Analytics", angle: 167.14 },
   { label: "Customer Success", angle: 218.57 },
 ];
 const outerChips = [
-  { label: "Live Insights",    angle:  -60 },
-  { label: "Predictions",      angle:    0 },
-  { label: "Recommendations",  angle:   60 },
-  { label: "Risk Alerts",      angle:  120 },
-  { label: "Opportunities",    angle:  180 },
-  { label: "Auto-Actions",     angle:  240 },
+  { label: "Live Insights", angle: -60 },
+  { label: "Predictions", angle: 0 },
+  { label: "Recommendations", angle: 60 },
+  { label: "Risk Alerts", angle: 120 },
+  { label: "Opportunities", angle: 180 },
+  { label: "Auto-Actions", angle: 240 },
 ];
 
 function OrbitChip({ label, outer }: { label: string; outer: boolean }) {
@@ -32,10 +32,12 @@ function OrbitChip({ label, outer }: { label: string; outer: boolean }) {
 }
 
 function HeroOrbit() {
-  const S = 500, cx = 250, cy = 250;
-  const rIn  = S * 0.268;
+  const S = 500,
+    cx = 250,
+    cy = 250;
+  const rIn = S * 0.268;
   const rOut = S * 0.41;
-  const pos  = (a: number, r: number) => ({
+  const pos = (a: number, r: number) => ({
     x: cx + r * Math.cos((a * Math.PI) / 180),
     y: cy + r * Math.sin((a * Math.PI) / 180),
   });
@@ -51,7 +53,11 @@ function HeroOrbit() {
         {innerChips.map(({ label, angle }) => {
           const p = pos(angle, rIn);
           return (
-            <div key={label} className={styles.orbitChipItem} style={{ left: p.x, top: p.y }}>
+            <div
+              key={label}
+              className={styles.orbitChipItem}
+              style={{ left: p.x, top: p.y }}
+            >
               <div className={styles.orbitCancelCcw}>
                 <OrbitChip label={label} outer={false} />
               </div>
@@ -65,7 +71,11 @@ function HeroOrbit() {
         {outerChips.map(({ label, angle }) => {
           const p = pos(angle, rOut);
           return (
-            <div key={label} className={styles.orbitChipItem} style={{ left: p.x, top: p.y }}>
+            <div
+              key={label}
+              className={styles.orbitChipItem}
+              style={{ left: p.x, top: p.y }}
+            >
               <div className={styles.orbitCancelCw}>
                 <OrbitChip label={label} outer={true} />
               </div>
@@ -104,8 +114,8 @@ export default function HeroSection() {
   const [mouse, setMouse] = useState({ x: 68, y: 32 });
   const sectionRef = useRef<HTMLElement>(null);
   const c1 = useCounter(2400, 2000);
-  const c2 = useCounter(98,   1500);
-  const c3 = useCounter(340,  1900);
+  const c2 = useCounter(98, 1500);
+  const c3 = useCounter(340, 1900);
 
   /* Track mouse for radial glow */
   useEffect(() => {
@@ -114,8 +124,8 @@ export default function HeroSection() {
     const fn = (e: MouseEvent) => {
       const r = el.getBoundingClientRect();
       setMouse({
-        x: ((e.clientX - r.left)  / r.width)  * 100,
-        y: ((e.clientY - r.top)   / r.height) * 100,
+        x: ((e.clientX - r.left) / r.width) * 100,
+        y: ((e.clientY - r.top) / r.height) * 100,
       });
     };
     el.addEventListener("mousemove", fn);
@@ -131,13 +141,12 @@ export default function HeroSection() {
 
   const stats = [
     { v: `${c1.toLocaleString()}+`, l: "Startups using StarHub" },
-    { v: `${c2}%`,                  l: "Decision accuracy"      },
-    { v: `${c3}%`,                  l: "Ops time saved"         },
+    { v: `${c2}%`, l: "Decision accuracy" },
+    { v: `${c3}%`, l: "Ops time saved" },
   ];
 
   return (
     <section ref={sectionRef} className={styles.heroSection}>
-
       {/* Dynamic mouse-tracked glow — one unavoidable inline style (JS value) */}
       <div
         className={styles.heroMouseGlow}
@@ -151,10 +160,8 @@ export default function HeroSection() {
 
       <div className={`max-w-7xl mx-auto px-6 ${styles.heroInner}`}>
         <div className={styles.heroGrid}>
-
           {/* ────────── LEFT COLUMN ────────── */}
           <div className={styles.heroContent}>
-
             {/* Animated badge strip */}
             <div className={styles.heroBadgeStrip}>
               <span className={styles.heroBadge}>
@@ -162,9 +169,7 @@ export default function HeroSection() {
                 New: AI Agent v2
               </span>
               <div className={styles.heroBadgeDivider} />
-              <span className={styles.heroBadge}>
-                SOC 2 Certified
-              </span>
+              <span className={styles.heroBadge}>SOC 2 Certified</span>
             </div>
 
             {/* Eyebrow */}
@@ -175,8 +180,10 @@ export default function HeroSection() {
 
             {/* Headline */}
             <h1 className={styles.heroH1}>
-              Your Startup<br />
-              Runs on Gut Feel.<br />
+              Your Startup
+              <br />
+              Runs on Gut Feel.
+              <br />
               <span className={styles.shimmerText}>It Shouldn&apos;t.</span>
             </h1>
 
@@ -244,8 +251,16 @@ export default function HeroSection() {
         <div className={styles.heroTrustBar}>
           <p className={styles.heroTrustLabel}>Backed by founders from</p>
           <div className={styles.heroTrustLogos}>
-            {["Y Combinator", "Techstars", "500 Startups", "Sequoia-backed", "a16z Portfolio"].map((co) => (
-              <span key={co} className={styles.heroTrustLogo}>{co}</span>
+            {[
+              "Y Combinator",
+              "Techstars",
+              "500 Startups",
+              "Sequoia-backed",
+              "a16z Portfolio",
+            ].map((co) => (
+              <span key={co} className={styles.heroTrustLogo}>
+                {co}
+              </span>
             ))}
           </div>
         </div>
