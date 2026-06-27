@@ -1,6 +1,9 @@
 import config from "@/constants/config";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(token:string) {
+export async function GET(request: NextRequest) {
+    const { searchParams } = new URL(request.url);
+    const token = searchParams.get('token') || '';
 
     const response = await fetch(config.apiUrl +'/registration/register?token='+ token,{
         method: 'POST',
@@ -11,5 +14,5 @@ export async function GET(token:string) {
         return response;
     }
 
-    return JSON.stringify({token:''});
+    return new Response(JSON.stringify({token:''}));
 }

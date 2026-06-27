@@ -16,35 +16,39 @@ export default function Notifications() {
 
   return (
     <>
-    <Link href = '/dashboard/notifications' className="group relative rounded-xl border border-border p-3">
-      <FiBell size={20} />
+    <Link href='/dashboard/notifications' className="group relative rounded-xl border border-[#14b8a6]/15 bg-white/70 p-2.5 hover:border-[#14b8a6]/40 hover:bg-slate-50/80 transition-all duration-200">
+      <FiBell size={18} className="text-slate-600" />
 
-      <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-danger text-xs font-semibold text-white">
+      <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#ef4444] text-[10px] font-bold text-white shadow-sm">
         {notifications.length}
       </span>
     
-      <ul className = 'border-b-1 border-gray-500 absolute left-[-150px] top-[100%] pt-5 w-[300px] bg-white z-1 hidden group-hover:block shadow-gray-500'>
-        {notifications.map((noti:Notification) => {
-          return (<li className = 'p-2' key = {noti.id}>
-            <header className = 'flex items-center justify-start'>
-              {noti.type == 'ERROR' ? <MdError size = {35} color = "#dc43545" />:(
-                noti.type == 'WARNING' ? <PiWarningDiamondFill size = {35} color = "yellow"/>:(
-                  noti.type == "INFO" ? <RiInformation2Fill size = {35} color = '#007BFF' />:(
-                    noti.type == 'DONE' ? <CiCircleCheck size = {35} color = '#28A745' />:(
-                      noti.type == 'CANCELLATION' ? <MdCancel size = {35} color = "#DC3545" />:null
+      <div className="absolute right-0 top-[calc(100%+8px)] w-[320px] rounded-2xl border border-slate-100 bg-white/95 backdrop-blur-md shadow-xl p-2 hidden group-hover:block z-50">
+        <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 pt-2 pb-1">Notifications</p>
+        <ul className="space-y-0.5">
+          {notifications.map((noti: Notification) => {
+            return (
+              <li className="flex items-start gap-3 rounded-xl p-3 hover:bg-slate-50 transition-colors" key={noti.id}>
+                <div className="mt-0.5 flex-shrink-0">
+                  {noti.type == 'ERROR' ? <MdError size={22} color="#ef4444" /> :(
+                    noti.type == 'WARNING' ? <PiWarningDiamondFill size={22} color="#f59e0b" /> :(
+                      noti.type == 'INFO' ? <RiInformation2Fill size={22} color='#3b82f6' /> :(
+                        noti.type == 'DONE' ? <CiCircleCheck size={22} color='#22c55e' /> :(
+                          noti.type == 'CANCELLATION' ? <MdCancel size={22} color="#ef4444" /> : null
+                        )
+                      )
                     )
-                  )
-                )
-              )}
-              <strong className = 'm-2'>{noti.name}</strong>
-            </header>
-
-            <p className = 'p-5 text-start'>
-              {noti.description}
-            </p>
-          </li>);
-        })}
-      </ul>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-slate-700">{noti.name}</p>
+                  <p className="text-xs text-slate-400 mt-0.5 truncate">{noti.description}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </Link>
     </>
   );

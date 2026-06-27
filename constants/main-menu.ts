@@ -10,6 +10,11 @@ export default [
         'href': '/features'
     },
     {
+        'slug': 'ecosystem',
+        'name': 'Ecosystem',
+        'href': '/ecosystem'
+    },
+    {
         'slug': 'pricing',
         'name': 'Pricing',
         'href': '/plans'

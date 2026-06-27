@@ -19,7 +19,7 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
+    <section style={{ position: "relative", zIndex: 1, padding: "72px 0", background: C.surfaceAlt }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
         <Reveal>
           <SectionHeading

@@ -1,6 +1,7 @@
 "use client";
 // src/components/home/FinalCTA.tsx
 import { ArrowRight, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, Label } from "./shared";
 
@@ -69,22 +70,26 @@ export default function FinalCTA() {
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14, marginBottom: 24 }}>
-                <button
+                <motion.button
                   className="btn-primary"
+                  whileHover={{ y: -2, boxShadow: "0 14px 42px rgba(20,184,166,.36)" }}
+                  whileTap={{ scale: 0.98 }}
                   style={{ padding: "16px 32px", fontSize: 16, fontFamily: FONTS.display }}
                 >
-                  Start Free â€” No Card Needed <ArrowRight size={17} />
-                </button>
-                <button
+                  Start Free — No Card Needed <ArrowRight size={17} />
+                </motion.button>
+                <motion.button
                   className="btn-ghost"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                   style={{ padding: "16px 28px", fontSize: 16, fontFamily: FONTS.display }}
                 >
                   Book a 30-Min Demo <ChevronRight size={17} />
-                </button>
+                </motion.button>
               </div>
 
               <p style={{ fontSize: 12, color: C.textMuted }}>
-                14-day free trial Â- No setup fees Â- SOC 2 Type II certified Â- Cancel anytime
+                14-day free trial · No setup fees · SOC 2 Type II certified · Cancel anytime
               </p>
             </div>
           </div>
