@@ -2,6 +2,7 @@
 // src/components/home/DashboardSection.tsx
 import { Activity, Brain, DollarSign, Star, TrendingUp, Users, Zap } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadialBarChart, RadialBar } from "recharts";
+import { motion } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
 
@@ -12,11 +13,11 @@ const revData = [
 ];
 const kpis = [
   { label: "Health",      value: "87/100", delta: "+5 pts",  color: C.primary, icon: <Activity size={12} />   },
-  { label: "MRR",         value: "$94.2K", delta: "â†‘ 18%",   color: C.green,   icon: <DollarSign size={12} /> },
-  { label: "Churn Risk",  value: "3.2%",   delta: "â†“ 0.8%",  color: C.green,   icon: <TrendingUp size={12} /> },
-  { label: "Hiring Risk", value: "Medium", delta: "âš  Alert", color: C.amber,   icon: <Users size={12} />      },
-  { label: "Team Score",  value: "72%",    delta: "â†‘ 4%",    color: C.primary, icon: <Star size={12} />       },
-  { label: "Efficiency",  value: "91%",    delta: "â†‘ 12%",   color: C.green,   icon: <Zap size={12} />        },
+  { label: "MRR",         value: "$94.2K", delta: "↑ 18%",   color: C.green,   icon: <DollarSign size={12} /> },
+  { label: "Churn Risk",  value: "3.2%",   delta: "↓ 0.8%",  color: C.green,   icon: <TrendingUp size={12} /> },
+  { label: "Hiring Risk", value: "Medium", delta: "⚠ Alert", color: C.amber,   icon: <Users size={12} />      },
+  { label: "Team Score",  value: "72%",    delta: "↑ 4%",    color: C.primary, icon: <Star size={12} />       },
+  { label: "Efficiency",  value: "91%",    delta: "↑ 12%",   color: C.green,   icon: <Zap size={12} />        },
 ];
 const hMetrics = [
   { name: "Health Score", value: 87, fill: C.primary },
@@ -32,7 +33,7 @@ export default function DashboardSection() {
           <SectionHeading
             label="Live Dashboard"
             title={<>Every Number That Matters,<br /><span className="grad-text">Always Up to Date</span></>}
-            sub="No more chasing spreadsheets. One dashboard shows the full health of your company â€” revenue, risk, people, and ops â€” refreshed in real time."
+            sub="No more chasing spreadsheets. One dashboard shows the full health of your company — revenue, risk, people, and ops — refreshed in real time."
           />
         </Reveal>
 
@@ -70,13 +71,13 @@ export default function DashboardSection() {
                     fontSize: 11, color: C.muted, fontFamily: FONTS.mono,
                   }}
                 >
-                  <span style={{ fontSize: 10, color: C.green }}>ðŸ”’</span>
+                  <span style={{ fontSize: 10, color: C.green }}>🔒</span>
                   starhub.ai/dashboard
                 </div>
               </div>
               <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: C.green }}>
                 <span className="live-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: C.green, display: "inline-block" }} />
-                Live Â- 2s ago
+                Live · 2s ago
               </span>
             </div>
 
@@ -88,9 +89,14 @@ export default function DashboardSection() {
                   gap: 12, marginBottom: 16,
                 }}
               >
-                {kpis.map((k) => (
-                  <div
+                {kpis.map((k, i) => (
+                  <motion.div
                     key={k.label}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -3 }}
+                    transition={{ delay: i * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     style={{
                       padding: "14px 16px", borderRadius: 16,
                       background: C.surfaceAlt, border: `1px solid ${C.border}`,
@@ -102,7 +108,7 @@ export default function DashboardSection() {
                     </div>
                     <div style={{ fontFamily: FONTS.display, fontWeight: 800, fontSize: 18, color: C.text, marginBottom: 4 }}>{k.value}</div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: k.color }}>{k.delta}</div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -121,7 +127,7 @@ export default function DashboardSection() {
                         background: "rgba(34,197,94,.08)", color: C.green, border: "1px solid rgba(34,197,94,.2)",
                       }}
                     >
-                      â†‘ 28.6% MoM
+                      ↑ 28.6% MoM
                     </span>
                   </div>
                   <ResponsiveContainer width="100%" height={140}>
@@ -141,7 +147,7 @@ export default function DashboardSection() {
                           borderRadius: 12, fontSize: 12, color: C.text,
                         }}
                       />
-                      <Area type="monotone" dataKey="rev" stroke={C.primary} strokeWidth={2.5} fill="url(#revGrad)" />
+                      <Area type="monotone" dataKey="rev" stroke={C.primary} strokeWidth={2.5} fill="url(#revGrad)" isAnimationActive />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -169,7 +175,11 @@ export default function DashboardSection() {
               </div>
 
               {/* AI Insight card */}
-              <div
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.25, duration: 0.4 }}
                 style={{
                   padding: "16px 20px", borderRadius: 16,
                   display: "flex", gap: 12, alignItems: "flex-start",
@@ -197,11 +207,11 @@ export default function DashboardSection() {
                     AI Insight
                   </span>
                   <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, marginTop: 4 }}>
-                    Engineering velocity dropped 18% this sprint â€” 3 unresolved blockers in Jira are the likely cause.
+                    Engineering velocity dropped 18% this sprint — 3 unresolved blockers in Jira are the likely cause.
                     Recommend a blocker review by Thursday to protect your Q3 milestones.
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </Reveal>

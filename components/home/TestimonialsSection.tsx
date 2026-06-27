@@ -1,17 +1,18 @@
 "use client";
 // src/components/home/TestimonialsSection.tsx
 import { Star } from "lucide-react";
+import { motion } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
 
 const testimonials = [
   {
-    q: "StarHub caught a churn signal in week two that saved a $180K account. It paid for itself 300Ã- in the first month. And that was before we'd set up all our integrations.",
+    q: "StarHub caught a churn signal in week two that saved a $180K account. It paid for itself 300× in the first month. And that was before we'd set up all our integrations.",
     name: "Priya Nair", title: "CEO & Co-Founder", company: "Luminary Health (Series A)",
     av: "PN", color: C.primary,
   },
   {
-    q: "I was drowning in dashboards. StarHub replaced 8 of them with one morning briefing that tells me exactly what needs my attention â€” and what doesn't. I got three hours of my week back.",
+    q: "I was drowning in dashboards. StarHub replaced 8 of them with one morning briefing that tells me exactly what needs my attention — and what doesn't. I got three hours of my week back.",
     name: "Marcus Chen", title: "CTO & Co-Founder", company: "Velo Logistics ($2.4M ARR)",
     av: "MC", color: C.teal2,
   },
@@ -36,8 +37,9 @@ export default function TestimonialsSection() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(290px,1fr))", gap: 18 }}>
           {testimonials.map((t, i) => (
             <Reveal key={t.name} delay={i * 90}>
-              <div
-                className="card-lift"
+              <motion.div
+                whileHover={{ y: -5 }}
+                transition={{ type: "spring", stiffness: 300, damping: 24 }}
                 style={{
                   display: "flex", flexDirection: "column", height: "100%",
                   padding: 32, borderRadius: 24,
@@ -83,11 +85,11 @@ export default function TestimonialsSection() {
                   <div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: C.text, fontFamily: FONTS.display }}>{t.name}</div>
                     <div style={{ fontSize: 11, color: C.muted, marginTop: 2 }}>
-                      {t.title} Â- {t.company}
+                      {t.title} · {t.company}
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>

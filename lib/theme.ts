@@ -1,22 +1,38 @@
-export const theme = {
-  colors: {
-    special: "#dc3545",
+export const EMAIL_THEME = {
+  // Brand
+  primary: "#0F766E",
+  primaryLight: "#5EEAD4",
+  primarySoft: "#CCFBF1",
+  background: "#F8FAFC",
 
-    primary: "#0571d3",
-    primaryDark: "#0f766e",
-    primaryLight: "#99f6e4",
+  // Surfaces
+  surface: "#FFFFFF",
+  surfaceSecondary: "#F0FDFA",
 
-    success: "#22c55e",
-    warning: "#f59e0b",
-    danger: "#ef4444",
-    info: "#2563eb",
+  // Text
+  textPrimary: "#0F172A",
+  textSecondary: "#475569",
+  textMuted: "#94A3B8",
 
-    background: "#f8fafc",
-    surface: "#ffffff",
-    border: "#e2e8f0",
+  // Borders
+  border: "#D1FAE5",
 
-    textPrimary: "#0f172a",
-    textSecondary: "#64748b",
-    textMuted: "#94a3b8",
+  // Status
+  success: "#16A34A",
+  warning: "#f5420b",
+  danger: "#DC2626",
+  info: "#0EA5E9",
+
+  // Shadows
+  shadow: "0 8px 30px rgba(15,118,110,0.12)",
+
+  radius: {
+    sm: "8px",
+    md: "12px",
+    lg: "16px",
+    xl: "24px",
   },
+
+  fontFamily:
+    "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
 };

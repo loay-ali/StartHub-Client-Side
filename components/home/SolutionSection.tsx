@@ -1,6 +1,7 @@
 "use client";
 // src/components/home/SolutionSection.tsx
 import { Bell, Brain, Database, GitBranch, TrendingUp, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
 
@@ -8,7 +9,7 @@ const steps = [
   { n: "01", label: "Connect",  icon: <GitBranch size={17} />, color: C.primary,  desc: "Plug in 50+ tools in under 10 minutes. No engineers needed." },
   { n: "02", label: "Unify",    icon: <Database size={17} />,  color: C.teal2,    desc: "StarHub builds one living picture of your entire company." },
   { n: "03", label: "Detect",   icon: <Brain size={17} />,     color: C.teal3,    desc: "AI finds patterns, risks, and opportunities in real time." },
-  { n: "04", label: "Predict",  icon: <TrendingUp size={17} />,color: C.greenDk,  desc: "Know what's coming â€” not just what already happened." },
+  { n: "04", label: "Predict",  icon: <TrendingUp size={17} />,color: C.greenDk,  desc: "Know what's coming — not just what already happened." },
   { n: "05", label: "Alert",    icon: <Bell size={17} />,      color: C.amber,    desc: "The right signal reaches the right person before it's urgent." },
   { n: "06", label: "Execute",  icon: <Zap size={17} />,       color: C.green,    desc: "Automated actions close the loop. No manual follow-up." },
 ];
@@ -16,6 +17,38 @@ const steps = [
 export default function SolutionSection() {
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
+      <style>{`
+        .solution-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 14px;
+        }
+        .solution-banner {
+          flex-direction: row;
+          align-items: center;
+        }
+        @media (max-width: 1024px) {
+          .solution-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (max-width: 640px) {
+          .solution-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+          .solution-banner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px !important;
+            padding: 24px 20px !important;
+          }
+          .solution-banner-icons {
+            width: 100%;
+          }
+        }
+      `}</style>
+
       <div className="max-w-7xl mx-auto px-6">
         <Reveal>
           <SectionHeading
@@ -26,16 +59,17 @@ export default function SolutionSection() {
                 <span className="grad-text">Everything About Your Company</span>
               </>
             }
-            sub="StarHub doesn't just show you data. It understands your company â€” and tells you exactly what to do about it."
+            sub="StarHub doesn't just show you data. It understands your company — and tells you exactly what to do about it."
           />
         </Reveal>
 
-        {/* Step grid â€” horizontal flow 2026 style */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+        {/* Step grid */}
+        <div className="solution-grid">
           {steps.map((s, i) => (
             <Reveal key={s.label} delay={i * 65}>
-              <div
-                className="card-lift"
+              <motion.div
+                whileHover={{ y: -5 }}
+                transition={{ type: "spring", stiffness: 300, damping: 24 }}
                 style={{
                   padding: "28px 24px",
                   borderRadius: 20,
@@ -90,7 +124,7 @@ export default function SolutionSection() {
                   {s.label}
                 </h3>
                 <p style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.7 }}>{s.desc}</p>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>
@@ -98,6 +132,7 @@ export default function SolutionSection() {
         {/* Glass banner */}
         <Reveal delay={400} style={{ marginTop: 16 }}>
           <div
+            className="solution-banner"
             style={{
               padding: "32px 40px",
               borderRadius: 22,
@@ -105,7 +140,6 @@ export default function SolutionSection() {
               backdropFilter: "blur(20px)",
               border: `1.5px solid rgba(20,184,166,.22)`,
               display: "flex",
-              alignItems: "center",
               gap: 40,
               flexWrap: "wrap",
               boxShadow: "0 8px 40px rgba(20,184,166,.07)",
@@ -116,10 +150,13 @@ export default function SolutionSection() {
                 Everything in. Intelligence out.
               </div>
               <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7 }}>
-                StarHub sits on top of your existing stack. Nothing to rip and replace â€” just add intelligence to what you already have.
+                StarHub sits on top of your existing stack. Nothing to rip and replace — just add intelligence to what you already have.
               </p>
             </div>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <div
+              className="solution-banner-icons"
+              style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}
+            >
               {[C.primary, C.teal2, C.greenDk, C.amber, C.green, C.teal3].map((col, i) => (
                 <div
                   key={i}

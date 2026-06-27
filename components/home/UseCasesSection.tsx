@@ -35,7 +35,7 @@ const tabs = [
 export default function UseCasesSection() {
   const [act, setAct] = useState(0);
   return (
-    <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: "#ffffff" }}>
+    <section style={{ position: "relative", zIndex: 1, padding: "72px 0", background: "#ffffff" }}>
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 24px" }}>
         <Reveal>
           <SectionHeading
