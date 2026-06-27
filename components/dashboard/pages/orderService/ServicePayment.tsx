@@ -21,9 +21,11 @@ export default function ServicePayments() {
     useEffect(() => {
         if( paymentURL == '' ) {
             fetch(config.apiUrl +'/payments/serviceCheckout/'+ params.get('service'),{method: "POST",credentials: 'include'})
-                .then(res => res.status == 200 ? res.json():Promise.reject())
-                .then(url => {
-                    setPaymentURL(url);
+                .then(res => {
+                    return res.status == 201 ? res.json():Promise.reject()})
+                .then(res => {
+                    setPaymentURL(res.data.redirectUrl);
+                    console.log(paymentURL);
                 }).catch(err => {
                     console.log(err);
                 })

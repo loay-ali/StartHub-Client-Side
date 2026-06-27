@@ -7,28 +7,10 @@ import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
 import config from "@/constants/config";
 
-const plans = [
-  {
-    name: "Starter", price: 149, hi: false, cta: "Try Free for 14 Days",
-    sub: "For early-stage teams getting visibility for the first time.",
-    features: ["5 integrations", "2 AI Agents", "Company Health Dashboard", "Weekly AI Reports", "Up to 10 team members", "Email support"],
-  },
-  {
-    name: "Growth", price: 499, hi: true, badge: "Most Popular", cta: "Try Free for 14 Days",
-    sub: "For scaling teams that need full intelligence across the company.",
-    features: ["Unlimited integrations", "All 4 AI Agents", "Real-time dashboards", "Predictive risk detection", "Auto-written exec reports", "Slack + email alerts", "Up to 100 members", "Priority support"],
-  },
-  {
-    name: "Enterprise", price: 0, hi: false, cta: "Talk to Sales",
-    sub: "For venture-backed companies that need custom security and control.",
-    features: ["Everything in Growth", "Custom AI Agent training", "SSO & advanced security", "Dedicated success manager", "Custom integrations", "SLA guarantee", "Unlimited members", "On-prem option"],
-  },
-];
+import { AiOutlineLoading } from "react-icons/ai";
+import PlanCard from "../plans/PlanCard";
+import Plan from "@/types/requests/plans";
 
-// Comparison rows are derived from the same claims already made in each
-// plan's `features` list above — this table doesn't introduce any new
-// promises, it just lets someone see all three plans side by side instead
-// of re-reading three separate card lists.
 const comparisonRows: { label: string; values: [string, string, string] }[] = [
   { label: "Integrations",      values: ["5", "Unlimited", "Unlimited + custom"] },
   { label: "AI Agents",         values: ["2 agents", "All 4 agents", "All 4 + custom training"] },
@@ -40,7 +22,7 @@ const comparisonRows: { label: string; values: [string, string, string] }[] = [
   { label: "Support",           values: ["Email", "Priority", "Dedicated success manager"] },
 ];
 
-export default function PricingSection() {
+export default function PricingSection({duration}:{duration:string}) {
   const [annual, setAnnual] = useState(true);
 
   const [isLoadingPlans,setIsLoadingPlans] = useState(true);
@@ -58,8 +40,7 @@ export default function PricingSection() {
     }
   },[isLoadingPlans]);
 
-  return <>Hello</>
-  const [showCompare, setShowCompare] = useState(false);
+  if( isLoadingPlans ) return <div className = 'p-10 flex justify-center items-center'><AiOutlineLoading className = 'spinner-loading'/></div>
 
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
@@ -140,7 +121,7 @@ export default function PricingSection() {
                     : "0 1px 4px rgba(10,15,14,.04)",
                 }}
               >
-                {plan.badge && (
+                {plan.isRecommended && (
                   <div
                     style={{
                       position: "absolute", top: -15, left: "50%",
@@ -151,7 +132,7 @@ export default function PricingSection() {
                       whiteSpace: "nowrap", fontFamily: FONTS.mono,
                     }}
                   >
-                    {plan.badge}
+                    Recommended
                   </div>
                 )}
 
@@ -162,37 +143,46 @@ export default function PricingSection() {
 
                 <div style={{ display: "flex", alignItems: "flex-end", gap: 4, marginBottom: 28 }}>
                   <span style={{ fontFamily: FONTS.display, fontWeight: 900, fontSize: 42, color: C.text, lineHeight: 1 }}>
-                    {plan.price === 0 ? "Custom" : annual ? `$${Math.floor(plan.price * 0.75)}` : `$${plan.price}`}
+                    {plan.monthlyPrice === 0 ? "Custom" : annual ? `$ ${plan.yearlyPrice}` : `$ ${plan.monthlyPrice}`}
                   </span>
-                  {plan.price > 0 && (
+                  {
                     <span style={{ fontSize: 13, color: C.muted, marginBottom: 4 }}>
-                      {annual ? "/mo, billed annually" : "/mo"}
+                      {annual ? "/year" : "/mo"}
                     </span>
-                  )}
+                  }
                 </div>
 
-                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 11, marginBottom: 28 }}>
-                  {plan.features.map((f:any) => (
-                    <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13.5, color: C.muted }}>
-                      <Check size={13} color={plan.hi ? C.primary : C.greenDk} />
-                      {f}
+                <div className = 'flex-1 flex flex-col gap-2 mb-[28px] max-w-[300px] justify-between mx-auto'>  
+                    <div className = 'flex justify-between items-center gap-10 text-sm text-gray-500'>
+                      {/*<Check size={13} color={plan.hi ? C.primary : C.greenDk} />*/}
+                      Tokens:
+                      <strong>
+                        {plan.credits}
+                      </strong>
                     </div>
-                  ))}
+
+                    <div className = 'flex justify-between items-center gap-10 text-sm text-gray-500'>
+                      {/*<Check size={13} color={plan.hi ? C.primary : C.greenDk} />*/}
+                      Users Supported:
+                      <strong>
+                        {plan.usersLimit}
+                      </strong>
+                    </div>
+
+                    <div className = 'flex justify-between items-center gap-10 text-sm text-gray-500'>
+                      {/*<Check size={13} color={plan.hi ? C.primary : C.greenDk} />*/}
+                      Employees Supported:
+                      <strong>
+                        {plan.employeesLimit ?? 0}
+                      </strong>
+                    </div>
                 </div>
 
                 <motion.button
                   whileHover={{ scale: 1.015 }}
                   whileTap={{ scale: 0.98 }}
-                  style={{
-                    width: "100%", padding: "14px", borderRadius: 14,
-                    fontWeight: 700, fontSize: 14, cursor: "pointer",
-                    fontFamily: FONTS.display,
-                    ...(plan.hi
-                      ? { background: `linear-gradient(135deg,${C.primary},${C.primaryDk})`, color: "#fff", border: "none", boxShadow: "0 6px 24px rgba(20,184,166,.28)" }
-                      : { background: C.surfaceAlt, color: C.text, border: `1px solid ${C.border}` }),
-                  }}
-                >
-                  {plan.cta}
+                  className = 'button'>
+                  Subscribe Now
                 </motion.button>
               </motion.div>
             </Reveal>
@@ -203,7 +193,7 @@ export default function PricingSection() {
             cards (per the "no more than five primary elements" guidance)
             while still giving anyone who wants the full picture a way to
             see it without leaving the page. */}
-        <Reveal delay={240}>
+        {/*<Reveal delay={240}>
           <div style={{ marginTop: 28, textAlign: "center" }}>
             <motion.button
               onClick={() => setShowCompare((v) => !v)}
@@ -227,10 +217,10 @@ export default function PricingSection() {
               </motion.span>
             </motion.button>
           </div>
-        </Reveal>
+        </Reveal>*/}
 
         <AnimatePresence initial={false}>
-          {showCompare && (
+          {/*showCompare*/true && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}

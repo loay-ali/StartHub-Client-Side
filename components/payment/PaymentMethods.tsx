@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { IoCheckmarkCircle } from "react-icons/io5";
 
-export default async function PaymentMethods() {
+export default function PaymentMethods() {
     //[edit]->Fetch Payment Methods
 
     return (
