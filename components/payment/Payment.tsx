@@ -8,7 +8,7 @@ export default function PaymentSection({url,price}:{price:number,url:string}) {
             {price} USD
         </strong>
         <PaymentMethods />
-        <Link replace = {false} href = {url} className = 'button'>
+        <Link href = {url} className = 'button'>
             Pay Now
         </Link>
     </section>

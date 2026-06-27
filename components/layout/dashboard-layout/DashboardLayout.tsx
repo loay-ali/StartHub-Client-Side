@@ -64,7 +64,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       )}
 
       <div className="min-w-0 flex flex-1 flex-col">
-        <Header email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
+        <Header tokensLeft = {userData.tokensLeft} email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 p-4 md:p-6">{children}</main>
 
