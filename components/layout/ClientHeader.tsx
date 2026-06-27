@@ -4,6 +4,10 @@ import Link from 'next/link';
 
 import {useRouter,usePathname} from 'next/navigation';
 
+import { RiLogoutCircleLine } from "react-icons/ri";
+import { AiOutlineLoading } from "react-icons/ai";
+import { GoChevronDown } from "react-icons/go";
+
 import MenuLinks from '@/constants/main-menu';
 import { useEffect, useState } from 'react';
 import config from '@/constants/config';
@@ -14,6 +18,10 @@ export default function Header() {
     const CURRENT_PATHNAME = usePathname();
 
     const [isLoggedIn,setIsLoggedIn] = useState<any>(null);
+
+    const [isLogout,setIsLogout] = useState(false);
+
+    const [openMenu,setOpenMenu] = useState(false);
 
     useEffect(() => {
         if( isLoggedIn == null ) {
@@ -28,7 +36,12 @@ export default function Header() {
                     setIsLoggedIn(res);
                 })
         }
-    },[]);
+
+        if( isLogout ) {
+            fetch(config.apiUrl +'/auth/logout',{credentials: 'include',method: "POST"})
+                .then(res => res.status == 200 ? (router.refresh()):Promise.reject());
+        }
+    },[isLogout]);
 
     function changeLanguage(lang:string) {
         router.replace(CURRENT_PATHNAME.replace(/(ar|en|fr)/,lang));
@@ -57,11 +70,24 @@ export default function Header() {
             <Link href = '/login'>
                 Login
             </Link>
-            </>):(<>
-                <Link href = "/dashboard" className = 'button px-4 cursor-pointer'>
-                    Dashboard
-                </Link>
-            </>)}
+            </>):(
+            <div className = 'group relative'>
+                <button
+                    onClick = {() => setOpenMenu(s => !s)}
+                    className = 'p-1 text-sm flex items-center justify-center gap-5 cursor-pointer'>
+                    {isLoggedIn.email}
+                    <GoChevronDown size = {20} />
+                </button>
+                <div className = {'shadow text-center bg-white p-5 absolute gap-5 top-[calc(100%_+_12px)] left-0 w-full '+ (openMenu ? "flex flex-col":"hidden")}>
+                    <Link href = "/dashboard" className = 'button px-4 cursor-pointer'>
+                        Dashboard
+                    </Link>
+                    <button className = 'cursor-pointer bg-white! text-red-500! border-1 border-red-500 button flex items-center justify-center gap-5' onClick = {() => setIsLogout(true)}>
+                        {isLogout ? (<><AiOutlineLoading className = 'spinner-loading'/></>):(<><RiLogoutCircleLine /></>)} Logout
+                    </button>
+                </div>
+            </div>
+            )}
 
             <div className = 'h-[25px] w-[1px] bg-black'></div>
 
