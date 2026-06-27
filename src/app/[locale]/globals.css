@@ -2,8 +2,8 @@
 
 @theme {
     /* Change Those Below ( Starthub Team ) */
-    --color-primary: #0571d3;
-    --color-primary-light: #8cc7fc;
+    --color-primary:#0F766E;
+    --color-primary-light:#79eee5;
     /* Change Those Above ( Starthub Team */
 
     --color-secondary: #F2F2FF;
@@ -179,4 +179,24 @@ button {
     right:-50px;
     top:auto;
     left:auto;
+}
+
+#main-header {
+    overflow: hidden;
+}
+
+#main-header::before {
+    position:absolute;
+    top:-25px;
+    left:-100px;
+
+    background: #030a0f;
+    border-radius:150px;
+
+    width:250px;
+    height:250px;
+
+    content: "";
+
+    z-index:-1;
 }

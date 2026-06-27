@@ -10,7 +10,7 @@ export default function Footer () {
         <footer id = 'main-footer' className = 'mt-20 bg-secondary p-5 grid grid-cols-1 md:grid-cols-3'>
             <BackToTop />
             <section className = 'flex flex-col justify-center items-center py-5'>
-                <img src = '/starthub.png' width = {150} />
+                <img className = 'bg-black rounded-full p-3' src = '/starthub.png' width = {150} />
                 <p className = 'ms-20 pt-2'>
                     a platform that combines business intelligence, artificial intelligence, and recruitment analysis to help startups make smarter decisions with confidence.
                 </p>
