@@ -21,7 +21,7 @@ const pains: Pain[] = [
   {
     key: "tools",
     icon: <Layers size={22} />,
-    color: C.red,
+    color: C.lightRed,
     title: "14 tools. Zero connection.",
     body: `Your team lives in Slack, Notion, HubSpot, QuickBooks, and Greenhouse — but none of them talk. Every Monday you're stitching spreadsheets just to answer "how are we doing?"`,
     area: "hero",
@@ -37,7 +37,7 @@ const pains: Pain[] = [
   {
     key: "crisis",
     icon: <AlertTriangle size={22} />,
-    color: C.red,
+    color: C.lightRed,
     title: "By the time you notice, it's a crisis.",
     body: "Churn creep. Runway drift. A star employee going quiet. These aren't surprises — they're signals you missed because no one was watching all the data at once.",
     area: "side2",

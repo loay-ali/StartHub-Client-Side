@@ -80,7 +80,7 @@ export default function PricingHero() {
           Invest in Growth,{" "}
           <span
             style={{
-              background: "linear-gradient(135deg, #14b8a6 0%, #05d39f 100%)",
+              background: "linear-gradient(135deg, #14b8a525 0%, #05d39f 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}

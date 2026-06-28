@@ -4,7 +4,7 @@ import HowItWorksSection from "./HowItWorksSection";
 import IntegrationsSection from "./IntegrationsSection";
 import { PageBg } from "./shared";
 import EcosystemSection from "./EcosystemSection";
-import DashboardSection from "./DashboardSection";
+// import DashboardSection from "./DashboardSection";
 import ProblemSection from "./ProblemSection";
 import SolutionSection from "./SolutionSection";
 

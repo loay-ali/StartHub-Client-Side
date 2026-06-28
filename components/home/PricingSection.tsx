@@ -6,20 +6,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
 import config from "@/constants/config";
+import { LoadingButton } from "@/components/preloader/ButtonLoader";
 
 import { AiOutlineLoading } from "react-icons/ai";
 import PlanCard from "../plans/PlanCard";
 import Plan from "@/types/requests/plans";
 
 const comparisonRows: { label: string; values: [string, string, string] }[] = [
-  { label: "Integrations",      values: ["5", "Unlimited", "Unlimited + custom"] },
-  { label: "AI Agents",         values: ["2 agents", "All 4 agents", "All 4 + custom training"] },
-  { label: "Dashboards",        values: ["Company Health", "Real-time, all metrics", "Real-time, all metrics"] },
-  { label: "Reports",           values: ["Weekly, automated", "Auto-written, on demand", "Auto-written + custom"] },
-  { label: "Alerts",            values: ["Email", "Slack + email", "Slack + email"] },
-  { label: "Team members",      values: ["Up to 10", "Up to 100", "Unlimited"] },
-  { label: "SSO & advanced security", values: ["—", "—", "Included"] },
-  { label: "Support",           values: ["Email", "Priority", "Dedicated success manager"] },
+  { label: "Integrations",           values: ["5", "Unlimited", "Unlimited + custom"] },
+  { label: "AI Agents",              values: ["2 agents", "All 4 agents", "All 4 + custom training"] },
+  { label: "Dashboards",             values: ["Company Health", "Real-time, all metrics", "Real-time, all metrics"] },
+  { label: "Reports",                values: ["Weekly, automated", "Auto-written, on demand", "Auto-written + custom"] },
+  { label: "Alerts",                 values: ["Email", "Slack + email", "Slack + email"] },
+  { label: "Team members",           values: ["Up to 10", "Up to 100", "Unlimited"] },
+  { label: "SSO & advanced security",values: ["—", "—", "Included"] },
+  { label: "Support",                values: ["Email", "Priority", "Dedicated success manager"] },
 ];
 
 export default function PricingSection({duration}:{duration:string}) {
@@ -42,6 +43,14 @@ export default function PricingSection({duration}:{duration:string}) {
 
   if( isLoadingPlans ) return <div className = 'p-10 flex justify-center items-center'><AiOutlineLoading className = 'spinner-loading'/></div>
 
+  // Track loading per plan index
+  const [loadingPlan, setLoadingPlan] = useState<number | null>(null);
+
+  const handleCta = (index: number) => {
+    setLoadingPlan(index);
+    setTimeout(() => setLoadingPlan(null), 2000);
+  };
+
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
@@ -51,7 +60,6 @@ export default function PricingSection({duration}:{duration:string}) {
             title={<>Simple Pricing.<br /><span className="grad-text">Real Returns.</span></>}
             sub="Most customers recover the cost of StarHub in the first week — the time savings alone pay for it."
             accent={
-              /* Annual toggle */
               <div
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 12,
@@ -78,12 +86,7 @@ export default function PricingSection({duration}:{duration:string}) {
                     }}
                   />
                 </button>
-                <span
-                  style={{
-                    fontSize: 13, fontWeight: 700, padding: "3px 6px",
-                    color: annual ? C.primaryDk : C.muted,
-                  }}
-                >
+                <span style={{ fontSize: 13, fontWeight: 700, padding: "3px 6px", color: annual ? C.primaryDk : C.muted }}>
                   Annual
                   {annual && (
                     <span
@@ -184,6 +187,26 @@ export default function PricingSection({duration}:{duration:string}) {
                   className = 'button'>
                   Subscribe Now
                 </motion.button>
+                {/* ── CTA with loader ── */}
+                <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.98 }}>
+                  <LoadingButton
+                    loading={loadingPlan === i}
+                    loadingText={plan.price === 0 ? "Connecting…" : "Starting trial…"}
+                    loaderColor={plan.hi ? "#fff" : C.primaryDk}
+                    onClick={() => handleCta(i)}
+                    style={{
+                      width: "100%", padding: "14px", borderRadius: 14,
+                      fontWeight: 700, fontSize: 14, cursor: "pointer",
+                      fontFamily: FONTS.display,
+                      minHeight: 50,
+                      ...(plan.hi
+                        ? { background: `linear-gradient(135deg,${C.primary},${C.primaryDk})`, color: "#fff", border: "none", boxShadow: "0 6px 24px rgba(20,184,166,.28)" }
+                        : { background: C.surfaceAlt, color: C.text, border: `1px solid ${C.border}` }),
+                    }}
+                  >
+                    {plan.cta}
+                  </LoadingButton>
+                </motion.div>
               </motion.div>
             </Reveal>
           ))}
@@ -194,6 +217,7 @@ export default function PricingSection({duration}:{duration:string}) {
             while still giving anyone who wants the full picture a way to
             see it without leaving the page. */}
         {/*<Reveal delay={240}>
+        <Reveal delay={240}>
           <div style={{ marginTop: 28, textAlign: "center" }}>
             <motion.button
               onClick={() => setShowCompare((v) => !v)}
@@ -228,34 +252,15 @@ export default function PricingSection({duration}:{duration:string}) {
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               style={{ overflow: "hidden" }}
             >
-              <div
-                style={{
-                  marginTop: 24, borderRadius: 20, border: `1px solid ${C.border}`,
-                  background: "#fff", overflowX: "auto",
-                }}
-              >
+              <div style={{ marginTop: 24, borderRadius: 20, border: `1px solid ${C.border}`, background: "#fff", overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 560 }}>
                   <thead>
                     <tr>
-                      <th
-                        style={{
-                          textAlign: "left", padding: "16px 20px", fontSize: 12,
-                          color: C.muted, fontWeight: 700, borderBottom: `1px solid ${C.border}`,
-                        }}
-                      >
+                      <th style={{ textAlign: "left", padding: "16px 20px", fontSize: 12, color: C.muted, fontWeight: 700, borderBottom: `1px solid ${C.border}` }}>
                         Feature
                       </th>
                       {plans.map((p:any) => (
-                        <th
-                          key={p.name}
-                          style={{
-                            textAlign: "left", padding: "16px 20px", fontSize: 13, fontWeight: 800,
-                            color: p.hi ? C.primaryDk : C.text,
-                            background: p.hi ? "rgba(20,184,166,.04)" : "transparent",
-                            borderBottom: `1px solid ${C.border}`,
-                            fontFamily: FONTS.display,
-                          }}
-                        >
+                        <th key={p.name} style={{ textAlign: "left", padding: "16px 20px", fontSize: 13, fontWeight: 800, color: p.hi ? C.primaryDk : C.text, background: p.hi ? "rgba(20,184,166,.04)" : "transparent", borderBottom: `1px solid ${C.border}`, fontFamily: FONTS.display }}>
                           {p.name}
                         </th>
                       ))}
@@ -264,24 +269,11 @@ export default function PricingSection({duration}:{duration:string}) {
                   <tbody>
                     {comparisonRows.map((row, ri) => (
                       <tr key={row.label}>
-                        <td
-                          style={{
-                            padding: "14px 20px", fontSize: 13.5, color: C.muted,
-                            borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none",
-                          }}
-                        >
+                        <td style={{ padding: "14px 20px", fontSize: 13.5, color: C.muted, borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none" }}>
                           {row.label}
                         </td>
                         {row.values.map((v, vi) => (
-                          <td
-                            key={vi}
-                            style={{
-                              padding: "14px 20px", fontSize: 13.5, fontWeight: 600,
-                              color: v === "—" ? C.textMuted : C.text,
-                              background: plans[vi].hi ? "rgba(20,184,166,.03)" : "transparent",
-                              borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none",
-                            }}
-                          >
+                          <td key={vi} style={{ padding: "14px 20px", fontSize: 13.5, fontWeight: 600, color: v === "—" ? C.textMuted : C.text, background: plans[vi].hi ? "rgba(20,184,166,.03)" : "transparent", borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none" }}>
                             {v}
                           </td>
                         ))}
