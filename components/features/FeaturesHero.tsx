@@ -1,15 +1,31 @@
 "use client";
+// src/components/features/FeaturesHero.tsx
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Zap, BarChart2, Users } from "lucide-react";
+import { LoadingButton } from "@/components/preloader/ButtonLoader";
 
 const PILLS = [
-  { icon: <Zap size={14} />, label: "AI-Powered Decisions" },
-  { icon: <BarChart2 size={14} />, label: "Real-Time Analytics" },
-  { icon: <Users size={14} />, label: "Team Collaboration" },
+  { icon: <Zap size={14} />,      label: "AI-Powered Decisions" },
+  { icon: <BarChart2 size={14} />, label: "Real-Time Analytics"  },
+  { icon: <Users size={14} />,     label: "Team Collaboration"   },
 ];
 
 export default function FeaturesHero() {
+  const [startLoading, setStartLoading]  = useState(false);
+  const [pricingLoading, setPricingLoading] = useState(false);
+
+  const handleStart = () => {
+    setStartLoading(true);
+    setTimeout(() => setStartLoading(false), 2000);
+  };
+
+  const handlePricing = () => {
+    setPricingLoading(true);
+    setTimeout(() => setPricingLoading(false), 2000);
+  };
+
   return (
     <section
       style={{
@@ -25,8 +41,7 @@ export default function FeaturesHero() {
         aria-hidden
         style={{
           position: "absolute", inset: 0, pointerEvents: "none",
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(20,184,166,0.18) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(20,184,166,0.18) 0%, transparent 70%)",
         }}
       />
       <div
@@ -61,12 +76,7 @@ export default function FeaturesHero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          style={{
-            fontSize: "clamp(36px, 6vw, 64px)",
-            fontWeight: 800, lineHeight: 1.1,
-            color: "#ffffff",
-            marginBottom: 20,
-          }}
+          style={{ fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 800, lineHeight: 1.1, color: "#ffffff", marginBottom: 20 }}
         >
           Everything Your Startup{" "}
           <span
@@ -90,35 +100,46 @@ export default function FeaturesHero() {
           From AI agents to recruitment analytics — one unified platform replaces your entire toolstack.
         </motion.p>
 
-        {/* CTA */}
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 48 }}
         >
-          <Link
-            href="/register"
+          {/* Primary — navigates to /register; loader fires before navigation */}
+          <LoadingButton
+            loading={startLoading}
+            loadingText="Starting…"
+            loaderColor="#04211c"
+            onClick={handleStart}
             style={{
               padding: "12px 28px", borderRadius: 12,
               background: "linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)",
               color: "#fff", fontWeight: 700, fontSize: 15,
-              textDecoration: "none", boxShadow: "0 8px 24px rgba(20,184,166,0.3)",
+              boxShadow: "0 8px 24px rgba(20,184,166,0.3)",
+              minWidth: 160,
             }}
           >
             Get Started Free
-          </Link>
-          <Link
-            href="/plans"
+          </LoadingButton>
+
+          {/* Ghost — navigates to /plans */}
+          <LoadingButton
+            loading={pricingLoading}
+            loadingText="Loading…"
+            loaderColor="#cbd5e1"
+            onClick={handlePricing}
             style={{
               padding: "12px 28px", borderRadius: 12,
               border: "1px solid rgba(20,184,166,0.3)",
               color: "#cbd5e1", fontWeight: 600, fontSize: 15,
-              textDecoration: "none", background: "rgba(255,255,255,0.04)",
+              background: "rgba(255,255,255,0.04)",
+              minWidth: 160,
             }}
           >
             View Pricing →
-          </Link>
+          </LoadingButton>
         </motion.div>
 
         {/* Pills */}

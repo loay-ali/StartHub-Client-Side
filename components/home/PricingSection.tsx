@@ -5,6 +5,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
+import { LoadingButton } from "@/components/preloader/ButtonLoader";
 
 const plans = [
   {
@@ -24,24 +25,28 @@ const plans = [
   },
 ];
 
-// Comparison rows are derived from the same claims already made in each
-// plan's `features` list above — this table doesn't introduce any new
-// promises, it just lets someone see all three plans side by side instead
-// of re-reading three separate card lists.
 const comparisonRows: { label: string; values: [string, string, string] }[] = [
-  { label: "Integrations",      values: ["5", "Unlimited", "Unlimited + custom"] },
-  { label: "AI Agents",         values: ["2 agents", "All 4 agents", "All 4 + custom training"] },
-  { label: "Dashboards",        values: ["Company Health", "Real-time, all metrics", "Real-time, all metrics"] },
-  { label: "Reports",           values: ["Weekly, automated", "Auto-written, on demand", "Auto-written + custom"] },
-  { label: "Alerts",            values: ["Email", "Slack + email", "Slack + email"] },
-  { label: "Team members",      values: ["Up to 10", "Up to 100", "Unlimited"] },
-  { label: "SSO & advanced security", values: ["—", "—", "Included"] },
-  { label: "Support",           values: ["Email", "Priority", "Dedicated success manager"] },
+  { label: "Integrations",           values: ["5", "Unlimited", "Unlimited + custom"] },
+  { label: "AI Agents",              values: ["2 agents", "All 4 agents", "All 4 + custom training"] },
+  { label: "Dashboards",             values: ["Company Health", "Real-time, all metrics", "Real-time, all metrics"] },
+  { label: "Reports",                values: ["Weekly, automated", "Auto-written, on demand", "Auto-written + custom"] },
+  { label: "Alerts",                 values: ["Email", "Slack + email", "Slack + email"] },
+  { label: "Team members",           values: ["Up to 10", "Up to 100", "Unlimited"] },
+  { label: "SSO & advanced security",values: ["—", "—", "Included"] },
+  { label: "Support",                values: ["Email", "Priority", "Dedicated success manager"] },
 ];
 
 export default function PricingSection() {
   const [annual, setAnnual] = useState(true);
   const [showCompare, setShowCompare] = useState(false);
+
+  // Track loading per plan index
+  const [loadingPlan, setLoadingPlan] = useState<number | null>(null);
+
+  const handleCta = (index: number) => {
+    setLoadingPlan(index);
+    setTimeout(() => setLoadingPlan(null), 2000);
+  };
 
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
@@ -52,7 +57,6 @@ export default function PricingSection() {
             title={<>Simple Pricing.<br /><span className="grad-text">Real Returns.</span></>}
             sub="Most customers recover the cost of StarHub in the first week — the time savings alone pay for it."
             accent={
-              /* Annual toggle */
               <div
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 12,
@@ -79,12 +83,7 @@ export default function PricingSection() {
                     }}
                   />
                 </button>
-                <span
-                  style={{
-                    fontSize: 13, fontWeight: 700, padding: "3px 6px",
-                    color: annual ? C.primaryDk : C.muted,
-                  }}
-                >
+                <span style={{ fontSize: 13, fontWeight: 700, padding: "3px 6px", color: annual ? C.primaryDk : C.muted }}>
                   Annual
                   {annual && (
                     <span
@@ -162,29 +161,31 @@ export default function PricingSection() {
                   ))}
                 </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.015 }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{
-                    width: "100%", padding: "14px", borderRadius: 14,
-                    fontWeight: 700, fontSize: 14, cursor: "pointer",
-                    fontFamily: FONTS.display,
-                    ...(plan.hi
-                      ? { background: `linear-gradient(135deg,${C.primary},${C.primaryDk})`, color: "#fff", border: "none", boxShadow: "0 6px 24px rgba(20,184,166,.28)" }
-                      : { background: C.surfaceAlt, color: C.text, border: `1px solid ${C.border}` }),
-                  }}
-                >
-                  {plan.cta}
-                </motion.button>
+                {/* ── CTA with loader ── */}
+                <motion.div whileHover={{ scale: 1.015 }} whileTap={{ scale: 0.98 }}>
+                  <LoadingButton
+                    loading={loadingPlan === i}
+                    loadingText={plan.price === 0 ? "Connecting…" : "Starting trial…"}
+                    loaderColor={plan.hi ? "#fff" : C.primaryDk}
+                    onClick={() => handleCta(i)}
+                    style={{
+                      width: "100%", padding: "14px", borderRadius: 14,
+                      fontWeight: 700, fontSize: 14, cursor: "pointer",
+                      fontFamily: FONTS.display,
+                      minHeight: 50,
+                      ...(plan.hi
+                        ? { background: `linear-gradient(135deg,${C.primary},${C.primaryDk})`, color: "#fff", border: "none", boxShadow: "0 6px 24px rgba(20,184,166,.28)" }
+                        : { background: C.surfaceAlt, color: C.text, border: `1px solid ${C.border}` }),
+                    }}
+                  >
+                    {plan.cta}
+                  </LoadingButton>
+                </motion.div>
               </motion.div>
             </Reveal>
           ))}
         </div>
 
-        {/* Expandable comparison — keeps the default view to three concise
-            cards (per the "no more than five primary elements" guidance)
-            while still giving anyone who wants the full picture a way to
-            see it without leaving the page. */}
         <Reveal delay={240}>
           <div style={{ marginTop: 28, textAlign: "center" }}>
             <motion.button
@@ -220,34 +221,15 @@ export default function PricingSection() {
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               style={{ overflow: "hidden" }}
             >
-              <div
-                style={{
-                  marginTop: 24, borderRadius: 20, border: `1px solid ${C.border}`,
-                  background: "#fff", overflowX: "auto",
-                }}
-              >
+              <div style={{ marginTop: 24, borderRadius: 20, border: `1px solid ${C.border}`, background: "#fff", overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 560 }}>
                   <thead>
                     <tr>
-                      <th
-                        style={{
-                          textAlign: "left", padding: "16px 20px", fontSize: 12,
-                          color: C.muted, fontWeight: 700, borderBottom: `1px solid ${C.border}`,
-                        }}
-                      >
+                      <th style={{ textAlign: "left", padding: "16px 20px", fontSize: 12, color: C.muted, fontWeight: 700, borderBottom: `1px solid ${C.border}` }}>
                         Feature
                       </th>
                       {plans.map((p) => (
-                        <th
-                          key={p.name}
-                          style={{
-                            textAlign: "left", padding: "16px 20px", fontSize: 13, fontWeight: 800,
-                            color: p.hi ? C.primaryDk : C.text,
-                            background: p.hi ? "rgba(20,184,166,.04)" : "transparent",
-                            borderBottom: `1px solid ${C.border}`,
-                            fontFamily: FONTS.display,
-                          }}
-                        >
+                        <th key={p.name} style={{ textAlign: "left", padding: "16px 20px", fontSize: 13, fontWeight: 800, color: p.hi ? C.primaryDk : C.text, background: p.hi ? "rgba(20,184,166,.04)" : "transparent", borderBottom: `1px solid ${C.border}`, fontFamily: FONTS.display }}>
                           {p.name}
                         </th>
                       ))}
@@ -256,24 +238,11 @@ export default function PricingSection() {
                   <tbody>
                     {comparisonRows.map((row, ri) => (
                       <tr key={row.label}>
-                        <td
-                          style={{
-                            padding: "14px 20px", fontSize: 13.5, color: C.muted,
-                            borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none",
-                          }}
-                        >
+                        <td style={{ padding: "14px 20px", fontSize: 13.5, color: C.muted, borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none" }}>
                           {row.label}
                         </td>
                         {row.values.map((v, vi) => (
-                          <td
-                            key={vi}
-                            style={{
-                              padding: "14px 20px", fontSize: 13.5, fontWeight: 600,
-                              color: v === "—" ? C.textMuted : C.text,
-                              background: plans[vi].hi ? "rgba(20,184,166,.03)" : "transparent",
-                              borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none",
-                            }}
-                          >
+                          <td key={vi} style={{ padding: "14px 20px", fontSize: 13.5, fontWeight: 600, color: v === "—" ? C.textMuted : C.text, background: plans[vi].hi ? "rgba(20,184,166,.03)" : "transparent", borderBottom: ri < comparisonRows.length - 1 ? `1px solid ${C.border}` : "none" }}>
                             {v}
                           </td>
                         ))}

@@ -3,6 +3,90 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, Activity, TrendingUp, ArrowRight, ChevronRight } from "lucide-react";
 
+/* ─── Inline SVG orbital loader (StarHub design) ───────────────────────── */
+
+const ButtonLoader = ({ size = 16 }: { size?: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    style={{ display: "block", flexShrink: 0 }}
+  >
+    {/* Hub */}
+    <circle cx="8" cy="8" r="2.5" fill="currentColor" opacity="0.5">
+      <animate attributeName="r" values="2.5;3;2.5" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="8" cy="8" r="1.5" fill="currentColor" opacity="0.9">
+      <animate attributeName="r" values="1.5;1.8;1.5" dur="2s" repeatCount="indefinite" />
+    </circle>
+
+    {/* Inner orbit */}
+    <circle
+      cx="8"
+      cy="8"
+      r="5"
+      stroke="currentColor"
+      strokeWidth="0.5"
+      fill="none"
+      strokeDasharray="2 2"
+      opacity="0.35"
+    >
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 8 8"
+        to="360 8 8"
+        dur="5s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="13" cy="8" r="1.5" fill="currentColor" opacity="0.7">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 8 8"
+        to="360 8 8"
+        dur="5s"
+        repeatCount="indefinite"
+      />
+    </circle>
+
+    {/* Outer orbit */}
+    <circle
+      cx="8"
+      cy="8"
+      r="7"
+      stroke="currentColor"
+      strokeWidth="0.4"
+      fill="none"
+      strokeDasharray="3 4"
+      opacity="0.25"
+    >
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="360 8 8"
+        to="0 8 8"
+        dur="8s"
+        repeatCount="indefinite"
+      />
+    </circle>
+    <circle cx="15" cy="8" r="1.2" fill="currentColor" opacity="0.5">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="360 8 8"
+        to="0 8 8"
+        dur="8s"
+        repeatCount="indefinite"
+      />
+    </circle>
+  </svg>
+);
+
 /**
  * Local fallback tokens. If `lib/tokens` already exports `C` and `FONTS`
  * with matching keys, swap this block for:
@@ -48,28 +132,27 @@ const INNER_DURATION = "90s";
 const OUTER_DURATION = "150s";
 
 const INNER_NODES: OrbitNode[] = [
-  { label: "Recruitment", status: "Hiring", angle: -90 },
-  { label: "Finance", status: "Synced", angle: -18 },
-  { label: "Operations", status: "Healthy", angle: 54 },
-  { label: "Analytics", status: "Live", angle: 126 },
-  { label: "Growth", status: "Scaling", angle: 198 },
+  { label: "Recruitment", status: "Hiring",  angle: -90  },
+  { label: "Finance",     status: "Synced",  angle: -18  },
+  { label: "Operations",  status: "Healthy", angle:  54  },
+  { label: "Analytics",   status: "Live",    angle: 126  },
+  { label: "Growth",      status: "Scaling", angle: 198  },
 ];
 
 const OUTER_NODES: OrbitNode[] = [
-  { label: "Predictions", angle: -45 },
-  { label: "Risk alerts", angle: 45 },
-  { label: "Automation", angle: 135 },
-  { label: "Insights", angle: 225 },
+  { label: "Predictions", angle:  -45 },
+  { label: "Risk alerts", angle:   45 },
+  { label: "Automation",  angle:  135 },
+  { label: "Insights",    angle:  225 },
 ];
 
 /* ── Utilities ─────────────────────────────────────────────────── */
 
-/** Converts polar coordinates (baseline 420 box) to a percentage position. */
 function getOrbitPoint(angle: number, radius: number) {
   const rad = (angle * Math.PI) / 180;
   return {
     left: `${(((ORBIT_CENTER + radius * Math.cos(rad)) / ORBIT_SIZE) * 100).toFixed(2)}%`,
-    top: `${(((ORBIT_CENTER + radius * Math.sin(rad)) / ORBIT_SIZE) * 100).toFixed(2)}%`,
+    top:  `${(((ORBIT_CENTER + radius * Math.sin(rad)) / ORBIT_SIZE) * 100).toFixed(2)}%`,
   };
 }
 
@@ -86,30 +169,22 @@ function prefersReducedMotion() {
 /* ── Animated counter hook ───────────────────────────────────── */
 
 function useAnimatedCounter(target: number, duration = 1800, delay = 0) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(() => (prefersReducedMotion() ? target : 0));
   const frameRef = useRef<number | null>(null);
   const startRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
-      setCount(target);
-      return;
-    }
+    if (prefersReducedMotion()) return;
     const tick = (timestamp: number) => {
       if (startRef.current === null) startRef.current = timestamp;
       const elapsed = timestamp - startRef.current - delay;
-      if (elapsed < 0) {
-        frameRef.current = requestAnimationFrame(tick);
-        return;
-      }
+      if (elapsed < 0) { frameRef.current = requestAnimationFrame(tick); return; }
       const progress = Math.min(elapsed / duration, 1);
       setCount(Math.round(easeOutQuart(progress) * target));
       if (progress < 1) frameRef.current = requestAnimationFrame(tick);
     };
     frameRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
-    };
+    return () => { if (frameRef.current !== null) cancelAnimationFrame(frameRef.current); };
   }, [target, duration, delay]);
 
   return count;
@@ -119,7 +194,7 @@ function useAnimatedCounter(target: number, duration = 1800, delay = 0) {
 
 function usePointerGlow() {
   const sectionRef = useRef<HTMLElement>(null);
-  const frameRef = useRef<number | null>(null);
+  const frameRef   = useRef<number | null>(null);
   const positionRef = useRef({ x: 62, y: 32 });
   const [position, setPosition] = useState({ x: 62, y: 32 });
 
@@ -129,8 +204,8 @@ function usePointerGlow() {
     frameRef.current = requestAnimationFrame(() => {
       frameRef.current = null;
       const rect = el.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      const x = ((event.clientX - rect.left)  / rect.width)  * 100;
+      const y = ((event.clientY - rect.top)   / rect.height) * 100;
       positionRef.current = {
         x: positionRef.current.x + (x - positionRef.current.x) * 0.15,
         y: positionRef.current.y + (y - positionRef.current.y) * 0.15,
@@ -153,34 +228,24 @@ function usePointerGlow() {
   return { sectionRef, position };
 }
 
-/* ── Orbit ring — rotates as a whole; each node's label counter-rotates ──
-   so it stays upright while it revolves. Two nested layers do the work:
-   .shRing (animates the revolution) → .shNodeCounter (animates the
-   opposite rotation, same duration, to cancel it for the label only). */
+/* ── Orbit ring ──────────────────────────────────────────────── */
 
 const OrbitRing = React.memo(function OrbitRing({
-  nodes,
-  radius,
-  duration,
-  spin,
-  variant,
+  nodes, radius, duration, spin, variant,
 }: {
-  nodes: OrbitNode[];
-  radius: number;
-  duration: string;
-  spin: "cw" | "ccw";
-  variant: "inner" | "outer";
+  nodes: OrbitNode[]; radius: number; duration: string;
+  spin: "cw" | "ccw"; variant: "inner" | "outer";
 }) {
-  const lineClass = variant === "inner" ? "shLineInner" : "shLineOuter";
+  const lineClass   = variant === "inner" ? "shLineInner" : "shLineOuter";
   const counterSpin = spin === "cw" ? "ccw" : "cw";
 
   const points = useMemo(
     () => nodes.map((node) => ({ node, point: getOrbitPoint(node.angle, radius) })),
-    [nodes, radius]
+    [nodes, radius],
   );
 
   return (
-    <div className={`shRing shRing--${spin}`} style={{ ["--dur" as any]: duration }}>
+    <div className={`shRing shRing--${spin}`} style={{ "--dur": duration } as React.CSSProperties}>
       <svg className="shNetLines" viewBox={`0 0 ${ORBIT_SIZE} ${ORBIT_SIZE}`} aria-hidden="true">
         {points.map(({ node, point }) => (
           <line key={node.label} x1={CENTER_PCT} y1={CENTER_PCT} x2={point.left} y2={point.top} className={lineClass} />
@@ -207,7 +272,7 @@ const OrbitRing = React.memo(function OrbitRing({
   );
 });
 
-/* ── Orbit core — fixed center, doesn't rotate ───────────────────── */
+/* ── Orbit core ──────────────────────────────────────────────── */
 
 const OrbitCore = React.memo(function OrbitCore() {
   return (
@@ -222,10 +287,10 @@ const OrbitCore = React.memo(function OrbitCore() {
   );
 });
 
-/* ── Weekly diagnosis card — anchored product snippet, not decoration ── */
+/* ── Weekly diagnosis card ───────────────────────────────────── */
 
 const ReportCard = React.memo(function ReportCard() {
-  const runway = useAnimatedCounter(142, 1600, 900) / 10;
+  const runway = useAnimatedCounter(142, 1600,  900) / 10;
   const growth = useAnimatedCounter(184, 1600, 1100) / 10;
 
   return (
@@ -236,26 +301,15 @@ const ReportCard = React.memo(function ReportCard() {
       </div>
 
       <div className="shRow">
-        <span className="shRowLabel">
-          <AlertTriangle size={13} aria-hidden="true" />
-          Hiring risk
-        </span>
+        <span className="shRowLabel"><AlertTriangle size={13} aria-hidden="true" />Hiring risk</span>
         <span className="shBadge">Elevated</span>
       </div>
-
       <div className="shRow">
-        <span className="shRowLabel">
-          <Activity size={13} aria-hidden="true" />
-          Cash runway
-        </span>
+        <span className="shRowLabel"><Activity size={13} aria-hidden="true" />Cash runway</span>
         <span className="shVal">${runway.toFixed(1)}M</span>
       </div>
-
       <div className="shRow">
-        <span className="shRowLabel">
-          <TrendingUp size={13} aria-hidden="true" />
-          MRR growth
-        </span>
+        <span className="shRowLabel"><TrendingUp size={13} aria-hidden="true" />MRR growth</span>
         <span className="shVal">+{growth.toFixed(1)}%</span>
       </div>
 
@@ -267,7 +321,7 @@ const ReportCard = React.memo(function ReportCard() {
   );
 });
 
-/* ── Hero orbit — rings + core + report card, as one unit ────────── */
+/* ── Hero orbit ──────────────────────────────────────────────── */
 
 const HeroOrbit = React.memo(function HeroOrbit() {
   return (
@@ -278,7 +332,7 @@ const HeroOrbit = React.memo(function HeroOrbit() {
       tabIndex={0}
       style={{ containerType: "inline-size", containerName: "orbit" } as React.CSSProperties}
     >
-      <OrbitRing nodes={INNER_NODES} radius={INNER_RADIUS} duration={INNER_DURATION} spin="cw" variant="inner" />
+      <OrbitRing nodes={INNER_NODES} radius={INNER_RADIUS} duration={INNER_DURATION} spin="cw"  variant="inner" />
       <OrbitRing nodes={OUTER_NODES} radius={OUTER_RADIUS} duration={OUTER_DURATION} spin="ccw" variant="outer" />
       <OrbitCore />
       <ReportCard />
@@ -286,10 +340,24 @@ const HeroOrbit = React.memo(function HeroOrbit() {
   );
 });
 
-/* ── Main hero section ───────────────────────────────────────────── */
+/* ── Main hero section ───────────────────────────────────────── */
 
 export default function HeroSection() {
   const { sectionRef, position } = usePointerGlow();
+
+  /* Independent loading state per button */
+  const [primaryLoading, setPrimaryLoading] = useState(false);
+  const [ghostLoading,   setGhostLoading]   = useState(false);
+
+  const handleStartFree = () => {
+    setPrimaryLoading(true);
+    setTimeout(() => setPrimaryLoading(false), 2000);
+  };
+
+  const handleBookDemo = () => {
+    setGhostLoading(true);
+    setTimeout(() => setGhostLoading(false), 2000);
+  };
 
   return (
     <section
@@ -325,13 +393,46 @@ export default function HeroSection() {
           </p>
 
           <nav className="shCtas" aria-label="Primary actions">
-            <button className="shBtnPrimary" aria-label="Start free trial">
-              <span>Start free</span>
-              <ArrowRight size={16} aria-hidden="true" />
+            {/* ── Primary button ── */}
+            <button
+              className="shBtnPrimary"
+              aria-label="Start free trial"
+              aria-busy={primaryLoading}
+              disabled={primaryLoading}
+              onClick={handleStartFree}
+            >
+              {primaryLoading ? (
+                <>
+                  <ButtonLoader size={16} />
+                  <span>Syncing…</span>
+                </>
+              ) : (
+                <>
+                  <span>Start free</span>
+                  <ArrowRight size={16} aria-hidden="true" />
+                </>
+              )}
             </button>
-            <button className="shBtnGhost" aria-label="Book a demo">
-              <span>Book a demo</span>
-              <ChevronRight size={16} aria-hidden="true" />
+
+            {/* ── Ghost button ── */}
+            <button
+              className="shBtnGhost"
+              aria-label="Book a demo"
+              aria-busy={ghostLoading}
+              disabled={ghostLoading}
+              onClick={handleBookDemo}
+            >
+              {ghostLoading ? (
+                <>
+                  <ButtonLoader size={16} />
+                  <span>Booking…</span>
+                </>
+              ) : (
+                <>
+                  <span>Book a demo</span>
+                  <ChevronRight size={16} aria-hidden="true" />
+                </>
+              )}
             </button>
           </nav>
         </header>
@@ -340,15 +441,6 @@ export default function HeroSection() {
       </div>
 
       <style jsx global>{`
-        /*
-          Declared "global" (not auto-scoped) because this file splits the
-          hero into several memoized sub-components that share one
-          stylesheet — styled-jsx's automatic scoping only covers the
-          component where the <style jsx> tag itself is rendered. Every
-          selector below is namespaced under the sh- prefix to avoid
-          leaking into the rest of the site.
-        */
-
         .shHero {
           position: relative;
           background: ${C.panelDark};
@@ -359,16 +451,14 @@ export default function HeroSection() {
         .shBgGrid {
           position: absolute;
           inset: 0;
-          background-image: repeating-linear-gradient(0deg, ${C.border} 0px, ${C.border} 1px, transparent 1px, transparent 64px),
-            repeating-linear-gradient(90deg, ${C.border} 0px, ${C.border} 1px, transparent 1px, transparent 64px);
+          background-image:
+            repeating-linear-gradient(0deg,   ${C.border} 0px, ${C.border} 1px, transparent 1px, transparent 64px),
+            repeating-linear-gradient(90deg,  ${C.border} 0px, ${C.border} 1px, transparent 1px, transparent 64px);
           -webkit-mask-image: radial-gradient(circle at 60% 35%, black 0%, transparent 72%);
           mask-image: radial-gradient(circle at 60% 35%, black 0%, transparent 72%);
         }
 
-        .shBgGlow {
-          position: absolute;
-          inset: 0;
-        }
+        .shBgGlow { position: absolute; inset: 0; }
 
         .shGrid {
           position: relative;
@@ -382,16 +472,9 @@ export default function HeroSection() {
         }
 
         @container hero (max-width: 760px) {
-          .shGrid {
-            grid-template-columns: 1fr;
-            text-align: center;
-          }
-          .shSub {
-            margin-inline: auto;
-          }
-          .shCtas {
-            justify-content: center;
-          }
+          .shGrid { grid-template-columns: 1fr; text-align: center; }
+          .shSub  { margin-inline: auto; }
+          .shCtas { justify-content: center; }
         }
 
         .shEyebrow {
@@ -405,12 +488,11 @@ export default function HeroSection() {
           padding: 6px 12px;
           border: 1px solid ${C.border};
           border-radius: 6px;
-          background: rgba(255, 255, 255, 0.02);
+          background: rgba(255,255,255,0.02);
           white-space: nowrap;
         }
         .shEyebrowDot {
-          width: 6px;
-          height: 6px;
+          width: 6px; height: 6px;
           border-radius: 50%;
           background: ${C.teal};
           flex-shrink: 0;
@@ -424,17 +506,9 @@ export default function HeroSection() {
           letter-spacing: -0.01em;
           margin: 20px 0 18px;
         }
-        .shH1 span {
-          display: block;
-        }
-        .shH1a {
-          font-weight: 700;
-          color: ${C.text};
-        }
-        .shH1b {
-          font-weight: 500;
-          color: ${C.tealText};
-        }
+        .shH1 span { display: block; }
+        .shH1a { font-weight: 700; color: ${C.text}; }
+        .shH1b { font-weight: 500; color: ${C.tealText}; }
 
         .shSub {
           font-family: ${FONTS.body};
@@ -445,11 +519,8 @@ export default function HeroSection() {
           margin: 0 0 32px;
         }
 
-        .shCtas {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
+        .shCtas { display: flex; gap: 12px; flex-wrap: wrap; }
+
         .shBtnPrimary,
         .shBtnGhost {
           font-family: ${FONTS.body};
@@ -461,25 +532,26 @@ export default function HeroSection() {
           gap: 8px;
           align-items: center;
           cursor: pointer;
-          transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+          transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+          min-width: 140px;          /* prevents width jump between states */
+          justify-content: center;
         }
         .shBtnPrimary {
           background: ${C.teal};
           color: #04211c;
           border: 1px solid transparent;
         }
-        .shBtnPrimary:hover {
-          background: #2dd4bf;
-        }
+        .shBtnPrimary:hover:not(:disabled) { background: #2dd4bf; }
+        .shBtnPrimary:disabled { opacity: 0.75; cursor: not-allowed; }
+
         .shBtnGhost {
           background: transparent;
           color: ${C.text};
           border: 1px solid ${C.borderStrong};
         }
-        .shBtnGhost:hover {
-          border-color: ${C.teal};
-          color: ${C.tealText};
-        }
+        .shBtnGhost:hover:not(:disabled) { border-color: ${C.teal}; color: ${C.tealText}; }
+        .shBtnGhost:disabled { opacity: 0.65; cursor: not-allowed; }
+
         .shBtnPrimary:focus-visible,
         .shBtnGhost:focus-visible,
         .shFooterLink:focus-visible,
@@ -487,6 +559,8 @@ export default function HeroSection() {
           outline: 2px solid ${C.teal};
           outline-offset: 2px;
         }
+
+        /* ── Orbit ─────────────────────────────────────────────── */
 
         .shOrbitWrap {
           position: relative;
@@ -505,45 +579,23 @@ export default function HeroSection() {
           animation-timing-function: linear;
           animation-iteration-count: infinite;
         }
-        .shRing--cw {
-          animation-name: shSpinCW;
-        }
-        .shRing--ccw {
-          animation-name: shSpinCCW;
-        }
+        .shRing--cw  { animation-name: shSpinCW;  }
+        .shRing--ccw { animation-name: shSpinCCW; }
 
-        .shNetLines {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-        }
-        .shNetLines line {
-          stroke-width: 1;
-        }
-        .shLineInner {
-          stroke: rgba(94, 234, 212, 0.22);
-        }
-        .shLineOuter {
-          stroke: ${C.border};
-        }
+        .shNetLines { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .shNetLines line { stroke-width: 1; }
+        .shLineInner { stroke: rgba(94, 234, 212, 0.22); }
+        .shLineOuter { stroke: ${C.border}; }
 
-        .shNode {
-          position: absolute;
-          transform: translate(-50%, -50%);
-        }
+        .shNode { position: absolute; transform: translate(-50%, -50%); }
         .shNodeCounter {
           display: block;
           animation-duration: var(--dur);
           animation-timing-function: linear;
           animation-iteration-count: infinite;
         }
-        .shNodeCounter--cw {
-          animation-name: shSpinCW;
-        }
-        .shNodeCounter--ccw {
-          animation-name: shSpinCCW;
-        }
+        .shNodeCounter--cw  { animation-name: shSpinCW;  }
+        .shNodeCounter--ccw { animation-name: shSpinCCW; }
 
         .shNodeChip {
           display: flex;
@@ -580,20 +632,19 @@ export default function HeroSection() {
           padding: 1.2cqi 2.2cqi;
           border: 1px solid ${C.border};
           border-radius: 5px;
-          background: rgba(255, 255, 255, 0.015);
+          background: rgba(255,255,255,0.015);
           white-space: nowrap;
         }
 
         .shCore {
           position: absolute;
-          left: 50%;
-          top: 50%;
+          left: 50%; top: 50%;
           transform: translate(-50%, -50%);
           width: 29cqi;
           aspect-ratio: 1 / 1;
           border-radius: 20px;
           background: linear-gradient(160deg, ${C.panel}, ${C.panelDark});
-          border: 1px solid rgba(20, 184, 166, 0.35);
+          border: 1px solid rgba(20,184,166,0.35);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -619,28 +670,24 @@ export default function HeroSection() {
           color: ${C.tealText};
         }
         .shCoreDot {
-          width: 5px;
-          height: 5px;
+          width: 5px; height: 5px;
           border-radius: 50%;
           background: ${C.teal};
           flex-shrink: 0;
           animation: shPulse 1.8s ease-in-out infinite;
         }
-        .shCursor {
-          animation: shBlink 1s steps(1) infinite;
-        }
+        .shCursor { animation: shBlink 1s steps(1) infinite; }
 
         .shReport {
           position: absolute;
-          right: -7cqi;
-          bottom: -9cqi;
+          right: -7cqi; bottom: -9cqi;
           width: 54cqi;
           background: ${C.panel};
           border: 1px solid ${C.borderStrong};
           border-radius: 12px;
           padding: 3cqi 3.4cqi;
           z-index: 4;
-          box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 12px 32px -12px rgba(0,0,0,0.5);
         }
         .shReportHead {
           display: flex;
@@ -656,8 +703,7 @@ export default function HeroSection() {
           color: ${C.textFaint};
         }
         .shLiveDot {
-          width: 5px;
-          height: 5px;
+          width: 5px; height: 5px;
           border-radius: 50%;
           background: ${C.teal};
           flex-shrink: 0;
@@ -680,9 +726,7 @@ export default function HeroSection() {
           white-space: nowrap;
           color: ${C.textFaint};
         }
-        .shRowLabel svg {
-          flex-shrink: 0;
-        }
+        .shRowLabel svg { flex-shrink: 0; }
         .shVal {
           font-family: ${FONTS.mono};
           font-weight: 600;
@@ -719,9 +763,7 @@ export default function HeroSection() {
           cursor: pointer;
           transition: color 0.15s ease;
         }
-        .shFooterLink:hover {
-          color: ${C.teal};
-        }
+        .shFooterLink:hover { color: ${C.teal}; }
 
         .shOrbitWrap:hover .shRing,
         .shOrbitWrap:focus-within .shRing,
@@ -730,43 +772,14 @@ export default function HeroSection() {
           animation-play-state: paused;
         }
 
-        @keyframes shSpinCW {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-        @keyframes shSpinCCW {
-          to {
-            transform: rotate(-360deg);
-          }
-        }
-        @keyframes shPulse {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.35;
-          }
-        }
-        @keyframes shBlink {
-          0%,
-          50% {
-            opacity: 1;
-          }
-          50.01%,
-          100% {
-            opacity: 0;
-          }
-        }
+        @keyframes shSpinCW  { to { transform: rotate(360deg);  } }
+        @keyframes shSpinCCW { to { transform: rotate(-360deg); } }
+        @keyframes shPulse   { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+        @keyframes shBlink   { 0%,50% { opacity:1; } 50.01%,100% { opacity:0; } }
 
         @media (prefers-reduced-motion: reduce) {
-          .shRing,
-          .shNodeCounter,
-          .shCoreDot,
-          .shLiveDot,
-          .shEyebrowDot,
-          .shCursor {
+          .shRing, .shNodeCounter, .shCoreDot,
+          .shLiveDot, .shEyebrowDot, .shCursor {
             animation: none !important;
           }
         }
