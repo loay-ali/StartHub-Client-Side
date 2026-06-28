@@ -9,12 +9,15 @@ import { redirect } from "next/navigation";
 import AIWindow from "@/components/ai/window/window";
 import AIMainButton from "@/components/ai/MainButton";
 
+import { AiOutlineLoading } from "react-icons/ai";
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
+  const [loadingLoggedIn,setLoadingLoggedIn] = useState(true);
 
   const [userData,setUserData] = useState<any>({});
 
@@ -28,6 +31,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         .then(res => {
           if( res.status == 200 ) {
             setIsLoggedIn(true);
+            setLoadingLoggedIn(false);
             return res.json();
           }else {
             redirect('/login');
@@ -38,8 +42,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   },[]);
 
-  if( isLoggedIn == false ) {
-    //return (<>Loading...</>)
+  if( loadingLoggedIn == true ) {
+    return (<div className = 'p-5 flex items-center justify-center'><AiOutlineLoading className = 'spinner-loading' /></div>)
   }
 
   return (

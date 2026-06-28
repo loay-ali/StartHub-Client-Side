@@ -77,6 +77,8 @@ export default function LoginForm() {
         body: JSON.stringify({email,password})
       }).then(res => {
 
+        console.log(res);
+
         if( res.status == 401 || res.status == 403 ) {
           setIsInvalid(true);
         }else {

@@ -14,7 +14,7 @@ export default async function NewTransaction() {
 
         redirect('/dashboard/transactions/list');
 
-    }} className = 'max-w-[500px] p-5 bg-white rounded mx-auto mt-10 shadow'>
+    }} className = 'max-w-[750px] p-5 bg-white rounded mx-auto mt-10 shadow'>
 
         <h2 className = 'text-xl'>Create New Transaction</h2>
 

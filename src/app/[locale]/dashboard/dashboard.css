@@ -37,6 +37,10 @@ select {
   @apply p-2 my-2 border-1 rounded
 }
 
+textarea {
+  @apply border-1 rounded border-gray-300 p-2;
+}
+
 .form-group {
   @apply flex flex-col gap-1 my-5;
 
