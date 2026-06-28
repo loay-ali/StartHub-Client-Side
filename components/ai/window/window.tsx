@@ -7,8 +7,10 @@ import { useEffect, useState } from "react";
 
 import { ChatMessage } from "@/types/requests/ai";
 import config from "@/constants/config";
+import { useAIContext } from "@/components/layout/dashboard-layout/DashboardLayout";
 
-export default function AIWindow({open,closeWindow}:{open:boolean,closeWindow:Function}) {
+export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,open:boolean,closeWindow:Function}) {
+    
     const [conversationId,setConversationId] = useState('');
     const [messages,setMessages] = useState<ChatMessage[]>([]);
 
@@ -16,7 +18,18 @@ export default function AIWindow({open,closeWindow}:{open:boolean,closeWindow:Fu
 
     const [isSending,setIsSending] = useState(false);
 
+    console.log(aiPurpose);
+
+    if( aiPurpose != '' && isSending != true ) {
+        setIsSending(true);
+    }
+
     useEffect(() => {
+
+        if( aiPurpose != '' ) {
+            
+        }
+
         if(isSending) {
             fetch(config.apiUrl +'/ai/chat',{
                 credentials: "include",
@@ -34,7 +47,11 @@ export default function AIWindow({open,closeWindow}:{open:boolean,closeWindow:Fu
     return (
     <section className = {"overflow-hidden border-8 border-primary flex flex-col fixed w-[500px] h-[600px] bottom-5 right-5 bg-primary rounded shadow flex flex-col transition-all duration-[0.4s] origin-bottom-right "+ (!open ? 'scale-[0]':'scale-[1]')}>
         <header className = 'bg-white text-primary rounded flex justify-between items-center p-4'>
-            <strong>AI Assistant</strong>
+            <div className = 'flex flex-col'>
+                <strong>AI Assistant</strong>
+                <span>{aiPurpose}</span>
+            </div>
+
             <button className = 'cursor-pointer' type="button" onClick = {() => closeWindow()}>
                 <IoCloseOutline size = {20} />
             </button>

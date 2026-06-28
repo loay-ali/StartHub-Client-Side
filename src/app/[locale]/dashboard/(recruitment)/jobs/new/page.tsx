@@ -1,7 +1,8 @@
 import Role from "@/types/requests/roles";
 import { redirect } from "next/navigation";
 import Form from "next/form";
-import AIButton from "@/components/ai/Button";
+import AIButton from "@/components/ai/AIHelperButton";
+import AIHelperButton from "@/components/ai/AIHelperButton";
 
 export default async function NewJob() {
     const roles:Role[] = [
@@ -16,11 +17,12 @@ export default async function NewJob() {
         }} className = 'bg-white p-5 mx-auto mt-10 rounded shadow max-w-[500px]'>
             <h2 className = 'text-2xl'>Create a Job</h2>
 
-            <div className = 'form-group'>
+            <div className = 'form-group relative'>
                 <label htmlFor = 'title'>
                     Title
                 </label>
                 <input type="text" name="title" id="title" />
+                <AIHelperButton purpose = "job-title" />
             </div>
 
             <div className = 'form-group'>
@@ -35,7 +37,6 @@ export default async function NewJob() {
                     Responsibilites
                 </label>
                 <textarea name = 'responsibilites' id = 'responsibilites'></textarea>
-                <AIButton open = {false}/>
             </div>
 
             <div className = 'form-group'>

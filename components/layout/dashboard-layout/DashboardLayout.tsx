@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
@@ -15,6 +15,10 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
+const AIContext = createContext<{open:boolean,purpose:string,toggleAI:Function,setPurpose:Function|null}>({open:false,purpose:'',toggleAI:() => {},setPurpose:null});
+
+export const useAIContext = () => useContext(AIContext);
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
   const [loadingLoggedIn,setLoadingLoggedIn] = useState(true);
@@ -24,6 +28,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [isUsingAI,setIsUsingAI] = useState(false);
+
+  const [aiPurpose,setAiPurpose] = useState('');
 
   useEffect(() => {
     if( isLoggedIn == false ) {
@@ -70,10 +76,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="min-w-0 flex flex-1 flex-col">
         <Header tokensLeft = {userData.tokensLeft} email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
-        <main className="flex-1 p-4 md:p-6">{children}</main>
+        <main className="flex-1 p-4 md:p-6">
+          <AIContext.Provider value = {{purpose: aiPurpose,open:isUsingAI,setPurpose: (purpose:string) => setAiPurpose(purpose),toggleAI: () => setIsUsingAI(s => !s)}}>{children}</AIContext.Provider>
+        </main>
 
         <AIMainButton setOpen ={() => setIsUsingAI(s => !s)} opened = {isUsingAI}/>
-        <AIWindow open = {isUsingAI} closeWindow={() => setIsUsingAI(false)}/>
+        <AIWindow aiPurpose = {aiPurpose} open = {isUsingAI} closeWindow={() => setIsUsingAI(false)}/>
       </div>
     </div>
   );
