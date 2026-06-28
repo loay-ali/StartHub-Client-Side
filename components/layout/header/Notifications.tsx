@@ -1,4 +1,5 @@
-import { getNotifications } from "@/src/services/auth";
+'use client';
+
 import Notification from "@/types/requests/notification";
 
 import Link from 'next/link';
@@ -8,25 +9,74 @@ import { MdError } from "react-icons/md";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import { RiInformation2Fill } from "react-icons/ri";
 import { CiCircleCheck } from "react-icons/ci";
+import { AiOutlineLoading } from "react-icons/ai";
 import { MdCancel } from "react-icons/md";
+import { useEffect, useState } from "react";
+import config from "@/constants/config";
 
 export default function Notifications() {
-  //const notifications:Notification[] = await getNotifications() ?? [];
-  const notifications:Notification[] = [{id: 'hll',name: 'Service Is Done',type: 'DONE',description: "Service Is Done",createdAt: "2026-06-20T00:00:00"}];
+  const [notifications,setNotifications] = useState<Notification[]>([]);
+  const [loadingNotifications,setLoadingNotifications] = useState(true);
+
+  const [cleared,setCleared] = useState(0);
+
+  const [error,setError] = useState(false);
+
+  const [open,setOpen] = useState(false);
+
+  useEffect(() => {
+    if( cleared == 1 ) {
+      fetch(config.apiUrl +'/user/checkNotifications',{
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          where: 'upperNav',
+          lastIndex: 0
+        })
+      }).then(() => {
+        setCleared(2);
+      })
+    }
+
+    if( loadingNotifications ) {
+      fetch(config.apiUrl +'/user/notifications',{credentials: 'include'})
+        .then(res => res.status == 200 ? res.json():Promise.reject())
+        .then(res => {
+          setNotifications(res.data);
+        })
+        .catch((err) => { setError(true)})
+        .finally(() => {setLoadingNotifications(false)})
+    }
+  },[cleared]);
+
+  //Don't Show Anything On Error
+  if( error ) {
+    return <></>
+  }
+
+  if( loadingNotifications ) {
+    return <AiOutlineLoading className = 'spinner-loading' />
+  }
 
   return (
     <>
-    <Link href='/dashboard/notifications' className="group relative rounded-xl border border-[#14b8a6]/15 bg-white/70 p-2.5 hover:border-[#14b8a6]/40 hover:bg-slate-50/80 transition-all duration-200">
+    <button onClick = {() => {
+        if( cleared == 0 && notifications.length > 0 ) setCleared(1);
+        setOpen(s => !s)
+      }} className="group relative rounded-xl border border-[#14b8a6]/15 bg-white/70 p-2.5 hover:border-[#14b8a6]/40 hover:bg-slate-50/80 transition-all duration-200">
       <FiBell size={18} className="text-slate-600" />
 
-      <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#ef4444] text-[10px] font-bold text-white shadow-sm">
+      <span className={(notifications.length == 0 ? "bg-gray-400":"bg-[#ef4444]") +" absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white shadow-sm"}>
         {notifications.length}
       </span>
     
-      <div className="absolute right-0 top-[calc(100%+8px)] w-[320px] rounded-2xl border border-slate-100 bg-white/95 backdrop-blur-md shadow-xl p-2 hidden group-hover:block z-50">
+      <div className={(open ? 'block':'hidden') +" absolute right-0 top-[calc(100%+8px)] w-[320px] rounded-2xl border border-slate-100 bg-white/95 backdrop-blur-md shadow-xl p-2 z-50"}>
         <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 pt-2 pb-1">Notifications</p>
         <ul className="space-y-0.5">
-          {notifications.map((noti: Notification) => {
+          {notifications.length == 0 ? <span className = 'text-sm text-gray-600'>No Notifications</span>:notifications.map((noti: Notification) => {
             return (
               <li className="flex items-start gap-3 rounded-xl p-3 hover:bg-slate-50 transition-colors" key={noti.id}>
                 <div className="mt-0.5 flex-shrink-0">
@@ -47,9 +97,14 @@ export default function Notifications() {
               </li>
             );
           })}
+          <li>
+            <Link className = 'button secondary mt-5 block' href = '/dashboard/notifications'>
+              All Notifications
+            </Link>
+          </li>
         </ul>
       </div>
-    </Link>
+    </button>
     </>
   );
 }

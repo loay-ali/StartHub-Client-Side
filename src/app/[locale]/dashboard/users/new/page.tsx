@@ -9,6 +9,14 @@ import { AiOutlineLoading } from "react-icons/ai";
 
 export default function newUser() {
 
+  useEffect(() => {
+    fetch(config.apiUrl +'/ai/chat',{credentials:'include',method: 'POST',headers: {'Content-Type': "application/json"},body: JSON.stringify({
+      msg: "Hello Buddy"
+    })}).then(res => {
+      console.log(res);
+    })
+  },[]);
+
     const router = useRouter();
 
     const [isSubmitting,setIsSubmitting] = useState(false);
