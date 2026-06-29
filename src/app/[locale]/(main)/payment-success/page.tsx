@@ -4,9 +4,20 @@ import Link from "next/link";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
 
+import { useSearchParams,useRouter } from "next/navigation";
+
 import successAnimation from "@/public/lotties/payment-success.json";
 
 export default function PaymentSuccessPage() {
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const paymentId = searchParams.get('paymentId');
+
+  if( ! paymentId ) {
+    router.replace("/");
+  }
+
   return (
     <div className="bg-[#F8FAFC] flex min-h-screen items-center justify-center px-6 py-12">
       <motion.div

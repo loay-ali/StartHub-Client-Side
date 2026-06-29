@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
+import config from "@/constants/config";
+import { useParams, useRouter } from "next/navigation";
 
 const steps = [
   "Creating your account",
@@ -176,59 +178,37 @@ const StepSpinner = () => (
 );
 
 export default function RegistrationLoader() {
-  const [progress, setProgress] = useState(0);
-  const [step, setStep] = useState(0);
-  const [message, setMessage] = useState(messages[0][0]);
+  const router = useRouter();
+  const { registerationToken } = useParams();
+
+  if( ! registerationToken ) {
+    return router.replace('/dashboard');
+  }
+
+  const [step, setStep] = useState(1);
   const [tipIndex, setTipIndex] = useState(0);
   const [finished, setFinished] = useState(false);
 
   useEffect(() => {
-    let current = 0;
-
-    const interval = setInterval(() => {
-      current += 2;
-
-      if (current >= 100) {
-        current = 100;
-        setFinished(true);
-        clearInterval(interval);
-      }
-
-      setProgress(current);
-
-      const newStep =
-        current < 20
-          ? 0
-          : current < 40
-          ? 1
-          : current < 60
-          ? 2
-          : current < 80
-          ? 3
-          : 4;
-
-      setStep(newStep);
-
-      const random =
-        messages[newStep][
-          Math.floor(Math.random() * messages[newStep].length)
-        ];
-
-      setMessage(random);
-    }, 200);
+    if( step <= 4 ) {
+      fetch(config.apiUrl +'/registeration/prepare-account/'+ (step.toString() +'?registerationToken='+ registerationToken),{
+        credentials: 'include'})
+        .then(res => res.status == 200 ? setStep(step + 1):Promise.reject());
+    }else if( step == 5 ) {
+      router.push('/dashboard');
+    }
 
     const tipsInterval = setInterval(() => {
-      setTipIndex((prev) => (prev + 1) % tips.length);
-    }, 3000);
+      setTipIndex(Math.round(Math.random() * (tips.length - 1)));
+    },5000);
 
     return () => {
-      clearInterval(interval);
-      clearInterval(tipsInterval);
+      clearInterval(tipsInterval)
     };
-  }, []);
+  }, [step]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white px-6 mt-28 mb-28">
+    <div className="flex min-h-screen items-start justify-center bg-white px-6 mt-28 mb-28">
       <div className="w-full max-w-xl rounded-3xl border border-gray-200 bg-white p-8 shadow-xl">
 
         {/* Orbital Logo */}

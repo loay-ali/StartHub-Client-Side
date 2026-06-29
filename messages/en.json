@@ -9,6 +9,9 @@
             "email-must-be-more-than-3-characters": "E-Mail Must Be More Than 3 Characters",
             "passowrd-must-be-more-than-8-characters": "Password Must Be More Than 8 Characters",
             "invalid-email-or-password": "Invalid E-Mail Or Password"
+        },
+        "dashboard": {
+            "tokens_used": "Tokens Used"
         }
     }
 }
