@@ -110,8 +110,12 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
           collapsed={collapsed}
           item={{
             title: "HR",
-            href: "/feature/hr",
+            href: "/feature/employees/list",
             icon: <BsClipboard2Data />,
+            children: [
+              {title: "Employees",href: "/dashboard/employees/list"},
+              {title: "Attendance",href: "/dasboard/attendance/list"}
+            ]
           }}
         />
 
