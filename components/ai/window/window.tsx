@@ -18,8 +18,15 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
 
     const [isSending,setIsSending] = useState(false);
 
+    const [msgIndex,setMsgIndex] = useState(1000);
+    
     if( aiPurpose != '' && isSending != true ) {
         setIsSending(true);
+    }
+
+    function getCurrentDateTime() {
+        const date = new Date();
+        return date.getFullYear() +' / '+ (date.getMonth() + 1) +' / '+ date.getDate() +' '+ date.getHours() +':'+ date.getMinutes();
     }
 
     useEffect(() => {
@@ -39,11 +46,15 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
                     msg,
                     conversationId
                 })
-            }).then(res => {
-                console.log('>>> ',res);
-                return res.json();
-            }).then(res => {
-                console.log('<<< ',res);
+            })
+            .then(res => res.json())
+            .then(res => {
+                setMessages((msgs:any[]) => {
+                    if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
+                    setConversationId(res.data.conversationId);
+                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response});
+                    return msgs;
+                });
             }).finally(() => {
                 setIsSending(false);
                 setMsg('');
@@ -65,7 +76,13 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
         </header>
         <section className = 'grow-1 flex flex-col'>
             <Chat messages={messages} conversationId={conversationId}/>
-            <Message sendMessage = {() => setIsSending(true)} isSending={isSending} setMsg = {setMsg} />
+            <Message sendMessage = {() => {setMessages((msgs:any[]) => {
+                if( !! msgs.find(ele => ele._id == "msg-"+ msgIndex) ) return msgs;
+                msgs.push({datetime: getCurrentDateTime(),_id: "msg-"+ msgIndex,role: 'user',content: msg});
+                return msgs;
+            });
+            setMsgIndex(s => s+1);
+            setIsSending(true)}} isSending={isSending} setMsg = {setMsg} />
         </section>
         <footer>
 
