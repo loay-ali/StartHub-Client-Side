@@ -9,9 +9,9 @@ export default function AttendanceList() {
     return (
         <CollectionPage
             onAdd={() => {
-                router.push('/dashboard/attendance/new');
+                router.push('/dashboard/attendance/new/date');
             }}
-            title = "Attendance"
+            title = "Attendance By Date"
             data = {[]}
             columns={[]}/>
     );

@@ -18,8 +18,6 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
 
     const [isSending,setIsSending] = useState(false);
 
-    console.log(aiPurpose);
-
     if( aiPurpose != '' && isSending != true ) {
         setIsSending(true);
     }
