@@ -7,7 +7,7 @@
     --color-primary-dark:#062f2c;
     /* Change Those Above ( Starthub Team */
 
-    --color-secondary: #F2F2FF;
+  --color-secondary: #f2f2ff;
 }
 
 /* ── StarHub CSS Custom Properties ─────────────────────────────── */
@@ -43,36 +43,40 @@
 
 /* Main Header & Footer */
 #main-footer {
-    position:relative;
+  position: relative;
 
-    overflow:hidden;
+  overflow: hidden;
+
+  border-radius: 45px 45px 0 0;
+
+  padding-bottom: 90px;
 }
 
 #main-footer::after,
 #main-footer::before {
-    content: "";
+  content: "";
 
-    position:absolute;
+  position: absolute;
 
-    width:250px;
-    height:250px;
+  width: 250px;
+  height: 250px;
 
-    background:var(--color-primary);
-    color:var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-primary);
 
-    opacity:0.2;
+  opacity: 0.2;
 
-    border-radius:125px;
+  border-radius: 125px;
 
-    top:-125px;
-    left:-125px;
+  top: -125px;
+  left: -125px;
 
     box-shadow:0 0 0 25px var(--color-primary-dark),0 0 0 27px currentColor,0 0 0 52px var(--color-primary-dark),0 0 0 54px currentColor,0 0 0 79px var(--color-primary-dark),0 0 0 81px currentColor;
 }
 
 #main-footer::before {
-    width:100px;
-    height:100px;
+  width: 100px;
+  height: 100px;
 
     bottom:-50px;
     right:-50px;
