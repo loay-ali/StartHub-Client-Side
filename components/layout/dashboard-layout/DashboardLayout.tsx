@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
@@ -15,7 +15,18 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-const AIContext = createContext<{open:boolean,purpose:string,toggleAI:Function,setPurpose:Function|null}>({open:false,purpose:'',toggleAI:() => {},setPurpose:null});
+const AIContext = createContext<{
+  open:boolean,
+  purpose:string,
+  toggleAI:Function,
+  setPurpose:Function|null
+  addMessage?:(msg:string) => any
+}>({
+  open:false,
+  purpose:'',
+  toggleAI:() => {},
+  setPurpose:null,
+  addMessage: undefined});
 
 export const useAIContext = () => useContext(AIContext);
 
@@ -30,6 +41,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isUsingAI,setIsUsingAI] = useState(false);
 
   const [aiPurpose,setAiPurpose] = useState('');
+
+  const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
 
   useEffect(() => {
     if( isLoggedIn == false ) {
@@ -77,11 +90,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <Header tokensLeft = {userData.tokensLeft} email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 p-4 md:p-6">
-          <AIContext.Provider value = {{purpose: aiPurpose,open:isUsingAI,setPurpose: (purpose:string) => setAiPurpose(purpose),toggleAI: () => setIsUsingAI(s => !s)}}>{children}</AIContext.Provider>
+          <AIContext.Provider value = {{addMessage: addMessage,purpose: aiPurpose,open:isUsingAI,setPurpose: (purpose:string) => setAiPurpose(purpose),toggleAI: () => setIsUsingAI(s => !s)}}>
+            {children}
+            <AIMainButton setOpen ={() => setIsUsingAI(s => !s)} opened = {isUsingAI}/>
+            <AIWindow aiPurpose = {aiPurpose} open = {isUsingAI} closeWindow={() => setIsUsingAI(false)}/>  
+          </AIContext.Provider>
         </main>
-
-        <AIMainButton setOpen ={() => setIsUsingAI(s => !s)} opened = {isUsingAI}/>
-        <AIWindow aiPurpose = {aiPurpose} open = {isUsingAI} closeWindow={() => setIsUsingAI(false)}/>
       </div>
     </div>
   );

@@ -30,6 +30,7 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
 
         if(isSending) {
             fetch(config.apiUrl +'/ai/chat',{
+                method: 'POST',
                 credentials: "include",
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,12 +39,20 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
                     msg,
                     conversationId
                 })
+            }).then(res => {
+                console.log('>>> ',res);
+                return res.json();
+            }).then(res => {
+                console.log('<<< ',res);
+            }).finally(() => {
+                setIsSending(false);
+                setMsg('');
             })
         }
     },[isSending]);
 
     return (
-    <section className = {"overflow-hidden border-8 border-primary flex flex-col fixed w-[500px] h-[600px] bottom-5 right-5 bg-primary rounded shadow flex flex-col transition-all duration-[0.4s] origin-bottom-right "+ (!open ? 'scale-[0]':'scale-[1]')}>
+    <section className = {"overflow-hidden border-8 border-primary flex flex-col fixed w-[500px] h-[600px] bottom-5 right-5 bg-[linear-gradient(to_bottom_right,var(--color-primary),var(--color-primary-dark))] rounded shadow flex flex-col transition-all duration-[0.4s] origin-bottom-right "+ (!open ? 'scale-[0]':'scale-[1]')}>
         <header className = 'bg-white text-primary rounded flex justify-between items-center p-4'>
             <div className = 'flex flex-col'>
                 <strong>AI Assistant</strong>
@@ -56,7 +65,7 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
         </header>
         <section className = 'grow-1 flex flex-col'>
             <Chat messages={messages} conversationId={conversationId}/>
-            <Message sendMessage = {() => setIsSending(true)} setMsg = {setMsg} />
+            <Message sendMessage = {() => setIsSending(true)} isSending={isSending} setMsg = {setMsg} />
         </section>
         <footer>
 
