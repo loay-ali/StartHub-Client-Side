@@ -13,6 +13,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { TbCoins } from "react-icons/tb";
 import { LuBriefcaseBusiness } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
+import { MdOutlineIntegrationInstructions } from "react-icons/md";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
@@ -159,8 +160,12 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
           collapsed={collapsed}
           item={{
             title: "BMC",
-            href: "/feature/bmc",
+            href: "/dashboard/bmc",
             icon: <LuBriefcaseBusiness />,
+            children: [
+              {href: "/dashboard/bmc/new",title: "Create BMC"},
+              {href: "/dashboard/bmc/list",title: "My List Of BMCs"}
+            ]
           }}
         />
 
@@ -221,6 +226,15 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
               }
             ]
           }} />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: "Integrations",
+            href: "/dashboard/integrations",
+            icon: <MdOutlineIntegrationInstructions />,
+          }}
+        />
 
         <SidebarLink
           action = {() => setIsLogout(true)}
