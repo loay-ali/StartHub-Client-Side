@@ -19,6 +19,7 @@ import SidebarLink from "./SidebarLink";
 import SidebarSection from "./SidebarSection";
 import SidebarBrand from "./SidebarBrand";
 import config from "@/constants/config";
+import { useTranslations } from "next-intl";
 
 
 export default function Sidebar({email,companyName}:{email:string,companyName:string}) {
@@ -27,6 +28,8 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
   const [isLogout,setIsLogout] = useState(false);
 
   const router = useRouter();
+
+  const t = useTranslations();
 
   useEffect(() => {
     if( isLogout ) {
@@ -75,7 +78,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Dashboard",
+            title: t("dashboard.sidebar.dashboard"),
             href: "/dashboard",
             icon: <FiHome />,
           }}
@@ -125,6 +128,10 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             title: "Teams",
             href: "/feature/teams",
             icon: <AiOutlineTeam />,
+            children: [
+              {href: "/dashboard/teams/list",title: "Manage Teams"},
+              {href: "/dashboard/tasks/list",title: "Manage Tasks"}
+            ]
           }}
         />
 
