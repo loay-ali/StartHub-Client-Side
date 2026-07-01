@@ -3,6 +3,11 @@ import { NextIntlClientProvider } from "next-intl";
 
 import "./globals.css";
 import PreloaderWrapper from "@/components/preloader/PreloaderWrapper";
+import { NotificationProvider } from "@/components/notificationSystem/NotificationProvider";
+import { RestTransport } from "@/lib/notifiationSystem/transports/RestTransport";
+import { NotificationBell } from "@/components/notificationSystem/NotificationBell";
+import { ToastContainer } from "@/components/notificationSystem/ToastContainer";
+import { NotificationCenter } from "@/components/notificationSystem/NotificationCenter";
 
 export const metadata: Metadata = {
   title: "Starthub",
@@ -23,7 +28,11 @@ export default async function LocaleLayout({
       <body className="min-h-full overflow-x-hidden">
         <NextIntlClientProvider>
           <PreloaderWrapper>
-            {children}
+            <NotificationProvider>
+              {children}
+              <NotificationBell />
+              <ToastContainer />
+            </NotificationProvider>
           </PreloaderWrapper>
         </NextIntlClientProvider>
       </body>
