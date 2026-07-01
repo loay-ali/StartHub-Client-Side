@@ -88,15 +88,15 @@ export default function NewCandidate() {
 
     if( isLoadingJobs ) return <div className = 'p-5 flex justify-center items-center'><AiOutlineLoading className = 'spinner-loading' /></div>
 
-    if( jobs.length == 0 ) {
+    if (jobs.length == 0) {
         return (
-            <section className = 'flex flex-col justify-center items-center gap-5 mt-20'>
-                <PiEmptyLight size = {80} />
+            <section className='flex flex-col justify-center items-center gap-5 mt-20'>
+                <PiEmptyLight size={80} />
                 <strong>No Jobs To Apply Candidates To</strong>
 
-                <Link className = 'button' href = "/dashboard/jobs/new">Create a Job</Link>
+                <Link className='button' href="/dashboard/jobs/new">Create a Job</Link>
             </section>
-            );
+        );
     }
 
     return (

@@ -16,11 +16,11 @@ export function NotificationBell({ className = "" }: NotificationBellProps) {
   const { unreadCount } = useNotificationContext();
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`fixed bottom-5 right-5 z-[9999] ${className}`}>
       <button
         aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ""}`}
         onClick={() => setOpen((v) => !v)}
-        className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-gray-300 transition-colors hover:bg-white/10 hover:text-white"
+        className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-gray-200 shadow-2xl backdrop-blur-xl transition-colors hover:bg-slate-800 hover:text-white"
       >
         <Bell size={17} />
         {unreadCount > 0 && (

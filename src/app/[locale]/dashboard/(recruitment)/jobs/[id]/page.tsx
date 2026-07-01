@@ -22,7 +22,7 @@ export default async function SingleJob({params}:{params:any}) {
         <Form action = {async (formData:FormData) => {
             'use server';
 
-            console.log(formData);
+            // TODO: Implement job update logic with proper server-side handling
         }} className = 'bg-white max-w-[500px] mx-auto mt-10 rounded shadow p-5'>
 
             <h2 className = 'text-2xl'>Job Data</h2>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import { useTranslations } from 'next-intl';
@@ -10,6 +11,7 @@ import Link from "next/link";
 import { AiOutlineLoading } from 'react-icons/ai';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import { notificationService } from "@/lib/notifiationSystem";
 
 export default function LoginForm() {
 
@@ -81,14 +83,16 @@ export default function LoginForm() {
 
         if( res.status == 401 || res.status == 403 ) {
           setIsInvalid(true);
+          notificationService.error("Login failed", "Invalid email or password. Please try again.");
         }else {
           return res.json();
         }
       })
       .then(res => {
+        notificationService.success("Welcome back!", "You have successfully logged in.");
         router.replace('/dashboard');
       }).catch(err => {
-        console.warn(err);
+        notificationService.error("Login error", "An unexpected error occurred. Please try again.");
       }).finally(() => {
         setIsLogin(false);
       });
