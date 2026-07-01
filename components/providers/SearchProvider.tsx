@@ -153,7 +153,7 @@ const suggestions = useMemo(
 
         return () =>
             window.removeEventListener("keydown", handler);
-    }, [results, activeIndex, open]);
+    }, [results, activeIndex, open, router]);
 
     useEffect(() => {
         if (!open) {
