@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import {
 import { useSearch } from "@/components/providers/SearchProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import QuickActions from "@/components/search/QuickActions";
+import Suggestions from "@/components/search/Suggestions";
 
 
 const quickActions = [
@@ -52,6 +54,7 @@ export default function SearchBar() {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -97,7 +100,6 @@ export default function SearchBar() {
             }}
             className="mx-auto mt-24 w-[95%] max-w-3xl overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-2xl"
           >
-            <div className="mx-auto mt-24 w-[95%] max-w-3xl overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-2xl">
               <div className="border-b border-slate-200 p-5">
                 <div className="flex items-center gap-3">
                   <FiSearch className="text-slate-400" />
@@ -147,10 +149,11 @@ export default function SearchBar() {
                   )}
 
                 <div className="p-4">
+                  <Suggestions />
+
                   <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
                     <QuickActions />
                   </div>
-
 
                   <div className="space-y-2">
                     {quickActions.map((item) => {
@@ -201,9 +204,6 @@ export default function SearchBar() {
                   <span>Esc Close</span>
                 </div>
               </div>
-            </div>
-
-
           </motion.div>
         )}
       </AnimatePresence>

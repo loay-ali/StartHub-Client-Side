@@ -4,10 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import "./globals.css";
 import PreloaderWrapper from "@/components/preloader/PreloaderWrapper";
 import { NotificationProvider } from "@/components/notificationSystem/NotificationProvider";
-import { RestTransport } from "@/lib/notifiationSystem/transports/RestTransport";
-import { NotificationBell } from "@/components/notificationSystem/NotificationBell";
 import { ToastContainer } from "@/components/notificationSystem/ToastContainer";
-import { NotificationCenter } from "@/components/notificationSystem/NotificationCenter";
 import { SearchProvider } from "@/components/providers/SearchProvider";
 
 
@@ -33,7 +30,6 @@ export default async function LocaleLayout({
             <NotificationProvider>
               <SearchProvider>
                 {children}
-                <NotificationBell />
                 <ToastContainer />
               </SearchProvider>
             </NotificationProvider>
