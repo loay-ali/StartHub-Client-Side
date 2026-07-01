@@ -3,11 +3,14 @@
 import CollectionPage from "@/components/collection/CollectionPage";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function PayrollList() {
     const [payrolls,setPayrolls] = useState([]);
     const [loading,setLoading] = useState(true);
+
+    const router = useRouter();
 
     useEffect(() => {
         if( loading ) {
@@ -31,6 +34,12 @@ export default function PayrollList() {
                 {key: 'index',label: '#'},
                 {key: 'employee',label: "Employee"},
                 {key: 'paidAt',label: "Paid At",sortable: true}
-            ]} />
+            ]}
+            onAdd={() => {
+                router.push('/dashboard/payrolls/new');
+            }}
+            onEdit={(row:any) => {
+                router.push('/dashboard/payrolls/'+ row.id);
+            }}/>
     )
 }
