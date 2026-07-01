@@ -8,6 +8,8 @@ import { RestTransport } from "@/lib/notifiationSystem/transports/RestTransport"
 import { NotificationBell } from "@/components/notificationSystem/NotificationBell";
 import { ToastContainer } from "@/components/notificationSystem/ToastContainer";
 import { NotificationCenter } from "@/components/notificationSystem/NotificationCenter";
+import { SearchProvider } from "@/components/providers/SearchProvider";
+
 
 export const metadata: Metadata = {
   title: "Starthub",
@@ -29,9 +31,11 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <PreloaderWrapper>
             <NotificationProvider>
-              {children}
-              <NotificationBell />
-              <ToastContainer />
+              <SearchProvider>
+                {children}
+                <NotificationBell />
+                <ToastContainer />
+              </SearchProvider>
             </NotificationProvider>
           </PreloaderWrapper>
         </NextIntlClientProvider>

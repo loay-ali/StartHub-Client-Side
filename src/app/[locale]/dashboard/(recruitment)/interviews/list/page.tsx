@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 
 import { useState,useEffect } from 'react';
 import { RiOilFill } from 'react-icons/ri';
+import { notificationService } from "@/lib/notifiationSystem";
 
 export default function InterviewsList() {
 
@@ -23,7 +24,10 @@ export default function InterviewsList() {
                 .then(res => {
                     setInterviews(res);
                 })
-                .catch(() => setIsError(true))
+                .catch(() => {
+                    notificationService.error("Loading failed", "Could not load interviews. Please try again.");
+                    setIsError(true);
+                })
                 .finally(() => {
                     setIsLoading(false);
                 })

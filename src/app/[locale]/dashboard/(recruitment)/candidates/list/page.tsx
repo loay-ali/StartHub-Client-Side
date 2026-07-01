@@ -10,6 +10,7 @@ import AreYouSureWindow from '@/components/window/AreYouSure';
 import {useRouter} from 'next/navigation';
 import { useEffect, useState } from 'react';
 import config from "@/constants/config";
+import { notificationService } from "@/lib/notifiationSystem";
 
 export default async function CandidatesList() {
     const router = useRouter();
@@ -30,6 +31,11 @@ export default async function CandidatesList() {
             .then(res => res.json())
             .then(res => {
                 setCandidates(res);
+                setIsLoading(false);
+            })
+            .catch(() => {
+                notificationService.error("Loading failed", "Could not load candidates. Please try again.");
+                setHasError(true);
                 setIsLoading(false);
             })
         }

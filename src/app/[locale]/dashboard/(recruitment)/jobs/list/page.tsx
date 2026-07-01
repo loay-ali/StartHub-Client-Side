@@ -7,6 +7,7 @@ import Job from "@/types/requests/jobs";
 
 import {redirect,useRouter} from 'next/navigation';
 import { useEffect, useState } from "react";
+import { notificationService } from "@/lib/notifiationSystem";
 
 export default function JobsList() {
     const [jobs,setJobs] = useState([{title: "Job Title",description: "Description",role: 'CEO',workspaceModel: "Some Model",timeModel: "parttime"}]);
@@ -40,11 +41,14 @@ export default function JobsList() {
             })
             .then(res => {
                 if( res.status == 200 ) {
+                    notificationService.success("Job deleted", "The job post has been removed successfully.");
                     router.refresh();
+                } else {
+                    notificationService.error("Delete failed", "Could not delete the job. Please try again.");
                 }
             })
             .catch(() => {
-                setIsError(true);
+                notificationService.error("Network error", "Could not reach the server. Check your connection.");
             })
             .finally(() => {
                 setIsRemoving('');
@@ -54,6 +58,7 @@ export default function JobsList() {
     },[isLoading,confirmRemoving]);
 
     if( isError ) {
+        notificationService.error("Loading failed", "Something went wrong while loading data.");
         return (<section className = 'flex flex-col justify-center items-center gap-5'>
             <strong className = "text-2xl text-center">Something Went Wrong</strong>
             <button type = 'button' className = 'button' onClick = {() => {

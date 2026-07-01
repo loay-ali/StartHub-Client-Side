@@ -5,6 +5,7 @@ import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import { notificationService } from "@/lib/notifiationSystem";
 
 export default function AccountsList() {
 
@@ -36,14 +37,17 @@ export default function AccountsList() {
             fetch(config.apiUrl +'/finance/account',{credentials: 'include'})
                 .then(res => res.status == 200 ? res.json():Promise.reject())
                 .then(res => {
-                    console.log(res);
                     setAccounts(res.data);
-                }).catch(() => setIsError(true))
+                }).catch(() => {
+                    notificationService.error("Loading failed", "Could not load accounts. Please try again.");
+                    setIsError(true);
+                })
                 .finally(() => setIsLoading(false));
         }
     },[confirmRemoving]);
 
     if( isError ) {
+        notificationService.error("Error", "Something went wrong. Please try again later.");
         return (<>Something Went Wrong</>);
     }
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CollectionPage from "@/components/collection/CollectionPage";
+import { notificationService } from "@/lib/notifiationSystem";
 
 const initialCompanies = [
   {
@@ -46,9 +47,8 @@ export default function Page() {
   };
 
   const handleEdit = (company: (typeof initialCompanies)[number]) => {
-    console.log("Edit company:", company);
+    notificationService.info("Edit company", `Editing ${company.name}`);
 
-    // هنا بعدين ممكن:
     // router.push(`/companies/${company.id}/edit`);
   };
 
@@ -106,7 +106,7 @@ export default function Page() {
           ),
         },
       ]}
-      onAdd={() => console.log("Add new")}
+      onAdd={() => notificationService.info("Add company", "Click to add a new company")}
       onEdit={handleEdit}
       onDelete={handleDelete}
     />

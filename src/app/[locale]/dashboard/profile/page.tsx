@@ -4,6 +4,7 @@ import config from "@/constants/config";
 import { useEffect, useState } from "react";
 
 import { AiOutlineLoading } from "react-icons/ai";
+import { notificationService } from "@/lib/notifiationSystem";
 
 export default function ProfilePage({user}:{user: {image:string,name:string,role:string}}) {
     user = {
@@ -52,7 +53,7 @@ export default function ProfilePage({user}:{user: {image:string,name:string,role
         }
 
         if( isUpdating == true && isChanging == true ) {
-            console.log("Hello World :)");
+            notificationService.info("Profile Update", "Changes detected. Click Save to update your profile.");
         }
     },[isUpdating])
 
