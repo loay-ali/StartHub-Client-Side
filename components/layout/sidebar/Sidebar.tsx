@@ -117,7 +117,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             icon: <BsClipboard2Data />,
             children: [
               {title: "Employees",href: "/dashboard/employees/list"},
-              {title: "Attendance",href: "/dasboard/attendance/list"}
+              {title: "Attendance",href: "/dasboard/attendance/list"},
             ]
           }}
         />
@@ -144,6 +144,8 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             children: [
               {title: "New Revenue Bill",href: "/dashboard/bills/new/revenue"},
               {title: "New Expense Bill",href: "/dashboard/bills/new/expenses"},
+
+              {title: "Payrolls",href: "/dashboard/payrolls/list"},
 
               {title: "Reports",href: "/dashboard/reports/list"},
 
