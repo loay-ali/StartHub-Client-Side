@@ -51,10 +51,8 @@ export const C = {
 };
 
 export const FONTS = {
-  display:
-    "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
-  body:
-    "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif",
+  display: "'Inter Tight', 'Inter', system-ui, sans-serif",
+  body: "'Inter', system-ui, sans-serif",
   mono: "'JetBrains Mono', ui-monospace, monospace",
 };
 

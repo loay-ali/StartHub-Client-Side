@@ -16,14 +16,14 @@ export default function Notifications() {
 
   return (
     <>
-    <Link href='/dashboard/notifications' className="group relative rounded-xl border border-[#14b8a6]/15 bg-white/70 p-2.5 hover:border-[#14b8a6]/40 hover:bg-slate-50/80 transition-all duration-200">
-      <FiBell size={18} className="text-slate-600" />
+    <Link href='/dashboard/notifications' className="group relative flex h-10 w-10 items-center justify-center rounded-2xl border border-[#14b8a6]/15 bg-white/80 text-slate-600 shadow-sm transition-all duration-200 hover:border-[#14b8a6]/40 hover:bg-slate-50/80">
+      <FiBell size={18} />
 
       <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#ef4444] text-[10px] font-bold text-white shadow-sm">
         {notifications.length}
       </span>
     
-      <div className="absolute right-0 top-[calc(100%+8px)] w-[320px] rounded-2xl border border-slate-100 bg-white/95 backdrop-blur-md shadow-xl p-2 hidden group-hover:block z-50">
+      <div className="absolute right-0 top-[calc(100%+10px)] z-50 hidden w-[min(92vw,320px)] rounded-2xl border border-slate-100 bg-white/95 p-2 shadow-xl backdrop-blur-md group-hover:block sm:w-[320px]">
         <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-3 pt-2 pb-1">Notifications</p>
         <ul className="space-y-0.5">
           {notifications.map((noti: Notification) => {
