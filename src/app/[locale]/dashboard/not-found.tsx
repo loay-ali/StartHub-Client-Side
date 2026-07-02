@@ -1,24 +1,47 @@
+"use client";
+
 import Link from "next/link";
-import { FiArrowLeft } from "react-icons/fi";
+import { LayoutDashboard, SearchX } from "lucide-react";
 
-export default function NotFound() {
+export default function DashboardNotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-center">
-      <h1 className="text-8xl font-bold text-primary">404</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      {/* Icon */}
+      <div className="mb-6 rounded-full bg-teal-50 p-6">
+        <SearchX className="h-16 w-16 text-teal-700" />
+      </div>
 
-      <h2 className="mt-4 text-3xl font-semibold text-text-primary">
-        Page Not Found
-      </h2>
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-slate-900">
+        Dashboard Page Not Found
+      </h1>
 
-      <p className="mt-3 max-w-md text-text-secondary">
-        Sorry, the page you are looking for doesn't exist or has been moved.
+      {/* Description */}
+      <p className="mt-4 max-w-md text-gray-500">
+        The dashboard page you're looking for doesn't exist or may have been
+        moved.
       </p>
 
+      {/* Button */}
       <Link
-        href="/"
-        className="mt-8 flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-white transition hover:opacity-90"
+        href="/dashboard"
+        className="
+          mt-8
+          flex
+          items-center
+          gap-2
+          rounded-xl
+          bg-teal-700
+          px-6
+          py-3
+          text-white
+          transition-all
+          duration-200
+          hover:bg-teal-800
+          hover:shadow-lg
+        "
       >
-        <FiArrowLeft />
+        <LayoutDashboard size={18} />
         Back to Dashboard
       </Link>
     </div>
