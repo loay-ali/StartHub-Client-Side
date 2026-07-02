@@ -52,7 +52,7 @@ export default function IntegrationsPage() {
 
     return (
         <>
-        <section className = 'bg-white shadow rounded p-5'>
+        <section className = 'bg-white shadow rounded p-5 max-w-[750px]'>
             <h2>
                 Integrations
             </h2>
