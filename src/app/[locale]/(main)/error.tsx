@@ -13,7 +13,7 @@ export default function Error({
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
       {/* Error Code */}
-      <h1 className="text-8xl font-black tracking-tight text-red-600 md:text-9xl">
+      <h1 className="text-8xl font-black tracking-tight text-red-800 md:text-9xl">
         500
       </h1>
 
@@ -38,7 +38,7 @@ export default function Error({
             items-center
             gap-2
             rounded-xl
-            bg-red-600
+            bg-red-800
             px-6
             py-3
             text-white

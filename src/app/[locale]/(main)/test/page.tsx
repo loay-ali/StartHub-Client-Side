@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
+import { forbidden } from "next/navigation";
 
 export default function TestPage() {
-  notFound();
+  forbidden();
 }

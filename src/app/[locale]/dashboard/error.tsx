@@ -14,7 +14,7 @@ export default function DashboardError({
     <div className="flex min-h-[80vh] flex-col items-center justify-center px-6 text-center">
       {/* Icon */}
       <div className="mb-6 rounded-full bg-red-100 p-6">
-        <AlertTriangle className="h-16 w-16 text-red-600" />
+        <AlertTriangle className="h-16 w-16 text-red-800" />
       </div>
 
       {/* Title */}
@@ -34,12 +34,13 @@ export default function DashboardError({
             items-center
             gap-2
             rounded-xl
-            bg-red-600
+            bg-red-800
             px-6
             py-3
             text-white
             transition
-            hover:bg-red-700
+            hover:bg-red-200
+            hover:text-red-800
           "
         >
           <RotateCcw size={18} />

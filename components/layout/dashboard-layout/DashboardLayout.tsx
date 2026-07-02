@@ -33,8 +33,8 @@ const AIContext = createContext<{
 export const useAIContext = () => useContext(AIContext);
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [isLoggedIn,setIsLoggedIn] = useState(false);
-  const [loadingLoggedIn,setLoadingLoggedIn] = useState(true);
+  const [isLoggedIn,setIsLoggedIn] = useState(true);
+  const [loadingLoggedIn,setLoadingLoggedIn] = useState(false);
 
   const [userData,setUserData] = useState<any>({});
 
