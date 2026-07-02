@@ -49,9 +49,11 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
             })
             .then(res => res.json())
             .then(res => {
+                if( ! res.data ) return;
+
                 setMessages((msgs:any[]) => {
                     if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
-                    setConversationId(res.data.conversationId);
+                    setConversationId(res.data.conversationId ?? '');
                     msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response});
                     return msgs;
                 });

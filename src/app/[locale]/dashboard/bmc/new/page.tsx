@@ -6,6 +6,9 @@ import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import BMCComponent from "@/components/bmc/grid";
 import config from "@/constants/config";
 import { useRouter } from "next/navigation";
+import AISection, { ActionType } from "@/components/ai/section/AISection";
+
+import { BsFillGrid1X2Fill } from "react-icons/bs";
 
 export default function NewBMC() {
     const [bmc,setBmc] = useState<BMC>({
@@ -51,8 +54,16 @@ export default function NewBMC() {
     return (
         <>
             <section className = 'flex items-start gap-5 justify-center'>
+                
+                <AISection
+                    initialActions={[
+                        {title: "Fill Using AI",action: 'fill-bmc',type: ActionType.CHAT},
+                        {title: "Edit Fields Using AI",action: 'edit-bmc',type: ActionType.CHAT}
+                    ]}
+                    title = "Need Some Guidance"
+                    Icon={BsFillGrid1X2Fill}/>
                 <section className = 'p-5 rounded shadow bg-white w-[100vw] max-w-[900px]'>
-                    <h2 className = 'flex justify-between p-2'>
+                    <h2 className = 'flex justify-between gap-2 p-2'>
                         <strong className = 'text-xl'>New BMC</strong>
 
                         {error && <span className = 'text-sm text-red-700'>{error}</span>}
