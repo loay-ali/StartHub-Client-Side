@@ -59,10 +59,10 @@ export default function EcosystemHero() {
 
             {/* CTAs */}
             <div className={styles.heroCtas}>
-              <button className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+              <button className={`btn-primary ${styles.heroPrimaryButton}`}>
                 Join the Ecosystem <ArrowRight size={16} />
               </button>
-              <button className="btn-ghost" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+              <button className={`btn-ghost ${styles.heroSecondaryButton}`}>
                 Explore Challenges <ChevronRight size={16} />
               </button>
             </div>
@@ -114,29 +114,29 @@ export default function EcosystemHero() {
               <line x1="100" y1="280" x2="80" y2="120" stroke="rgba(20,184,166,0.15)" strokeWidth="1" />
 
               {/* Central hub node */}
-              <circle cx="200" cy="200" r="14" fill="#0f766e" stroke="#5eead4" strokeWidth="3" style={{ animation: "nodeGlow 3s infinite" }} />
+              <circle cx="200" cy="200" r="14" fill="#0f766e" stroke="#5eead4" strokeWidth="3" className={styles.heroNodePulse} />
               <circle cx="200" cy="200" r="5" fill="#ffffff" />
 
               {/* Outer nodes */}
               {/* Node 1 - Startup Hub */}
-              <circle cx="80" cy="120" r="10" fill="#14b8a6" stroke="#ffffff" strokeWidth="2" style={{ animation: "nodeGlow 2.5s infinite" }} />
+              <circle cx="80" cy="120" r="10" fill="#14b8a6" stroke="#ffffff" strokeWidth="2" className={styles.heroNodePulse} />
               <circle cx="80" cy="120" r="3" fill="#ffffff" />
-              <text x="80" y="95" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="sans-serif">STARTUPS</text>
+              <text x="80" y="95" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="Inter, sans-serif">STARTUPS</text>
 
               {/* Node 2 - Investor Hub */}
-              <circle cx="320" cy="100" r="12" fill="#0f766e" stroke="#5eead4" strokeWidth="2" style={{ animation: "nodeGlow 3.5s infinite 0.5s" }} />
+              <circle cx="320" cy="100" r="12" fill="#0f766e" stroke="#5eead4" strokeWidth="2" className={styles.heroNodePulse} />
               <circle cx="320" cy="100" r="4" fill="#ffffff" />
-              <text x="320" y="75" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="sans-serif">INVESTORS</text>
+              <text x="320" y="75" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="Inter, sans-serif">INVESTORS</text>
 
               {/* Node 3 - Corporates */}
-              <circle cx="280" cy="300" r="10" fill="#14b8a6" stroke="#ffffff" strokeWidth="2" style={{ animation: "nodeGlow 2.8s infinite 1s" }} />
+              <circle cx="280" cy="300" r="10" fill="#14b8a6" stroke="#ffffff" strokeWidth="2" className={styles.heroNodePulse} />
               <circle cx="280" cy="300" r="3" fill="#ffffff" />
-              <text x="280" y="325" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="sans-serif">CORPORATES</text>
+              <text x="280" y="325" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="Inter, sans-serif">CORPORATES</text>
 
               {/* Node 4 - Accelerators */}
-              <circle cx="100" cy="280" r="9" fill="#0d9488" stroke="#ffffff" strokeWidth="2" style={{ animation: "nodeGlow 3.2s infinite 1.5s" }} />
+              <circle cx="100" cy="280" r="9" fill="#0d9488" stroke="#ffffff" strokeWidth="2" className={styles.heroNodePulse} />
               <circle cx="100" cy="280" r="3" fill="#ffffff" />
-              <text x="100" y="305" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="sans-serif">PROGRAMS</text>
+              <text x="100" y="305" textAnchor="middle" fill="#0a0f0e" fontSize="10" fontWeight="700" fontFamily="Inter, sans-serif">PROGRAMS</text>
 
               {/* Small floating node accents */}
               <circle cx="150" cy="80" r="4" fill="#5eead4" opacity="0.6" />

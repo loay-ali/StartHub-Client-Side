@@ -13,7 +13,7 @@ import EcosystemFinalCTA from "./EcosystemFinalCTA";
 
 export default function EcosystemPage() {
   return (
-    <main className="pt-20">
+    <main>
       <EcosystemHero />
       <MetricsSection />
       <ChallengeMarketplace />

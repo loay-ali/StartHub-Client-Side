@@ -61,21 +61,27 @@ export default function SearchBar() {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="group relative flex w-full items-center rounded-xl border border-[#14b8a6]/15 bg-white/60 px-4 py-2.5 backdrop-blur transition-all duration-200 hover:border-[#14b8a6]/40 hover:bg-white"
+      <div
+        className="group relative flex w-full items-center rounded-2xl border border-[#14b8a6]/15 bg-white/80 px-3 py-2 shadow-[0_8px_24px_rgba(15,23,42,0.04)] backdrop-blur transition-all duration-200 hover:border-[#14b8a6]/30 hover:bg-white sm:px-4 sm:py-2.5"
       >
-        <FiSearch className="text-slate-400" />
+        <FiSearch className="h-4 w-4 text-slate-400 sm:h-5 sm:w-5" />
 
-        <span className="ml-3 flex-1 text-left text-sm text-slate-400">
-          Search or ask AI...
-        </span>
+        <input
+          value={query}
+          onFocus={() => setOpen(true)}
+          onChange={(e) => {
+            setOpen(true);
+            setQuery(e.target.value);
+          }}
+          placeholder="Search or ask AI..."
+          className="ml-2.5 flex-1 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400 sm:ml-3 sm:text-[15px]"
+        />
 
-        <div className="flex items-center gap-1 rounded-lg border bg-slate-50 px-2 py-1 text-xs text-slate-500">
-          <FiCommand />
+        <div className="hidden items-center gap-1 rounded-lg border border-slate-200/80 bg-slate-50 px-2 py-1 text-[11px] font-medium text-slate-500 sm:flex">
+          <FiCommand className="h-3.5 w-3.5" />
           K
         </div>
-      </button>
+      </div>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -98,7 +104,7 @@ export default function SearchBar() {
               duration: 0.22,
               ease: "easeOut",
             }}
-            className="mx-auto mt-24 w-[95%] max-w-3xl overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-2xl"
+            className="fixed left-1/2 top-24 z-50 w-[95vw] max-w-3xl -translate-x-1/2 overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-2xl max-h-[calc(100vh-6rem)]"
           >
               <div className="border-b border-slate-200 p-5">
                 <div className="flex items-center gap-3">
