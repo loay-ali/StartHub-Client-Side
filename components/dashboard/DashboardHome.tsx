@@ -55,7 +55,7 @@ export default function DashboardHome() {
           return (
           <StatsCard 
             key = {widget.slug}
-            title = {t('public.dashboard.'+ widget.slug)}
+            title = {t('dashboard.home.'+ widget.slug)}
             value = {widget.value}
             change= {''}
             icon  = {Icon ? <Icon />:''}

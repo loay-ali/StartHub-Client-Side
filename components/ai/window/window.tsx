@@ -32,11 +32,29 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
     useEffect(() => {
 
         if( aiPurpose != '' ) {
-            
+            fetch(config.apiUrl +'/ai/chat-for-purpose/'+ aiPurpose,{
+                credentials: "include",
+                method: 'post'
+            })
+            .then(res => res.status == 201 ? res.json():Promise.reject())
+            .then(res => {
+                if( ! res.data ) return;
+
+                setMessages((msgs:any[]) => {
+                    if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
+                    setConversationId(res.data.conversationId ?? '');
+                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response});
+                    return msgs;
+                });
+            }).finally(() => {
+                setIsSending(false);
+                setMsg('');
+            })
         }
 
         if(isSending) {
             fetch(config.apiUrl +'/ai/chat',{
+                
                 method: 'POST',
                 credentials: "include",
                 headers: {

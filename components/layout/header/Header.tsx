@@ -31,21 +31,19 @@ export default function Header({ tokensLeft,email,onMenuClick }: HeaderProps) {
 
       {/* Right — actions */}
       <div className="ml-3 flex flex-shrink-0 items-center gap-1.5 sm:gap-2">
-        <div className="hidden items-center gap-2 rounded-full border border-slate-200/70 bg-slate-50/80 px-2 py-1.5 shadow-sm lg:flex" />
-
         <div className="hidden lg:block">
           <TokensInfo tokensLeft={tokensLeft}/>
         </div>
 
-        <div className="hidden items-center rounded-full border border-slate-200/70 bg-white/80 px-1.5 py-1 shadow-sm md:flex">
+        <div className="hidden items-center rounded-full md:flex">
           <LanguageSwitcher />
         </div>
 
-        <div className="rounded-full border border-slate-200/70 bg-white/80 p-0.5 shadow-sm">
+        <div>
           <Notifications />
         </div>
 
-        <div className="rounded-full border border-slate-200/70 bg-white/80 p-0.5 shadow-sm">
+        <div>
           <UserMenu email={email} />
         </div>
       </div>

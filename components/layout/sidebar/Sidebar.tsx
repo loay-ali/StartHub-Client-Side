@@ -49,7 +49,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
 
   return (
     <aside
-      className={`h-screen border-r border-border bg-surface p-4 transition-all duration-300 ${
+      className={`relative h-screen border-r border-border bg-surface p-4 transition-all duration-300 ${
         collapsed ? "w-20" : "w-64"
       }`}
     >
@@ -58,20 +58,20 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         onToggle={() => setCollapsed(!collapsed)}
       />
 
-      {collapsed && (
-        <div className="mb-6 flex justify-center">
-          <button
-            onClick={() => setCollapsed(false)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-border transition hover:bg-slate-50"
-          >
-            →
-          </button>
-        </div>
-      )}
+        {collapsed && (
+          <div className="mb-6 flex justify-center absolute top-5 inset-s-[calc(100%_-_20px)] bg-white z-[999]">
+            <button
+              onClick={() => setCollapsed(false)}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border transition hover:bg-slate-50"
+            >
+              →
+            </button>
+          </div>
+        )}
 
-      {!collapsed && (
-        <CompanyIdentity companyName="StartHub" companyPlan="Enterprise Plan" />
-      )}
+        {!collapsed && (
+          <CompanyIdentity companyName="StartHub" companyPlan="Enterprise Plan" />
+        )}
 
       <div className="mt-8 space-y-1">
         {!collapsed && <SidebarSection title="Overview" />}
@@ -90,20 +90,20 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Recruitments",
+            title: t("dashboard.sidebar.recruitments"),
             href: "/dashboard/jobs/list",
             icon: <FaRankingStar />,
             children: [
               {
-                title: "Posted Jobs",
+                title: t("dashboard.sidebar.postedjobs"),
                 href: "/dashboard/jobs/list"
               },
               {
-                title: "Candidates",
+                title: t("dashboard.sidebar.candidates"),
                 href: "/dashboard/candidates/list"
               },
               {
-                title: "Interviews",
+                title: t("dashboard.sidebar.interviews"),
                 href: "/dashboard/interviews/list"
               }
             ]
@@ -113,7 +113,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "HR",
+            title: t("dashboard.sidebar.HR"),
             href: "/feature/employees/list",
             icon: <BsClipboard2Data />,
             children: [
@@ -126,12 +126,12 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Teams",
+            title: t("dashboard.sidebar.teams"),
             href: "/feature/teams",
             icon: <AiOutlineTeam />,
             children: [
-              {href: "/dashboard/teams/list",title: "Manage Teams"},
-              {href: "/dashboard/tasks/list",title: "Manage Tasks"}
+              {href: "/dashboard/teams/list",title: t('dashboard.sidebar.manage-teams')},
+              {href: "/dashboard/tasks/list",title: t('dashboard.sidebar.manage-tasks')}
             ]
           }}
         />
@@ -139,19 +139,19 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Finance",
+            title: t("dashboard.sidebar.finance"),
             href: "/feature/finance",
             icon: <TbCoins />,
             children: [
-              {title: "New Revenue Bill",href: "/dashboard/bills/new/revenue"},
-              {title: "New Expense Bill",href: "/dashboard/bills/new/expenses"},
+              {title: t("dashboard.sidebar.new-revenue-bill"),href: "/dashboard/bills/new/revenue"},
+              {title: t("dashboard.sidebar.new-expense-bill"),href: "/dashboard/bills/new/expenses"},
 
-              {title: "Payrolls",href: "/dashboard/payrolls/list"},
+              {title: t("dashboard.sidebar.payrolls"),href: "/dashboard/payrolls/list"},
 
-              {title: "Reports",href: "/dashboard/reports/list"},
+              {title: t("dashboard.sidebar.reports"),href: "/dashboard/reports/list"},
 
-              {title: "Accounts",href: "/dashboard/accounts/list"},
-              {title: "Transactions",href: "/dashboard/transactions/list"},
+              {title: t("dashboard.sidebar.accounts"),href: "/dashboard/accounts/list"},
+              {title: t("dashboard.sidebar.transactions"),href: "/dashboard/transactions/list"},
             ]
           }}
         />
@@ -159,12 +159,12 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "BMC",
+            title: t("dashboard.sidebar.BMC"),
             href: "/dashboard/bmc",
             icon: <LuBriefcaseBusiness />,
             children: [
-              {href: "/dashboard/bmc/new",title: "Create BMC"},
-              {href: "/dashboard/bmc/list",title: "My List Of BMCs"}
+              {href: "/dashboard/bmc/new",title: t("dashboard.sidebar.create-bmc")},
+              {href: "/dashboard/bmc/list",title: t("dashboard.sidebar.my-list-of-bmcs")}
             ]
           }}
         />
@@ -174,16 +174,16 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Users",
+            title: t("dashboard.sidebar.users"),
             href: "/users",
             icon: <FiUsers />,
             children: [
               {
-                title: "All Users",
+                title: t("dashboard.sidebar.all-users"),
                 href: "/dashboard/users/all",
               },
               {
-                title: "Add User",
+                title: t("dashboard.sidebar.add-user"),
                 href: "/dashboard/users/new",
               }
             ],
@@ -193,16 +193,16 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Departments",
+            title: t("dashboard.sidebar.departments"),
             href: "/departments",
             icon: <FaBuilding />,
             children: [
               {
-                title: "All Departments",
+                title: t("dashboard.sidebar.all-departments"),
                 href: "/dashboard/departments/all",
               },
               {
-                title: "Add Department",
+                title: t("dashboard.sidebar.add-department"),
                 href: "/dashboard/departments/new",
               }
             ],
@@ -212,16 +212,16 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Services",
+            title: t("dashboard.sidebar.services"),
             href: "/dashboard/order-service",
             icon: <FaClipboardList />,
             children: [
               {
-                title: "Order Service",
+                title: t("dashboard.sidebar.order-service"),
                 href: "/dashboard/order-service"
               },
               {
-                title: "My Orders",
+                title: t("dashboard.sidebar.my-orders"),
                 href: "/dashboard/my-orders"
               }
             ]
@@ -230,7 +230,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
-            title: "Integrations",
+            title: t("dashboard.sidebar.integrations"),
             href: "/dashboard/integrations",
             icon: <MdOutlineIntegrationInstructions />,
           }}
@@ -241,7 +241,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
           className = "bg-red-50"
           collapsed={collapsed}
           item={{
-            title: "logout",
+            title: t("dashboard.sidebar.logout"),
             href: "#",
             icon: isLogout ? <AiOutlineLoading className = 'loading-spinner' />:<RiLogoutBoxFill />
           }}

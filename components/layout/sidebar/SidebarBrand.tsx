@@ -11,7 +11,7 @@ export default function SidebarBrand({
 }: SidebarBrandProps) {
   return (
     <div
-      className={`mb-6 flex items-center ${
+      className={`mb-6 ${
         collapsed ? "justify-center" : "justify-between"
       }`}
     >
@@ -35,7 +35,7 @@ export default function SidebarBrand({
       {!collapsed && (
         <button
           onClick={onToggle}
-          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border transition hover:bg-slate-50"
+          className="absolute top-5 inset-s-[calc(100%_-_15px)] bg-white z-[999] flex h-8 w-8 items-center justify-center rounded-lg border border-border transition hover:bg-slate-50"
         >
           ←
         </button>

@@ -12,9 +12,56 @@
         }
     },
     "dashboard": {
-        "tokens_used": "Tokens Used",
+        "home": {
+            "tokens_used": "Tokens Used"
+        },
+        "integrations": {
+            "database": "Database",
+            "url": "URL",
+            "username": "Username",
+            "apikey": "API Key"
+        },
         "sidebar": {
-            "dashboard": "Dashboard"
+            "dashboard": "Dashboard",
+
+            "recruitments": "Recruitments",
+            "postedjobs": "Posted Jobs",
+            "candidates": "Candidates",
+            "interviews": "Interviews",
+
+            "HR": "Human Resources",
+
+            "teams": "Teams",
+            "manage-teams": "Manage Teams",
+            "manage-tasks": "Manage Tasks",
+
+            "finance": "Finance",
+            "new-revenue-bill": "New Revenue Bill",
+            "new-expense-bill": "New Expense Bill",
+            "reports": "Reports",
+            "transactions": "Transactions",
+            "accounts": "Accounts",
+            "payrolls": "Payrolls",
+
+            "BMC": "BMC",
+            "create-bmc": "Create BMC",
+            "my-list-of-bmcs": "My List Of BMCs",
+
+            "users": "Users",
+            "all-users": "All Users",
+            "add-user": "Add User",
+
+            "integrations": "Integrations",
+
+            "logout": "Logout",
+
+            "services": "Services",
+            "order-service": "Order Service",
+            "my-orders": "My Orders",
+
+            "departments": "Departments",
+            "all-departments": "All Departments",
+            "add-department": "Add Department"
         }
     }
 }

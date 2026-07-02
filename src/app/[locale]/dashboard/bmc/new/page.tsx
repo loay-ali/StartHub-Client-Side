@@ -57,8 +57,8 @@ export default function NewBMC() {
                 
                 <AISection
                     initialActions={[
-                        {title: "Fill Using AI",action: 'fill-bmc',type: ActionType.CHAT},
-                        {title: "Edit Fields Using AI",action: 'edit-bmc',type: ActionType.CHAT}
+                        {title: "Fill Using AI",action: 'fillBmc',type: ActionType.CHAT},
+                        {title: "Edit Fields Using AI",action: 'editBmc',type: ActionType.CHAT}
                     ]}
                     title = "Need Some Guidance"
                     Icon={BsFillGrid1X2Fill}/>

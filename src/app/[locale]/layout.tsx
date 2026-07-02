@@ -23,7 +23,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   return (
-    <html lang={locale} className="h-full antialiased">
+    <html lang={locale} dir = {locale == 'ar' ? 'rtl':'ltr'} className="h-full antialiased">
       <body className="min-h-full overflow-x-hidden">
         <NextIntlClientProvider>
           <PreloaderWrapper>

@@ -2,6 +2,7 @@
 
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -13,8 +14,10 @@ type Integration = {
 
 export default function IntegrationsPage() {
 
+    const t = useTranslations();
+
     const [loading,setLoading] = useState(true);
-    const [integrations,setIntegrations] = useState<Integration[]>([]);
+    const [integrations,setIntegrations] = useState<Record<string,Integration>>({});
 
     const [saving,setSaving] = useState(false);
 
@@ -25,6 +28,7 @@ export default function IntegrationsPage() {
             fetch(config.apiUrl +'/integrations/client',{credentials: 'include'})
             .then(res => res.status == 200 ? res.json():Promise.reject())
             .then(res => {
+                console.log(res);
                 setIntegrations(res);
             }).finally(() => setLoading(false));
         }
@@ -36,13 +40,15 @@ export default function IntegrationsPage() {
                 headers: {
                     'Content-Type': "application/json"
                 },
-                body: JSON.stringify(integrations)
-            }).then(res => res.status == 200 ? router.refresh():Promise.reject())
+                body: JSON.stringify(Object.values(integrations))
+            }).then(res => {
+                console.log(res);
+                return res.status == 200 ? router.refresh():Promise.reject()})
             .finally(() => {
                 setSaving(false);
             })
         }
-    },[]);
+    },[saving]);
 
     if( loading ) {
         return <div className = 'p-5 flex items-center justify-center'>
@@ -54,20 +60,21 @@ export default function IntegrationsPage() {
         <>
         <section className = 'bg-white shadow rounded p-5 max-w-[750px]'>
             <h2>
-                Integrations
+                {t('dashboard.sidebar.integrations')}
             </h2>
 
-            {integrations.map(inte => {
+            {Object.values(integrations).map((inte:Integration) => {
                 return (
-                    <fieldset>
-                        <legend className = 'capitalize'>
-                            <label className = 'font-bold' htmlFor = {"enable-"+ inte.provider}>{inte.provider}</label>
+                    <fieldset key = {inte.provider} className = 'my-2 border-y-2 border-gray-200'>
+                        <legend className = 'capitalize flex justify-between items-center w-full'>
+                            <label className = 'font-bold' htmlFor = {"enable-"+ inte.provider}>
+                                <img src = {'/'+ inte.provider.toLowerCase() +'.png'} width = '100'/>
+                            </label>
 
                             <input
                                 onInput = {ele => {
                                     setIntegrations(i => {
-                                        const tmpInte = i.find(x => x.provider == inte.provider);
-                                        if( tmpInte ) tmpInte.isConnected = ele.currentTarget.checked;
+                                        i[inte.provider].isConnected = ele.currentTarget?.checked ?? false;
                                         return i;
                                     })
                                 }}
@@ -76,19 +83,17 @@ export default function IntegrationsPage() {
                                 defaultChecked={!!inte.isConnected}/>
                         </legend>
 
-                        {Object.entries(inte.metadata).map(([slug,value]:[string,string]) => {
+                        {Object.entries(inte.metadata).map(([slug,value]:[string,any]) => {
                             return (
-                                <div className = 'form-group'>
+                                <div key = {slug} className = 'form-group'>
                                     <label htmlFor={slug}>
-                                        <img src = {'/'+ slug +'.png'} width = '100' />
+                                        {t('dashboard.integrations.'+ slug)}
                                     </label>
                                     <input onInput = {ele => {
-                                        setIntegrations((i:Integration[]) => {
-                                            const tmpInte = i.find(it => it.provider == inte.provider);
-                                            if( tmpInte ) tmpInte.metadata[slug] = ele.currentTarget.value;
-                                            return i;
+                                        setIntegrations(i => {
+                                            return {...i,[inte.provider.toLowerCase()]: {...inte,metadata: {...inte.metadata,[slug]: (ele.target as HTMLInputElement).value ?? ''}}};
                                         })
-                                    }} type="text" id={slug} defaultValue = {value} />
+                                    }} type="text" id={inte.provider} defaultValue = {value} />
                                 </div>
                             );
                         })}
@@ -96,7 +101,7 @@ export default function IntegrationsPage() {
                 );
             })}
 
-            <button disabled = {saving} onClick = {() => setSaving(true)} type = 'button' className = 'button'>
+            <button disabled = {saving} onClick = {() => setSaving(true)} type = 'button' className = 'flex justify-center button'>
                 {saving ? <ButtonLoader />:<>Save</>}
             </button>
         </section>
