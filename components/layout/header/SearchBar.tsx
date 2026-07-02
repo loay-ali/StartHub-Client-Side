@@ -61,21 +61,27 @@ export default function SearchBar() {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
+      <div
         className="group relative flex w-full items-center rounded-xl border border-[#14b8a6]/15 bg-white/60 px-4 py-2.5 backdrop-blur transition-all duration-200 hover:border-[#14b8a6]/40 hover:bg-white"
       >
         <FiSearch className="text-slate-400" />
 
-        <span className="ml-3 flex-1 text-left text-sm text-slate-400">
-          Search or ask AI...
-        </span>
+        <input
+          value={query}
+          onFocus={() => setOpen(true)}
+          onChange={(e) => {
+            setOpen(true);
+            setQuery(e.target.value);
+          }}
+          placeholder="Search or ask AI..."
+          className="ml-3 flex-1 bg-transparent text-sm text-slate-600 outline-none placeholder:text-slate-400"
+        />
 
         <div className="flex items-center gap-1 rounded-lg border bg-slate-50 px-2 py-1 text-xs text-slate-500">
           <FiCommand />
           K
         </div>
-      </button>
+      </div>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -98,7 +104,7 @@ export default function SearchBar() {
               duration: 0.22,
               ease: "easeOut",
             }}
-            className="mx-auto mt-24 w-[95%] max-w-3xl overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-2xl"
+            className="fixed left-1/2 top-24 z-50 w-[95vw] max-w-3xl -translate-x-1/2 overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-2xl max-h-[calc(100vh-6rem)]"
           >
               <div className="border-b border-slate-200 p-5">
                 <div className="flex items-center gap-3">
