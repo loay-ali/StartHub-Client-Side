@@ -1,9 +1,9 @@
 // utils/fuzzySearch.ts
 
-import Fuse from "fuse.js";
+import Fuse, { IFuseOptions } from "fuse.js";
 import { SearchResult } from "@/src/services/GlobalSearchServie";
 
-const options: Fuse.IFuseOptions<SearchResult> = {
+const options: IFuseOptions<SearchResult> = {
   includeScore: true,
   threshold: 0.35,
   ignoreLocation: true,

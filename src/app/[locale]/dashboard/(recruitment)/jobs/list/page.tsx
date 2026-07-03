@@ -10,6 +10,8 @@ import {redirect,useRouter} from 'next/navigation';
 import { useEffect, useState } from "react";
 import { notificationService } from "@/lib/notifiationSystem";
 
+import { Bot } from "lucide-react";
+
 export default function JobsList() {
     const [jobs,setJobs] = useState([{title: "Job Title",description: "Description",role: 'CEO',workspaceModel: "Some Model",timeModel: "parttime"}]);
 
@@ -75,7 +77,7 @@ export default function JobsList() {
     {isRemoving != '' && confirmRemoving == false && <AreYouSureWindow confirmCallback = {() => {
         setConfirmRemoving(true);
     }} setWindowState = {setIsRemoving} title = "Delete a Job Post"/>}
-    <AISection title = "Suggesting Jobs To Look For"/>
+    <AISection title="Suggesting Jobs To Look For" Icon={Bot} initialActions={[]} />
     <CollectionPage
         title = "Jobs List"
         data = {jobs}

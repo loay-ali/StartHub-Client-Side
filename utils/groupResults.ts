@@ -1,4 +1,4 @@
-import { SearchResult } from "@/services/GlobalSearchService";
+import { SearchResult } from "@/src/services/GlobalSearchServie";
 
 export interface SearchGroup {
   title: string;
