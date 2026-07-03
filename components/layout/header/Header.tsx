@@ -8,11 +8,10 @@ import UserMenu from "./UserMenu";
 
 interface HeaderProps {
   onMenuClick?: () => void;
-  email:string;
-  tokensLeft:number;
+  email: string;
 }
 
-export default function Header({ tokensLeft,email,onMenuClick }: HeaderProps) {
+export default function Header({ email, onMenuClick }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-slate-200/80 bg-white/85 px-3 shadow-[0_10px_30px_rgba(15,23,42,0.04)] backdrop-blur-xl transition-all duration-200 sm:h-20 sm:px-4 lg:px-6">
       {/* Left — mobile toggle + search */}
@@ -32,20 +31,18 @@ export default function Header({ tokensLeft,email,onMenuClick }: HeaderProps) {
       {/* Right — actions */}
       <div className="ml-3 flex flex-shrink-0 items-center gap-1.5 sm:gap-2">
         <div className="hidden lg:block">
-          <TokensInfo tokensLeft={tokensLeft}/>
+          <TokensInfo />
         </div>
 
-        <div className="hidden items-center rounded-full md:flex">
+        <div className="hidden md:block">
           <LanguageSwitcher />
         </div>
 
-        <div>
-          <Notifications />
-        </div>
+        <Notifications />
 
-        <div>
-          <UserMenu email={email} />
-        </div>
+        <div className="h-6 w-px bg-slate-200 mx-1 hidden sm:block" />
+
+        <UserMenu email={email} />
       </div>
     </header>
   );

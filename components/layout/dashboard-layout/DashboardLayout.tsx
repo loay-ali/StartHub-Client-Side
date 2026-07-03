@@ -89,7 +89,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       )}
 
       <div className="min-w-0 flex flex-1 flex-col">
-        <Header tokensLeft = {userData.tokensLeft} email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
+        <Header email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 p-4 md:p-6">
           <AIContext.Provider value = {{addMessage: addMessage,purpose: aiPurpose,open:isUsingAI,setPurpose: (purpose:string) => setAiPurpose(purpose),toggleAI: () => setIsUsingAI(s => !s)}}>
