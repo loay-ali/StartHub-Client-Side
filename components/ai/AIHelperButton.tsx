@@ -5,7 +5,7 @@ import AIWindow from "./window/window";
 import { useAIContext } from "../layout/dashboard-layout/DashboardLayout";
 import { AIMessage } from "@/types/ai";
 
-export default function AIHelperButton({purpose,message}:{purpose:string,message:AIMessage}) {
+export default function AIHelperButton({purpose,message,additional}:{purpose:string,message:AIMessage,additional:Record<string,any>}) {
     const ai = useAIContext();
 
     return (
@@ -14,8 +14,8 @@ export default function AIHelperButton({purpose,message}:{purpose:string,message
                 ai.setPurpose?.(ai.open == false ? purpose:'');
                 ai.toggleAI()
                 ai.addMessage ? ai.addMessage(''):null;
-            }} className = {(purpose == ai.purpose && ai.open ? 'opacity-[1]!':'') +' inset-s-[calc(100%_+_10px)] top-[calc(50%_-_5px)] opacity-[0.5] rounded-full flex items-center justify-center hover:opacity-[1] transition-opacity bg-[linear-gradient(to_top_right,#10b0c0,#14b8a6)] absolute h-[30px] w-[30px] shadow p-1 text-white rounded cursor-pointer'}>
-            <GiArtificialHive size = {20} color = '#FFF' />
+            }} className = {(purpose == ai.purpose && ai.open ? 'opacity-[1]!':'') +' text-primary inset-s-[calc(100%_-_30px)] bottom-[calc(64%)] opacity-[0.5] rounded-full flex items-center justify-center hover:opacity-[1] transition-opacity absolute h-[30px] w-[30px] shadow p-1 text-white rounded cursor-pointer'}>
+            <GiArtificialHive size = {20} color = 'var(--color-primary)' />
         </button>
         </>
     )

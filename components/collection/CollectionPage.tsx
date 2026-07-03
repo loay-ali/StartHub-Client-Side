@@ -60,7 +60,7 @@ export default function CollectionPage<T extends Record<string, any>>({
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 grow">
       {/* Header */}
       <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
