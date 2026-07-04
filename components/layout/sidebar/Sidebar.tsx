@@ -14,6 +14,7 @@ import { TbCoins } from "react-icons/tb";
 import { LuBriefcaseBusiness } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
 import { MdOutlineIntegrationInstructions } from "react-icons/md";
+import { LuLogs } from "react-icons/lu";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
@@ -233,6 +234,15 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             title: t("dashboard.sidebar.integrations"),
             href: "/dashboard/integrations",
             icon: <MdOutlineIntegrationInstructions />,
+          }}
+        />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: t("dashboard.sidebar.usage"),
+            href: "/dashboard/usage",
+            icon: <LuLogs />,
           }}
         />
 

@@ -5,7 +5,7 @@ import AIWindow from "./window/window";
 import { useAIContext } from "../layout/dashboard-layout/DashboardLayout";
 import { AIMessage } from "@/types/ai";
 
-export default function AIHelperButton({purpose,message,additional}:{purpose:string,message:AIMessage,additional:Record<string,any>}) {
+export default function AIHelperButton({purpose,message,additional={}}:{purpose:string,message:AIMessage,additional?:Record<string,any>}) {
     const ai = useAIContext();
 
     return (

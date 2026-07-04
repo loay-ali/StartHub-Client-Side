@@ -21,6 +21,8 @@ type Props<T> = {
   editLink?:Function;
 
   isDeleting?: boolean;
+
+  currentPage:number;
 };
 
 export default function CollectionPage<T extends Record<string, any>>({
@@ -32,11 +34,10 @@ export default function CollectionPage<T extends Record<string, any>>({
   onDelete,
   addLink,
   editLink,
-  isDeleting
+  isDeleting,
+  currentPage=1
 }: Props<T>) {
   const [search, setSearch] = useState("");
-
-  const [currentPage, setCurrentPage] = useState(1);
 
   const pageSize = 10;
 
@@ -54,11 +55,6 @@ export default function CollectionPage<T extends Record<string, any>>({
 
   const totalPages = Math.ceil(filteredData.length / pageSize) || 1;
 
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize,
-  );
-
   return (
     <div className="space-y-6 grow">
       {/* Header */}
@@ -74,7 +70,6 @@ export default function CollectionPage<T extends Record<string, any>>({
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
-                  setCurrentPage(1);
                 }}
                 placeholder="Search..."
                 className="rounded-xl border border-border py-2 pl-10 pr-4 outline-none focus:border-primary"
@@ -97,7 +92,7 @@ export default function CollectionPage<T extends Record<string, any>>({
 
       <CollectionTable
         columns={columns}
-        data={paginatedData}
+        data={data}
         onEdit={onEdit}
         onDelete={onDelete}
         isDeleting={isDeleting}
@@ -107,7 +102,6 @@ export default function CollectionPage<T extends Record<string, any>>({
       <CollectionPagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
       />
     </div>
   );

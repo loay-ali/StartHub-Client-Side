@@ -68,6 +68,8 @@ export default function CollectionTable<T extends Record<string, any>>({
     });
   }, [data, sortKey, sortDirection]);
 
+  let index = 1;
+
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
       <div className="overflow-x-auto">
@@ -119,7 +121,7 @@ export default function CollectionTable<T extends Record<string, any>>({
               >
                 {columns.map((column) => (
                   <td key={String(column.key)} className="px-5 py-4">
-                    {column.value && typeof column.value == 'function'
+                    {column.key == 'index' ? ++index:column.value && typeof column.value == 'function'
                       ? column.value(row)
                       : String(row[column.key as keyof typeof row] ?? "")}
                   </td>

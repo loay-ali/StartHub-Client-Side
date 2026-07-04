@@ -12,6 +12,22 @@
         }
     },
     "dashboard": {
+        "users": {
+            "user": "User"
+        },
+        "usage": {
+            "all-logs": "All Logs",
+
+            "AGENT_EXECUTION": "Chat"
+        },
+        "common": {
+            "title": "Title",
+
+            "updated": "Updated"
+        },
+        "ai": {
+            "need-help": "Need Help ?"
+        },
         "roles": {
             
         },
@@ -28,12 +44,35 @@
             "download-cv": "Download CV"
         },
         "jobs": {
-            "create-a-job": "Create a Job"
+            "job": "Job",
+            "create-a-job": "Create a Job",
+            "no-jobs": "No Jobs",
+            "choose-job": "Choose Job"
         },
         "candidates": {
+            "candidate": "Candidate",
             "create-a-candidate": "Create a Candidate",
             "no-jobs-to-apply-candidates-to": "No Jobs To Apply Candidates To",
-            "create-candidate": "Create Candidate"
+            "create-candidate": "Create Candidate",
+            "no-candidates": "No Candidates",
+            "choose-candidate": "Choose Candidate"
+        },
+        "interviews": {
+            "create-interview": "Create Interview",
+
+            "add-interview-to-best-candidate": "Add Interview To The Best Candidate",
+            "edit-interview-data": "Edit Current Interview's Data",
+            "interviews-list": "Interviews List",
+
+            "choose-interview-type": "Choose Interview Type",
+            "hr": "HR Interivew",
+            "final": "Final Interview",
+            "technical": "Technical Interview",
+            "behavioral": "Soft Skills Interview",
+
+            "save-interview-data": "Save Interview Data",
+
+            "interview-updated-successfully": "Interview Updated Successfully"
         },
         "home": {
             "tokens_used": "Tokens Used"
@@ -87,7 +126,9 @@
 
             "departments": "Departments",
             "all-departments": "All Departments",
-            "add-department": "Add Department"
+            "add-department": "Add Department",
+
+            "usage": "Usage"
         }
     }
 }
