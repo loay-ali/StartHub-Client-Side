@@ -18,8 +18,6 @@ export async function getSingleDepartment(id:string):Promise<Department | false>
         credentials: 'include'
     });
 
-    console.log(res);
-
     if( res.status == 200 ) {
         return await res.json();
     }

@@ -22,7 +22,7 @@ const tickerItems = [...integrations, ...integrations];
 
 export default function IntegrationsSection() {
   return (
-    <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt, overflow: "hidden" }}>
+    <section style={{ position: "relative", zIndex: 1, padding: "72px 0", background: C.surfaceAlt, overflow: "hidden" }}>
       <div className="max-w-7xl mx-auto px-6">
         <Reveal>
           <SectionHeading
@@ -41,19 +41,19 @@ export default function IntegrationsSection() {
               key={i}
               style={{
                 display: "inline-flex", flexDirection: "column", alignItems: "center",
-                gap: 8, padding: "16px 24px", margin: "0 8px",
-                borderRadius: 18, background: "#fff",
+                gap: 12, padding: "20px 32px", margin: "0 8px",
+                borderRadius: 20, background: "#fff",
                 border: `1px solid ${C.border}`,
-                minWidth: 116, flexShrink: 0,
+                minWidth: 140, flexShrink: 0,
                 boxShadow: "0 1px 4px rgba(10,15,14,.04)",
               }}
             >
               <div
                 style={{
-                  width: 38, height: 38, borderRadius: 11,
+                  width: 64, height: 64, borderRadius: 16,
                   display: "flex", alignItems: "center", justifyContent: "center",
                   background: `${int.color}0D`, border: `1px solid ${int.color}22`,
-                  color: int.color, fontWeight: 800, fontSize: 14,
+                  color: int.color, fontWeight: 800, fontSize: 28,
                   fontFamily: FONTS.display,
                 }}
               >

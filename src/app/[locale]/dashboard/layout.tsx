@@ -1,7 +1,10 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import "./dashboard.css";
 
 import DashboardLayout from "@/components/layout/dashboard-layout/DashboardLayout";
+import { SearchProvider } from "@/components/providers/SearchProvider";
+import { NotificationProvider } from "@/components/notificationSystem/NotificationProvider";
+import { ToastContainer } from "@/components/notificationSystem/ToastContainer";
 
 export const metadata: Metadata = {
   title: "StartHub",
@@ -13,10 +16,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    <DashboardLayout>
-      {children}
-    </DashboardLayout>
+    <NotificationProvider>
+      <SearchProvider>
+        <DashboardLayout>
+          {children}
+        </DashboardLayout>
+        <ToastContainer />
+      </SearchProvider>
+    </NotificationProvider>
   );
-}
+}

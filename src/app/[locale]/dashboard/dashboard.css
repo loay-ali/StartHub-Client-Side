@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #14b8a6;
-  --color-primary-dark: #0f766e;
+  --color-primary: #0F766E;
+  --color-primary-dark: #0a534d;
   --color-primary-light: #99f6e4;
 
   --color-accent: #8b5cf6;
@@ -29,8 +29,20 @@ body {
   color: var(--color-text-primary);
 }
 
+ol {
+  list-style: number;
+}
+
 .button {
-  @apply bg-gray-500 py-2 p-5 rounded text-white cursor-pointer my-2
+  @apply bg-primary py-2 p-5 rounded text-white cursor-pointer my-2
+}
+
+select {
+  @apply p-2 my-2 border-1 rounded
+}
+
+textarea {
+  @apply border-1 rounded border-gray-300 p-2;
 }
 
 .form-group {

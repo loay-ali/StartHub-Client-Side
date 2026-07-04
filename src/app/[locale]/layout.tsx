@@ -1,7 +1,8 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 
 import "./globals.css";
+import PreloaderWrapper from "@/components/preloader/PreloaderWrapper";
 
 export const metadata: Metadata = {
   title: "Starthub",
@@ -18,10 +19,12 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   return (
-    <html lang={locale} className="h-full antialiased">
-      <body className="min-h-full">
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className="h-full antialiased">
+      <body className="min-h-full overflow-x-hidden">
         <NextIntlClientProvider>
-          {children}
+          <PreloaderWrapper>
+            {children}
+          </PreloaderWrapper>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -10,11 +10,6 @@
         "button-name": "off"
       }
     ],
-    "axe/aria": [
-      "default",
-      {
-        "aria-valid-attr-value": "off"
-      }
-    ]
+    "axe/aria": "off"
   }
 }

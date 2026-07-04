@@ -4,6 +4,7 @@ import User from "@/types/requests/users";
 import { refresh } from "next/cache";
 
 import { redirect } from 'next/navigation';
+import config from "@/constants/config";
 
 export default async function UsersList() {
     const allUsers:User[] = [

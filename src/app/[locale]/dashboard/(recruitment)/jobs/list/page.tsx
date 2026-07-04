@@ -1,5 +1,6 @@
 'use client';
 
+import AISection,{ActionType} from "@/components/ai/section/AISection";
 import CollectionPage from "@/components/collection/CollectionPage";
 import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
@@ -7,6 +8,9 @@ import Job from "@/types/requests/jobs";
 
 import {redirect,useRouter} from 'next/navigation';
 import { useEffect, useState } from "react";
+import { notificationService } from "@/lib/notifiationSystem";
+
+import { BsSuitcaseLg } from "react-icons/bs";
 
 export default function JobsList() {
     const [jobs,setJobs] = useState([{title: "Job Title",description: "Description",role: 'CEO',workspaceModel: "Some Model",timeModel: "parttime"}]);
@@ -20,7 +24,7 @@ export default function JobsList() {
     const router = useRouter();
 
     useEffect(() => {
-        if(isLoading) {
+        /*if(isLoading) {
             fetch(config.apiUrl +'/jobs',{credentials: 'include'})
                 .then(res => res.json())
                 .then(res => {
@@ -31,7 +35,7 @@ export default function JobsList() {
             }).finally(() => {
                 setIsLoading(false);
             });
-        }
+        }*/
 
         if(isRemoving != '' && confirmRemoving) {
             fetch(config.apiUrl +'/jobs/'+ isRemoving,{
@@ -40,11 +44,14 @@ export default function JobsList() {
             })
             .then(res => {
                 if( res.status == 200 ) {
+                    notificationService.success("Job deleted", "The job post has been removed successfully.");
                     router.refresh();
+                } else {
+                    notificationService.error("Delete failed", "Could not delete the job. Please try again.");
                 }
             })
             .catch(() => {
-                setIsError(true);
+                notificationService.error("Network error", "Could not reach the server. Check your connection.");
             })
             .finally(() => {
                 setIsRemoving('');
@@ -54,6 +61,7 @@ export default function JobsList() {
     },[isLoading,confirmRemoving]);
 
     if( isError ) {
+        notificationService.error("Loading failed", "Something went wrong while loading data.");
         return (<section className = 'flex flex-col justify-center items-center gap-5'>
             <strong className = "text-2xl text-center">Something Went Wrong</strong>
             <button type = 'button' className = 'button' onClick = {() => {
@@ -65,7 +73,7 @@ export default function JobsList() {
     }
 
     return (
-    <>
+    <section className = 'flex items-start gap-5 wrap'>
     {isRemoving != '' && confirmRemoving == false && <AreYouSureWindow confirmCallback = {() => {
         setConfirmRemoving(true);
     }} setWindowState = {setIsRemoving} title = "Delete a Job Post"/>}
@@ -88,5 +96,9 @@ export default function JobsList() {
             setIsRemoving(row.id);
         }}
         isDeleting = {isRemoving != '' && confirmRemoving}/>
-        </>);
+        <AISection title="Do You Need Help ?" Icon={BsSuitcaseLg} initialActions={[
+            {type: ActionType.CHAT,title:"Jobs I Need",action: "suggestJobs"},
+            {type: ActionType.CHAT,title:"Analyze Current Jobs",action: "analyzeJobs"}
+        ]} />
+        </section>);
 }

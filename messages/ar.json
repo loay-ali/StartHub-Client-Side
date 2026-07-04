@@ -1,6 +1,9 @@
 {
     "public": {
         "homepage": {
+        },
+        "dashboard": {
+            "tokens_used": "Tokens Used"
         }
     }
 }

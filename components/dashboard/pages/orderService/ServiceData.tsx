@@ -9,47 +9,35 @@ export default async function ServiceData({searchParams}:{searchParams: Promise<
 
     if( ! serviceId ) return <>Please Choose a Service</>;
 
-    const service:Service | undefined = {
-        id: 'service-1',
-        name: "Some Service",
-        description: "Some Description",
-        estimatedDurationInHours: 24,
-        priceInUSD: 25.5,
-        neededData: [{
-          type: 'TEXT',
-          title: "Some Value To Enter",
-          slug: "some-val"  
-        },
-{
-          type: 'MULTIVALUE',
-          title: "Some Value To Enter",
-          slug: "some-val",
-          values: ['one','two','three']
-        },]
+    const service:Service | undefined = await getServiceData(serviceId.toString());
 
-    };//await getServiceData(serviceId.toString());
+    console.log(service);
 
     if( ! service ) return <>Please Choose a Service</>;
 
     return (
     <Form action = "">
         <h3 className = 'text-2xl text-center mb-5'>{service.name}</h3>
-        <p className = 'text-center my-2'>{service.description}</p>
+        <div className = 'grid grid-cols-3 items-center'>
+            <p className = 'text-center my-2 col-start-1 col-end-3'>{service.description}</p>
 
-        <span className = 'text-center block'><strong>{service.priceInUSD}</strong> USD</span>
+            <span className = 'bg-primary p-2 m-5 mx-20 text-white rounded text-center block text-xl'><strong>{service.priceInUSD}</strong> USD</span>
+        </div>
+
+        <hr className = 'my-5 border-[#DDD]'/>
 
         <section className = 'flex flex-col'>
         {service.neededData.map(field => {
-            return (<>
+            return (<div className = 'form-group' key = {field.slug}>
             <label htmlFor = {field.slug}>{field.title}</label>
             {field.type == 'TEXT' ? (
                 <input name = {field.slug} className = 'border-1 p-1' type = 'text' />
-            ):(field.type == 'MULTIVALUE' ? (
-                <select name = {field.slug}>
+            ):(field.type == 'MULTIVALUE' || field.type == 'SELECT' ? (
+                <select name = {field.slug} multiple = {field.type == "MULTIVALUE"}>
                     {field.values?.map((ele) => <option value = {ele}>{ele}</option>)}
                 </select>
             ):null)}
-            </>);
+            </div>);
         })}
         </section>
 

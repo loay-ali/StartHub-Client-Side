@@ -1,22 +1,50 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
 import config from "@/constants/config";
 import { redirect } from "next/navigation";
+import AIWindow from "@/components/ai/window/window";
+import AIMainButton from "@/components/ai/MainButton";
+
+import { AiOutlineLoading } from "react-icons/ai";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
+const AIContext = createContext<{
+  open:boolean,
+  purpose:string,
+  toggleAI:Function,
+  setPurpose:Function|null
+  addMessage?:(msg:string) => any
+}>({
+  open:false,
+  purpose:'',
+  toggleAI:() => {},
+  setPurpose:null,
+  addMessage: undefined});
+
+export const useAIContext = () => useContext(AIContext);
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [isLoggedIn,setIsLoggedIn] = useState(false);
+  const [isLoggedIn,setIsLoggedIn] = useState(true);
+  const [loadingLoggedIn,setLoadingLoggedIn] = useState(false);
 
   const [userData,setUserData] = useState<any>({});
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [isUsingAI,setIsUsingAI] = useState(false);
+
+  const [aiPurpose,setAiPurpose] = useState('');
+
+  const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
 
   useEffect(() => {
     if( isLoggedIn == false ) {
@@ -24,6 +52,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         .then(res => {
           if( res.status == 200 ) {
             setIsLoggedIn(true);
+            setLoadingLoggedIn(false);
             return res.json();
           }else {
             redirect('/login');
@@ -34,8 +63,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   },[]);
 
-  if( isLoggedIn == false ) {
-    return (<>Loading...</>)
+  if( loadingLoggedIn == true ) {
+    return (<div className = 'p-5 flex items-center justify-center'><AiOutlineLoading className = 'spinner-loading' /></div>)
   }
 
   return (
@@ -62,7 +91,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="min-w-0 flex flex-1 flex-col">
         <Header email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
-        <main className="flex-1 p-4 md:p-6">{children}</main>
+        <main className="flex-1 p-4 md:p-6">
+          <AIContext.Provider value = {{addMessage: addMessage,purpose: aiPurpose,open:isUsingAI,setPurpose: (purpose:string) => setAiPurpose(purpose),toggleAI: () => setIsUsingAI(s => !s)}}>
+            {children}
+            <AIMainButton setOpen ={() => setIsUsingAI(s => !s)} opened = {isUsingAI}/>
+            <AIWindow aiPurpose = {aiPurpose} open = {isUsingAI} closeWindow={() => setIsUsingAI(false)}/>  
+          </AIContext.Provider>
+        </main>
       </div>
     </div>
   );

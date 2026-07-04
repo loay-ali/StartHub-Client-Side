@@ -48,7 +48,7 @@ const agents: Agent[] = [
   },
   {
     name: "Operations Supervisor", role: "Orchestration",
-    icon: <Settings size={22} />, color: C.amber,
+    icon: <Settings size={22} />, color: C.teal,
     metric: "340% ops efficiency gain",
     caps: ["Agent coordination", "Workflow automation", "Priority ranking", "Executive briefings"],
     body: "The agent that manages the agents. It prioritises every alert by business impact and routes work to the right person.",

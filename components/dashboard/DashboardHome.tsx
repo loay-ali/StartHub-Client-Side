@@ -1,43 +1,67 @@
 'use client';
 
+import { BiCog } from "react-icons/bi";
+import { FiUsers, FiBriefcase, FiDollarSign, FiActivity } from "react-icons/fi";
+
 import StatsCard from "./StatsCard";
 import RecentCompaniesTable from "./RecentCompaniesTable";
-import { FiUsers, FiBriefcase, FiDollarSign, FiActivity } from "react-icons/fi";
+
 import AIWindow from "../ai/window/window";
+import { useEffect, useState } from "react";
+import SettingsWindow from "./Settings";
+import config from "@/constants/config";
+
+import { MdOutlineGeneratingTokens } from "react-icons/md";
+import { useTranslations } from "next-intl";
+
+
 export default function DashboardHome() {
+  const [openSettingsWindow,setOpenSettingsWindow] = useState(false);
+  const [dashboardWidgets,setDashboardWidgets] = useState([]);
+
+  const [loadingDashboard,setLoadingDashboard] = useState(true);
+
+  const icons:Record<string,any> = {
+    'tokens': MdOutlineGeneratingTokens
+  };
+
+  useEffect(() => {
+    if( loadingDashboard ) {
+      fetch(config.apiUrl +'/dashboard/getClientDashboard',{credentials: 'include'})
+        .then(res => res.status == 200 ? res.json():Promise.reject())
+        .then(res => {
+          setDashboardWidgets(res);
+        }).finally(() => setLoadingDashboard(false))
+    }
+  },[]);
+
+  const t = useTranslations()
+
   return (
     <>
+      {openSettingsWindow ? (<SettingsWindow setDashboardWidgets = {setDashboardWidgets} closeSettingsWindow = {() => setOpenSettingsWindow(false)}/>):null}
+      <button
+        onClick = {() => {
+          setOpenSettingsWindow(true);
+        }}
+        className = 'button w-[40px]! h-[40px]! flex justify-center items-center p-0! opacity-[0.5] hover:opacity-[1]'>
+        <BiCog />
+      </button>
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {/*<StatsCard
-          title="Total Companies"
-          value="125"
-          change="+12% this month"
-          icon={<FiBriefcase size={20} />}
-        />
-
-        <StatsCard
-          title="Active Users"
-          value="1,240"
-          change="+8% this month"
-          icon={<FiUsers size={20} />}
-        />
-
-        <StatsCard
-          title="Tokens Used"
-          value="45K"
-          change="+22% this month"
-          icon={<FiActivity size={20} />}
-        />
-
-        <StatsCard
-          title="Revenue"
-          value="$12.5K"
-          change="+15% this month"
-          icon={<FiDollarSign size={20} />}
-        />*/}
+        {dashboardWidgets.length == 0 ? (<strong>
+          Welcome To The Dashboard !
+        </strong>):dashboardWidgets.map((widget:{slug:string,value:string,change?:string,icon?:string}) => {
+          const Icon = widget.icon ? icons[widget.icon]:null;
+          return (
+          <StatsCard 
+            key = {widget.slug}
+            title = {t('dashboard.home.'+ widget.slug)}
+            value = {widget.value}
+            change= {''}
+            icon  = {Icon ? <Icon />:''}
+          />
+        )})}
       </div>
-
-      {/* <RecentCompaniesTable /> */}
     </>
   );
 }

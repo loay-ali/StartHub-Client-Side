@@ -1,5 +1,6 @@
 import { getSingleDepartment } from "@/src/services/departments";
 import { GrDocumentMissing } from "react-icons/gr";
+import { notificationService } from "@/lib/notifiationSystem";
 
 import { redirect } from 'next/navigation';
 import Link from "next/link";
@@ -14,7 +15,9 @@ export default async function EditDeparment({params}:{params:{id:string}}) {
 
     const departmentData = await getSingleDepartment(params.id);
 
-    console.log(departmentData);
+    if (!departmentData) {
+        notificationService.error("Department not found", "The requested department could not be found.");
+    }
 
     if( ! departmentData ) {
         return (<section className = 'flex flex-col justify-center items-center gap-5'>
@@ -30,3 +33,4 @@ export default async function EditDeparment({params}:{params:{id:string}}) {
 
     </>);
 }
+
