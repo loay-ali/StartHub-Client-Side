@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FiZap, FiArrowRight } from "react-icons/fi";
 import { useSearch } from "../providers/SearchProvider";
 
-const aiTriggers = [
+const AI_TRIGGERS = [
   "why",
   "show",
   "find",
@@ -17,14 +17,18 @@ const aiTriggers = [
   "what",
 ];
 
-export default function AskAI() {
+interface AskAIProps {
+  /** Called when the user clicks the Ask AI card. Use to open the AI window. */
+  onSelect?: () => void;
+}
+
+export default function AskAI({ onSelect }: AskAIProps) {
   const { query } = useSearch();
 
   const shouldShow =
     query.trim().length > 3 &&
-    aiTriggers.some((word) =>
-      query.toLowerCase().startsWith(word)
-    );
+    (query.includes("?") ||
+      AI_TRIGGERS.some((word) => query.toLowerCase().startsWith(word)));
 
   if (!shouldShow) return null;
 
@@ -39,17 +43,18 @@ export default function AskAI() {
         Ask AI
       </div>
 
-      <button className="group flex w-full items-center justify-between rounded-2xl border border-teal-200 bg-gradient-to-r from-teal-50 to-cyan-50 p-4 text-left transition-all duration-200 hover:border-teal-300 hover:shadow-md">
+      <button
+        type="button"
+        onClick={onSelect}
+        className="group flex w-full items-center justify-between rounded-2xl border border-teal-200 bg-gradient-to-r from-teal-50 to-cyan-50 p-4 text-left transition-all duration-200 hover:border-teal-300 hover:shadow-md"
+      >
         <div className="flex items-start gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
             <FiZap size={18} />
           </div>
 
           <div>
-            <div className="font-semibold text-slate-900">
-              {query}
-            </div>
-
+            <div className="font-semibold text-slate-900">{query}</div>
             <div className="mt-1 text-sm text-slate-500">
               Ask StarHub AI to analyze your business data
             </div>

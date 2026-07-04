@@ -78,37 +78,39 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   },[]);
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Desktop Sidebar */}
-      <div className="hidden md:block">
-        <Sidebar email = {userData.email} companyName = {userData.companyName ?? ''} />
-      </div>
+    <AIContext.Provider value={{ addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
+      <div className="flex min-h-screen bg-background">
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block">
+          <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
+        </div>
 
-      {/* Mobile Sidebar */}
-      {sidebarOpen && (
-        <>
-          <div
-            className="fixed inset-0 z-40 bg-black/40 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
+        {/* Mobile Sidebar */}
+        {sidebarOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-40 bg-black/40 md:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <div className="fixed left-0 top-0 z-50 md:hidden">
+              <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
+            </div>
+          </>
+        )}
 
-          <div className="fixed left-0 top-0 z-50 md:hidden">
-            <Sidebar email = {userData.email} companyName = {userData.companyName ?? ''}/>
-          </div>
-        </>
-      )}
+        <div className="min-w-0 flex flex-1 flex-col">
+          <Header email={userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
-      <div className="min-w-0 flex flex-1 flex-col">
-        <Header email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
-
-        <main className="flex-1 p-4 md:p-6">
-          <AIContext.Provider value = {{addMessage: addMessage,purpose: aiPurpose,open:isUsingAI,setPurpose: (purpose:string) => setAiPurpose(purpose),toggleAI: () => setIsUsingAI(s => !s)}}>
+          <main className="flex-1 p-4 md:p-6">
             {children}
-            <AIMainButton setOpen ={() => setIsUsingAI(s => !s)} opened = {isUsingAI}/>
-            <AIWindow aiPurpose = {aiPurpose} open = {isUsingAI} closeWindow={() => setIsUsingAI(false)}/>  
-          </AIContext.Provider>
-        </main>
+          </main>
+        </div>
+
+        {/* AI Assistant — rendered at the root level so fixed positioning
+            is never affected by any stacking context on <main>. */}
+        <AIMainButton setOpen={() => setIsUsingAI(s => !s)} opened={isUsingAI} />
+        <AIWindow aiPurpose={aiPurpose} open={isUsingAI} closeWindow={() => setIsUsingAI(false)} />
       </div>
-    </div>
+    </AIContext.Provider>
   );
 }

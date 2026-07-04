@@ -8,13 +8,11 @@ export default [
         'slug': 'features',
         'name': "Features",
         'href': '/features'
-    },
-    //هنرجعلها متقلقيش
-    /*{
+    },{
         'slug': 'ecosystem',
         'name': 'Ecosystem',
         'href': '/ecosystem'
-    },*/
+    },
     {
         'slug': 'pricing',
         'name': 'Pricing',

@@ -37,6 +37,9 @@ interface SearchContextType {
     activeIndex: number;
 
     setActiveIndex: Dispatch<SetStateAction<number>>;
+
+    /** Save item to recents and close the modal. Call from any clickable result. */
+    saveAndClose: (item: SearchResult) => void;
 }
 
 const SearchContext =
@@ -64,6 +67,13 @@ export function SearchProvider({
     const pathname = usePathname();
 
     const router = useRouter();
+
+    const saveAndClose = (item: SearchResult) => {
+        GlobalSearchService.saveRecent(item);
+        setRecent(GlobalSearchService.recent());
+        setOpen(false);
+        router.push(item.url);
+    };
 
 const suggestions = useMemo(
     () => SuggestionService.getSuggestions(pathname),
@@ -186,7 +196,10 @@ const suggestions = useMemo(
             activeIndex,
 
             setActiveIndex,
+
+            saveAndClose,
         }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [
             open,
             query,

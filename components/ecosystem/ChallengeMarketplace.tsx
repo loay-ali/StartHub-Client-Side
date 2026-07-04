@@ -103,7 +103,7 @@ export default function ChallengeMarketplace() {
             label="Corporate & Govt Challenges"
             title={
               <>
-                Open Innovation <span className="text-teal-500">Marketplace</span>
+                Innovation <span className="text-teal-500">Marketplace</span>
               </>
             }
             sub="Apply directly to funded innovation challenges published by leading corporates and governments."
