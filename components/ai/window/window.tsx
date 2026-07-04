@@ -1,16 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 'use client';
 
 import { IoCloseOutline } from "react-icons/io5";
+import { Sparkles } from "lucide-react";
 import Chat from "./Chat";
 import Message from './Message';
 import { useEffect, useState } from "react";
 
 import { ChatMessage } from "@/types/requests/ai";
 import config from "@/constants/config";
-import { useAIContext } from "@/components/layout/dashboard-layout/DashboardLayout";
+
+// Turns a purpose slug like "recruitment-jobs" into "Recruitment Jobs"
+// for display in the header subtitle.
+function humanizePurpose(purpose: string) {
+    if (!purpose) return '';
+    return purpose
+        .split(/[-_]/)
+        .filter(Boolean)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
 
 export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,open:boolean,closeWindow:Function}) {
-    
+
     const [conversationId,setConversationId] = useState('');
     const [messages,setMessages] = useState<ChatMessage[]>([]);
 
@@ -19,7 +31,7 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
     const [isSending,setIsSending] = useState(false);
 
     const [msgIndex,setMsgIndex] = useState(1000);
-    
+
     if( aiPurpose != '' && isSending != true ) {
         setIsSending(true);
     }
@@ -27,6 +39,23 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
     function getCurrentDateTime() {
         const date = new Date();
         return date.getFullYear() +' / '+ (date.getMonth() + 1) +' / '+ date.getDate() +' '+ date.getHours() +':'+ date.getMinutes();
+    }
+
+    // Shared by the composer's send button/Enter key and the empty-state
+    // suggestion chips, so both paths push the user bubble and kick off
+    // the same request the same way.
+    function handleSend(text: string) {
+        const trimmed = text.trim();
+        if (!trimmed || isSending) return;
+
+        setMsg(trimmed);
+        setMessages((msgs: ChatMessage[]) => {
+            if (!!msgs.find(ele => ele._id == "msg-" + msgIndex)) return msgs;
+            msgs.push({ datetime: getCurrentDateTime(), _id: "msg-" + msgIndex, role: 'user', content: trimmed, actions: [] });
+            return msgs;
+        });
+        setMsgIndex(s => s + 1);
+        setIsSending(true);
     }
 
     useEffect(() => {
@@ -40,10 +69,10 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
             .then(res => {
                 if( ! res.data ) return;
 
-                setMessages((msgs:any[]) => {
+                setMessages((msgs: ChatMessage[]) => {
                     if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
                     setConversationId(res.data.conversationId ?? '');
-                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response});
+                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
                     return msgs;
                 });
             }).finally(() => {
@@ -54,7 +83,7 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
 
         if(isSending) {
             fetch(config.apiUrl +'/ai/chat',{
-                
+
                 method: 'POST',
                 credentials: "include",
                 headers: {
@@ -69,10 +98,10 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
             .then(res => {
                 if( ! res.data ) return;
 
-                setMessages((msgs:any[]) => {
+                setMessages((msgs: ChatMessage[]) => {
                     if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
                     setConversationId(res.data.conversationId ?? '');
-                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response});
+                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
                     return msgs;
                 });
             }).finally(() => {
@@ -83,29 +112,43 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
     },[isSending]);
 
     return (
-    <section className = {"overflow-hidden border-8 border-primary flex flex-col fixed w-[500px] h-[600px] bottom-5 right-5 bg-[linear-gradient(to_bottom_right,var(--color-primary),var(--color-primary-dark))] rounded shadow flex flex-col transition-all duration-[0.4s] origin-bottom-right "+ (!open ? 'scale-[0]':'scale-[1]')}>
-        <header className = 'bg-white text-primary rounded flex justify-between items-center p-4'>
-            <div className = 'flex flex-col'>
-                <strong>AI Assistant</strong>
-                <span>{aiPurpose}</span>
+    <section
+        role="dialog"
+        aria-label="AI Assistant"
+        aria-hidden={!open}
+        className={
+            "fixed bottom-5 right-5 z-50 flex h-[600px] w-[380px] max-w-[calc(100vw-2.5rem)] origin-bottom-right flex-col overflow-hidden rounded-3xl border border-border bg-surface shadow-2xl transition-all duration-300 " +
+            (!open ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100")
+        }
+    >
+        {/* Header */}
+        <header className="flex flex-shrink-0 items-center justify-between gap-3 bg-gradient-to-br from-primary to-primary-dark px-5 py-4 text-white">
+            <div className="flex min-w-0 items-center gap-3">
+                <span className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/15">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-white/20 motion-safe:animate-ping" />
+                    <Sparkles size={16} className="relative text-white" />
+                </span>
+                <div className="min-w-0">
+                    <p className="truncate font-bold leading-tight">AI Assistant</p>
+                    <p className="flex items-center gap-1.5 truncate text-xs text-white/75">
+                        <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-300" />
+                        {aiPurpose ? humanizePurpose(aiPurpose) : 'Online'}
+                    </p>
+                </div>
             </div>
 
-            <button className = 'cursor-pointer' type="button" onClick = {() => closeWindow()}>
-                <IoCloseOutline size = {20} />
+            <button
+                aria-label="Close AI Assistant"
+                className="cursor-pointer rounded-full p-1.5 text-white/80 transition hover:bg-white/10 hover:text-white"
+                type="button"
+                onClick={() => closeWindow()}
+            >
+                <IoCloseOutline size={22} />
             </button>
         </header>
-        <section className = 'grow-1 flex flex-col'>
-            <Chat messages={messages} conversationId={conversationId}/>
-            <Message sendMessage = {() => {setMessages((msgs:any[]) => {
-                if( !! msgs.find(ele => ele._id == "msg-"+ msgIndex) ) return msgs;
-                msgs.push({datetime: getCurrentDateTime(),_id: "msg-"+ msgIndex,role: 'user',content: msg});
-                return msgs;
-            });
-            setMsgIndex(s => s+1);
-            setIsSending(true)}} isSending={isSending} setMsg = {setMsg} />
-        </section>
-        <footer>
 
-        </footer>
+        <Chat messages={messages} conversationId={conversationId} isSending={isSending} onSuggestion={handleSend} />
+
+        <Message isSending={isSending} sendMessage={handleSend} />
     </section>);
 }

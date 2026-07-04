@@ -1,13 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import Link from 'next/link';
-
-import {useRouter,usePathname} from 'next/navigation';
-
-import { RiLogoutCircleLine } from "react-icons/ri";
-import { AiOutlineLoading } from "react-icons/ai";
-import { GoChevronDown } from "react-icons/go";
-
+import { usePathname } from 'next/navigation';
 import MenuLinks from '@/constants/main-menu';
 import { useEffect, useState } from 'react';
 import config from '@/constants/config';
@@ -19,12 +14,6 @@ export default function Header() {
     const CURRENT_PATHNAME = usePathname();
     const [isLoggedIn, setIsLoggedIn] = useState<any>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-    const [isLogout,setIsLogout] = useState(false);
-
-    const [openMenu,setOpenMenu] = useState(false);
-
-    const router = useRouter();
 
     useEffect(() => {
         if (isLoggedIn == null) {
@@ -39,35 +28,27 @@ export default function Header() {
                     setIsLoggedIn(res);
                 })
         }
-
-        if( isLogout ) {
-            fetch(config.apiUrl +'/auth/logout',{credentials: 'include',method: "POST"})
-                .then(res => res.status == 200 ? (router.refresh()):Promise.reject());
-        }
-    },[isLogout]);
-
-    function changeLanguage(lang:string) {
-        router.replace(CURRENT_PATHNAME.replace(/(ar|en|fr)/,lang));
-    }
+    }, []);
 
     return (
-    <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
-        className="fixed w-[92vw] md:w-[85vw] lg:w-[80vw] left-1/2 -translate-x-1/2 top-[20px] rounded-2xl bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none z-[99999] flex justify-between p-2 py-1 transition-all duration-500 hover:shadow-[#14b8a6]/5"
-        id = 'main-header'>
-        <Link href="/" id="identity" className="flex items-center justify-between gap-3">
-            <h1>
-                <motion.img
-                    whileHover={{ scale: 1.05, rotate: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    src="/starthub.png"
-                    className="w-[120px] transition-transform duration-300"
-                    alt="StarHub Logo"  
-                />
-            </h1>
-        </Link>
+        <motion.header
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+            className="fixed w-[92vw] md:w-[85vw] lg:w-[80vw] left-1/2 -translate-x-1/2 top-[20px] rounded-2xl bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none z-[99999] flex flex-col transition-all duration-500 hover:shadow-[#14b8a6]/5"
+        >
+            <div className="flex items-center justify-between p-3 px-6 w-full">
+                <Link href="/" id="identity" className="flex items-center justify-between gap-3">
+                    <h1>
+                        <motion.img
+                            whileHover={{ scale: 1.05, rotate: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            src="/starthub.png"
+                            className="w-[120px] transition-transform duration-300"
+                            alt="StarHub Logo"  
+                        />
+                    </h1>
+                </Link>
 
                 <nav className="flex items-center gap-3 md:gap-6">
                     <div className="hidden md:flex items-center gap-6">
@@ -117,6 +98,7 @@ export default function Header() {
                         {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </nav>
+            </div>
 
             <AnimatePresence>
                 {mobileMenuOpen && (
@@ -158,6 +140,6 @@ export default function Header() {
                     </motion.div>
                 )}
             </AnimatePresence>
-    </motion.header>
+        </motion.header>
     );
 }

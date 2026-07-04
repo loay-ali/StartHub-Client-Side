@@ -1,3 +1,5 @@
+// enahance footer with social media icons and back to top button 
+
 import Link from "next/link"
 import { FaXTwitter } from "react-icons/fa6"
 import { FiFacebook, FiInstagram, FiLinkedin } from "react-icons/fi"
@@ -86,5 +88,6 @@ export default function Footer() {
                 &copy; 2025 StarHub — All Rights Reserved
             </div>
         </footer>
+
     )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
@@ -10,8 +11,6 @@ import config from "@/constants/config";
 import { redirect } from "next/navigation";
 import AIWindow from "@/components/ai/window/window";
 import AIMainButton from "@/components/ai/MainButton";
-
-import { AiOutlineLoading } from "react-icons/ai";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -33,8 +32,14 @@ const AIContext = createContext<{
 export const useAIContext = () => useContext(AIContext);
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
+  // Note: /auth/me isn't implemented on the backend yet (only admin
+  // endpoints exist under authentication/admin.module). So this check
+  // runs, but a missing/failing endpoint must NOT lock founders out of
+  // the dashboard — only a definitive 401 means "not logged in".
+  // We also don't block initial render on this resolving, since that
+  // would hide the whole dashboard (sidebar, header, AI assistant)
+  // behind a spinner every time the endpoint 404s.
   const [isLoggedIn,setIsLoggedIn] = useState(true);
-  const [loadingLoggedIn,setLoadingLoggedIn] = useState(false);
 
   const [userData,setUserData] = useState<any>({});
 
@@ -47,31 +52,36 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
 
   useEffect(() => {
-    if( isLoggedIn == false ) {
-      fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
-        .then(res => {
-          if( res.status == 200 ) {
-            setIsLoggedIn(true);
-            setLoadingLoggedIn(false);
-            return res.json();
-          }else {
-            redirect('/login');
-          }
-        }).then((res) => {
+    fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
+      .then(res => {
+        if( res.status == 200 ) {
+          return res.json();
+        }
+        if( res.status == 401 ) {
+          // Genuinely unauthenticated — this is the only case that
+          // should send someone away from the dashboard.
+          setIsLoggedIn(false);
+          redirect('/login');
+        }
+        // Any other status (404 because the route isn't built yet, 500,
+        // etc.) is a backend/wiring issue, not "you're logged out" —
+        // leave the dashboard as-is.
+        return null;
+      }).then((res) => {
+        if( res ) {
           setUserData(res);
-        })
-    }
+        }
+      }).catch(() => {
+        // Backend unreachable (not running, CORS, etc.) — same as
+        // above, don't punish the founder for a network hiccup.
+      });
   },[]);
-
-  if( loadingLoggedIn == true ) {
-    return (<div className = 'p-5 flex items-center justify-center'><AiOutlineLoading className = 'spinner-loading' /></div>)
-  }
 
   return (
     <div className="flex min-h-screen bg-background">
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
-        <Sidebar email = {userData.email} companyName = {'hello'} />
+        <Sidebar email = {userData.email} companyName = {userData.companyName ?? ''} />
       </div>
 
       {/* Mobile Sidebar */}
@@ -83,7 +93,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           />
 
           <div className="fixed left-0 top-0 z-50 md:hidden">
-            <Sidebar email = {userData.email} companyName = {'hello'}/>
+            <Sidebar email = {userData.email} companyName = {userData.companyName ?? ''}/>
           </div>
         </>
       )}

@@ -1,7 +1,9 @@
+
 'use client';
 
 import { BiCog } from "react-icons/bi";
 import { FiUsers, FiBriefcase, FiDollarSign, FiActivity } from "react-icons/fi";
+import type { IconType } from "react-icons";
 
 import StatsCard from "./StatsCard";
 import RecentCompaniesTable from "./RecentCompaniesTable";
@@ -21,7 +23,7 @@ export default function DashboardHome() {
 
   const [loadingDashboard,setLoadingDashboard] = useState(true);
 
-  const icons:Record<string,any> = {
+  const icons: Record<string, IconType> = {
     'tokens': MdOutlineGeneratingTokens
   };
 
