@@ -33,8 +33,8 @@ const AIContext = createContext<{
 export const useAIContext = () => useContext(AIContext);
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [isLoggedIn,setIsLoggedIn] = useState(true);
-  const [loadingLoggedIn,setLoadingLoggedIn] = useState(false);
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+  const [loadingLoggedIn,setLoadingLoggedIn] = useState(true);
 
   const [userData,setUserData] = useState<any>({});
 
@@ -89,7 +89,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       )}
 
       <div className="min-w-0 flex flex-1 flex-col">
-        <Header email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
+        <Header tokens = {userData.tokensLeft} email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 p-4 md:p-6">
           <AIContext.Provider value = {{addMessage: addMessage,purpose: aiPurpose,open:isUsingAI,setPurpose: (purpose:string) => setAiPurpose(purpose),toggleAI: () => setIsUsingAI(s => !s)}}>

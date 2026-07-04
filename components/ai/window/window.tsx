@@ -50,35 +50,37 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
                 setIsSending(false);
                 setMsg('');
             })
-        }
-
-        if(isSending) {
-            fetch(config.apiUrl +'/ai/chat',{
-                
-                method: 'POST',
-                credentials: "include",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    msg,
-                    conversationId
+        }else {
+            if(isSending) {
+                fetch(config.apiUrl +'/ai/chat',{
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        msg,
+                        conversationId
+                    })
                 })
-            })
-            .then(res => res.json())
-            .then(res => {
-                if( ! res.data ) return;
+                .then(res => res.status == 200 ? res.json():Promise.reject())
+                .then(res => {
+                    if( ! res.data ) return;
 
-                setMessages((msgs:any[]) => {
-                    if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
-                    setConversationId(res.data.conversationId ?? '');
-                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response});
-                    return msgs;
-                });
-            }).finally(() => {
-                setIsSending(false);
-                setMsg('');
-            })
+                    setMessages((msgs:any[]) => {
+                        if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
+                        setConversationId(res.data.conversationId ?? '');
+                        msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response});
+                        return msgs;
+                    });
+                }).catch(err => {
+                    console.warn("Error Accured",err);
+                }).finally(() => {
+                    console.log("Reached The End");
+                    setIsSending(false);
+                    setMsg('');
+                })
+            }
         }
     },[isSending]);
 

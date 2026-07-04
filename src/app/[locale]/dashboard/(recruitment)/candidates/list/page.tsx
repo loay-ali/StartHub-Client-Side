@@ -1,18 +1,17 @@
 'use client';
 
-import { AiOutlineLoading } from "react-icons/ai";
-import { MdReportGmailerrorred } from "react-icons/md";
-import { LuRefreshCcw } from "react-icons/lu";
-
 import CollectionPage from '@/components/collection/CollectionPage';
 import AreYouSureWindow from '@/components/window/AreYouSure';
 
-import {useRouter} from 'next/navigation';
+import {forbidden, useRouter} from 'next/navigation';
 import { useEffect, useState } from 'react';
 import config from "@/constants/config";
 import { notificationService } from "@/lib/notifiationSystem";
+import { ButtonLoader } from "@/components/preloader/ButtonLoader";
+import AISection, { ActionType } from "@/components/ai/section/AISection";
+import { Bot } from "lucide-react";
 
-export default async function CandidatesList() {
+export default function CandidatesList() {
     const router = useRouter();
 
     const [candidates,setCandidates] = useState([]);
@@ -40,43 +39,47 @@ export default async function CandidatesList() {
             })
         }
 
-    },[isLoading]);
+        if( isDeleting != '' && confirmRemoving == true ) {
+            fetch(config.apiUrl +'/candidates/'+ isDeleting,{
+                credentials: 'include',
+                method: 'DELETE'
+            }).then(() => {
+                router.refresh();
+            })
+        }
 
-    if( isLoading == true || hasError == true ) {
-        return (
-        <section className = 'flex justify-center items-center p-5'>
-            {isLoading ? (
-                <AiOutlineLoading size = {20} className = 'spinner-loading' />
-            ):(
-                <>
-                    <MdReportGmailerrorred size = {20} className = 'spinner-loading' color = "#dc3545"/>
-                    <strong>Something Went Wrong</strong>
+    },[confirmRemoving]);
 
-                    <button type = 'button' onClick = {() => {
-                        router.refresh();
-                    }}>
-                        
-                    </button>
-                </>
-            )}
-        </section>
-        );
+    if( isLoading == true ) {
+        return (<div className = 'p-5 flex justify-center items-center'>
+            <ButtonLoader size = {30}/>
+        </div>)
+    }
+
+    if( hasError ) {
+        return forbidden();
     }
 
     return (
-    <>
-    <CollectionPage
-        onAdd={() => router.replace('/dashboard/candidates/new')}
-        onEdit={(row:{id:string}) => router.replace('/dashboard/candidates/'+ row.id)}
-        onDelete={(row:{id:string}) => {
-            setIsDeleting(row.id);
-        }}
-        title = "Candiates"
-        data = {candidates}
-        columns = {[
-        ]}/>
-    {isDeleting != '' && confirmRemoving == false && <AreYouSureWindow confirmCallback = {() => {
-        setConfirmRemoving(true);
-    }}  setWindowState = {setIsDeleting} title = "You Really Want To Delete The Candidate ?" />}
-    </>);
+    <section className = 'flex items-start gap-5 justify-center mx-auto max-w-[1200px]'>
+        <CollectionPage
+            onAdd={() => router.replace('/dashboard/candidates/new')}
+            onEdit={(row:{id:string}) => router.replace('/dashboard/candidates/'+ row.id)}
+            onDelete={(row:{id:string}) => {
+                setIsDeleting(row.id);
+            }}
+            title = "Candiates"
+            data = {candidates}
+            columns = {[
+            ]}/>
+        {isDeleting != '' && confirmRemoving == false && <AreYouSureWindow confirmCallback = {() => {
+            setConfirmRemoving(true);
+        }}  setWindowState = {setIsDeleting} title = "You Really Want To Delete The Candidate ?" />}
+        <AISection 
+            Icon = {Bot}
+            title = "Need Help ?"
+            initialActions={[
+                {title: "Filter Candidates",action: "filterCandidates",type: ActionType.CHAT}
+            ]}/>
+    </section>);
 }

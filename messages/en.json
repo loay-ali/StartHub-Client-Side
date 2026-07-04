@@ -12,8 +12,34 @@
         }
     },
     "dashboard": {
+        "roles": {
+            
+        },
+        "fields": {
+            "fullname": "Fullname",
+            "email": "E-Mail",
+            "phone": "Phone",
+            "password": "Password",
+            "repeat-password": "Repeat Password",
+            "role": "Role",
+
+            "applied-job": "Applied Job",
+            "cv": "CV",
+            "download-cv": "Download CV"
+        },
+        "jobs": {
+            "create-a-job": "Create a Job"
+        },
+        "candidates": {
+            "create-a-candidate": "Create a Candidate",
+            "no-jobs-to-apply-candidates-to": "No Jobs To Apply Candidates To",
+            "create-candidate": "Create Candidate"
+        },
         "home": {
             "tokens_used": "Tokens Used"
+        },
+        "header": {
+            "tokens": "Tokens"
         },
         "integrations": {
             "database": "Database",
