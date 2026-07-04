@@ -1,4 +1,9 @@
 {
+    "shared": {
+        "currencies": {
+            "USD": "USD"
+        }
+    },
     "public": {
         "homepage": {
             "hello-world": "Hello World"
@@ -23,7 +28,9 @@
         "common": {
             "title": "Title",
 
-            "updated": "Updated"
+            "updated": "Updated",
+
+            "submit": "Submit"
         },
         "ai": {
             "need-help": "Need Help ?"
@@ -85,6 +92,17 @@
             "url": "URL",
             "username": "Username",
             "apikey": "API Key"
+        },
+        "service": {
+            "order-service": "Order Service",
+            "order-a-personal-professional-service-from-our-experts": "Order a Personal Professional Service From Our Experts",
+
+            "choose-service": "Choose Service",
+            "service-data": "Service Data",
+            "payment": "Payment",
+            "complete": "Complete",
+
+            "please-choose-a-service": "Please Choose a Service"
         },
         "sidebar": {
             "dashboard": "Dashboard",

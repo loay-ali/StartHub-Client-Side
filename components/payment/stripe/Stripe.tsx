@@ -7,11 +7,10 @@ import { useMemo } from 'react';
 import CheckoutForm from './CheckoutForm';
 import config from '@/constants/config';
 
-const stripePromise = loadStripe(process.env.STRIPE_API_PUBLIC_KEY ?? '');
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_PUBLIC_KEY ?? '');
 
 export default function Stripe({clientSecret}:{clientSecret:string}) {
   return (
-
     <CheckoutElementsProvider stripe={stripePromise} options={{clientSecret}}>
       <CheckoutForm />
     </CheckoutElementsProvider>

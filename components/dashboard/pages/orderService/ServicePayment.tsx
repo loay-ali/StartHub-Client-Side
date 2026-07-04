@@ -16,23 +16,27 @@ export default function ServicePayments() {
         return (<>Please Choose a Service</>);
     }
 
-    const [paymentURL,setPaymentURL] = useState('');
+    const [paymentData,setPaymentData] = useState({
+        client_secret: "",
+        price: 0
+    });
 
     useEffect(() => {
-        if( paymentURL == '' ) {
-            fetch(config.apiUrl +'/payments/serviceCheckout/'+ params.get('service'),{method: "POST",credentials: 'include'})
+        if( paymentData.client_secret == '' ) {
+            fetch(config.apiUrl +'/payments/serviceCheckout/'+ params.get('service'),{
+                method: "POST",
+                credentials: 'include'})
                 .then(res => {
-                    return res.status == 201 ? res.json():Promise.reject()})
+                    return res.status == 200 ? res.json():Promise.reject()})
                 .then(res => {
-                    setPaymentURL(res.data.redirectUrl);
-                    console.log(paymentURL);
+                    setPaymentData(res.data);
                 }).catch(err => {
                     console.log(err);
                 })
         }
     },[]);
 
-    if( paymentURL == '' ) {
+    if( paymentData.client_secret == '' ) {
         return (
         <section className = "p-5 flex justify-center items-center">
             <AiOutlineLoading size = {40} className = "spinner-loading"/>
@@ -41,6 +45,6 @@ export default function ServicePayments() {
     }
 
     return (<>
-        <PaymentSection price = {50} url = {paymentURL}/>
+        <PaymentSection clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
     </>);
 }

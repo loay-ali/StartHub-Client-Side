@@ -49,6 +49,10 @@ export default function UsagePage() {
                     }},
                     {key: "tokens",label: t("dashboard.header.tokens"),value: (row:any) => {
                         return row.creditsUsed
+                    }},
+                    {key: 'createdAt',label: 'Date & Time',value: (row:any) => {
+                        const d = new Date(row.createdAt);
+                        return d.getFullYear() +' / '+ (d.getMonth() + 1) +' / '+ d.getDate();
                     }}
                 ]}/>
         </section>
