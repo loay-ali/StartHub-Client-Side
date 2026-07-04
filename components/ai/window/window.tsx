@@ -5,7 +5,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { Sparkles } from "lucide-react";
 import Chat from "./Chat";
 import Message from './Message';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ChatMessage } from "@/types/requests/ai";
 import config from "@/constants/config";
@@ -32,9 +32,11 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
 
     const [msgIndex,setMsgIndex] = useState(1000);
 
-    if( aiPurpose != '' && isSending != true ) {
-        setIsSending(true);
-    }
+    // Tracks the last purpose we already kicked a request off for, so a
+    // purpose that stays set (it's never cleared after the fetch settles)
+    // doesn't keep re-triggering "chat-for-purpose" every time isSending
+    // flips back to false — that previously caused an endless fetch loop.
+    const lastHandledPurposeRef = useRef('');
 
     function getCurrentDateTime() {
         const date = new Date();
@@ -58,30 +60,38 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
         setIsSending(true);
     }
 
+    // Fires exactly once per distinct, non-empty aiPurpose — not on every
+    // render where aiPurpose happens to still be set (it's never cleared
+    // after use, so re-running this on every settle previously caused an
+    // endless request loop that starved/broke the assistant).
     useEffect(() => {
+        if( aiPurpose == '' || aiPurpose == lastHandledPurposeRef.current ) return;
 
-        if( aiPurpose != '' ) {
-            fetch(config.apiUrl +'/ai/chat-for-purpose/'+ aiPurpose,{
-                credentials: "include",
-                method: 'post'
-            })
-            .then(res => res.status == 201 ? res.json():Promise.reject())
-            .then(res => {
-                if( ! res.data ) return;
+        lastHandledPurposeRef.current = aiPurpose;
+        setIsSending(true);
 
-                setMessages((msgs: ChatMessage[]) => {
-                    if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
-                    setConversationId(res.data.conversationId ?? '');
-                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
-                    return msgs;
-                });
-            }).finally(() => {
-                setIsSending(false);
-                setMsg('');
-            })
-        }
+        fetch(config.apiUrl +'/ai/chat-for-purpose/'+ aiPurpose,{
+            credentials: "include",
+            method: 'post'
+        })
+        .then(res => res.status == 201 ? res.json():Promise.reject())
+        .then(res => {
+            if( ! res.data ) return;
 
-        if(isSending) {
+            setMessages((msgs: ChatMessage[]) => {
+                if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
+                setConversationId(res.data.conversationId ?? '');
+                msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
+                return msgs;
+            });
+        }).finally(() => {
+            setIsSending(false);
+            setMsg('');
+        })
+    },[aiPurpose]);
+
+    useEffect(() => {
+        if(isSending && msg) {
             fetch(config.apiUrl +'/ai/chat',{
 
                 method: 'POST',

@@ -132,7 +132,7 @@ export default function Chat(data: ChatProps) {
                         </div>
                     </div>
                 </div>
-            )}a
+            )}
 
             <div ref={bottomRef} />
         </section>

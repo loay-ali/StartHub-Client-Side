@@ -123,7 +123,7 @@ export function ToastContainer() {
     <div
       aria-live="polite"
       aria-label="Notifications"
-      className="fixed bottom-5 right-5 z-[9999] flex flex-col-reverse gap-2"
+      className="fixed top-5 right-5 z-[9999] flex flex-col gap-2"
     >
       {toasts.map((toast: Toast) => (
         <ToastItem key={toast.id} toast={toast} onDismiss={dismissToast} />

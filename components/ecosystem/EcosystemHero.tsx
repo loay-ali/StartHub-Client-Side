@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { ArrowRight, ChevronRight, Zap, Check, Globe, Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, ChevronRight, Check } from "lucide-react";
 import styles from "./ecosystem.module.css";
+import { heroStats } from "@/components/ecosystem/hero-stats";
 
 /* ── Animated counter hook ───────────────────────────────────── */
 function useCounter(target: number, duration: number) {
@@ -22,9 +23,15 @@ function useCounter(target: number, duration: number) {
 }
 
 export default function EcosystemHero() {
-  const cStartups = useCounter(1840, 2000);
-  const cCapital = useCounter(450, 1800); // 450M+
-  const cMatches = useCounter(94, 1500); // 94% Match rate
+  // heroStats always contains exactly 3 entries (startups, investors,
+  // matches) — see constants/ecosystem-stats.ts. Hooks can't be called
+  // inside a loop/map, so each slot gets its own fixed useCounter call;
+  // only the `value` and `label` come from the shared, backend-ready config.
+  const [statA, statB, statC] = heroStats;
+  const cA = useCounter(statA?.value ?? 0, 2000);
+  const cB = useCounter(statB?.value ?? 0, 1800);
+  const cC = useCounter(statC?.value ?? 0, 1500);
+  const heroCounters = [cA, cB, cC];
 
   return (
     <section className={styles.heroSection}>
@@ -75,18 +82,14 @@ export default function EcosystemHero() {
 
             {/* Hero Stats */}
             <div className={styles.heroStats}>
-              <div className={styles.heroStatItem}>
-                <span className={styles.heroStatNum}>{cStartups.toLocaleString()}+</span>
-                <span className={styles.heroStatLabel}>Vetted Entities</span>
-              </div>
-              <div className={styles.heroStatItem}>
-                <span className={styles.heroStatNum}>${cCapital}M+</span>
-                <span className={styles.heroStatLabel}>Available Capital</span>
-              </div>
-              <div className={styles.heroStatItem}>
-                <span className={styles.heroStatNum}>{cMatches}%</span>
-                <span className={styles.heroStatLabel}>AI Match Rate</span>
-              </div>
+              {heroStats.map((stat, i) => (
+                <div className={styles.heroStatItem} key={stat.key}>
+                  <span className={styles.heroStatNum}>
+                    {heroCounters[i].toLocaleString()}{stat.suffix ?? ""}
+                  </span>
+                  <span className={styles.heroStatLabel}>{stat.label}</span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -102,12 +105,17 @@ export default function EcosystemHero() {
               </defs>
               <circle cx="200" cy="200" r="80" fill="url(#centerGlow)" />
 
-              {/* Connecting lines */}
-              <line x1="200" y1="200" x2="80" y2="120" stroke="rgba(20,184,166,0.3)" strokeWidth="1.5" strokeDasharray="5,5" />
-              <line x1="200" y1="200" x2="320" y2="100" stroke="rgba(20,184,166,0.3)" strokeWidth="1.5" />
-              <line x1="200" y1="200" x2="280" y2="300" stroke="rgba(20,184,166,0.3)" strokeWidth="1.5" strokeDasharray="3,3" />
-              <line x1="200" y1="200" x2="100" y2="280" stroke="rgba(20,184,166,0.3)" strokeWidth="1.5" />
-              
+              {/* Connecting lines — hub-to-node "signal" spokes, all
+                  sharing one flow animation (see .heroSpokeFlow) with a
+                  slight per-spoke delay so the pulse visibly travels
+                  outward instead of four lines blinking in unison. */}
+              <line pathLength="100" x1="200" y1="200" x2="80" y2="120" stroke="rgba(20,184,166,0.55)" strokeWidth="1.5" className={styles.heroSpokeFlow} style={{ animationDelay: "0s" }} />
+              <line pathLength="100" x1="200" y1="200" x2="320" y2="100" stroke="rgba(20,184,166,0.55)" strokeWidth="1.5" className={styles.heroSpokeFlow} style={{ animationDelay: "0.2s" }} />
+              <line pathLength="100" x1="200" y1="200" x2="280" y2="300" stroke="rgba(20,184,166,0.55)" strokeWidth="1.5" className={styles.heroSpokeFlow} style={{ animationDelay: "0.4s" }} />
+              <line pathLength="100" x1="200" y1="200" x2="100" y2="280" stroke="rgba(20,184,166,0.55)" strokeWidth="1.5" className={styles.heroSpokeFlow} style={{ animationDelay: "0.6s" }} />
+
+              {/* Faint static mesh between outer nodes — background
+                  texture only, intentionally not animated. */}
               <line x1="80" y1="120" x2="320" y2="100" stroke="rgba(20,184,166,0.15)" strokeWidth="1" />
               <line x1="320" y1="100" x2="280" y2="300" stroke="rgba(20,184,166,0.15)" strokeWidth="1" />
               <line x1="280" y1="300" x2="100" y2="280" stroke="rgba(20,184,166,0.15)" strokeWidth="1" />
