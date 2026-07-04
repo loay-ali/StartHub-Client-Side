@@ -1,5 +1,6 @@
 "use client";
 import { ArrowRight, Sparkles, Briefcase } from "lucide-react";
+import Link from "next/link";
 import { Reveal } from "../home/shared";
 import styles from "./ecosystem.module.css";
 
@@ -38,10 +39,10 @@ export default function EcosystemFinalCTA() {
               <span>Join as Startup</span>
               <ArrowRight size={16} />
             </button>
-            <button className={styles.ctaBtnGhost}>
+            <Link href="/investor/register" className={styles.ctaBtnGhost}>
               <Briefcase size={15} className="text-teal-400" />
               <span>Join as Investor</span>
-            </button>
+            </Link>
           </div>
         </Reveal>
       </div>

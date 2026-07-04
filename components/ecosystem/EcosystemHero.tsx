@@ -31,7 +31,15 @@ export default function EcosystemHero() {
 
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
-  // Helper to determine path style on hover
+  // Helper to determine path style on hover.
+  // Uses strokeOpacity (not opacity) for the dim/highlight effect: the
+  // lineFlow keyframe animation already drives `opacity` continuously for
+  // the ambient flow pulse, and a CSS animation always wins over an inline
+  // style for the property it's animating — so setting inline `opacity`
+  // here would be silently overridden every frame and hover would never
+  // visibly dim the other spokes. `stroke-opacity` is a separate SVG
+  // property the keyframe never touches, so it multiplies cleanly with
+  // the animated opacity instead of fighting it.
   const getSpokeStyle = (nodeId: string) => {
     if (!hoveredNode) return {};
     if (hoveredNode === nodeId) {
@@ -39,11 +47,11 @@ export default function EcosystemHero() {
         stroke: "#14b8a6",
         strokeWidth: "3px",
         filter: "drop-shadow(0 0 6px rgba(20,184,166,0.8))",
-        opacity: 1
+        strokeOpacity: 1
       };
     }
     return {
-      opacity: 0.15,
+      strokeOpacity: 0.15,
       stroke: "rgba(20,184,166,0.1)"
     };
   };

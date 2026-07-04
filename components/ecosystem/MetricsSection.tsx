@@ -4,7 +4,7 @@ import { Reveal, SectionHeading } from "../home/shared";
 import { ecosystemStats, type EcosystemStat } from "@/constants/ecosystem-stats";
 import styles from "./ecosystem.module.css";
 
-// Icon per stat key — kept separate from the data itself so the stats
+// Icon per stat key — kept separate from the data itself so the stats`
 // config stays plain data (safe to fetch from an API later).
 const METRIC_ICONS: Record<EcosystemStat["key"], React.ReactNode> = {
   organizations: <Building2 size={20} />,

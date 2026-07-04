@@ -701,6 +701,11 @@
   margin: 0 auto 28px;
 }
 
+.joinCtaBtn {
+  padding: 14px 30px;
+  font-size: 15px;
+}
+
 .tag {
   padding: 3px 9px;
   border-radius: 999px;
