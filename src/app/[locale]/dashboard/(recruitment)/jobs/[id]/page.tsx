@@ -32,8 +32,8 @@ export default async function SingleJob() {
     const [roles,setRoles] = useState<Role[]>([]);
 
     const [saving,setSaving] = useState(false);
-    const [loadingJob,setLoadingJob] = useState(false);
-    const [loadingRoles,setLoadingRoles] = useState(false);
+    const [loadingJob,setLoadingJob] = useState(true);
+    const [loadingRoles,setLoadingRoles] = useState(true);
 
     useEffect(() => {
         if( saving ) {

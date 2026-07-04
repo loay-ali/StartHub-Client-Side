@@ -19,7 +19,7 @@ export default function NewJob() {
 
     const [roles,setRoles] = useState([]);
 
-    const [loadingRoles,setLoadingRoles] = useState(false);
+    const [loadingRoles,setLoadingRoles] = useState(true);
 
     const [title,setTitle] = useState('');
     const [desc,setDesc] = useState('');
