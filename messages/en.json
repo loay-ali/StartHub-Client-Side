@@ -17,6 +17,17 @@
         }
     },
     "dashboard": {
+        "departments": {
+            "the-department-was-removed-successfully": "The Department Was Removed Successfully",
+            "could-not-delete-the-department-please-try-again": "Could not delete the department, please try again",
+            "remove-department": "Remove Department",
+            "create-department": "Create Department",
+            "department-name": "Department Name"
+        },
+        "employees": {
+            "employees": "Employees",
+            "no-employees": "No Employees"
+        },
         "users": {
             "user": "User"
         },
@@ -26,11 +37,15 @@
             "AGENT_EXECUTION": "Chat"
         },
         "common": {
+            "name": "Name",
+            "description": "Description",
             "title": "Title",
-
             "updated": "Updated",
-
-            "submit": "Submit"
+            "submit": "Submit",
+            "create": "Create",
+            "checkout": "checkout",
+            "search": "Search",
+            "add-new": "Add New"
         },
         "ai": {
             "need-help": "Need Help ?"

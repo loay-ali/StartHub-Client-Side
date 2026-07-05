@@ -195,7 +195,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
           collapsed={collapsed}
           item={{
             title: t("dashboard.sidebar.departments"),
-            href: "/departments",
+            href: "dashboard/departments/all",
             icon: <FaBuilding />,
             children: [
               {

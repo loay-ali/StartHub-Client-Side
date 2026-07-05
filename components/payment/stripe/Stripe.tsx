@@ -1,18 +1,16 @@
 'use client';
 
-import {CheckoutElementsProvider} from '@stripe/react-stripe-js/checkout';
+import {Elements, PaymentElement, useElements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
-
-import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import CheckoutForm from './CheckoutForm';
-import config from '@/constants/config';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_PUBLIC_KEY ?? '');
 
-export default function Stripe({clientSecret}:{clientSecret:string}) {
+export default function Stripe({redirect,paymentIntent,clientSecret}:{redirect:Function,paymentIntent:string,clientSecret:string}) {
   return (
-    <CheckoutElementsProvider stripe={stripePromise} options={{clientSecret}}>
-      <CheckoutForm />
-    </CheckoutElementsProvider>
+    <Elements stripe={stripePromise} options={{clientSecret}}>
+        <CheckoutForm redirect = {redirect} client_secret={clientSecret} paymentIntent = {paymentIntent}/>
+    </Elements>
   );
 }
