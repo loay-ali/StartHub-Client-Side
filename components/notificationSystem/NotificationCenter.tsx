@@ -33,15 +33,15 @@ const TYPE_META: Record<
   success:        { icon: CheckCheck,   color: "text-emerald-400", bg: "bg-emerald-500/10",  label: "Success" },
   error:          { icon: AlertCircle,  color: "text-red-400",     bg: "bg-red-500/10",      label: "Error" },
   warning:        { icon: AlertTriangle,color: "text-amber-400",   bg: "bg-amber-500/10",    label: "Warning" },
-  info:           { icon: Info,         color: "text-blue-400",    bg: "bg-blue-500/10",     label: "Info" },
+  info:           { icon: Info,         color: "text-teal-400",    bg: "bg-teal-500/10",     label: "Info" },
   system:         { icon: Settings,     color: "text-violet-400",  bg: "bg-violet-500/10",   label: "System" },
   integration:    { icon: Plug,         color: "text-cyan-400",    bg: "bg-cyan-500/10",     label: "Integration" },
   automation:     { icon: Zap,          color: "text-yellow-400",  bg: "bg-yellow-500/10",   label: "Automation" },
   insight:        { icon: Lightbulb,    color: "text-orange-400",  bg: "bg-orange-500/10",   label: "Insight" },
-  recommendation: { icon: Star,         color: "text-blue-300",    bg: "bg-blue-500/10",     label: "Recommendation" },
+  recommendation: { icon: Star,         color: "text-teal-300",    bg: "bg-teal-500/10",     label: "Recommendation" },
   risk:           { icon: ShieldAlert,  color: "text-red-300",     bg: "bg-red-500/10",      label: "Risk" },
   critical:       { icon: AlertCircle,  color: "text-red-500",     bg: "bg-red-600/15",      label: "Critical" },
-  ai:             { icon: Bot,          color: "text-indigo-400",  bg: "bg-indigo-500/10",   label: "AI" },
+  ai:             { icon: Bot,          color: "text-teal-400",  bg: "bg-teal-500/10",   label: "AI" },
   activity:       { icon: Activity,     color: "text-gray-400",    bg: "bg-gray-500/10",     label: "Activity" },
 };
 
@@ -86,7 +86,7 @@ function NotificationItem({
     >
       {/* Unread dot */}
       {!notification.read && (
-        <span className="absolute left-2 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-blue-500" />
+        <span className="absolute left-2 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-teal-500" />
       )}
 
       {/* Icon */}
@@ -109,7 +109,7 @@ function NotificationItem({
         {/* AI metadata */}
         {notification.ai && (
           <div className="mt-2 flex items-center gap-2">
-            <span className="rounded-full bg-indigo-500/15 px-2 py-0.5 text-[10px] font-medium text-indigo-300">
+            <span className="rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-medium text-teal-300">
               {notification.ai.agent}
             </span>
             <span className="text-[10px] text-gray-500">
@@ -133,7 +133,7 @@ function NotificationItem({
                   }}
                   className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
                     action.variant === "primary"
-                      ? "bg-blue-500/20 text-blue-300 hover:bg-blue-500/30"
+                      ? "bg-teal-500/20 text-teal-300 hover:bg-teal-500/30"
                       : action.variant === "danger"
                       ? "bg-red-500/20 text-red-300 hover:bg-red-500/30"
                       : "bg-white/5 text-gray-300 hover:bg-white/10"
@@ -197,7 +197,7 @@ export function NotificationCenter({ onClose }: NotificationCenterProps) {
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-white">Notifications</span>
           {unreadCount > 0 && (
-            <span className="rounded-full bg-blue-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+            <span className="rounded-full bg-teal-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
               {unreadCount}
             </span>
           )}
@@ -239,13 +239,13 @@ export function NotificationCenter({ onClose }: NotificationCenterProps) {
             onClick={() => setActiveTab(tab.key)}
             className={`flex items-center gap-1.5 border-b-2 px-3 py-2.5 text-xs font-medium transition-colors ${
               activeTab === tab.key
-                ? "border-blue-500 text-blue-400"
+                ? "border-teal-500 text-teal-400"
                 : "border-transparent text-gray-500 hover:text-gray-300"
             }`}
           >
             {tab.label}
             {tab.count !== undefined && tab.count > 0 && (
-              <span className="rounded-full bg-blue-500/20 px-1.5 text-[10px] text-blue-300">
+              <span className="rounded-full bg-teal-500/20 px-1.5 text-[10px] text-teal-300">
                 {tab.count}
               </span>
             )}

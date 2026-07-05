@@ -21,7 +21,7 @@ export const EMAIL_THEME = {
   success: "#16A34A",
   warning: "#f59e0b",
   danger: "#dc3545",
-  info: "#0EA5E9",  
+  info: "#14B8A6",  
 
   // Shadows
   shadow: "0 8px 30px rgba(15,118,110,0.12)",

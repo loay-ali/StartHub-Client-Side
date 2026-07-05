@@ -34,22 +34,22 @@ export default function AISection({
     },[]);
 
     return (
-    <section className="sticky top-[100px] mb-6 flex w-full min-w-[280px] max-w-sm flex-col overflow-hidden rounded-3xl border border-indigo-500/20 bg-slate-900 text-white shadow-[0_20px_50px_-12px_rgba(79,70,229,0.25)]">
+    <section className="sticky top-[100px] mb-6 flex w-full min-w-[280px] max-w-sm flex-col overflow-hidden rounded-3xl border border-teal-500/20 bg-slate-900 text-white shadow-[0_20px_50px_-12px_rgba(20,184,166,0.25)]">
         
         {/* Ambient Glow Effects */}
-        <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+        <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500" />
         <div className="absolute -right-24 -top-24 h-48 w-48 rounded-full bg-purple-500/20 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-teal-500/20 blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col p-6">
             {/* Header */}
             <header className="mb-6 flex items-center gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-inner">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 shadow-inner">
                     <Icon className="h-5 w-5 text-white" />
                 </div>
                 <div>
                     <h2 className="text-base font-bold tracking-wide text-white">{title}</h2>
-                    <p className="mt-0.5 flex items-center gap-1.5 text-xs font-medium text-indigo-200/70">
+                    <p className="mt-0.5 flex items-center gap-1.5 text-xs font-medium text-teal-200/70">
                         <Sparkles className="h-3 w-3" /> AI Assistant
                     </p>
                 </div>
@@ -79,10 +79,10 @@ export default function AISection({
                                     }
                                 }} 
                                 type="button" 
-                                className="group flex w-full items-center justify-between rounded-xl border border-white/5 bg-white/5 px-4 py-3 text-sm font-medium text-slate-200 backdrop-blur-sm transition-all duration-300 hover:border-indigo-500/30 hover:bg-white/10 hover:shadow-[0_0_15px_-3px_rgba(99,102,241,0.2)]"
+                                className="group flex w-full items-center justify-between rounded-xl border border-white/5 bg-white/5 px-4 py-3 text-sm font-medium text-slate-200 backdrop-blur-sm transition-all duration-300 hover:border-teal-500/30 hover:bg-white/10 hover:shadow-[0_0_15px_-3px_rgba(20,184,166,0.2)]"
                             >
                                 <span className="transition-transform duration-300 group-hover:translate-x-1">{a.title}</span>
-                                <ArrowRight className="h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-x-1 group-hover:text-indigo-400" />
+                                <ArrowRight className="h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-x-1 group-hover:text-teal-400" />
                             </button>
                         ))}
                     </div>
@@ -92,17 +92,17 @@ export default function AISection({
                 {loading ? (
                     <div className="flex h-full flex-col items-center justify-center gap-4 py-8">
                         <div className="relative flex h-12 w-12 items-center justify-center">
-                            <div className="absolute inset-0 animate-ping rounded-full bg-indigo-500/40" />
-                            <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                            <div className="absolute inset-0 animate-ping rounded-full bg-teal-500/40" />
+                            <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-teal-500 shadow-[0_0_15px_rgba(20,184,166,0.5)]">
                                 <Sparkles className="h-5 w-5 animate-pulse text-white" />
                             </div>
                         </div>
-                        <p className="animate-pulse text-[10px] font-bold uppercase tracking-widest text-indigo-300">Generating...</p>
+                        <p className="animate-pulse text-[10px] font-bold uppercase tracking-widest text-teal-300">Generating...</p>
                     </div>
                 ) : (
                     content !== '' && (
                         <div 
-                            className="custom-scrollbar prose prose-sm prose-invert max-h-[300px] max-w-none overflow-y-auto pr-2 text-slate-300 duration-500 animate-in fade-in slide-in-from-bottom-4 prose-headings:text-white hover:prose-a:text-indigo-300 prose-a:text-indigo-400"
+                            className="custom-scrollbar prose prose-sm prose-invert max-h-[300px] max-w-none overflow-y-auto pr-2 text-slate-300 duration-500 animate-in fade-in slide-in-from-bottom-4 prose-headings:text-white hover:prose-a:text-teal-300 prose-a:text-teal-400"
                             dangerouslySetInnerHTML={{ __html: content }} 
                         />
                     )

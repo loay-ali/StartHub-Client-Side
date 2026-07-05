@@ -145,7 +145,7 @@ export default function Header() {
 
                     {/* Mobile Hamburger */}
                     <button
-                        className="md:hidden flex items-center justify-center p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+                        className="md:hidden flex items-center justify-center p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all duration-200"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         aria-label="Toggle menu"
                     >
