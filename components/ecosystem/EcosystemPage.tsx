@@ -16,6 +16,7 @@ import AIAssistant from "./AIAssistant";
 import InnovationProcess from "./InnovationProcess";
 import SuccessStories from "./SuccessStories";
 import EcosystemFinalCTA from "./EcosystemFinalCTA";
+import OpportunitiesTimeline from "./Opportunitiestimeline";
 
 const TABS = [
   { id: "all", label: "All Pillars", icon: Compass },
@@ -76,6 +77,7 @@ export default function EcosystemPage() {
             {activeTab === "all" && (
               <>
                 <ChallengeMarketplace />
+                <OpportunitiesTimeline />
                 <IndustryGrid />
                 <StartupDiscovery />
                 <InvestorDiscovery />
@@ -97,6 +99,7 @@ export default function EcosystemPage() {
 
             {activeTab === "opportunities" && (
               <>
+                <OpportunitiesTimeline />
                 <ChallengeMarketplace />
                 <ProgramsSection />
                 <InnovationProcess />

@@ -35,21 +35,15 @@ export default function PaymentGatewayPlaceholder() {
         </div>
         <div>
           <div className={styles.gatewayTitle}>Payment Gateway</div>
-          <div className={styles.gatewaySub}>Coming soon — Stripe &amp; Paymob integration</div>
+          <div className={styles.gatewaySub}>Coming soon — Stripe integration</div>
         </div>
       </div>
 
       <div className={styles.gatewayBody}>
         <div className={styles.gatewayLogos}>
           <span className={styles.gatewayLogoChip}>Stripe</span>
-          <span className={styles.gatewayLogoChip}>Paymob</span>
-          <span className={styles.gatewayLogoChip}>Visa</span>
-          <span className={styles.gatewayLogoChip}>Mastercard</span>
         </div>
 
-        {/* Skeleton rows stand in for the future card/billing fields.
-            No inputs are rendered here on purpose — this is a layout
-            placeholder, not a functional payment form. */}
         <div className={styles.gatewayFieldsSkeleton} aria-hidden="true">
           <div className={styles.skeletonLine} />
           <div className={styles.skeletonLine} />

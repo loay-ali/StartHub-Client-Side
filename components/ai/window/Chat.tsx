@@ -48,7 +48,7 @@ export default function Chat(data: ChatProps) {
                                 key={suggestion}
                                 type="button"
                                 onClick={() => data.onSuggestion?.(suggestion)}
-                                className="rounded-xl border border-border bg-surface px-3 py-2 text-left text-sm text-text-secondary transition hover:border-primary hover:text-primary"
+                                className="rounded-xl border-none shadow-sm bg-surface px-3 py-2 text-left text-sm text-text-secondary transition hover:border-primary hover:text-primary"
                             >
                                 {suggestion}
                             </button>
@@ -75,13 +75,13 @@ export default function Chat(data: ChatProps) {
                                         "rounded-2xl px-4 py-2.5 text-sm leading-relaxed " +
                                         (isUser
                                             ? "rounded-br-md bg-primary text-white"
-                                            : "rounded-bl-md border border-border bg-surface text-text-primary")
+                                            : "rounded-bl-md border-none shadow-sm bg-surface text-text-primary")
                                     }
                                 >
                                     <p dangerouslySetInnerHTML={{ __html: msg.content }} />
 
                                     {msg.actions && msg.actions.length > 0 && (
-                                        <div className={"mt-2 flex flex-wrap items-center gap-3 border-t pt-2 " + (isUser ? "border-white/25" : "border-border")}>
+                                        <div className={"mt-2 flex flex-wrap items-center gap-3 border-t border-white/25 pt-2 " + (isUser ? "border-white/25" : "border-border")}>
                                             {msg.actions.map((action, i) => (
                                                 action.type === 'link' ? (
                                                     <Link
@@ -125,7 +125,7 @@ export default function Chat(data: ChatProps) {
                         <span className="mb-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary/10">
                             <Bot size={14} className="text-primary" />
                         </span>
-                        <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-border bg-surface px-4 py-3">
+                        <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border-none shadow-lg bg-surface px-4 py-3">
                             <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-muted [animation-delay:-0.3s]" />
                             <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-muted [animation-delay:-0.15s]" />
                             <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-muted" />

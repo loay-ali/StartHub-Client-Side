@@ -92,6 +92,20 @@
     100% { transform: rotate(360deg); }
 }
 
+/* AI floating button — gentle glow breathing */
+@keyframes ai-btn-glow {
+    0%, 100% {
+        box-shadow:
+            0 0 0 0 rgba(20,184,166,.30),
+            0 8px 30px rgba(20,184,166,.25);
+    }
+    50% {
+        box-shadow:
+            0 0 0 6px rgba(20,184,166,.08),
+            0 12px 40px rgba(20,184,166,.40);
+    }
+}
+
 /* Aurora blob animation — slow, breathing gradient */
 @keyframes aurora-blob {
     0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
@@ -177,6 +191,11 @@
 /* ── Spinner ────────────────────────────────────────────────────── */
 .spinner-loading {
     animation: spin 1.25s linear infinite;
+}
+
+/* ── AI floating button ──────────────────────────────────────────── */
+.ai-float-btn {
+    animation: ai-btn-glow 3s ease-in-out infinite;
 }
 
 /* ── Base ───────────────────────────────────────────────────────── */
@@ -485,7 +504,8 @@ button { font: inherit; }
     .aurora-bg::before,
     .gradient-border::before,
     .btn-primary::before,
-    .hero-accent-gradient {
+    .hero-accent-gradient,
+    .ai-float-btn {
         animation: none !important;
     }
     .blur-reveal,

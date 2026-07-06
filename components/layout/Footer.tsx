@@ -1,93 +1,249 @@
-// enahance footer with social media icons and back to top button 
+'use client';
 
-import Link from "next/link"
-import { FaXTwitter } from "react-icons/fa6"
-import { FiFacebook, FiInstagram, FiLinkedin } from "react-icons/fi"
-import { AiOutlineToTop } from "react-icons/ai";
-import BackToTop from "./BackToTop";
+import Link from "next/link";
+import { FaXTwitter } from "react-icons/fa6";
+import { FiFacebook, FiInstagram, FiLinkedin, FiMail, FiArrowUp } from "react-icons/fi";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
-    return (
-        <footer id = 'main-footer' style={{ position: 'relative', zIndex: 10, background: '#0f1f1d' }}>
-            <BackToTop />
-            <div style={{
-                maxWidth: 1280,
-                margin: '0 auto',
-                padding: '60px 32px 40px',
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: 48,
-            }}>
-                {/* Brand */}
-                <div>
-                    <img src="/starthub.png" width={140} alt="StarHub" style={{ marginBottom: 16 }} />
-                    <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.7, maxWidth: 260 }}>
-                        Business intelligence, AI, and recruitment analysis — unified for startups.
-                    </p>
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const pathname = usePathname();
 
-                <div className="mt-5 flex justify-start gap-4">
-                    <a
-                    href="#"
-                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
-                    >
-                    <FiFacebook size={22} />
-                    </a>
+  const isInvestorAuth = pathname?.includes('/investor/login') || pathname?.includes('/investor/register');
 
-                    <a
-                    href="#"
-                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
-                    >
-                    <FiInstagram size={22} />
-                    </a>
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-                    <a
-                    href="#"
-                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
-                    >
-                    <FiLinkedin size={22} />
-                    </a>
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-                    <a
-                    href="#"
-                    className="rounded-full bg-primary/10 p-3 text-primary transition-all hover:scale-110 hover:bg-primary hover:text-white"
-                    >
-                    <FaXTwitter size={20} />
-                    </a>
-                </div>
-                </div>
+  if (isInvestorAuth) {
+    return null;
+  }
 
-                {/* Platform */}
-                <div>
-                    <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#14b8a6', marginBottom: 16 }}>Platform</p>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                        <li><Link href="/features" style={{ fontSize: 14, color: '#cbd5e1', textDecoration: 'none' }} className="hover:text-[#14b8a6] transition-colors">Features</Link></li>
-                        <li><Link href="/ecosystem" style={{ fontSize: 14, color: '#cbd5e1', textDecoration: 'none' }} className="hover:text-[#14b8a6] transition-colors">Ecosystem</Link></li>
-                        <li><Link href="/plans" style={{ fontSize: 14, color: '#cbd5e1', textDecoration: 'none' }} className="hover:text-[#14b8a6] transition-colors">Pricing</Link></li>
-                    </ul>
-                </div>
+  return (
+    <footer id="main-footer" className="relative overflow-hidden" style={{
+      background: 'linear-gradient(180deg, #0a1f1d 0%, #0f1f1d 50%, #0a1a19 100%)',
+    }}>
+      {/* Animated gradient accent line at top */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{
+        background: 'linear-gradient(90deg, transparent, #14b8a6, #5eead4, #14b8a6, transparent)',
+        opacity: 0.6,
+      }} />
 
-                {/* Company */}
-                <div>
-                    <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#14b8a6', marginBottom: 16 }}>Company</p>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                        <li><Link href="/about" style={{ fontSize: 14, color: '#cbd5e1', textDecoration: 'none' }} className="hover:text-[#14b8a6] transition-colors">About Us</Link></li>
-                        <li><Link href="/contact-us" style={{ fontSize: 14, color: '#cbd5e1', textDecoration: 'none' }} className="hover:text-[#14b8a6] transition-colors">Contact</Link></li>
-                        <li><Link href="/login" style={{ fontSize: 14, color: '#cbd5e1', textDecoration: 'none' }} className="hover:text-[#14b8a6] transition-colors">Login</Link></li>
-                    </ul>
-                </div>
+      {/* Subtle dot pattern overlay */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: 'radial-gradient(circle, #14b8a6 1px, transparent 1px)',
+        backgroundSize: '24px 24px',
+      }} />
+
+      {/* Glow effects */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-20" style={{
+        background: 'radial-gradient(circle, rgba(20, 184, 166, 0.3), transparent 70%)',
+        filter: 'blur(80px)',
+      }} />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full opacity-15" style={{
+        background: 'radial-gradient(circle, rgba(94, 234, 212, 0.25), transparent 70%)',
+        filter: 'blur(60px)',
+      }} />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-16 pb-12">
+        {/* Main footer content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+          {/* Brand column - spans 2 columns on large screens */}
+          <div className="lg:col-span-2">
+            <img 
+              src="/starthub.png" 
+              width={150} 
+              alt="StarHub" 
+              className="mb-5"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
+            <p className="text-sm leading-relaxed mb-6 max-w-sm" style={{ color: '#94a3b8' }}>
+              Business intelligence, AI, and recruitment analysis — unified for startups.
+            </p>
+
+            {/* Social media icons with enhanced styling */}
+            <div className="flex gap-3">
+              <a
+                href="#"
+                className="group relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300 hover:scale-110"
+                style={{
+                  background: 'rgba(20, 184, 166, 0.1)',
+                  border: '1px solid rgba(20, 184, 166, 0.2)',
+                }}
+              >
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                  background: 'radial-gradient(circle, rgba(20, 184, 166, 0.3), transparent 70%)',
+                }} />
+                <FiFacebook size={20} className="relative z-10" style={{ color: '#14b8a6' }} />
+              </a>
+
+              <a
+                href="#"
+                className="group relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300 hover:scale-110"
+                style={{
+                  background: 'rgba(20, 184, 166, 0.1)',
+                  border: '1px solid rgba(20, 184, 166, 0.2)',
+                }}
+              >
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                  background: 'radial-gradient(circle, rgba(20, 184, 166, 0.3), transparent 70%)',
+                }} />
+                <FiInstagram size={20} className="relative z-10" style={{ color: '#14b8a6' }} />
+              </a>
+
+              <a
+                href="#"
+                className="group relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300 hover:scale-110"
+                style={{
+                  background: 'rgba(20, 184, 166, 0.1)',
+                  border: '1px solid rgba(20, 184, 166, 0.2)',
+                }}
+              >
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                  background: 'radial-gradient(circle, rgba(20, 184, 166, 0.3), transparent 70%)',
+                }} />
+                <FiLinkedin size={20} className="relative z-10" style={{ color: '#14b8a6' }} />
+              </a>
+
+              <a
+                href="#"
+                className="group relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-300 hover:scale-110"
+                style={{
+                  background: 'rgba(20, 184, 166, 0.1)',
+                  border: '1px solid rgba(20, 184, 166, 0.2)',
+                }}
+              >
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                  background: 'radial-gradient(circle, rgba(20, 184, 166, 0.3), transparent 70%)',
+                }} />
+                <FaXTwitter size={18} className="relative z-10" style={{ color: '#14b8a6' }} />
+              </a>
             </div>
+          </div>
 
-            {/* Bottom bar */}
-            <div style={{
-                borderTop: '1px solid #1e3a38',
-                padding: '20px 32px',
-                textAlign: 'center',
-                fontSize: 13,
-                color: '#64748b',
+          {/* Platform */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-5" style={{
+              color: '#14b8a6',
+              letterSpacing: '0.12em',
             }}>
-                &copy; 2025 StarHub — All Rights Reserved
-            </div>
-        </footer>
+              Platform
+            </h3>
+            <ul className="space-y-3">
+              {['Features', 'Ecosystem', 'Pricing'].map((item) => (
+                <li key={item}>
+                  <Link 
+                    href={item === 'Features' ? '/features' : item === 'Ecosystem' ? '/ecosystem' : '/plans'}
+                    className="text-sm transition-colors duration-200 hover:text-[#14b8a6]"
+                    style={{ color: '#cbd5e1', textDecoration: 'none' }}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-    )
+          {/* Company */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-5" style={{
+              color: '#14b8a6',
+              letterSpacing: '0.12em',
+            }}>
+              Company
+            </h3>
+            <ul className="space-y-3">
+              {['About Us', 'Contact', 'Login'].map((item) => (
+                <li key={item}>
+                  <Link 
+                    href={item === 'About Us' ? '/about' : item === 'Contact' ? '/contact-us' : '/login'}
+                    className="text-sm transition-colors duration-200 hover:text-[#14b8a6]"
+                    style={{ color: '#cbd5e1', textDecoration: 'none' }}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-5" style={{
+              color: '#14b8a6',
+              letterSpacing: '0.12em',
+            }}>
+              Get in Touch
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <a 
+                  href="mailto:hello@starthub.com"
+                  className="flex items-center gap-2 text-sm transition-colors duration-200 hover:text-[#14b8a6]"
+                  style={{ color: '#cbd5e1', textDecoration: 'none' }}
+                >
+                  <FiMail size={16} />
+                  <span>hello@starthub.com</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-16 pt-8" style={{
+          borderTop: '1px solid rgba(20, 184, 166, 0.12)',
+        }}>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-xs" style={{ color: '#64748b' }}>
+              &copy; 2025 StarHub — All Rights Reserved
+            </p>
+            <div className="flex gap-6">
+              <Link href="/privacy" className="text-xs transition-colors duration-200 hover:text-[#14b8a6]" style={{ color: '#64748b', textDecoration: 'none' }}>
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-xs transition-colors duration-200 hover:text-[#14b8a6]" style={{ color: '#64748b', textDecoration: 'none' }}>
+                Terms of Service
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Back to top button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 left-8 z-[45] flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 hover:scale-110"
+          style={{
+            background: 'linear-gradient(135deg, #14b8a6, #0f766e)',
+            boxShadow: '0 8px 24px rgba(20, 184, 166, 0.35), 0 0 0 0 rgba(20, 184, 166, 0.4)',
+            animation: 'pulse-glow 2s ease-in-out infinite',
+          }}
+        >
+          <FiArrowUp size={22} className="text-white" />
+        </button>
+      )}
+
+      <style jsx>{`
+        @keyframes pulse-glow {
+          0%, 100% {
+            box-shadow: 0 8px 24px rgba(20, 184, 166, 0.35), 0 0 0 0 rgba(20, 184, 166, 0.4);
+          }
+          50% {
+            box-shadow: 0 8px 24px rgba(20, 184, 166, 0.35), 0 0 0 8px rgba(20, 184, 166, 0);
+          }
+        }
+      `}</style>
+    </footer>
+  );
 }

@@ -29,14 +29,14 @@ export default function Message({isSending,sendMessage}:{isSending:boolean,sendM
         // loader while sending, so the input area jumped around and you
         // lost your place. The field now just disables in place; the
         // typing indicator lives in the chat body instead.
-        <section className="flex flex-shrink-0 items-end gap-2 border-t border-border bg-surface p-3">
+        <section className="flex flex-shrink-0 items-end gap-2  border-none bg-surface-soft backdrop-blur-sm p-3">
             <textarea
                 ref={textareaRef}
                 value={value}
                 disabled={isSending}
                 rows={1}
                 placeholder="Ask about your business..."
-                className="max-h-[120px] min-h-[40px] flex-1 resize-none rounded-2xl border border-border bg-background px-4 py-2.5 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
+                className="max-h-[120px] min-h-[40px] flex-1 resize-none rounded-2xl border-none shadow-sm bg-background px-4 py-2.5 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
                 onChange={(event) => setValue(event.target.value)}
                 onKeyDown={(event) => {
                     // Enter sends, Shift+Enter makes a new line.

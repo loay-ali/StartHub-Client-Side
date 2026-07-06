@@ -1,35 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unsafe-function-type */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
 import config from "@/constants/config";
 import { redirect } from "next/navigation";
-import AIWindow from "@/components/ai/window/window";
+
+// Re-export so any code that still imports useAIContext from this file
+// continues to work without a breaking change.
+import { AIContext } from '@/components/providers/AIProvider';
 import AIMainButton from "@/components/ai/MainButton";
+import AIWindow from "@/components/ai/window/window";
+export { useAIContext } from "@/components/providers/AIProvider";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
-
-const AIContext = createContext<{
-  open:boolean,
-  purpose:string,
-  toggleAI:Function,
-  setPurpose:Function|null
-  addMessage?:(msg:string) => any
-}>({
-  open:false,
-  purpose:'',
-  toggleAI:() => {},
-  setPurpose:null,
-  addMessage: undefined});
-
-export const useAIContext = () => useContext(AIContext);
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
@@ -46,15 +34,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
 
   useEffect(() => {
-    fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
+    fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
       .then(res => {
-        if( res.status == 200 ) {
+        if (res.status == 200) {
           return res.json();
         }
-        if( res.status == 401 ) {
+        if (res.status == 401) {
           // Genuinely unauthenticated — this is the only case that
           // should send someone away from the dashboard.
-          setIsLoggedIn(false);
           redirect('/login');
         }
         // Any other status (404 because the route isn't built yet, 500,
@@ -62,14 +49,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         // leave the dashboard as-is.
         return null;
       }).then((res) => {
-        if( res ) {
+        if (res) {
           setUserData(res);
         }
       }).catch(() => {
         // Backend unreachable (not running, CORS, etc.) — same as
         // above, don't punish the founder for a network hiccup.
       });
-  },[]);
+  }, []);
 
   return (
     <AIContext.Provider value={{ addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
