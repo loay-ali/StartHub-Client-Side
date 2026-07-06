@@ -18,10 +18,10 @@
 import Link from "next/link";
 import { Info, Rocket, X, TrendingUp, FileText, Coins } from "lucide-react";
 
-// Assumption: plans/billing selection lives at this route, as a sibling
-// of (dashboard)/billing/page.tsx. Update this one constant if the real
-// route differs (e.g. "/dashboard/plans" or "/subscriptions/plans").
-const PLANS_HREF = "/plans";
+// Fixed: this pointed at "/plans", the public marketing pricing page,
+// so a logged-in user hitting "Renew" was sent out of the dashboard
+// entirely. The real in-app renewal flow lives at dashboard/plan-renew.
+const PLANS_HREF = "/dashboard/plan-renew";
 
 const whyRenew = [
   {

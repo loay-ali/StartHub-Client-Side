@@ -5,3 +5,4 @@ export default async function Page({searchParams}: {searchParams: Promise<{durat
   
   return <PlansPage duration = {sParams.duration ? sParams.duration:'monthly'} />;
 }
+

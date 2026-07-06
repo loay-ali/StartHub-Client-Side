@@ -29,15 +29,15 @@ const TOAST_META: Record<
   success:        { icon: CheckCircle2,  border: "border-emerald-500/30", iconColor: "text-emerald-400" },
   error:          { icon: XCircle,       border: "border-red-500/30",     iconColor: "text-red-400" },
   warning:        { icon: AlertTriangle, border: "border-amber-500/30",   iconColor: "text-amber-400" },
-  info:           { icon: Info,          border: "border-blue-500/30",    iconColor: "text-blue-400" },
+  info:           { icon: Info,          border: "border-teal-500/30",    iconColor: "text-teal-400" },
   system:         { icon: Settings,      border: "border-violet-500/30",  iconColor: "text-violet-400" },
   integration:    { icon: Plug,          border: "border-cyan-500/30",    iconColor: "text-cyan-400" },
   automation:     { icon: Zap,           border: "border-yellow-500/30",  iconColor: "text-yellow-400" },
   insight:        { icon: Lightbulb,     border: "border-orange-500/30",  iconColor: "text-orange-400" },
-  recommendation: { icon: Star,          border: "border-blue-400/30",    iconColor: "text-blue-300" },
+  recommendation: { icon: Star,          border: "border-teal-400/30",    iconColor: "text-teal-300" },
   risk:           { icon: ShieldAlert,   border: "border-red-400/30",     iconColor: "text-red-300" },
   critical:       { icon: XCircle,       border: "border-red-600/50",     iconColor: "text-red-500" },
-  ai:             { icon: Bot,           border: "border-indigo-500/30",  iconColor: "text-indigo-400" },
+  ai:             { icon: Bot,           border: "border-teal-500/30",  iconColor: "text-teal-400" },
   activity:       { icon: Activity,      border: "border-gray-500/30",    iconColor: "text-gray-400" },
 };
 
@@ -73,7 +73,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
         {/* AI badge */}
         {toast.ai && (
           <div className="mt-1.5 flex items-center gap-1.5">
-            <span className="rounded-full bg-indigo-500/15 px-2 py-0.5 text-[10px] font-medium text-indigo-300">
+            <span className="rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-medium text-teal-300">
               {toast.ai.agent}
             </span>
             <span className="text-[10px] text-gray-500">
@@ -123,7 +123,7 @@ export function ToastContainer() {
     <div
       aria-live="polite"
       aria-label="Notifications"
-      className="fixed bottom-5 right-5 z-[9999] flex flex-col-reverse gap-2"
+      className="fixed top-5 right-5 z-[9999] flex flex-col gap-2"
     >
       {toasts.map((toast: Toast) => (
         <ToastItem key={toast.id} toast={toast} onDismiss={dismissToast} />
