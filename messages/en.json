@@ -5,6 +5,9 @@
         }
     },
     "public": {
+        "navigation": {
+            "investor": "Investor"
+        },
         "homepage": {
             "hello-world": "Hello World"
         },

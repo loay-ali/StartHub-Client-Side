@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 
-import "./globals.css";
+import "./[locale]/globals.css";
 import PreloaderWrapper from "@/components/preloader/PreloaderWrapper";
 
 export const metadata: Metadata = {

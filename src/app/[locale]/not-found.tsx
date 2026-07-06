@@ -13,7 +13,7 @@ export default function NotFound() {
           {/* Illustration */}
           <div className="flex justify-center">
             <div className="w-full max-w-[500px]">
-              <Lottie animationData={notFoundAnimation} loop />
+              <Lottie animationData={notFoundAnimation}/>
             </div>
           </div>
 
