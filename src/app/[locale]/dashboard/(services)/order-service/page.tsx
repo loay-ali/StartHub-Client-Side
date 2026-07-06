@@ -7,6 +7,8 @@ import Link from 'next/link';
 import OrderPlaced from "@/components/dashboard/pages/orderService/Congrats";
 import PaymentSection from "@/components/payment/Payment";
 import ServicePayments from "@/components/dashboard/pages/orderService/ServicePayment";
+import { getTranslations } from "next-intl/server";
+import { BiArrowBack, BiArrowToRight, BiRightArrow } from "react-icons/bi";
 
 export default async function OrderService({
   searchParams
@@ -16,25 +18,27 @@ export default async function OrderService({
     const params = await searchParams;
     const currentStep:number = params.step ? Number(params.step):1;
 
+    const t = await getTranslations();
+
     return (
         <>
             <div className="min-h-screen bg-background p-8">
                 <div className="mx-auto max-w-7xl rounded-3xl bg-surface p-10 shadow-sm">
                     <div className="mb-8">
                     <h1 className="text-4xl font-bold text-text-primary">
-                        Startup Registration
+                        {t('dashboard.service.order-service')}
                     </h1>
 
                     <p className="mt-3 text-text-secondary">
-                        Complete the onboarding process to create your workspace.
+                        {t('dashboard.service.order-a-personal-professional-service-from-our-experts')}
                     </p>
                     </div>
 
-                    <Stepper currentStep={currentStep} />
+                    <Stepper t = {t} currentStep={currentStep} />
 
                     <section>
-                        {currentStep === 1 && <ChooseService/>}
-                        {currentStep === 2 && <ServiceData searchParams = {searchParams}/>}
+                        {currentStep === 1 && <ChooseService />}
+                        {currentStep === 2 && <ServiceData t = {t} searchParams = {searchParams}/>}
                         {currentStep === 3 && <ServicePayments />}
                         {currentStep === 4 && <OrderPlaced />}
                     </section>
@@ -45,13 +49,13 @@ export default async function OrderService({
                         href={'?step='+ (currentStep - 1)}
                         className="rounded-xl border border-border px-6 py-3 transition hover:bg-slate-50"
                         >
-                        Back
+                        <BiArrowBack />
                         </Link>
 
                         {currentStep < 2 && <Link
                         href={'?step='+ (currentStep + 1)}
                         className="rounded-xl bg-primary px-6 py-3 font-medium text-white transition hover:opacity-90"
-                        >Next
+                        ><BiArrowBack className = 'rotate-[180deg]'/>
                         </Link>}
                     </div>
                     )}

@@ -14,6 +14,7 @@ import AISection, { ActionType } from '@/components/ai/section/AISection';
 import { Bot } from 'lucide-react';
 import AreYouSureWindow from '@/components/window/AreYouSure';
 import { ButtonLoader } from '@/components/preloader/ButtonLoader';
+import { useTranslations } from 'next-intl';
 
 export default function InterviewsList() {
 
@@ -25,6 +26,8 @@ export default function InterviewsList() {
     const [confirmRemoving,setConfirmRemoving] = useState(false);
 
     const [isError,setIsError] = useState(false);
+
+    const t = useTranslations();
 
     useEffect(() => {
         if( isLoading ) {
@@ -60,12 +63,12 @@ export default function InterviewsList() {
             </div>
             ):(
             <CollectionPage
-                title = "Interviews List"
-                data = {interviews}
+                title = {t('dashboard.interviews.interviews-list')}
+                data = {interviews as any}
                 columns={[
                     {key: 'id',label: "#",sortable: false},
-                    {key: 'candidate',label: "Candidate",sortable: true},
-                    {key: 'job',label: "Job",sortable: true}
+                    {key: 'candidate',label: t("dashboard.candidate.candidate"),sortable: true},
+                    {key: 'job',label: t('dashboard.job.job'),sortable: true}
                 ]}
                 onAdd={() => {
                     redirect('/dashboard/interviews/new');

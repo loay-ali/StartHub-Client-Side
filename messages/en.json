@@ -1,4 +1,9 @@
 {
+    "shared": {
+        "currencies": {
+            "USD": "USD"
+        }
+    },
     "public": {
         "homepage": {
             "hello-world": "Hello World"
@@ -12,14 +17,107 @@
         }
     },
     "dashboard": {
+        "departments": {
+            "the-department-was-removed-successfully": "The Department Was Removed Successfully",
+            "could-not-delete-the-department-please-try-again": "Could not delete the department, please try again",
+            "remove-department": "Remove Department",
+            "create-department": "Create Department",
+            "department-name": "Department Name"
+        },
+        "employees": {
+            "employees": "Employees",
+            "no-employees": "No Employees"
+        },
+        "users": {
+            "user": "User"
+        },
+        "usage": {
+            "all-logs": "All Logs",
+
+            "AGENT_EXECUTION": "Chat"
+        },
+        "common": {
+            "name": "Name",
+            "description": "Description",
+            "title": "Title",
+            "updated": "Updated",
+            "submit": "Submit",
+            "create": "Create",
+            "checkout": "checkout",
+            "search": "Search",
+            "add-new": "Add New"
+        },
+        "ai": {
+            "need-help": "Need Help ?"
+        },
+        "roles": {
+            
+        },
+        "fields": {
+            "fullname": "Fullname",
+            "email": "E-Mail",
+            "phone": "Phone",
+            "password": "Password",
+            "repeat-password": "Repeat Password",
+            "role": "Role",
+
+            "applied-job": "Applied Job",
+            "cv": "CV",
+            "download-cv": "Download CV"
+        },
+        "jobs": {
+            "job": "Job",
+            "create-a-job": "Create a Job",
+            "no-jobs": "No Jobs",
+            "choose-job": "Choose Job"
+        },
+        "candidates": {
+            "candidate": "Candidate",
+            "create-a-candidate": "Create a Candidate",
+            "no-jobs-to-apply-candidates-to": "No Jobs To Apply Candidates To",
+            "create-candidate": "Create Candidate",
+            "no-candidates": "No Candidates",
+            "choose-candidate": "Choose Candidate"
+        },
+        "interviews": {
+            "create-interview": "Create Interview",
+
+            "add-interview-to-best-candidate": "Add Interview To The Best Candidate",
+            "edit-interview-data": "Edit Current Interview's Data",
+            "interviews-list": "Interviews List",
+
+            "choose-interview-type": "Choose Interview Type",
+            "hr": "HR Interivew",
+            "final": "Final Interview",
+            "technical": "Technical Interview",
+            "behavioral": "Soft Skills Interview",
+
+            "save-interview-data": "Save Interview Data",
+
+            "interview-updated-successfully": "Interview Updated Successfully"
+        },
         "home": {
             "tokens_used": "Tokens Used"
+        },
+        "header": {
+            "tokens": "Tokens"
         },
         "integrations": {
             "database": "Database",
             "url": "URL",
             "username": "Username",
             "apikey": "API Key"
+        },
+        "service": {
+            "order-service": "Order Service",
+            "order-a-personal-professional-service-from-our-experts": "Order a Personal Professional Service From Our Experts",
+
+            "choose-service": "Choose Service",
+            "service-data": "Service Data",
+            "payment": "Payment",
+            "complete": "Complete",
+
+            "please-choose-a-service": "Please Choose a Service"
         },
         "sidebar": {
             "dashboard": "Dashboard",
@@ -61,7 +159,9 @@
 
             "departments": "Departments",
             "all-departments": "All Departments",
-            "add-department": "Add Department"
+            "add-department": "Add Department",
+
+            "usage": "Usage"
         }
     }
 }
