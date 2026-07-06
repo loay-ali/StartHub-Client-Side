@@ -1,35 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unsafe-function-type */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
 import config from "@/constants/config";
 import { redirect } from "next/navigation";
-import AIWindow from "@/components/ai/window/window";
-import AIMainButton from "@/components/ai/MainButton";
+
+// Re-export so any code that still imports useAIContext from this file
+// continues to work without a breaking change.
+export { useAIContext } from "@/components/providers/AIProvider";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
-
-const AIContext = createContext<{
-  open:boolean,
-  purpose:string,
-  toggleAI:Function,
-  setPurpose:Function|null
-  addMessage?:(msg:string) => any
-}>({
-  open:false,
-  purpose:'',
-  toggleAI:() => {},
-  setPurpose:null,
-  addMessage: undefined});
-
-export const useAIContext = () => useContext(AIContext);
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   // Note: /auth/me isn't implemented on the backend yet (only admin
@@ -39,28 +24,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   // We also don't block initial render on this resolving, since that
   // would hide the whole dashboard (sidebar, header, AI assistant)
   // behind a spinner every time the endpoint 404s.
-  const [isLoggedIn,setIsLoggedIn] = useState(true);
-
-  const [userData,setUserData] = useState<any>({});
-
+  const [userData, setUserData] = useState<any>({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [isUsingAI,setIsUsingAI] = useState(false);
-
-  const [aiPurpose,setAiPurpose] = useState('');
-
-  const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
-
   useEffect(() => {
-    fetch(config.apiUrl +'/auth/me',{credentials: 'include'})
+    fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
       .then(res => {
-        if( res.status == 200 ) {
+        if (res.status == 200) {
           return res.json();
         }
-        if( res.status == 401 ) {
+        if (res.status == 401) {
           // Genuinely unauthenticated — this is the only case that
           // should send someone away from the dashboard.
-          setIsLoggedIn(false);
           redirect('/login');
         }
         // Any other status (404 because the route isn't built yet, 500,
@@ -68,49 +43,45 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         // leave the dashboard as-is.
         return null;
       }).then((res) => {
-        if( res ) {
+        if (res) {
           setUserData(res);
         }
       }).catch(() => {
         // Backend unreachable (not running, CORS, etc.) — same as
         // above, don't punish the founder for a network hiccup.
       });
-  },[]);
+  }, []);
 
   return (
-    <AIContext.Provider value={{ addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
-      <div className="flex min-h-screen bg-background">
-        {/* Desktop Sidebar */}
-        <div className="hidden md:block">
-          <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
-        </div>
-
-        {/* Mobile Sidebar */}
-        {sidebarOpen && (
-          <>
-            <div
-              className="fixed inset-0 z-40 bg-black/40 md:hidden"
-              onClick={() => setSidebarOpen(false)}
-            />
-            <div className="fixed left-0 top-0 z-50 md:hidden">
-              <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
-            </div>
-          </>
-        )}
-
-        <div className="min-w-0 flex flex-1 flex-col">
-          <Header email={userData.email} onMenuClick={() => setSidebarOpen(true)} />
-
-          <main className="flex-1 p-4 md:p-6">
-            {children}
-          </main>
-        </div>
-
-        {/* AI Assistant — rendered at the root level so fixed positioning
-            is never affected by any stacking context on <main>. */}
-        <AIMainButton setOpen={() => setIsUsingAI(s => !s)} opened={isUsingAI} />
-        <AIWindow aiPurpose={aiPurpose} open={isUsingAI} closeWindow={() => setIsUsingAI(false)} />
+    <div className="flex min-h-screen bg-background">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:block">
+        <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
       </div>
-    </AIContext.Provider>
+
+      {/* Mobile Sidebar */}
+      {sidebarOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/40 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="fixed left-0 top-0 z-50 md:hidden">
+            <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
+          </div>
+        </>
+      )}
+
+      <div className="min-w-0 flex flex-1 flex-col">
+        <Header email={userData.email} onMenuClick={() => setSidebarOpen(true)} />
+
+        <main className="flex-1 p-4 md:p-6">
+          {children}
+        </main>
+      </div>
+
+      {/* AI Assistant (AIMainButton + AIWindow) are now rendered at the
+          root locale layout level so they persist across all pages. */}
+    </div>
   );
 }

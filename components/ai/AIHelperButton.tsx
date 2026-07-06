@@ -2,7 +2,7 @@
 
 import { GiArtificialHive } from "react-icons/gi";
 import AIWindow from "./window/window";
-import { useAIContext } from "../layout/dashboard-layout/DashboardLayout";
+import { useAIContext } from "../providers/AIProvider";
 import { AIMessage } from "@/types/ai";
 
 export default function AIHelperButton({purpose,message}:{purpose:string,message:AIMessage}) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAIContext } from "@/components/layout/dashboard-layout/DashboardLayout";
+import { useAIContext } from "@/components/providers/AIProvider";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import { useRouter } from "next/navigation";

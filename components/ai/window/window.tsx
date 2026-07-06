@@ -127,9 +127,11 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
         aria-label="AI Assistant"
         aria-hidden={!open}
         className={
-            "fixed bottom-5 right-5 z-50 flex h-[600px] w-[380px] max-w-[calc(100vw-2.5rem)] origin-bottom-right flex-col overflow-hidden rounded-3xl border border-border bg-surface shadow-2xl transition-all duration-300 " +
+            "fixed bottom-5 right-5 z-50 flex h-[600px] w-[380px] max-w-[calc(100vw-2.5rem)] origin-bottom-right flex-col overflow-hidden rounded-3xl border border-border shadow-2xl transition-all duration-300 " +
             (!open ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100")
         }
+
+        style={{backgroundColor:"white", border:"none", height:"75%"}}
     >
         {/* Header */}
         <header className="flex flex-shrink-0 items-center justify-between gap-3 bg-gradient-to-br from-primary to-primary-dark px-5 py-4 text-white">
