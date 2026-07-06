@@ -1242,7 +1242,7 @@
 ═══════════════════════════════════════════════════════════ */
 .ctaSection {
   padding: 110px 0 130px;
-  background: linear-gradient(160deg,#0a0f0e 0%,#0d1e1c 40%,#0a1614 100%);
+  background: linear-gradient(180deg, #0a1f1d 0%, #0f1f1d 50%, #0a1a19 100%);
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -1307,7 +1307,8 @@
   font-family: 'Inter Tight', system-ui, sans-serif;
   font-size: 15px;
   font-weight: 800;
-  border: none;
+  border: 1.5px solid transparent;
+  text-decoration: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1329,6 +1330,7 @@
   font-size: 15px;
   font-weight: 700;
   border: 1.5px solid rgba(255,255,255,.14);
+  text-decoration: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

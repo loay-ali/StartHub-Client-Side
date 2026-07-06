@@ -7,6 +7,18 @@ import styles from "./ecosystem.module.css";
 export default function EcosystemFinalCTA() {
   return (
     <section className={styles.ctaSection}>
+      {/* Animated gradient accent line at top */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{
+        background: 'linear-gradient(90deg, transparent, #14b8a6, #5eead4, #14b8a6, transparent)',
+        opacity: 0.6,
+      }} />
+
+      {/* Subtle dot pattern overlay */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
+        backgroundImage: 'radial-gradient(circle, #14b8a6 1px, transparent 1px)',
+        backgroundSize: '24px 24px',
+      }} />
+
       {/* Background blobs */}
       <div className={styles.ctaBgBlob1} />
       <div className={styles.ctaBgBlob2} />

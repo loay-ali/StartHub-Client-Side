@@ -3,10 +3,14 @@
 import Link from "next/link";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiFacebook, FiInstagram, FiLinkedin, FiMail, FiArrowUp } from "react-icons/fi";
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const pathname = usePathname();
+
+  const isInvestorAuth = pathname?.includes('/investor/login') || pathname?.includes('/investor/register');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +23,10 @@ export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (isInvestorAuth) {
+    return null;
+  }
 
   return (
     <footer id="main-footer" className="relative overflow-hidden" style={{
