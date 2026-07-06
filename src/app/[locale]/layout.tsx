@@ -20,6 +20,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className="h-full antialiased">
+      <head>
+        <link rel = 'icon' href = '/favicon.png' />
+      </head>
       <body className="min-h-full overflow-x-hidden">
         <NextIntlClientProvider>
           <PreloaderWrapper>
