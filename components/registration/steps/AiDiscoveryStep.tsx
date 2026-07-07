@@ -1,4 +1,4 @@
-export default function AiDiscoveryStep() {
+export default function AiDiscoveryStep({error,setError}:any) {
   return (
     <div className="mx-auto max-w-4xl">
       <div className="mb-10 text-center">
@@ -10,7 +10,10 @@ export default function AiDiscoveryStep() {
         </p>
       </div>
 
+      {error && <p className = 'text-red-500'>{t('public.errors.'+ error)}</p>}
+
       <div className="space-y-6">
+  
         <div>
           <label className="mb-2 block font-medium">
             What problem are you solving?

@@ -5,6 +5,54 @@
         }
     },
     "public": {
+        "pay": {
+            "per-month": "Per Month"
+        },
+        "plans": {
+            
+        },
+        "register": {
+            "most-popular": "Most Popular",
+            "select-a-plan": "Select a Plan",
+            "tell-us-more-about-your-business": " Tell us more about your company and business.",
+            "company-image": "Company Image",
+            "upload-your-company-logo": "Upload Your Company Logo",
+            "company-information": "Company Information",
+            "startup-registeration": "Startup Registeration",
+            "founder-information": "Founder Information",
+            "personal-information": "Personal Information",
+            "upload-profile-photo": "Upload Profile Photo",
+            "profile-photo": "Profile Photo",
+            "first-name": "First Name",
+            "last-name": "Last Name",
+            "phone": "Phone",
+            "email": "E-Mail",
+            "password": "Password",
+            "repeat-password": "Repeat Password",
+            "compelete-the-onboarding-process-to-create-your-workspace": "Complete the onboarding process to create your workspace.",
+            "upload-photo": "Upload Photo",
+            "create-the-primary-account-owner-for-your-company": "Create the primary account owner for your company.",
+            "choose-your-subscription": "Choose Your Subscription",
+            "select-a-plan-and-billing-cycle-to-activate-your-workspace": "Select a plan and billing cycle to activate your workspace.",
+            "billing-cycle": "Billing Cycle",
+            "monthly": "Monthly",
+            "yearly": "Yearly",
+            "flexible-monthly-billing": "Flexible monthly billing."
+        },
+        "errors": {
+            "company-image-is-required": "Company Image Is Required",
+            "company-name-is-required": "Company Name Is Required",
+            "company-founded-date-is-required": "Company Establishment Date Is Required",
+            "company-industry-is-required": "Company Industry Is Required",
+            "company-size-is-required": "Company Size Is Required",
+
+            "first-name-is-required": "First Name Is Required",
+            "last-name-is-required": "Last Name Is Required",
+            "email-is-required": "E-Mail Is Required",
+            "phone-is-required": "Phone Is Required",
+            "password-is-required": "Password Is Required",
+            "password-not-match": "Password Repetation Doesn't Match"
+        },
         "navigation": {
             "investor": "Investor"
         },

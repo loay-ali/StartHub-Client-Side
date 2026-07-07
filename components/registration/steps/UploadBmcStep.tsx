@@ -1,16 +1,23 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { FiFileText, FiUploadCloud } from "react-icons/fi";
 
 interface UploadBmcStepProps {
   selectedFile?: File | null;
   onFileSelect?: (file: File) => void;
+  error?:string;
+  setError:Function;
 }
 
 export default function UploadBmcStep({
   selectedFile,
   onFileSelect,
+  error,
+  setError
 }: UploadBmcStepProps) {
+  const t = useTranslations();
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
@@ -21,6 +28,7 @@ export default function UploadBmcStep({
 
   return (
     <div className="mx-auto max-w-3xl">
+      {error && <p className = 'text-red-500'>{t('public.errors.'+ error)}</p>}
       <div className="mb-8 text-center">
         <h2 className="text-3xl font-bold text-text-primary">
           Upload Your BMC
