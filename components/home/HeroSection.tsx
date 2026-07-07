@@ -522,11 +522,11 @@ export default function HeroSection() {
           font-size: clamp(30px, 11cqi, 56px);
           line-height: 1.05;
           letter-spacing: -0.01em;
-          margin: 20px 0 18px;
+          margin: 20px 0 18px; 
         }
         .shH1 span { display: block; }
         .shH1a { font-weight: 700; color: ${C.text}; }
-        .shH1b { font-weight: 500; color: ${C.tealText}; }
+        .shH1b { font-weight: 700; color: ${C.tealText}; }
 
         .shSub {
           font-family: ${FONTS.body};
@@ -535,6 +535,8 @@ export default function HeroSection() {
           color: ${C.textSecondary};
           max-width: 42ch;
           margin: 0 0 32px;
+          // margin: auto;
+          // margin-buttom: 1rem;
           text-align: center
         }
 

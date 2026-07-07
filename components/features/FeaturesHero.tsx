@@ -7,13 +7,13 @@ import { Zap, BarChart2, Users } from "lucide-react";
 import { LoadingButton } from "@/components/preloader/ButtonLoader";
 
 const PILLS = [
-  { icon: <Zap size={14} />,      label: "AI-Powered Decisions" },
-  { icon: <BarChart2 size={14} />, label: "Real-Time Analytics"  },
-  { icon: <Users size={14} />,     label: "Team Collaboration"   },
+  { icon: <Zap size={14} />, label: "AI-Powered Decisions" },
+  { icon: <BarChart2 size={14} />, label: "Real-Time Analytics" },
+  { icon: <Users size={14} />, label: "Team Collaboration" },
 ];
 
 export default function FeaturesHero() {
-  const [startLoading, setStartLoading]  = useState(false);
+  const [startLoading, setStartLoading] = useState(false);
   const [pricingLoading, setPricingLoading] = useState(false);
 
   const handleStart = () => {
@@ -28,6 +28,7 @@ export default function FeaturesHero() {
 
   return (
     <section
+      id="hero" data-header-theme="dark"
       style={{
         position: "relative",
         overflow: "hidden",

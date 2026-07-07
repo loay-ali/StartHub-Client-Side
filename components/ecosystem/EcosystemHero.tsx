@@ -61,7 +61,7 @@ export default function EcosystemHero() {
   };
 
   return (
-    <section className={styles.heroSection}>
+    <section id="hero" data-header-theme="light" className={styles.heroSection}>
       {/* Background elements */}
       <div className={styles.heroBgMesh} />
       <div className={styles.heroBgGrid} />

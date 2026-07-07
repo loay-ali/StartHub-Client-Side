@@ -161,6 +161,7 @@
   justify-content: center;
   overflow: hidden;
   padding: 96px 0 76px;
+  margin-top: -80px;
 }
 
 /* backgrounds */
@@ -259,7 +260,7 @@
 .heroH1 {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(36px, 5.4vw, 72px);
+  font-size: clamp(30px, 11cqi, 56px);
   letter-spacing: -.03em;
   line-height: 1.04;
   color: #0a0f0e;
@@ -328,6 +329,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: 12px 16px;
 }
 
 .heroNodePulse {
@@ -1246,6 +1248,12 @@
   position: relative;
   overflow: hidden;
   z-index: 1;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 100px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(20,184,166,.3);
 }
 
 .ctaBgBlob1 {
