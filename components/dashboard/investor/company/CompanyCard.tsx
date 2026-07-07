@@ -1,4 +1,6 @@
 "use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -27,6 +29,8 @@ interface CompanyCardProps {
 }
 
 export default function CompanyCard({ company }: CompanyCardProps) {
+  const [isFavorite, setIsFavorite] = useState(company.isFavorite);
+
   return (
     <div className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-xl">
       {/* Header */}
@@ -63,14 +67,17 @@ export default function CompanyCard({ company }: CompanyCardProps) {
 
         {/* Favorite */}
 
-        <button className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white transition hover:border-red-200 hover:bg-red-50">
+        <button
+          onClick={() => setIsFavorite(!isFavorite)}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white transition-all duration-300 hover:border-red-200 hover:bg-red-50"
+        >
           <Heart
             size={20}
-            className={
-              company.isFavorite
-                ? "fill-red-500 text-red-500"
-                : "text-slate-400"
-            }
+            className={`transition-all duration-300 ${
+              isFavorite
+                ? "fill-red-500 text-red-500 scale-110"
+                : "text-slate-400 hover:text-red-500"
+            }`}
           />
         </button>
       </div>
@@ -100,7 +107,6 @@ export default function CompanyCard({ company }: CompanyCardProps) {
               to ${company.budgetMax.toLocaleString()}
             </p>
           </div>
-
           <div className="rounded-2xl bg-slate-50 p-4">
             <div className="mb-2 flex items-center gap-2 text-teal-700">
               <Users size={18} />
@@ -140,11 +146,12 @@ export default function CompanyCard({ company }: CompanyCardProps) {
           </h4>
 
           <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
-            <Mail size={16} />
+            <Mail size={16} className="text-teal-700" />
 
             {company.founderEmail}
           </div>
         </div>
+
         {/* Footer */}
 
         <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-4">
@@ -157,15 +164,14 @@ export default function CompanyCard({ company }: CompanyCardProps) {
               Active
             </span>
           </div>
-
           <Link
             href={`/dashboard/investor/company/${company.id}`}
-            className="flex items-center gap-2 rounded-xl bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-800 hover:shadow-lg group-hover:translate-x-1"
+            className="flex items-center gap-2 rounded-xl bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-800 hover:shadow-lg"
           >
             View Details
             <ArrowRight
               size={18}
-              className="transition-transform group-hover:translate-x-1"
+              className="transition-transform duration-300 group-hover:translate-x-1"
             />
           </Link>
         </div>
