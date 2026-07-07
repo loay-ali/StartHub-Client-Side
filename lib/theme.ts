@@ -2,21 +2,32 @@ export const theme = {
   colors: {
     special: "#dc3545",
 
-    primary: "#0571d3",
-    primaryDark: "#0f766e",
-    primaryLight: "#99f6e4",
+    // Brand
+    primary: "#0F766E",
+    primaryDark: "#115E59",
+    primaryLight: "#CCFBF1",
 
-    success: "#22c55e",
-    warning: "#f59e0b",
-    danger: "#ef4444",
-    info: "#2563eb",
+    // Status
+    success: "#16A34A",
+    warning: "#F59E0B",
+    danger: "#DC2626",
+    info: "#0284C7",
 
-    background: "#f8fafc",
-    surface: "#ffffff",
-    border: "#e2e8f0",
+    // Background
+    background: "#F8FAFC",
+    surface: "#FFFFFF",
+    surfaceSecondary: "#F1F5F9",
 
-    textPrimary: "#0f172a",
-    textSecondary: "#64748b",
-    textMuted: "#94a3b8",
+    // Border
+    border: "#E2E8F0",
+
+    // Text
+    textPrimary: "#0F172A",
+    textSecondary: "#475569",
+    textMuted: "#94A3B8",
+
+    // Misc
+    white: "#FFFFFF",
+    black: "#000000",
   },
 };
