@@ -26,16 +26,14 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
     const [conversationId,setConversationId] = useState('');
     const [messages,setMessages] = useState<ChatMessage[]>([]);
 
+    const [confirmSendPurpose,setConfirmSendPurpose] = useState(false);
+
     const [msg,setMsg] = useState('');
 
     const [isSending,setIsSending] = useState(false);
 
     const [msgIndex,setMsgIndex] = useState(1000);
 
-    // Tracks the last purpose we already kicked a request off for, so a
-    // purpose that stays set (it's never cleared after the fetch settles)
-    // doesn't keep re-triggering "chat-for-purpose" every time isSending
-    // flips back to false — that previously caused an endless fetch loop.
     const lastHandledPurposeRef = useRef('');
 
     function getCurrentDateTime() {
@@ -43,9 +41,6 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
         return date.getFullYear() +' / '+ (date.getMonth() + 1) +' / '+ date.getDate() +' '+ date.getHours() +':'+ date.getMinutes();
     }
 
-    // Shared by the composer's send button/Enter key and the empty-state
-    // suggestion chips, so both paths push the user bubble and kick off
-    // the same request the same way.
     function handleSend(text: string) {
         const trimmed = text.trim();
         if (!trimmed || isSending) return;
@@ -65,14 +60,20 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
     // after use, so re-running this on every settle previously caused an
     // endless request loop that starved/broke the assistant).
     useEffect(() => {
-        if( aiPurpose == '' || aiPurpose == lastHandledPurposeRef.current ) return;
+        if( confirmSendPurpose && aiPurpose == '' || aiPurpose == lastHandledPurposeRef.current ) return;
 
         lastHandledPurposeRef.current = aiPurpose;
         setIsSending(true);
 
         fetch(config.apiUrl +'/ai/chat-for-purpose/'+ aiPurpose,{
             credentials: "include",
-            method: 'post'
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                notes: msg
+            })
         })
         .then(res => res.status == 201 ? res.json():Promise.reject())
         .then(res => {
@@ -88,7 +89,7 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
             setIsSending(false);
             setMsg('');
         })
-    },[aiPurpose]);
+    },[aiPurpose,confirmSendPurpose]);
 
     useEffect(() => {
         if(isSending && msg) {
@@ -158,7 +159,7 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
             </button>
         </header>
 
-        <Chat messages={messages} conversationId={conversationId} isSending={isSending} onSuggestion={handleSend} />
+        <Chat messages={messages} conversationId={conversationId} isSending={isSending} onSuggestion={() => setConfirmSendPurpose} />
 
         <Message isSending={isSending} sendMessage={handleSend} />
     </section>);

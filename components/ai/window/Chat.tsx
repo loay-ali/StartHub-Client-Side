@@ -6,12 +6,7 @@ import { Bot, Clock3 } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 import { ChatData } from "@/types/requests/ai";
-
-const SUGGESTIONS = [
-    "How healthy is my business model?",
-    "What are my biggest risks right now?",
-    "What should I focus on this month?",
-];
+import { useAIContext } from "@/components/providers/AIProvider";
 
 type ChatProps = ChatData & {
     isSending?: boolean;
@@ -20,6 +15,8 @@ type ChatProps = ChatData & {
 
 export default function Chat(data: ChatProps) {
     const bottomRef = useRef<HTMLDivElement>(null);
+
+    const aiContext = useAIContext();
 
     // Fixed: the chat never used to scroll to the newest message on its
     // own — this keeps the latest bubble (or the typing indicator) in view.
@@ -43,7 +40,7 @@ export default function Chat(data: ChatProps) {
                         </p>
                     </div>
                     <div className="flex w-full flex-col gap-2">
-                        {SUGGESTIONS.map((suggestion) => (
+                        {aiContext.suggestions?.map((suggestion) => (
                             <button
                                 key={suggestion}
                                 type="button"
