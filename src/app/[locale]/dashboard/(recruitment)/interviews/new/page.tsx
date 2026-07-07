@@ -1,147 +1,189 @@
 'use client';
 
+import AIHelperButton from "@/components/ai/AIHelperButton";
+import AISection, { ActionType } from "@/components/ai/section/AISection";
+import { ButtonLoader } from "@/components/preloader/ButtonLoader";
+import config from "@/constants/config";
 import Candidate from "@/types/requests/candidates";
+import interview from "@/types/requests/interview";
 import Job from "@/types/requests/jobs";
-import Link from "next/link";
+import { Bot } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { forbidden, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { PiEmptyLight } from "react-icons/pi";
-import { AiOutlineLoading } from "react-icons/ai";
-import config from "@/constants/config";
-import { useRouter } from "next/navigation";
+export default function CreateInterview() {
+    const t = useTranslations();
 
-export default function NewInterview() {
     const router = useRouter();
+
+    const [interview,setInterview] = useState<interview>({
+        candidateId: '',
+        jobId: '',
+        durationMin: 1,
+        scheduledAt: "",
+        interviewType: ""
+    });
+
+    const INTERVIEW_TYPES = {
+        'HR': t('dashboard.interviews.hr'),
+        'TECHNICAL': t('dashboard.interview.technical'),
+        'FINAL': t('dashboard.interview.final'),
+        'BEHAVIORAL': t('dashboard.interview.behavioral')
+    };
 
     const [jobs,setJobs] = useState<Job[]>([]);
     const [candidates,setCandidates] = useState<Candidate[]>([]);
 
-    const [isLoading,setIsLoading] = useState(true);
-    const [isLoadingCandidates,setIsLoadingCandidates] = useState(false);
+    const [loadingJobs,setLoadingJobs] = useState(true);
+    const [loadingCandidates,setLoadingCandidates] = useState(true);
 
-    const [job,setJob] = useState('');
-    const [candidate,setCandidate] = useState('');
-
-    const [title,setTitle] = useState('');
-    const [desc,setDesc] = useState('');
-
-    const [isSavingInterview,setIsSavingInterview] = useState(false);
+    const [saving,setSaving] = useState(false);
 
     useEffect(() => {
-        if( isSavingInterview ) {
-            fetch(config.apiUrl +'/interviews',{
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    title,
-                    description: desc,
-                    jobId: job,
-                    candidateId: candidate
-                })
-            }).then(res => res.status == 201 ? res.json():Promise.reject())
+        if( loadingJobs ) {
+            fetch(config.apiUrl +'/jobs',{credentials: 'include'})
+            .then(res => res.status == 200 ? res.json():Promise.reject())
             .then(res => {
-                router.push('/dashboard/interviews');
+                setJobs(res);
+            }).finally(() => {
+                setLoadingJobs(false);
             })
         }
 
-        if( isLoading ) {
-            fetch(config.apiUrl +'/jobs',{credentials: 'include'})
-                .then(res => res.status == 200 ? res.json():Promise.reject())
-                .then(res => {
-                    setJobs(res.data);
-                    setIsLoading(false);
-                })
+        if( loadingCandidates ) {
+            fetch(config.apiUrl +'/candidates',{credentials: 'include'})
+            .then(res => res.status == 200 ? res.json():Promise.reject())
+            .then(res => {
+                setCandidates(res);
+            }).finally(() => {
+                setLoadingCandidates(false);
+            })
         }
 
-        if( isLoadingCandidates && job != '' ) {
-            fetch(config.apiUrl +'/candidates?jobId='+ job,{credentials: 'include'})
-                .then(res => res.status == 200 ? res.json():Promise.reject())
-                .then(res => {
-                    setCandidates(res.data);
-                    setIsLoadingCandidates(false);
-                })
+        if( saving ) {
+            fetch(config.apiUrl +'/interviews',{
+                credentials: 'include',
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify(interview)
+            }).then(res => {
+                if( res.status == 201 ) router.push('/dashboard/interviews/list');
+            }).finally(() => setSaving(false))
         }
-    },[isLoadingCandidates]);
+    },[saving]);
 
-    if( isLoading ) return <div className = 'p-5 flex items-center justify-center'><AiOutlineLoading className = 'spinner-loading'/></div>
 
     if( jobs.length == 0 ) {
-        return (<section className = 'flex flex-col justify-center items-center gap-5 mt-20'>
-                <PiEmptyLight size = {80} />
-                <strong>No Jobs To Apply Interview To</strong>
-
-                <Link className = 'button' href = "/dashboard/jobs/new">Create a Job</Link>
-            </section>)
+        return (<>{t('dashboard.jobs.no-jobs')}</>)
     }
 
     if( candidates.length == 0 ) {
-        return ((<section className = 'flex flex-col justify-center items-center gap-5 mt-20'>
-                <PiEmptyLight size = {80} />
-                <strong>No Candidates To Apply Interview To</strong>
-
-                <Link className = 'button' href = "/dashboard/candidates/new">Create a Candidate</Link>
-            </section>))
+        return (<>{t('dashboard.candidates.no-candidates')}</>)
     }
 
     return (
-    <section className = 'flex flex-col p-2 bg-white rounded shadow m-10 mx-auto'>
-        <h2 className = 'text-2xl'>Create an Interview</h2>
+        <section className = 'flex justify-center items-start gap-5 max-w-[1200px]'>
+            <section className = 'bg-white shadow rounded p-5 grow'>
+                <h2 className = 'text-2xl'>
+                    {t("dashboard.interviews.interviews-list")}
+                </h2>
 
-        <div className = 'form-group'>
-            <label htmlFor = 'job'>
-                Job
-            </label>
-            <select id = 'job' defaultValue = {job} onChange = {ele => {
-                setJob(ele.currentTarget.value);
-            }}>
-                <option value = ''>
-                    Choose a Job
-                </option>
-                {jobs.map((job:Job) => (
-                    <option value = {job.id}>
-                        {job.title}
-                    </option>
-                ))}
-            </select>
-        </div>
+                <div className = 'form-group'>
+                    <label htmlFor="job">
+                        {t('dashboard.jobs.choose-job')}    
+                    </label>
+                    <select id = 'job' defaultValue = {interview.jobId} onChange = {ele => {
+                        setInterview(i => {
+                            i.jobId = ele.target.value;
+                            return i;
+                        })
+                    }}>
+                        {jobs.map((job:Job) => {
+                            return <option value = {job.id}>
+                                {job.title}
+                            </option>
+                        })}
+                    </select>
+                </div>
 
-        <div className = 'form-group'>
-            <label htmlFor = 'candidate'>
-                Candidate
-            </label>
-            {isLoadingCandidates ? <div><AiOutlineLoading className = 'spinner-loading' /></div>:<select id = 'candidate' defaultValue = {candidate} onChange = {ele => {
-                setCandidate(ele.currentTarget.value);
-            }}>
-                <option value = ''>
-                    Choose a Candidate
-                </option>
-                {candidates.map((candidate:Candidate) => (
-                    <option value = {candidate.id}>
-                        {candidate.fullname}
-                    </option>
-                ))}
-            </select>}
-        </div>
+                <div className = 'form-group'>
+                    <label htmlFor="candidate">
+                        {t('dashboard.candidates.choose-candidate')}    
+                    </label>
+                    <select id = 'candidate' defaultValue = {interview.candidateId} onChange = {ele => {
+                        setInterview(i => {
+                            i.candidateId = ele.target.value;
+                            return i;
+                        })
+                    }}>
+                        {candidates.filter(c => c.jobId == interview.jobId).map((candidate:Candidate) => {
+                            return <option value = {candidate.id}>
+                                {candidate.fullname}
+                            </option>
+                        })}
+                    </select>
+                </div>
 
-        <div className = 'form-group'>
-            <label htmlFor = 'title'>
-                Title
-            </label>
-            <input type = 'text' value = {title} onInput = {ele => setTitle(ele.currentTarget.value)} id = 'title' />
-        </div>
+                <div className="form-group relative">
+                    <label htmlFor="schedule">{t('dashboard.interviews.scheduled-at')}</label>
+                    <input type="datetime" defaultValue={interview.scheduledAt} id="schedule" onInput = {ele => {
+                        setInterview(i => {
+                            i.scheduledAt = ele.currentTarget.value;
+                            return i;
+                        })
+                    }}/>
+                    <AIHelperButton
+                        purpose = "setInterviewDatetime"
+                        message = {
+                            {content: "Do You Need To Set Interview Schedule With AI ?",actions: []}
+                        } />
+                </div>
 
-        <div className = 'form-group'>
-            <label htmlFor = 'desc'>
-                Description
-            </label>
-            <textarea id = 'desc' onInput = {ele => setDesc(ele.currentTarget.value)}>{desc}</textarea>
-        </div>
+                <div className="form-group">
+                    <label htmlFor="durationMin">{t('dashboard.interviews.duration-minutes')}</label>
+                    <input min = {1} type="number" defaultValue={interview.durationMin} id="durationMin" onInput = {ele => {
+                        setInterview(i => {
+                            i.durationMin = Number(ele.currentTarget.value);
+                            return i;
+                        })
+                    }}/>
+                </div>
 
-        <button onClick = {() => setIsSavingInterview(true)} type ='submit' className = 'button w-full flex justify-center items-center'>
-            {isSavingInterview ? <AiOutlineLoading className = 'spinner-loading' />:<>Add Interview</>}
-        </button>
-    </section>);
+                <div className = 'form-group'>
+                    <label htmlFor="interview-type">
+                        {t('dashboard.interviews.choose-interview-type')}    
+                    </label>
+                    <select id = 'interview-type' defaultValue = {interview.candidateId} onChange = {ele => {
+                        setInterview(i => {
+                            i.interviewType = ele.target.value;
+                            return i;
+                        })
+                    }}>
+                        <option value = "">
+                            {t('dashboard.interviews.choose-interview-type')}
+                        </option>
+                        {Object.entries(INTERVIEW_TYPES).map(([value,title]:[string,string]) => {
+                            return <option value = {value}>
+                                {title}
+                            </option>
+                        })}
+                    </select>
+                </div>
+
+                <button className = 'button flex justify-center items-center'>
+                    {saving ? <ButtonLoader />:<>{t('dashboard.interviews.create-interview')}</>}
+                </button>
+            </section>
+            <AISection
+                Icon = {Bot}
+                initialActions={[
+                    {title: t('dashboard.interviews.add-interview-to-best-candidate'),action: "addInterview",type: ActionType.CHAT}
+                ]}
+                title = {t('dashboard.ai.need-help')} />
+        </section>
+    );
 }

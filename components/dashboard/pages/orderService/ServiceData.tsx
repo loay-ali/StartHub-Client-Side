@@ -3,7 +3,7 @@ import Service, { Options } from "@/types/requests/service";
 
 import Form from 'next/form';
 
-export default async function ServiceData({searchParams}:{searchParams: Promise<{[key:string]:string | string[] | undefined}>}) {
+export default async function ServiceData({t,searchParams}:{t:Function,searchParams: Promise<{[key:string]:string | string[] | undefined}>}) {
     const sParams = await searchParams;
     const serviceId = sParams.service ? sParams.service:null;
 
@@ -11,9 +11,7 @@ export default async function ServiceData({searchParams}:{searchParams: Promise<
 
     const service:Service | undefined = await getServiceData(serviceId.toString());
 
-    console.log(service);
-
-    if( ! service ) return <>Please Choose a Service</>;
+    if( ! service ) return <>{t('dashboard.service.please-choose-a-service')}</>;
 
     return (
     <Form action = "">
@@ -21,7 +19,8 @@ export default async function ServiceData({searchParams}:{searchParams: Promise<
         <div className = 'grid grid-cols-3 items-center'>
             <p className = 'text-center my-2 col-start-1 col-end-3'>{service.description}</p>
 
-            <span className = 'bg-primary p-2 m-5 mx-20 text-white rounded text-center block text-xl'><strong>{service.priceInUSD}</strong> USD</span>
+            <span className = 'bg-primary p-2 m-5 mx-20 text-white rounded text-center block text-xl'><strong>{service.priceInUSD}</strong> {
+            t('shared.currencies.USD')}</span>
         </div>
 
         <hr className = 'my-5 border-[#DDD]'/>
@@ -45,7 +44,7 @@ export default async function ServiceData({searchParams}:{searchParams: Promise<
         <input type = 'hidden' name = 'service' value = {serviceId} />
         <footer className = 'flex justify-around items-center'>
             <button type = 'submit' className = 'button'>
-                Submit
+                {t('dashboard.common.submit')}
             </button>
         </footer>
     </Form>);

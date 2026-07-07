@@ -7,6 +7,7 @@ import { FiPlus, FiSearch } from "react-icons/fi";
 import CollectionPagination from "./CollectionPagination";
 import CollectionTable from "./CollectionTable";
 import { CollectionColumn } from "./types";
+import { useTranslations } from "next-intl";
 
 type Props<T> = {
   title: string;
@@ -21,6 +22,8 @@ type Props<T> = {
   editLink?:Function;
 
   isDeleting?: boolean;
+
+  currentPage:number;
 };
 
 export default function CollectionPage<T extends Record<string, any>>({
@@ -32,13 +35,14 @@ export default function CollectionPage<T extends Record<string, any>>({
   onDelete,
   addLink,
   editLink,
-  isDeleting
+  isDeleting,
+  currentPage=1
 }: Props<T>) {
   const [search, setSearch] = useState("");
 
-  const [currentPage, setCurrentPage] = useState(1);
-
   const pageSize = 10;
+
+  const t = useTranslations();
 
   const filteredData = useMemo(() => {
     if (!search.trim()) {
@@ -54,13 +58,8 @@ export default function CollectionPage<T extends Record<string, any>>({
 
   const totalPages = Math.ceil(filteredData.length / pageSize) || 1;
 
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize,
-  );
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 grow">
       {/* Header */}
       <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -74,9 +73,8 @@ export default function CollectionPage<T extends Record<string, any>>({
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
-                  setCurrentPage(1);
                 }}
-                placeholder="Search..."
+                placeholder={t('dashboard.common.search')}
                 className="rounded-xl border border-border py-2 pl-10 pr-4 outline-none focus:border-primary"
               />
             </div>
@@ -88,7 +86,7 @@ export default function CollectionPage<T extends Record<string, any>>({
                 className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-white"
               >
                 <FiPlus />
-                Add New
+                {t('dashboard.common.add-new')}
               </button>
             )}
           </div>
@@ -97,7 +95,7 @@ export default function CollectionPage<T extends Record<string, any>>({
 
       <CollectionTable
         columns={columns}
-        data={paginatedData}
+        data={data}
         onEdit={onEdit}
         onDelete={onDelete}
         isDeleting={isDeleting}
@@ -107,7 +105,6 @@ export default function CollectionPage<T extends Record<string, any>>({
       <CollectionPagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
       />
     </div>
   );

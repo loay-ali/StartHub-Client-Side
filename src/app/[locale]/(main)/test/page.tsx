@@ -1,5 +1,5 @@
-import { forbidden } from "next/navigation";
+import PaymentSection from "@/components/payment/Payment";
 
 export default function TestPage() {
-  forbidden();
+  return <div className = 'mt-[250px]'><PaymentSection price = {500} payment = "service"/></div>
 }
