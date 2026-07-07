@@ -44,34 +44,34 @@ export default function Header() {
     const [overDarkBg, setOverDarkBg] = useState(true); // true = header is over the dark hero
 
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
+useEffect(() => {
+    const handleScroll = () => {
+        setScrolled(window.scrollY > 20);
 
-            // Header sits ~20-30px from top; sample the section at that point
-            const probeY = 40;
-            const sections = document.querySelectorAll<HTMLElement>('[data-header-theme]');
+        // Header sits ~20-30px from top; sample the section at that point
+        const probeY = 40;
+        const sections = document.querySelectorAll<HTMLElement>('[data-header-theme]');
 
-            let activeTheme: 'dark' | 'light' = 'light'; // default once no hero is present (page content is light)
+        let activeTheme: 'dark' | 'light' = 'light'; // default once no hero is present (page content is light)
 
-            sections.forEach((el) => {
-                const { top, bottom } = el.getBoundingClientRect();
-                if (top <= probeY && bottom >= probeY) {
-                    activeTheme = el.dataset.headerTheme as 'dark' | 'light';
-                }
-            });
+        sections.forEach((el) => {
+            const { top, bottom } = el.getBoundingClientRect();
+            if (top <= probeY && bottom >= probeY) {
+                activeTheme = el.dataset.headerTheme as 'dark' | 'light';
+            }
+        });
 
-            setLogoTheme(activeTheme);
-        };
+        setLogoTheme(activeTheme);
+    };
 
-        handleScroll();
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('resize', handleScroll);
-        };
-    }, []);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+    };
+}, []);
 
     useEffect(() => {
         if (isLoggedIn == null) {
