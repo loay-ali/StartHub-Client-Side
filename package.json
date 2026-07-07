@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start --port 3002",
     "lint": "eslint",
-    "email": "react-email dev --dir src/emails"
+    "email": "react-email dev --dir src/emails",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",
