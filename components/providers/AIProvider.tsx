@@ -17,6 +17,8 @@ interface AIContextValue {
   setPurpose: Function | null;
   /** (legacy) add an initial message programmatically */
   addMessage?: (msg: string) => any;
+
+  suggestions: string[]
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
@@ -27,6 +29,7 @@ export const AIContext = createContext<AIContextValue>({
   toggleAI: () => {},
   setPurpose: null,
   addMessage: undefined,
+  suggestions: []
 });
 
 /**
@@ -56,6 +59,7 @@ export function AIProvider({ children }: { children: ReactNode }) {
         toggleAI: () => setIsUsingAI((s) => !s),
         setPurpose: (purpose: string) => setAiPurpose(purpose),
         addMessage,
+        suggestions: []
       }}
     >
       {children}
