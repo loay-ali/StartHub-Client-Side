@@ -4,7 +4,6 @@ import { NextIntlClientProvider } from "next-intl";
 import "./globals.css";
 import PreloaderWrapper from "@/components/preloader/PreloaderWrapper";
 import { AIProvider } from "@/components/providers/AIProvider";
-import GlobalAIShell from "@/components/ai/GlobalAIShell";
 
 export const metadata: Metadata = {
   title: "Starthub",
@@ -28,11 +27,6 @@ export default async function LocaleLayout({
             <PreloaderWrapper>
               {children}
             </PreloaderWrapper>
-            {/* Global AI floating button + chat panel — available on every page.
-                Rendered outside PreloaderWrapper so it is never obscured by the
-                preloader overlay, and outside any page layout so fixed positioning
-                is never affected by a stacking context. */}
-            <GlobalAIShell />
           </AIProvider>
         </NextIntlClientProvider>
       </body>

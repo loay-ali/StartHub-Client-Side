@@ -22,7 +22,7 @@ export default function EventsPage() {
   );
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-24">
+    <section className="max-w-6xl mx-auto px-6 py-6">
       <div className="mb-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs font-bold text-[#14b8a6] uppercase tracking-wide mb-2">Ecosystem</p>

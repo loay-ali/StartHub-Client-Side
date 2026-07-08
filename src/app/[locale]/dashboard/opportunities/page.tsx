@@ -56,7 +56,7 @@ export default function OpportunitiesPage() {
   const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-24">
+    <section className="max-w-6xl mx-auto px-6 py-6">
       <div className="mb-8">
         <p className="text-xs font-bold text-[#14b8a6] uppercase tracking-wide mb-2">Ecosystem</p>
         <h1 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">
