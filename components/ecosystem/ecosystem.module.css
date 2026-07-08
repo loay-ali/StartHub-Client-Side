@@ -32,10 +32,16 @@
   50%     { opacity:1;    transform:scale(1.18); }
 }
 
+@keyframes nodeArrivalPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(20, 184, 166, 0)); }
+  15% { transform: scale(1.22); filter: drop-shadow(0 0 10px rgba(20, 184, 166, 0.8)); }
+  40%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(20, 184, 166, 0)); }
+}
+
 @keyframes lineFlow {
-  0%   { stroke-dashoffset:200; opacity:0.2; }
-  50%  { opacity:0.7; }
-  100% { stroke-dashoffset:0;   opacity:0.2; }
+  0%   { stroke-dashoffset: 100; opacity: 0.18; }
+  45%  { opacity: 0.75; }
+  100% { stroke-dashoffset: 0;   opacity: 0.18; }
 }
 
 @keyframes gradBorderSpin {
@@ -325,7 +331,31 @@
 }
 
 .heroNodePulse {
-  animation: nodeGlow 3s infinite;
+  animation: nodeGlow 3s ease-in-out infinite;
+  /* SVG shapes scale from the viewport's (0,0) origin by default, so a
+     naive `transform: scale()` on a circle placed away from the origin
+     visibly drifts instead of pulsing in place. Anchoring the transform
+     to the shape's own bounding box keeps every node pulsing smoothly
+     around its own center. */
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.heroNodeArrival {
+  animation: nodeArrivalPulse 3s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Uniform, synchronized "signal" flowing from the hub out to each node.
+   Every spoke shares the same duration/timing as .heroNodePulse (3s) so
+   the flow and the node glow read as one connected pulse rather than
+   two independently-timed animations. Stagger comes from animation-delay
+   set inline per spoke, not from separate keyframes, so the motion stays
+   visually consistent across all four. */
+.heroSpokeFlow {
+  stroke-dasharray: 100;
+  animation: lineFlow 3s ease-in-out infinite;
 }
 
 /* Network visualization */
@@ -379,7 +409,7 @@
 ═══════════════════════════════════════════════════════════ */
 .metricsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 20px;
 }
 
@@ -433,7 +463,6 @@
   margin-top: 6px;
 }
 
-@media (max-width: 760px) { .metricsGrid { grid-template-columns: repeat(2,1fr); } }
 @media (max-width: 480px) { .metricsGrid { grid-template-columns: 1fr; } }
 
 /* ═══════════════════════════════════════════════════════════
@@ -637,59 +666,45 @@
 @media (max-width: 580px) { .industryGrid { grid-template-columns: repeat(2,1fr); } }
 
 /* ═══════════════════════════════════════════════════════════
-   5. STARTUP DISCOVERY
+   5. JOIN THE PLATFORM (CTA — replaces the old startup card grid)
 ═══════════════════════════════════════════════════════════ */
-.startupGrid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 20px;
-}
-
-.startupCard {
-  background: white;
-  border: 1.5px solid rgba(20,184,166,.12);
-  border-radius: 24px;
-  padding: 22px;
+.joinCtaPanel {
   position: relative;
-  overflow: hidden;
-  transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
-  box-shadow: 0 2px 12px rgba(10,15,14,.04);
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 40px;
+  text-align: center;
+  border-radius: 32px;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(20,184,166,.16);
+  box-shadow: 0 4px 24px rgba(20,184,166,.08);
 }
 
-.startupCard:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(20,184,166,.14); border-color: rgba(20,184,166,.28); }
-
-.aiMatchBadge {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(20,184,166,.12), rgba(94,234,212,.1));
-  border: 1px solid rgba(20,184,166,.2);
-  font-size: 9px;
-  font-weight: 800;
-  color: #0f766e;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-}
-
-.startupLogo {
-  width: 46px; height: 46px;
-  border-radius: 13px;
+.joinCtaIconWrap {
+  width: 56px; height: 56px;
+  margin: 0 auto 20px;
+  border-radius: 16px;
+  background: rgba(20,184,166,.08);
+  border: 1px solid rgba(20,184,166,.16);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: 900;
-  color: white;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  color: #14b8a6;
 }
 
-.startupName { font-family: 'Inter Tight', system-ui, sans-serif; font-size: 15px; font-weight: 800; color: #0a0f0e; letter-spacing: -.02em; }
-.startupTagline { font-size: 12px; color: #4b6b65; line-height: 1.5; margin: 4px 0 12px; }
+.joinCtaText {
+  font-size: 16px;
+  color: #4b6b65;
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 28px;
+}
 
-.startupMeta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.joinCtaBtn {
+  padding: 14px 30px;
+  font-size: 15px;
+}
 
 .tag {
   padding: 3px 9px;
@@ -703,39 +718,9 @@
   letter-spacing: .05em;
 }
 
-.startupTraction {
-  padding-top: 12px;
-  border-top: 1px solid rgba(20,184,166,.08);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+@media (max-width: 580px) {
+  .joinCtaPanel { padding: 40px 22px; }
 }
-
-.tractionValue { font-size: 15px; font-weight: 800; color: #0a0f0e; letter-spacing: -.02em; }
-.tractionLabel { font-size: 10px; color: #7fa89e; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-top: 1px; }
-
-.cardBtns { display: flex; gap: 8px; }
-
-.btnSm {
-  flex: 1;
-  padding: 8px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s ease;
-  text-align: center;
-  border: none;
-}
-
-.btnSmPrimary { background: linear-gradient(135deg,#14b8a6,#0f766e); color: white; box-shadow: 0 4px 12px rgba(20,184,166,.25); }
-.btnSmPrimary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(20,184,166,.35); }
-.btnSmGhost { background: rgba(20,184,166,.06); border: 1.5px solid rgba(20,184,166,.2); color: #0f766e; }
-.btnSmGhost:hover { background: rgba(20,184,166,.11); border-color: #14b8a6; }
-
-@media (max-width: 900px) { .startupGrid { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 580px) { .startupGrid { grid-template-columns: 1fr; } }
 
 /* ═══════════════════════════════════════════════════════════
    6. INVESTOR DISCOVERY
@@ -1257,7 +1242,7 @@
 ═══════════════════════════════════════════════════════════ */
 .ctaSection {
   padding: 110px 0 130px;
-  background: linear-gradient(160deg,#0a0f0e 0%,#0d1e1c 40%,#0a1614 100%);
+  background: linear-gradient(180deg, #0a1f1d 0%, #0f1f1d 50%, #0a1a19 100%);
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -1322,7 +1307,8 @@
   font-family: 'Inter Tight', system-ui, sans-serif;
   font-size: 15px;
   font-weight: 800;
-  border: none;
+  border: 1.5px solid transparent;
+  text-decoration: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1344,6 +1330,7 @@
   font-size: 15px;
   font-weight: 700;
   border: 1.5px solid rgba(255,255,255,.14);
+  text-decoration: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1354,6 +1341,158 @@
 
 .ctaBtnGhost:hover { background: rgba(255,255,255,.1); border-color: rgba(20,184,166,.45); transform: translateY(-2px); }
 
+/* ═══════════════════════════════════════════════════════════
+   5. STARTUP DISCOVERY (Missing styles)
+   ═══════════════════════════════════════════════════════════ */
+.startupGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.startupCard {
+  background: white;
+  border: 1.5px solid rgba(20,184,166,.12);
+  border-radius: 24px;
+  padding: 26px;
+  position: relative;
+  transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease, border-color .3s ease;
+  box-shadow: 0 2px 12px rgba(10,15,14,.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.startupCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(20,184,166,0.14);
+  border-color: rgba(20,184,166,0.3);
+}
+
+.aiMatchBadge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #14b8a6;
+  background: rgba(20,184,166,.08);
+  border: 1px solid rgba(20,184,166,.15);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.startupLogo {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.startupName {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0a0f0e;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+
+.startupTagline {
+  font-size: 13px;
+  color: #4b6b65;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.startupMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.startupTraction {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20,184,166,0.08);
+}
+
+.tractionValue {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0a0f0e;
+}
+
+.tractionLabel {
+  font-size: 10px;
+  color: #7fa89e;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-top: 2px;
+}
+
+.cardBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btnSm {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all .2s ease;
+  border: none;
+}
+
+.btnSmPrimary {
+  background: linear-gradient(135deg,#14b8a6,#0f766e);
+  color: white;
+  box-shadow: 0 4px 12px rgba(20,184,166,.2);
+}
+
+.btnSmPrimary:hover {
+  box-shadow: 0 6px 16px rgba(20,184,166,.3);
+  transform: translateY(-1px);
+}
+
+.btnSmGhost {
+  background: rgba(20,184,166,0.06);
+  border: 1px solid rgba(20,184,166,0.15);
+  color: #0f766e;
+}
+
+.btnSmGhost:hover {
+  background: rgba(20,184,166,0.12);
+  color: #0f766e;
+}
+
+@media (max-width: 900px) {
+  .startupGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+  .startupGrid { grid-template-columns: 1fr; }
+}
+
 /* ── Reduced motion ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .heroBgMesh, .heroBgBlob1, .heroBgBlob2,
@@ -1361,6 +1500,8 @@
   .shimmerText,
   .processLine,
   .deadlineBlink,
+  .heroNodePulse,
+  .heroSpokeFlow,
   .heroEyebrowDot { animation: none !important; }
 
   .reveal { transition-duration: .001ms !important; }

@@ -1,14 +1,15 @@
 interface StepperProps {
   currentStep: number;
+  t:Function
 }
-
-const steps = [
-  "Choose Service",
-  "Service Data",
-  "Payment",
-  "Complete",
-];
-export default function Stepper({ currentStep }: StepperProps) {
+export default function Stepper({ currentStep,t }: StepperProps) {
+  const steps = [
+    t("dashboard.service.choose-service"),
+    t("dashboard.service.service-data"),
+    t("dashboard.service.payment"),
+    t("dashboard.service.complete"),
+  ];
+  
   return (
     <div className="mb-12 flex items-center justify-between">
       {steps.map((step, index) => (

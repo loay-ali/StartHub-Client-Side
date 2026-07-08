@@ -6,13 +6,13 @@ import { Reveal, SectionHeading } from "./shared";
 
 const steps = [
   { n: "01", title: "Connect your stack",                icon: <GitBranch size={18} />, color: C.primary,
-    body: "50+ native connectors. Slack, HubSpot, Stripe, Notion, Google Workspace, and more â€” live in under 10 minutes. No dev work required." },
+    body: "50+ native connectors. Slack, HubSpot, Stripe, Notion, Google Workspace, and more — live in under 10 minutes. No dev work required." },
   { n: "02", title: "StarHub builds your company memory", icon: <Brain size={18} />,     color: C.teal2,
     body: "We ingest your history and real-time data, map every relationship between people, metrics, and events, and build your company's intelligence graph." },
   { n: "03", title: "Agents go to work immediately",      icon: <Cpu size={18} />,       color: C.greenDk,
-    body: "Specialist AI agents start monitoring, analysing, and surfacing insights straight away â€” no dashboards to build, no reports to write." },
+    body: "Specialist AI agents start monitoring, analysing, and surfacing insights straight away — no dashboards to build, no reports to write." },
   { n: "04", title: "You get clear next steps",           icon: <Bell size={18} />,       color: C.amber,
-    body: "Prioritised alerts and plain-English recommendations land where your team works â€” Slack, email, or your dashboard â€” ranked by business impact." },
+    body: "Prioritised alerts and plain-English recommendations land where your team works — Slack, email, or your dashboard — ranked by business impact." },
   { n: "05", title: "Decisions compound over time",       icon: <Zap size={18} />,       color: C.green,
     body: "Every action you take trains StarHub on your company. The longer you use it, the sharper, faster, and more valuable it becomes." },
 ];

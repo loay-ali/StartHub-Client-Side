@@ -14,6 +14,7 @@ import { TbCoins } from "react-icons/tb";
 import { LuBriefcaseBusiness } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
 import { MdOutlineIntegrationInstructions } from "react-icons/md";
+import { LuLogs } from "react-icons/lu";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
@@ -59,12 +60,13 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
       />
 
         {collapsed && (
-          <div className="mb-6 flex justify-center absolute top-5 inset-s-[calc(100%_-_20px)] bg-white z-[999]">
+          <div className="mb-6 flex justify-center absolute top-14 -right-4 z-[999]">
             <button
               onClick={() => setCollapsed(false)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border transition hover:bg-slate-50"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white shadow-md transition hover:bg-slate-50 text-slate-600"
+              title="Expand sidebar"
             >
-              →
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </button>
           </div>
         )}
@@ -118,7 +120,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             icon: <BsClipboard2Data />,
             children: [
               {title: "Employees",href: "/dashboard/employees/list"},
-              {title: "Attendance",href: "/dasboard/attendance/list"},
+              {title: "Attendance",href: "/dashboard/attendance/list"},
             ]
           }}
         />
@@ -194,7 +196,7 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
           collapsed={collapsed}
           item={{
             title: t("dashboard.sidebar.departments"),
-            href: "/departments",
+            href: "dashboard/departments/all",
             icon: <FaBuilding />,
             children: [
               {
@@ -233,6 +235,15 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             title: t("dashboard.sidebar.integrations"),
             href: "/dashboard/integrations",
             icon: <MdOutlineIntegrationInstructions />,
+          }}
+        />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: t("dashboard.sidebar.usage"),
+            href: "/dashboard/usage",
+            icon: <LuLogs />,
           }}
         />
 

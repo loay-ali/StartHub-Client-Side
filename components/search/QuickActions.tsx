@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   FiCheckSquare,
@@ -10,46 +9,57 @@ import {
   FiBarChart2,
   FiArrowRight,
 } from "react-icons/fi";
+import { useSearch } from "../providers/SearchProvider";
+import Link from "next/link";
 
-const quickActions = [
+const QUICK_ACTIONS = [
   {
     id: 1,
     title: "Create Task",
     subtitle: "Add a new task",
-    href: "/tasks/create",
+    href: "/dashboard/tasks/create",
     icon: FiCheckSquare,
   },
   {
     id: 2,
     title: "Invite Employee",
     subtitle: "Send an invitation",
-    href: "/employees/invite",
+    href: "/dashboard/employees/invite",
     icon: FiUsers,
   },
   {
     id: 3,
     title: "Generate Report",
     subtitle: "Create a business report",
-    href: "/reports",
+    href: "/dashboard/reports",
     icon: FiFileText,
   },
   {
     id: 4,
     title: "Add Company",
     subtitle: "Register a company",
-    href: "/companies/create",
+    href: "/dashboard/companies/create",
     icon: FiBriefcase,
   },
   {
     id: 5,
     title: "Open Analytics",
     subtitle: "View dashboards",
-    href: "/analytics",
+    href: "/dashboard/analytics",
     icon: FiBarChart2,
   },
 ];
 
-export default function QuickActions() {
+interface QuickActionsProps {
+  onSelect?: () => void;
+}
+
+export default function QuickActions({ onSelect }: QuickActionsProps) {
+  const { query } = useSearch();
+
+  // Hide quick actions while the user is actively searching
+  if (query.trim().length > 0) return null;
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 12 }}
@@ -61,8 +71,8 @@ export default function QuickActions() {
         Quick Actions
       </h4>
 
-      <div className="space-y-2">
-        {quickActions.map((action, index) => {
+      <div className="space-y-1">
+        {QUICK_ACTIONS.map((action, index) => {
           const Icon = action.icon;
 
           return (
@@ -71,25 +81,22 @@ export default function QuickActions() {
               layout
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.2,
-                delay: index * 0.05,
-              }}
+              transition={{ duration: 0.2, delay: index * 0.04 }}
             >
               <Link
                 href={action.href}
+                onClick={onSelect}
                 className="group flex items-center justify-between rounded-xl p-3 transition-all duration-200 hover:bg-slate-100"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-teal-600 transition-colors group-hover:bg-teal-50">
-                    <Icon size={18} />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-teal-600 transition-colors group-hover:bg-teal-50">
+                    <Icon size={16} />
                   </div>
 
                   <div>
                     <div className="font-medium text-slate-900">
                       {action.title}
                     </div>
-
                     <div className="text-sm text-slate-500">
                       {action.subtitle}
                     </div>

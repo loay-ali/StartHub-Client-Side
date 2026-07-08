@@ -1,0 +1,658 @@
+/* ═══════════════════════════════════════════════════════════
+   StarHub — Investor Auth & Payment CSS Module
+   A dedicated visual track for investors: split-screen auth
+   (benefits slider + stats / form) and a premium membership
+   payment page. Follows the same token & comment conventions as
+   home.module.css and ecosystem.module.css.
+═══════════════════════════════════════════════════════════ */
+
+@keyframes investorBlobA {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%     { transform: translate(22px,-16px) scale(1.06); }
+  66%     { transform: translate(-14px,12px) scale(0.96); }
+}
+
+@keyframes investorBlobB {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%     { transform: translate(-18px,16px) scale(1.08); }
+  70%     { transform: translate(16px,-10px) scale(0.94); }
+}
+
+@keyframes investorFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Shell ─────────────────────────────────────────────── */
+.authShell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+@media (max-width: 980px) {
+  .authShell { grid-template-columns: 1fr; }
+}
+
+/* ── Left panel — benefits slider + stats ─────────────────── */
+.sidePanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 120px 48px 56px;
+  background: linear-gradient(160deg, #0a5c55 0%, #0f766e 45%, #0a0f0e 100%);
+  color: #ffffff;
+}
+
+@media (max-width: 980px) {
+  .sidePanel { padding: 100px 32px 44px; min-height: 480px; }
+}
+
+.sideBlob1,
+.sideBlob2 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(70px);
+}
+
+.sideBlob1 {
+  width: 460px; height: 460px;
+  top: -160px; right: -140px;
+  background: radial-gradient(circle, rgba(94,234,212,.22) 0%, transparent 65%);
+  animation: investorBlobA 22s ease-in-out infinite;
+}
+
+.sideBlob2 {
+  width: 380px; height: 380px;
+  bottom: -140px; left: -120px;
+  background: radial-gradient(circle, rgba(20,184,166,.24) 0%, transparent 65%);
+  animation: investorBlobB 26s ease-in-out infinite;
+}
+
+.sideContent {
+  position: relative;
+  z-index: 1;
+}
+
+.sideBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.08);
+  backdrop-filter: blur(8px);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: #5eead4;
+}
+
+/* ── Benefits slider ───────────────────────────────────── */
+.sliderWrap {
+  position: relative;
+  z-index: 1;
+  margin-top: 48px;
+  min-height: 220px;
+}
+
+.slide {
+  animation: investorFadeUp .5s cubic-bezier(.16,1,.3,1);
+}
+
+.slideIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #5eead4;
+  margin-bottom: 22px;
+}
+
+.slideTitle {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 2.6vw, 32px);
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.slideBody {
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(255,255,255,.72);
+  max-width: 420px;
+}
+
+.sliderDots {
+  display: flex;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.sliderDot {
+  width: 8px; height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,.28);
+  cursor: pointer;
+  transition: width .25s ease, background .25s ease;
+}
+
+.sliderDotActive {
+  width: 24px;
+  background: #5eead4;
+}
+
+/* ── Stat strip ────────────────────────────────────────── */
+.sideStats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 20px 28px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,.14);
+}
+
+.sideStatValue {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -.02em;
+  color: #ffffff;
+}
+
+.sideStatLabel {
+  margin-top: 3px;
+  font-size: 12px;
+  color: rgba(255,255,255,.6);
+  font-weight: 600;
+}
+
+/* ── Right panel — form ────────────────────────────────── */
+.formPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 120px 32px 56px;
+}
+
+@media (max-width: 980px) {
+  .formPanel { padding: 44px 32px 56px; }
+}
+
+.formCard {
+  width: 100%;
+  max-width: 420px;
+}
+
+.formEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(20,184,166,.22);
+  background: rgba(20,184,166,.07);
+  color: #0f766e;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 22px;
+}
+
+.formTitle {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 3vw, 34px);
+  letter-spacing: -.03em;
+  color: #0a0f0e;
+  line-height: 1.1;
+}
+
+.formSub {
+  margin-top: 10px;
+  font-size: 14.5px;
+  color: #4b6b65;
+  line-height: 1.65;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.formGroup { display: flex; flex-direction: column; gap: 7px; }
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0a0f0e;
+}
+
+.formInput {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #d9f2ec;
+  background: #f8fffe;
+  font-size: 14.5px;
+  color: #0a0f0e;
+  outline: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.formInput::placeholder { color: #8fb3ac; }
+
+.formInput:focus {
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20,184,166,.12);
+}
+
+.formInputError {
+  border-color: #dc2626;
+}
+
+.formErrorText {
+  font-size: 12.5px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.formLink {
+  color: #0f766e;
+  font-weight: 700;
+}
+.formLink:hover { text-decoration: underline; }
+
+.formSubmit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.formFootNote {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 13.5px;
+  color: #4b6b65;
+}
+
+/* ── OTP verification ──────────────────────────────────── */
+.otpRow {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.otpInput {
+  width: 46px; height: 54px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: 1.5px solid #d9f2ec;
+  background: #f8fffe;
+  color: #0a0f0e;
+  outline: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.otpInput:focus {
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20,184,166,.12);
+}
+
+.otpInputError { border-color: #dc2626; }
+
+/* ═══════════════════════════════════════════════════════════
+   Investor Payment Page
+═══════════════════════════════════════════════════════════ */
+.paymentPage {
+  position: relative;
+  overflow: hidden;
+  padding: 120px 0 110px;
+  background:
+    linear-gradient(180deg, rgba(240,253,249,.9), rgba(255,255,255,.98)),
+    #ffffff;
+}
+
+.paymentBlob1,
+.paymentBlob2 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+}
+
+.paymentBlob1 {
+  width: 620px; height: 620px;
+  top: -220px; right: -160px;
+  background: radial-gradient(circle, rgba(20,184,166,.12) 0%, transparent 65%);
+  animation: investorBlobA 22s ease-in-out infinite;
+}
+
+.paymentBlob2 {
+  width: 460px; height: 460px;
+  bottom: -160px; left: -140px;
+  background: radial-gradient(circle, rgba(94,234,212,.09) 0%, transparent 65%);
+  animation: investorBlobB 27s ease-in-out infinite;
+}
+
+.paymentInner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.paymentHeader {
+  max-width: 640px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.paymentEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(20,184,166,.22);
+  background: rgba(20,184,166,.07);
+  color: #0f766e;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+.paymentH1 {
+  margin-top: 18px;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(32px, 4.4vw, 48px);
+  letter-spacing: -.03em;
+  line-height: 1.06;
+  color: #0a0f0e;
+}
+
+.paymentSub {
+  margin-top: 16px;
+  font-size: 16px;
+  color: #4b6b65;
+  line-height: 1.8;
+}
+
+/* Stat strip */
+.paymentStats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px;
+  max-width: 880px;
+  margin: 0 auto 56px;
+}
+
+.paymentStatCard {
+  padding: 22px 18px;
+  border-radius: 18px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid rgba(20,184,166,.14);
+  box-shadow: 0 2px 12px rgba(20,184,166,.05);
+}
+
+.paymentStatValue {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -.02em;
+  color: #0f766e;
+}
+
+.paymentStatLabel {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #4b6b65;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .paymentStats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* Plan + gateway grid */
+.paymentGrid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .paymentGrid { grid-template-columns: 1fr; }
+}
+
+/* Membership plan card */
+.planCard {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 36px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, rgba(20,184,166,.06), rgba(15,118,110,.03), #ffffff);
+  border: 1.5px solid rgba(20,184,166,.18);
+  box-shadow: 0 20px 60px rgba(20,184,166,.1);
+}
+
+.planBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #14b8a6, #0f766e);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+.planName {
+  margin-top: 18px;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #0a0f0e;
+}
+
+.planPriceRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.planPrice {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 48px;
+  letter-spacing: -.03em;
+  color: #0a0f0e;
+  line-height: 1;
+}
+
+.planPriceUnit {
+  font-size: 14px;
+  color: #4b6b65;
+  margin-bottom: 6px;
+}
+
+.planDesc {
+  margin-top: 14px;
+  font-size: 14.5px;
+  color: #4b6b65;
+  line-height: 1.7;
+}
+
+.planFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: 28px;
+}
+
+.planFeatureRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #1a2e2b;
+}
+
+.planFeatureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: 999px;
+  background: rgba(20,184,166,.12);
+  color: #0f766e;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.planNote {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(20,184,166,.14);
+  font-size: 12.5px;
+  color: #7fa89e;
+}
+
+/* Payment gateway placeholder */
+.gatewayCard {
+  padding: 36px 32px;
+  border-radius: 28px;
+  background: #ffffff;
+  border: 1.5px dashed rgba(20,184,166,.35);
+  box-shadow: 0 4px 24px rgba(20,184,166,.06);
+}
+
+.gatewayHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gatewayIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  background: rgba(20,184,166,.1);
+  color: #0f766e;
+  flex-shrink: 0;
+}
+
+.gatewayTitle {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 17px;
+  color: #0a0f0e;
+}
+
+.gatewaySub {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: #7fa89e;
+}
+
+.gatewayBody {
+  margin-top: 22px;
+  padding: 20px;
+  border-radius: 18px;
+  background: #f8fffe;
+  border: 1px solid #e2faf5;
+}
+
+.gatewayLogos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gatewayLogoChip {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(20,184,166,.18);
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.gatewayFieldsSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.skeletonLine {
+  height: 42px;
+  border-radius: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    #eafaf6 0px,
+    #f3fffc 40px,
+    #eafaf6 80px
+  );
+}
+
+.gatewayNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 18px;
+  font-size: 12.5px;
+  color: #7fa89e;
+  line-height: 1.6;
+}
+
+.gatewayCta {
+  width: 100%;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sideBlob1, .sideBlob2,
+  .paymentBlob1, .paymentBlob2 { animation: none !important; }
+  .slide { animation: none !important; }
+}

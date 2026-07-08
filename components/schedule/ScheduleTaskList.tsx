@@ -10,7 +10,7 @@ const colors = {
 
   [TaskPriority.ImportantNotUrgent]: "bg-yellow-100 text-yellow-700",
 
-  [TaskPriority.NotImportantUrgent]: "bg-blue-100 text-blue-700",
+  [TaskPriority.NotImportantUrgent]: "bg-teal-100 text-teal-700",
 
   [TaskPriority.NotImportantNotUrgent]: "bg-gray-100 text-gray-700",
 };

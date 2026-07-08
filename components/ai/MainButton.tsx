@@ -1,15 +1,34 @@
-import { RiRobot3Line,RiCloseFill } from "react-icons/ri";
-import { useAIContext } from "../layout/dashboard-layout/DashboardLayout";
+'use client';
 
-export default function AIMainButton({opened,setOpen}:{opened:boolean,setOpen:Function}) {
+import { Sparkles, X } from "lucide-react";
+import { useAIContext } from "../providers/AIProvider";
+
+export default function AIMainButton({opened,setOpen}:{opened:boolean,setOpen:() => void}) {
     const ai = useAIContext();
-    
+
     return (
-        <button onClick = {() => {
+        <button
+            type="button"
+            aria-label={opened ? "Close AI Assistant" : "Open AI Assistant"}
+            onClick={() => {
                 ai.setPurpose?.('');
-                setOpen()
-            }} className = {'button p-0 h-[50px] flex justify-center bg-blue text-white fixed w-[50px]! items-end text-center bottom-5 inset-e-5 '+ (opened ? "opacity-[0.75]":'')}>
-            {opened ? <RiCloseFill size = {30}/>:<RiRobot3Line size = {30}/>}
+                setOpen();
+            }}
+            className={
+                "fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dark text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary " +
+                (opened ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100")
+            }
+        >
+            {/* Pulse ring — visible only when panel is closed */}
+            {!opened && (
+                <span
+                    aria-hidden="true"
+                    className="absolute inset-0 rounded-full bg-primary/40 animate-ping motion-reduce:animate-none"
+                />
+            )}
+            <span className="relative z-10">
+                {opened ? <X size={22} /> : <Sparkles size={22} />}
+            </span>
         </button>
     );
 }

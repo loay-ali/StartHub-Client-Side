@@ -1,7 +1,9 @@
 "use client";
-import { Sparkles, ArrowRight, ShieldCheck } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Sparkles, ArrowRight, ShieldCheck, Search, Filter } from "lucide-react";
 import { Reveal, SectionHeading } from "../home/shared";
 import styles from "./ecosystem.module.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 const investors = [
   {
@@ -78,7 +80,26 @@ const investors = [
   },
 ];
 
+const CATEGORIES = ["All", "Venture Capital", "Seed Accelerator", "Angel Syndicate", "Growth Capital"];
+
 export default function InvestorDiscovery() {
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredInvestors = useMemo(() => {
+    return investors.filter((inv) => {
+      const matchesSearch =
+        inv.name.toLowerCase().includes(search.toLowerCase()) ||
+        inv.thesis.toLowerCase().includes(search.toLowerCase()) ||
+        inv.sectors.some(s => s.toLowerCase().includes(search.toLowerCase()));
+      
+      const matchesCategory =
+        selectedCategory === "All" || inv.type === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [search, selectedCategory]);
+
   return (
     <section className={`${styles.section} ${styles.sectionPad} ${styles.sectionAlt}`}>
       <div className={styles.inner}>
@@ -94,10 +115,57 @@ export default function InvestorDiscovery() {
           />
         </Reveal>
 
-        <div className={styles.investorGrid}>
-          {investors.map((inv, idx) => (
-            <Reveal key={inv.name} delay={idx * 60}>
-              <div className={styles.investorCard}>
+        {/* Search and Category Filter Panel */}
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8 bg-white/70 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800/60 p-4 rounded-3xl backdrop-blur-md">
+          {/* Search bar */}
+          <div className="relative w-full md:w-72">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <input
+              type="text"
+              placeholder="Search investors by thesis or sector..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-950 border border-slate-200/65 dark:border-slate-800/80 rounded-2xl text-sm focus:outline-none focus:border-teal-500/80 dark:focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 transition"
+            />
+          </div>
+
+          {/* Filter Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto overflow-x-auto scrollbar-none py-1">
+            <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1 mr-1">
+              <Filter size={11} /> Pillar:
+            </span>
+            {CATEGORIES.map((cat) => {
+              const active = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
+                    active
+                      ? "bg-teal-500/10 border-teal-500/25 text-[#14b8a6]"
+                      : "bg-white dark:bg-slate-950 border-slate-200/60 dark:border-slate-800/80 text-slate-600 dark:text-slate-400 hover:border-slate-350 dark:hover:border-slate-700"
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Investors Grid with AnimatePresence for transitions */}
+        <motion.div layout className={styles.investorGrid}>
+          <AnimatePresence mode="popLayout">
+            {filteredInvestors.map((inv) => (
+              <motion.div
+                layout
+                key={inv.name}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className={styles.investorCard}
+              >
                 {/* Header */}
                 <div className={styles.investorHeader}>
                   <div
@@ -109,6 +177,9 @@ export default function InvestorDiscovery() {
                   <div>
                     <h4 className={styles.investorName}>{inv.name}</h4>
                     <div className={styles.investorType}>{inv.type}</div>
+                  </div>
+                  <div className="ml-auto text-teal-600 dark:text-teal-400">
+                    <ShieldCheck size={20} className="stroke-[2.5]" />
                   </div>
                 </div>
 
@@ -147,11 +218,20 @@ export default function InvestorDiscovery() {
                   </div>
                   <span className={styles.aiCompatScore}>{inv.compat}</span>
                 </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {filteredInvestors.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 border border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
+            <p className="text-sm font-semibold text-slate-400 dark:text-slate-500">
+              No investors match your criteria. Try adjusting the search or filters.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
 }
+

@@ -405,7 +405,7 @@ export default function HeroSection() {
             <span className="shH1b">Every decision.</span>
           </h1>
 
-          <p className="shSub">
+          <p className="shSub" style={{ textAlign: 'center' }}>
             StarHub watches your hiring, cash, and growth in one place — then tells you exactly what
             needs attention before it becomes a crisis.
           </p>
@@ -491,7 +491,7 @@ export default function HeroSection() {
 
         @container hero (max-width: 760px) {
           .shGrid { grid-template-columns: 1fr; text-align: center; }
-          .shSub  { margin-inline: auto; }
+          .shSub  { margin-inline: auto; text-align : center}
           .shCtas { justify-content: center; }
         }
 
@@ -535,6 +535,7 @@ export default function HeroSection() {
           color: ${C.textSecondary};
           max-width: 42ch;
           margin: 0 0 32px;
+          text-align: center
         }
 
         .shCtas { display: flex; gap: 12px; flex-wrap: wrap; }

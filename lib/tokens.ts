@@ -39,7 +39,7 @@ export const C = {
   success: "#16A34A",
   warning: "#F59E0B",
   danger: "#DC2626",
-  info: "#0EA5E9",
+  info: "#14B8A6",
 
   // Aliases
   green: "#16A34A",

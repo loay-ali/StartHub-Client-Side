@@ -89,8 +89,10 @@ export default function LoginForm() {
         }
       })
       .then(res => {
-        notificationService.success("Welcome back!", "You have successfully logged in.");
-        router.replace('/dashboard');
+        if( res ) {
+          notificationService.success("Welcome back!", "You have successfully logged in.");
+          router.replace('/dashboard');
+        }
       }).catch(err => {
         notificationService.error("Login error", "An unexpected error occurred. Please try again.");
       }).finally(() => {

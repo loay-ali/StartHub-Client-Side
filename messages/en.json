@@ -1,5 +1,67 @@
 {
+    "shared": {
+        "currencies": {
+            "USD": "USD"
+        }
+    },
     "public": {
+        "pay": {
+            "per-month": "Per Month"
+        },
+        "plans": {
+            
+        },
+        "register": {
+            "email-verified": "E-Mail Verified Successfully",
+            "your-email-address-has-been-verified-successfull": "Your E-Mail Address Has Been Verified Successfully",
+            "registration-completed": "Registration Completed",
+            "your-company-workspace-has-been-created-successfully": "Your company workspace has been created successfully.",
+            "all-you-need-to-do-now-is-verifying-your-email-address-through-the-email-weve-sent-to-your-inbox": "All you need to do now is verifying your E-Mail address ,we've sent to your inbox",
+            "welcome-to-startHub": "Welcome to StartHub",
+            "most-popular": "Most Popular",
+            "select-a-plan": "Select a Plan",
+            "tell-us-more-about-your-business": " Tell us more about your company and business.",
+            "company-image": "Company Image",
+            "upload-your-company-logo": "Upload Your Company Logo",
+            "company-information": "Company Information",
+            "startup-registeration": "Startup Registeration",
+            "founder-information": "Founder Information",
+            "personal-information": "Personal Information",
+            "upload-profile-photo": "Upload Profile Photo",
+            "profile-photo": "Profile Photo",
+            "first-name": "First Name",
+            "last-name": "Last Name",
+            "phone": "Phone",
+            "email": "E-Mail",
+            "password": "Password",
+            "repeat-password": "Repeat Password",
+            "compelete-the-onboarding-process-to-create-your-workspace": "Complete the onboarding process to create your workspace.",
+            "upload-photo": "Upload Photo",
+            "create-the-primary-account-owner-for-your-company": "Create the primary account owner for your company.",
+            "choose-your-subscription": "Choose Your Subscription",
+            "select-a-plan-and-billing-cycle-to-activate-your-workspace": "Select a plan and billing cycle to activate your workspace.",
+            "billing-cycle": "Billing Cycle",
+            "monthly": "Monthly",
+            "yearly": "Yearly",
+            "flexible-monthly-billing": "Flexible monthly billing."
+        },
+        "errors": {
+            "company-image-is-required": "Company Image Is Required",
+            "company-name-is-required": "Company Name Is Required",
+            "company-founded-date-is-required": "Company Establishment Date Is Required",
+            "company-industry-is-required": "Company Industry Is Required",
+            "company-size-is-required": "Company Size Is Required",
+
+            "first-name-is-required": "First Name Is Required",
+            "last-name-is-required": "Last Name Is Required",
+            "email-is-required": "E-Mail Is Required",
+            "phone-is-required": "Phone Is Required",
+            "password-is-required": "Password Is Required",
+            "password-not-match": "Password Repetation Doesn't Match"
+        },
+        "navigation": {
+            "investor": "Investor"
+        },
         "homepage": {
             "hello-world": "Hello World"
         },
@@ -12,14 +74,107 @@
         }
     },
     "dashboard": {
+        "departments": {
+            "the-department-was-removed-successfully": "The Department Was Removed Successfully",
+            "could-not-delete-the-department-please-try-again": "Could not delete the department, please try again",
+            "remove-department": "Remove Department",
+            "create-department": "Create Department",
+            "department-name": "Department Name"
+        },
+        "employees": {
+            "employees": "Employees",
+            "no-employees": "No Employees"
+        },
+        "users": {
+            "user": "User"
+        },
+        "usage": {
+            "all-logs": "All Logs",
+
+            "AGENT_EXECUTION": "Chat"
+        },
+        "common": {
+            "name": "Name",
+            "description": "Description",
+            "title": "Title",
+            "updated": "Updated",
+            "submit": "Submit",
+            "create": "Create",
+            "checkout": "checkout",
+            "search": "Search",
+            "add-new": "Add New"
+        },
+        "ai": {
+            "need-help": "Need Help ?"
+        },
+        "roles": {
+            
+        },
+        "fields": {
+            "fullname": "Fullname",
+            "email": "E-Mail",
+            "phone": "Phone",
+            "password": "Password",
+            "repeat-password": "Repeat Password",
+            "role": "Role",
+
+            "applied-job": "Applied Job",
+            "cv": "CV",
+            "download-cv": "Download CV"
+        },
+        "jobs": {
+            "job": "Job",
+            "create-a-job": "Create a Job",
+            "no-jobs": "No Jobs",
+            "choose-job": "Choose Job"
+        },
+        "candidates": {
+            "candidate": "Candidate",
+            "create-a-candidate": "Create a Candidate",
+            "no-jobs-to-apply-candidates-to": "No Jobs To Apply Candidates To",
+            "create-candidate": "Create Candidate",
+            "no-candidates": "No Candidates",
+            "choose-candidate": "Choose Candidate"
+        },
+        "interviews": {
+            "create-interview": "Create Interview",
+
+            "add-interview-to-best-candidate": "Add Interview To The Best Candidate",
+            "edit-interview-data": "Edit Current Interview's Data",
+            "interviews-list": "Interviews List",
+
+            "choose-interview-type": "Choose Interview Type",
+            "hr": "HR Interivew",
+            "final": "Final Interview",
+            "technical": "Technical Interview",
+            "behavioral": "Soft Skills Interview",
+
+            "save-interview-data": "Save Interview Data",
+
+            "interview-updated-successfully": "Interview Updated Successfully"
+        },
         "home": {
             "tokens_used": "Tokens Used"
+        },
+        "header": {
+            "tokens": "Tokens"
         },
         "integrations": {
             "database": "Database",
             "url": "URL",
             "username": "Username",
             "apikey": "API Key"
+        },
+        "service": {
+            "order-service": "Order Service",
+            "order-a-personal-professional-service-from-our-experts": "Order a Personal Professional Service From Our Experts",
+
+            "choose-service": "Choose Service",
+            "service-data": "Service Data",
+            "payment": "Payment",
+            "complete": "Complete",
+
+            "please-choose-a-service": "Please Choose a Service"
         },
         "sidebar": {
             "dashboard": "Dashboard",
@@ -61,7 +216,9 @@
 
             "departments": "Departments",
             "all-departments": "All Departments",
-            "add-department": "Add Department"
+            "add-department": "Add Department",
+
+            "usage": "Usage"
         }
     }
 }

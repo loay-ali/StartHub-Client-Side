@@ -19,9 +19,9 @@ export const EMAIL_THEME = {
 
   // Status
   success: "#16A34A",
-  warning: "#f5420b",
-  danger: "#DC2626",
-  info: "#0EA5E9",
+  warning: "#f59e0b",
+  danger: "#dc3545",
+  info: "#14B8A6",  
 
   // Shadows
   shadow: "0 8px 30px rgba(15,118,110,0.12)",

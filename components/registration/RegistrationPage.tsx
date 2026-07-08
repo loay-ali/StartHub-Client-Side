@@ -12,19 +12,27 @@ import PaymentStep from "./steps/PaymentStep";
 import SuccessStep from "./steps/SuccessStep";
 import { init } from "@/src/services/registeration";
 
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useRef } from 'react';
 import config from "@/constants/config";
 import { register } from "module";
+import { ButtonLoader } from "../preloader/ButtonLoader";
+import { useTranslations } from "next-intl";
+import { forbidden } from "next/navigation";
 
 export default function RegistrationPage() {
 
-  const [registerationToken,setRegisterationToken] = useState('');
-  const [currentStep,setCurrentStep] = useState(5);
+  const [currentStep,setCurrentStep] = useState(6);
 
   const [bmcMethod,setBmcMethod] = useState('');
 
+  const [loading,setLoading] = useState(true);
+
+  const [error,setError] = useState('');
+  const [isErr,setIsErr] = useState(false);
+
   /* Company Data (Step 1) */
   const [companyImage,setCompanyImage] = useState<File|null>(null);
+
   const [companyName,setCompanyName] = useState('');
   const [companyIndustry,setCompanyIndustry] = useState('');
   const [companyWebsite,setCompanyWebsite] = useState('');
@@ -54,10 +62,14 @@ export default function RegistrationPage() {
   /* Show Bmc Analyze Score */
   const [bmcScore,setBmcScore] = useState(50);
 
+  const t = useTranslations();
+
+  const formRef = useRef<any>(null);
+
+  const [errorFetching,setErrorFetching] = useState(false);
+
   useEffect(() => {
-    if( registerationToken == '' ) {
-      fetch('/api/registeration').then(res => res.json()).then(token => setRegisterationToken(token.token));
-    }
+    fetch('/api/registeration').then(() => setLoading(false)).catch(() => setErrorFetching(true));
 
     if( uploadingBmc ) {
       fetch(config.apiUrl +'/registeration/fill-bmc?token=registerationToken',{
@@ -76,6 +88,10 @@ export default function RegistrationPage() {
       });
     }
 
+    if( errorFetching ) {
+      return forbidden();
+    }
+
     if( saveFounder ) {
         const formData = new FormData();
         if( founderImage ) formData.append('file',founderImage);
@@ -90,7 +106,7 @@ export default function RegistrationPage() {
         }).then(res => res.json())
         .then(({filePath}:{filePath:string}) => {
 
-          fetch(config.apiUrl +'/registeration/founder?token='+ registerationToken,{
+          fetch(config.apiUrl +'/registeration/founder',{
               method: 'POST',
               credentials: 'include',
               headers: {
@@ -129,7 +145,7 @@ export default function RegistrationPage() {
           headers: {
           'Content-Type': "multipart/form-data",
         },body: formData}).then(response => response.status == 200 ? response.json():Promise.reject()).then(res => {
-            fetch(config.apiUrl +'/registeration/company?token='+ registerationToken,{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
+            fetch(config.apiUrl +'/registeration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
               image: res.filePath,
               name: companyName,
               industry: companyIndustry,
@@ -142,7 +158,7 @@ export default function RegistrationPage() {
             });
         })
       }else {
-          fetch(config.apiUrl +'/registeration/company?token='+ registerationToken,{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
+          fetch(config.apiUrl +'/registeration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
             name: companyName,
             industry: companyIndustry,
             website: companyWebsite,
@@ -154,7 +170,7 @@ export default function RegistrationPage() {
           }) 
       }
 
-      fetch(config.apiUrl +'/registeration/company?token='+ registerationToken,{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
+      fetch(config.apiUrl +'/registeration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
         name: companyName,
         industry: companyIndustry,
         website: companyWebsite,
@@ -167,18 +183,33 @@ export default function RegistrationPage() {
     }
   },[saveCompanyData,saveFounder]);
 
-  if( ! registerationToken ) return (<strong className = 'text-center'>Loading...</strong>);
+  if( loading ) return (
+    <div className = 'p-5 flex items-center justify-center'>
+      <ButtonLoader size = {30} />
+    </div>
+  );
+
+  function nextStep() {
+    setIsErr(false);
+    if( formRef?.current?.checkValidity?.() == false ) {
+      formRef?.current?.scrollIntoView();
+      setIsErr(true);
+      return;
+    }
+
+    setCurrentStep(step => step + 1);
+  }
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-background p-8 mt-20">
       <div className="mx-auto max-w-7xl rounded-3xl bg-surface p-10 shadow-sm">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-text-primary">
-            Startup Registration
+            {t('public.register.startup-registeration')}
           </h1>
 
           <p className="mt-3 text-text-secondary">
-            Complete the onboarding process to create your workspace.
+            {t('public.register.compelete-the-onboarding-process-to-create-your-workspace')}
           </p>
         </div>
 
@@ -187,16 +218,24 @@ export default function RegistrationPage() {
         <section>
           {currentStep === 1 
           && <CompanyInfoStep
+              data = {{img: companyImage}}
+              isErr = {isErr}
+              formRef={formRef}
+              errors = {error}
+              setError = {setError}
               setCountry = {setCompanyCountry}
               setSize = {setCompanySize}
               setWebsite = {setCompanyWebsite}
               setIndustry = {setCompanyIndustry}
               setName = {setCompanyName}
-              setImage = {setCompanyImage}
-              registerationToken = {registerationToken}/>}
+              setImage = {setCompanyImage}/>}
 
           {currentStep === 2
           && <FounderInfoStep
+              isErr = {isErr}
+              formRef={formRef}
+              error = {error}
+              setError = {setError}
               setImage = {setFounderImage}
               setFirstname = {setFounderFirstName}
               setLastname = {setFounderLastName}
@@ -214,14 +253,16 @@ export default function RegistrationPage() {
 
           {currentStep === 4 && bmcMethod == 'upload' && (
             <UploadBmcStep
+            error = {error}
+            setError = {setError}
             selectedFile={uploadedBmc}
             onFileSelect={(file:File):void => setUploadedBmc(file)}
             />
           )}
 
-          {currentStep === 4 && bmcMethod == 'ai' && <AiDiscoveryStep />}
+          {currentStep === 4 && bmcMethod == 'ai' && <AiDiscoveryStep error = {error} setError = {setError}/>}
 
-          {currentStep === 5 && <BmcScoreStep score = {bmcScore} />}
+          {currentStep === 5 && <BmcScoreStep data = {''} score = {bmcScore} />}
 
           {currentStep === 6 && <PaymentStep />}
 
@@ -238,10 +279,7 @@ export default function RegistrationPage() {
             </button>
 
             <button
-              onClick = {() => (
-                currentStep == 1 ? setSaveCompanyData(true):(
-                currentStep == 2 ? setSaveFounder(true):(
-                currentStep == 4 ? setUploadingBmc(true):setCurrentStep(currentStep + 1))))}
+              onClick = {() => nextStep()}
               className="rounded-xl bg-primary px-6 py-3 font-medium text-white transition hover:opacity-90"
             >
               {currentStep === 6 ? "Complete Registration" : "Next"}

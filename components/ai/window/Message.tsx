@@ -1,17 +1,61 @@
-import { ButtonLoader } from "@/components/preloader/ButtonLoader";
-import { useState } from "react"
+'use client';
 
-export default function Message({isSending,setMsg,sendMessage}:{isSending:boolean,setMsg:Function,sendMessage:Function}) {
+import { Send } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+export default function Message({isSending,sendMessage}:{isSending:boolean,sendMessage:(text:string) => void}) {
+    const [value, setValue] = useState('');
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Auto-grow the textarea up to a max height instead of a fixed
+    // min-h-[100px] block that stayed the same size whether you'd typed
+    // one word or a paragraph.
+    useEffect(() => {
+        const el = textareaRef.current;
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }, [value]);
+
+    function handleSend() {
+        const trimmed = value.trim();
+        if (!trimmed || isSending) return;
+        sendMessage(trimmed);
+        setValue('');
+    }
 
     return (
-    <section className = 'border-t-1 border-primary-dark p-2 flex flex-col gap-2 justify-center items-center'>
-        {isSending ? <div className = 'p-5'><ButtonLoader color = 'white' size={25}/></div>:<textarea placeholder = "Want To Say Something ?" style = {{resize: 'none'}} className = 'border-none p-2 outline-0 bg-white min-h-[100px] border-1 shadow rounded w-full' onInput = {(event:any) => setMsg(event.target.value)}></textarea>}
+        // Fixed: previously the whole textarea was swapped out for a
+        // loader while sending, so the input area jumped around and you
+        // lost your place. The field now just disables in place; the
+        // typing indicator lives in the chat body instead.
+        <section className="flex flex-shrink-0 items-end gap-2  border-none bg-surface-soft backdrop-blur-sm p-3">
+            <textarea
+                ref={textareaRef}
+                value={value}
+                disabled={isSending}
+                rows={1}
+                placeholder="Ask about your business..."
+                className="max-h-[120px] min-h-[40px] flex-1 resize-none rounded-2xl border-none shadow-sm bg-background px-4 py-2.5 text-sm text-text-primary outline-none transition placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
+                onChange={(event) => setValue(event.target.value)}
+                onKeyDown={(event) => {
+                    // Enter sends, Shift+Enter makes a new line.
+                    if (event.key === 'Enter' && !event.shiftKey) {
+                        event.preventDefault();
+                        handleSend();
+                    }
+                }}
+            />
 
-        <button disabled = {isSending} className = {(isSending ? "opacity-[0.5]":'') +' rounded p-2 cursor-pointer w-full bg-[linear-gradient(to_bottom_right,#FFF,#BBB)] text-black'} type="button" onClick = {() => {
-            sendMessage();
-        }}>
-            Send Message
-        </button>
-    </section>
-    )
+            <button
+                type="button"
+                disabled={isSending || value.trim() === ''}
+                onClick={handleSend}
+                aria-label="Send message"
+                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+                <Send size={16} />
+            </button>
+        </section>
+    );
 }

@@ -41,7 +41,7 @@ export default function UserMenu({email}:{email:string}) {
         onClick={() => setOpen(!open)}
         className="group flex items-center gap-2.5 rounded-2xl border border-transparent bg-transparent py-1 px-1.5 transition-all duration-300 hover:bg-slate-100 hover:border-slate-200"
       >
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 font-bold text-white text-sm shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 via-teal-600 to-emerald-500 font-bold text-white text-sm shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg">
           {email ? email.charAt(0).toUpperCase() : 'U'}
         </div>
 
@@ -66,7 +66,7 @@ export default function UserMenu({email}:{email:string}) {
             <p className="text-xs text-slate-500 truncate mt-0.5">{email}</p>
           </div>
           
-          <Link href="/dashboard/profile" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-600">
+          <Link href="/dashboard/profile" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-teal-50 hover:text-teal-600">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm">
               <FiUser className="h-4 w-4" />
             </div>
@@ -85,4 +85,4 @@ export default function UserMenu({email}:{email:string}) {
       )}
     </div>
   );
-}
+}

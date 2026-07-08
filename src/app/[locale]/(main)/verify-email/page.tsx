@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 
 import { useRouter,useParams } from "next/navigation";
 import config from "@/constants/config";
+import { notificationService } from "@/lib/notifiationSystem";
+import { useTranslations } from "next-intl";
+import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 
 export default function VerifyEmail() {
     const router = useRouter();
@@ -16,6 +19,8 @@ export default function VerifyEmail() {
 
     const [verifing,setVerifing] = useState(true);
 
+    const t = useTranslations();
+
     useEffect(() => {
         if( verifing ) {
             fetch(config.apiUrl +'/auth/verify-email',{
@@ -25,9 +30,15 @@ export default function VerifyEmail() {
                     'Content-Type': "application/json"
                 },
                 body: JSON.stringify({verifyCode: verifyToken})
-            }).then(res => res.status == 200 ? (router.push('/dashboard')):setVerifing(false))
+            }).then(res => res.status == 200 || res.status == 201 ? (router.push('/login')):setVerifing(false))
         }
     },[]);
 
-    return <>Verified Successfully</>
+    if( verifing ) {
+        return <div className = 'p-5 flex justify-center items-center'>
+            <ButtonLoader size = {30} />
+        </div>
+    }
+
+    return notificationService.info(t('public.register.email-verified'),t('public.register.your-email-address-has-been-verified-successfull'));
 }

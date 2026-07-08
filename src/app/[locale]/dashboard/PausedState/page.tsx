@@ -1,7 +1,7 @@
 "use client";
 import PausedState from "@/components/dashboard/PausedState"
 
-export default async function PausedPageState(){
+export default function PausedPageState(){
     return (
         <div>
             <PausedState/>
