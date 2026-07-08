@@ -12,6 +12,12 @@
             
         },
         "register": {
+            "email-verified": "E-Mail Verified Successfully",
+            "your-email-address-has-been-verified-successfull": "Your E-Mail Address Has Been Verified Successfully",
+            "registration-completed": "Registration Completed",
+            "your-company-workspace-has-been-created-successfully": "Your company workspace has been created successfully.",
+            "all-you-need-to-do-now-is-verifying-your-email-address-through-the-email-weve-sent-to-your-inbox": "All you need to do now is verifying your E-Mail address ,we've sent to your inbox",
+            "welcome-to-startHub": "Welcome to StartHub",
             "most-popular": "Most Popular",
             "select-a-plan": "Select a Plan",
             "tell-us-more-about-your-business": " Tell us more about your company and business.",

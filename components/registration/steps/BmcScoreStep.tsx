@@ -1,6 +1,6 @@
 import { FiCheckCircle, FiTrendingUp } from "react-icons/fi";
 
-export default function BmcScoreStep({score}:{score:number}) {
+export default function BmcScoreStep({data,score}:{data:string,score:number}) {
   return (
     <div className="mx-auto max-w-4xl">
       <div className="text-center">

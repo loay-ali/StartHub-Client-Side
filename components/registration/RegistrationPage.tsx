@@ -262,7 +262,7 @@ export default function RegistrationPage() {
 
           {currentStep === 4 && bmcMethod == 'ai' && <AiDiscoveryStep error = {error} setError = {setError}/>}
 
-          {currentStep === 5 && <BmcScoreStep score = {bmcScore} />}
+          {currentStep === 5 && <BmcScoreStep data = {''} score = {bmcScore} />}
 
           {currentStep === 6 && <PaymentStep />}
 
