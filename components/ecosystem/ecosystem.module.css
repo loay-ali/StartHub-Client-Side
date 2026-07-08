@@ -617,15 +617,15 @@
 ═══════════════════════════════════════════════════════════ */
 .industryGrid {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 16px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
 }
 
 .industryCard {
   background: white;
   border: 1.5px solid rgba(20,184,166,.12);
-  border-radius: 20px;
-  padding: 24px 18px;
+  border-radius: 16px;
+  padding: 16px 12px;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -643,29 +643,30 @@
   pointer-events: none;
 }
 
-.industryCard:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(20,184,166,.16); border-color: rgba(20,184,166,.35); }
+.industryCard:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(20,184,166,.12); border-color: rgba(20,184,166,.35); }
 .industryCard:hover::after { opacity: 1; }
 
 .industryIconWrap {
-  width: 52px; height: 52px;
-  border-radius: 16px;
+  width: 40px; height: 40px;
+  border-radius: 12px;
   background: linear-gradient(135deg, rgba(20,184,166,.12), rgba(94,234,212,.08));
   border: 1px solid rgba(20,184,166,.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 14px;
-  font-size: 24px;
+  margin: 0 auto 10px;
+  font-size: 18px;
   transition: transform .3s ease;
 }
 
 .industryCard:hover .industryIconWrap { transform: scale(1.1) rotate(4deg); }
 
-.industryName { font-size: 13px; font-weight: 800; color: #0a0f0e; letter-spacing: -.01em; }
-.industryCount { font-size: 11px; color: #7fa89e; margin-top: 4px; font-weight: 600; }
+.industryName { font-size: 11px; font-weight: 800; color: #0a0f0e; letter-spacing: -.01em; line-height: 1.2; }
+.industryCount { font-size: 10px; color: #7fa89e; margin-top: 4px; font-weight: 600; }
 
-@media (max-width: 900px) { .industryGrid { grid-template-columns: repeat(3,1fr); } }
-@media (max-width: 580px) { .industryGrid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 1024px) { .industryGrid { grid-template-columns: repeat(4,1fr); } }
+@media (max-width: 768px) { .industryGrid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 480px) { .industryGrid { grid-template-columns: repeat(2,1fr); } }
 
 /* ═══════════════════════════════════════════════════════════
    5. JOIN THE PLATFORM (CTA — replaces the old startup card grid)

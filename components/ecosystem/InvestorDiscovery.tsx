@@ -143,7 +143,7 @@ export default function InvestorDiscovery() {
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
                     active
                       ? "bg-teal-500/10 border-teal-500/25 text-[#14b8a6]"
-                      : "bg-white dark:bg-slate-950 border-slate-200/60 dark:border-slate-800/80 text-slate-600 dark:text-slate-400 hover:border-slate-350 dark:hover:border-slate-700"
+                      : "bg-white dark:bg-slate-950 border-slate-200/60 dark:border-slate-800/80 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700"
                   }`}
                 >
                   {cat}

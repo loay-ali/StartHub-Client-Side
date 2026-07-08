@@ -5,43 +5,28 @@ import styles from "./ecosystem.module.css";
 const steps = [
   {
     num: "01",
-    title: "Challenge Formulation",
-    desc: "Corporates or government entities publish innovation briefs specifying requirements, eligibility, and prize/pilot funding.",
+    title: "Challenge Structuring & Publication",
+    desc: "Enterprise partners publish detailed innovation briefs, specify tech parameters, and configure escrowed funding budgets.",
   },
   {
     num: "02",
-    title: "AI Mandate Matching",
-    desc: "StarHub Co-pilot runs vector searches across vetted startup profiles, matching tech compatibility above 85%.",
+    title: "AI Vetting & Data Room Audit",
+    desc: "Our behind-the-scenes matching algorithms index candidate startups, verify operational traction, and execute automated compliance audits.",
   },
   {
     num: "03",
-    title: "Automated Vetting",
-    desc: "Startups undergo structured evaluation including traction auditing, compliance checks, and pitch vault scans.",
+    title: "Double Opt-In Routing & NDA",
+    desc: "StarHub auto-routes matching alerts, secures mutual interest confirmations, and executes standardized multi-party NDAs.",
   },
   {
     num: "04",
-    title: "Compliance Verification",
-    desc: "Ecosystem protocols enforce NDAs, verify IP claims, and audit developer records automatically to protect both parties.",
+    title: "Escrow Setup & SLA Contracting",
+    desc: "Parties sign standardized proof-of-concept agreements, locking milestone-linked budgets into secure platform smart accounts.",
   },
   {
     num: "05",
-    title: "Direct Introductions",
-    desc: "Matched parties receive automated, double-opt-in calendar invitations along with custom briefing reports.",
-  },
-  {
-    num: "06",
-    title: "Smart Term Negotiation",
-    desc: "Utilize standardized template agreements for proof-of-concepts, pilots, and equity funding to minimize legal friction.",
-  },
-  {
-    num: "07",
-    title: "Capital Disbursement",
-    desc: "Milestone-linked funds are disbursed directly through secure, automated compliance channels.",
-  },
-  {
-    num: "08",
-    title: "Post-Match Performance Tracker",
-    desc: "AI monitors project delivery, updates ecosystem social feeds on milestones, and schedules follow-on review calls.",
+    title: "Disbursement & Progress Validation",
+    desc: "Escrowed capital is automatically disbursed to the startup as progress targets are achieved and digitally validated by stakeholders.",
   },
 ];
 
