@@ -78,12 +78,26 @@ export default function ApplicationModal({ isOpen, onClose, opportunityTitle }: 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Prevent background scrolling when modal is open
+  // Prevent background scrolling and hide header when modal is open
   useEffect(() => {
+    const header = document.querySelector("header") as HTMLElement | null;
+
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      if (header) {
+        header.style.opacity = "0";
+        header.style.pointerEvents = "none";
+        header.style.transform = "translateY(-100%)";
+        header.style.transition = "opacity 0.2s ease, transform 0.2s ease";
+      }
     } else {
       document.body.style.overflow = "auto";
+      if (header) {
+        header.style.opacity = "";
+        header.style.pointerEvents = "";
+        header.style.transform = "";
+        header.style.transition = "";
+      }
       // Reset state if closed and re-opened
       setTimeout(() => {
         setStep(1);
@@ -93,6 +107,12 @@ export default function ApplicationModal({ isOpen, onClose, opportunityTitle }: 
     }
     return () => {
       document.body.style.overflow = "auto";
+      if (header) {
+        header.style.opacity = "";
+        header.style.pointerEvents = "";
+        header.style.transform = "";
+        header.style.transition = "";
+      }
     };
   }, [isOpen]);
 
