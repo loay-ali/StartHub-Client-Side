@@ -150,18 +150,18 @@ const INNER_DURATION = "90s";
 const OUTER_DURATION = "150s";
 
 const INNER_NODES: OrbitNode[] = [
-  { label: "Recruitment", status: "Hiring",  angle: -90  },
-  { label: "Finance",     status: "Synced",  angle: -18  },
-  { label: "Operations",  status: "Healthy", angle:  54  },
-  { label: "Analytics",   status: "Live",    angle: 126  },
-  { label: "Growth",      status: "Scaling", angle: 198  },
+  { label: "Recruitment", status: "Hiring", angle: -90 },
+  { label: "Finance", status: "Synced", angle: -18 },
+  { label: "Operations", status: "Healthy", angle: 54 },
+  { label: "Analytics", status: "Live", angle: 126 },
+  { label: "Growth", status: "Scaling", angle: 198 },
 ];
 
 const OUTER_NODES: OrbitNode[] = [
-  { label: "Predictions", angle:  -45 },
-  { label: "Risk alerts", angle:   45 },
-  { label: "Automation",  angle:  135 },
-  { label: "Insights",    angle:  225 },
+  { label: "Predictions", angle: -45 },
+  { label: "Risk alerts", angle: 45 },
+  { label: "Automation", angle: 135 },
+  { label: "Insights", angle: 225 },
 ];
 
 /* ── Utilities ─────────────────────────────────────────────────── */
@@ -170,7 +170,7 @@ function getOrbitPoint(angle: number, radius: number) {
   const rad = (angle * Math.PI) / 180;
   return {
     left: `${(((ORBIT_CENTER + radius * Math.cos(rad)) / ORBIT_SIZE) * 100).toFixed(2)}%`,
-    top:  `${(((ORBIT_CENTER + radius * Math.sin(rad)) / ORBIT_SIZE) * 100).toFixed(2)}%`,
+    top: `${(((ORBIT_CENTER + radius * Math.sin(rad)) / ORBIT_SIZE) * 100).toFixed(2)}%`,
   };
 }
 
@@ -212,7 +212,7 @@ function useAnimatedCounter(target: number, duration = 1800, delay = 0) {
 
 function usePointerGlow() {
   const sectionRef = useRef<HTMLElement>(null);
-  const frameRef   = useRef<number | null>(null);
+  const frameRef = useRef<number | null>(null);
   const positionRef = useRef({ x: 62, y: 32 });
   const [position, setPosition] = useState({ x: 62, y: 32 });
 
@@ -222,8 +222,8 @@ function usePointerGlow() {
     frameRef.current = requestAnimationFrame(() => {
       frameRef.current = null;
       const rect = el.getBoundingClientRect();
-      const x = ((event.clientX - rect.left)  / rect.width)  * 100;
-      const y = ((event.clientY - rect.top)   / rect.height) * 100;
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
       positionRef.current = {
         x: positionRef.current.x + (x - positionRef.current.x) * 0.15,
         y: positionRef.current.y + (y - positionRef.current.y) * 0.15,
@@ -254,7 +254,7 @@ const OrbitRing = React.memo(function OrbitRing({
   nodes: OrbitNode[]; radius: number; duration: string;
   spin: "cw" | "ccw"; variant: "inner" | "outer";
 }) {
-  const lineClass   = variant === "inner" ? "shLineInner" : "shLineOuter";
+  const lineClass = variant === "inner" ? "shLineInner" : "shLineOuter";
   const counterSpin = spin === "cw" ? "ccw" : "cw";
 
   const points = useMemo(
@@ -308,7 +308,7 @@ const OrbitCore = React.memo(function OrbitCore() {
 /* ── Weekly diagnosis card ───────────────────────────────────── */
 
 const ReportCard = React.memo(function ReportCard() {
-  const runway = useAnimatedCounter(142, 1600,  900) / 10;
+  const runway = useAnimatedCounter(142, 1600, 900) / 10;
   const growth = useAnimatedCounter(184, 1600, 1100) / 10;
 
   return (
@@ -350,7 +350,7 @@ const HeroOrbit = React.memo(function HeroOrbit() {
       tabIndex={0}
       style={{ containerType: "inline-size", containerName: "orbit" } as React.CSSProperties}
     >
-      <OrbitRing nodes={INNER_NODES} radius={INNER_RADIUS} duration={INNER_DURATION} spin="cw"  variant="inner" />
+      <OrbitRing nodes={INNER_NODES} radius={INNER_RADIUS} duration={INNER_DURATION} spin="cw" variant="inner" />
       <OrbitRing nodes={OUTER_NODES} radius={OUTER_RADIUS} duration={OUTER_DURATION} spin="ccw" variant="outer" />
       <OrbitCore />
       <ReportCard />
@@ -365,7 +365,7 @@ export default function HeroSection() {
 
   /* Independent loading state per button */
   const [primaryLoading, setPrimaryLoading] = useState(false);
-  const [ghostLoading,   setGhostLoading]   = useState(false);
+  const [ghostLoading, setGhostLoading] = useState(false);
 
   const handleStartFree = () => {
     setPrimaryLoading(true);
@@ -379,6 +379,7 @@ export default function HeroSection() {
 
   return (
     <section
+      id="hero" data-header-theme="dark"
       ref={sectionRef}
       className="shHero"
       aria-label="StarHub AI operating system hero"
