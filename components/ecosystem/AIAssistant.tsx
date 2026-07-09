@@ -27,30 +27,7 @@ const suggestions = [
   "Show vetted AI startups with over $1M ARR",
 ];
 
-const mockReplies: Record<string, { text: string; results?: ResultItem[] }> = {
-  "Find investors in CleanTech with $500k+ tickets": {
-    text: "I scanned our capital network and identified 3 venture funds matching CleanTech mandate with ticket sizes starting at $500k+:",
-    results: [
-      { emoji: "🌲", title: "Sequoia Capital", sub: "Ticket: $1M - $15M · Focus: SaaS, AI/ML, CleanTech", matchVal: 98 },
-      { emoji: "⚡", title: "General Catalyst", sub: "Ticket: $1.5M - $12M · Focus: HealthTech, Climate", matchVal: 92 },
-      { emoji: "🌱", title: "Angel Syndicate Alpha", sub: "Ticket: $100k - $500k · Focus: DeepTech, Security", matchVal: 90 },
-    ],
-  },
-  "Show me open corporate challenges in FinTech": {
-    text: "Here are active innovation briefs published by global financial institutions seeking pilot startups:",
-    results: [
-      { emoji: "💳", title: "Standard Chartered Bank", sub: "Cross-Border Settlement AI Engine · Prize: $175k · Deadline: 30 days", matchVal: 96 },
-      { emoji: "🔒", title: "Barclays Labs", sub: "Real-time High-frequency Fraud Detection · Prize: $100k · Deadline: 12 days", matchVal: 89 },
-    ],
-  },
-  "Show vetted AI startups with over $1M ARR": {
-    text: "Here are high-growth, vetted AI-native startups with over $1M ARR currently active in our sandbox:",
-    results: [
-      { emoji: "🤖", title: "Optima AI", sub: "Autonomous Customer Success · $2.4M ARR · YoY Growth: 140%", matchVal: 98 },
-      { emoji: "🛡️", title: "Aura Cyber", sub: "Zero-Knowledge Kubernetes Guard · $1.8M ARR · SLA: 99.99%", matchVal: 91 },
-    ],
-  },
-};
+
 
 export default function AIAssistant() {
   const [messages, setMessages] = useState<Message[]>([
@@ -88,7 +65,7 @@ export default function AIAssistant() {
     setInputVal("");
     setIsTyping(true);
 
-    fetch(config.apiUrl + "/ai/ecosystem-chat", {
+    fetch(config.apiUrl + "/ai/ecosystem", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -173,9 +150,9 @@ export default function AIAssistant() {
                   </div>
                 </div>
 
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-teal-500/5 border border-teal-500/10 rounded-lg">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-lg">
                   <AlertCircle size={12} className="text-teal-500" />
-                  <span className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">Demo Sandbox Mode</span>
+                  <span className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">Live AI Mode</span>
                 </div>
               </div>
 
