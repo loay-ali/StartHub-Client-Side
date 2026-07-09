@@ -10,8 +10,8 @@ import config from "@/constants/config";
 import { useTranslations } from "next-intl";
 
 export default function PaymentSection({ redirect, paymentIntent, clientSecret, price, payment, additional = '' }: { redirect: Function, paymentIntent: string, clientSecret: string, additional: string, price: number, payment: 'service' | 'subscription' }) {
-   
     const t = useTranslations();
+    
     return (
     <section className = 'flex flex-col justify-center items-center gap-10'>
         <strong className = 'text-3xl border-b-1 border-gray-200'>

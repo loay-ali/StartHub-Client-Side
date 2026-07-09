@@ -5,6 +5,9 @@
         }
     },
     "public": {
+        "delete": {
+            "if-you-confirm-you-cant-access-this-record-once-again": "If you confirm you Can't Access This Record Once Again"
+        },
         "home": {
             "ai-operating-system": "AI operating system",
             "one-ai": "One AI.",
@@ -124,13 +127,18 @@
             "enter-your-email": "Enter your email",
             "enter-your-password": "Enter your password",
             "remember-me": "Remember me",
+
             "forget-password": "Forgot password?",
             "new-here": "New Here ?",
             "join-now": "Join Now",
             "login": "Login",
-            "sign-in": "Sign In",
             "are-you-an-investor": "Are you an Investor?",
-            "login-as-investor": "Login as Investor"
+            "login-as-investor": "Login as Investor",
+
+            "signin-to-review-your-deal-flow-and-matches": "Sign in to review your deal flow and matches.",
+            "investor-portal": "Investor Portal",
+            "sign-in": "Sign In"
+
         },
         "pay": {
             "per-month": "Per Month"
@@ -178,6 +186,13 @@
             "complete-registration": "Complete Registration",
             "next": "Next"
         },
+        "loading": {
+            "connecting-your-company-data": "Connecting your company data",
+            "building-company-memory": "Building Company Memory",
+            "awakening-ai-agents": "Awakening AI Agents",
+            "syncing-intelligence-layer": "Syncing Intelligence Layer",
+            "your-companys-brain-is-ready": "Your Company's Brain Is Ready"
+        },
         "errors": {
             "invalid-request": "Invalid Request",
 
@@ -211,6 +226,16 @@
         }
     },
     "dashboard": {
+        "bmc": {
+            "customer-segments": "Customer Segments",
+            "customer-relationships": "Customer Relatinoships",
+            "revenue-streams": "Revenue Streams",
+            "key-activities": "Key Activities",
+            "key-resources": "Key Resources",
+            "key-partners": "Key Partners",
+            "cost-structure": "Cost Structure",
+            "value-propositions": "Value Propositions"
+        },
         "departments": {
             "the-department-was-removed-successfully": "The Department Was Removed Successfully",
             "could-not-delete-the-department-please-try-again": "Could not delete the department, please try again",
@@ -239,11 +264,18 @@
             "create": "Create",
             "checkout": "checkout",
             "search": "Search",
-            "add-new": "Add New"
+            "add-new": "Add New",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
         },
         "ai": {
             "need-help": "Need Help ?",
+<<<<<<< HEAD
             "is-this-candidate-qualified": "Is this candidate qualified?"
+=======
+            "ask-your-founder-copilot": "Ask your Founder Copilot",
+            "body": "Get answers about your business model, risks, and next steps."
+>>>>>>> origin/main
         },
         "roles": {},
         "fields": {
@@ -288,7 +320,9 @@
             "update-interview": "Update Interview"
         },
         "home": {
-            "tokens_used": "Tokens Used"
+            "tokens_used": "Tokens Used",
+            "employee_count": "Employee Count",
+            "department_count": "Department Count"
         },
         "header": {
             "tokens": "Tokens"

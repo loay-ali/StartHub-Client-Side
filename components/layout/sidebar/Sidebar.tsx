@@ -14,6 +14,7 @@ import { TbCoins } from "react-icons/tb";
 import { LuBriefcaseBusiness } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
 import { MdOutlineIntegrationInstructions } from "react-icons/md";
+import { LuLogs } from "react-icons/lu";
 import { CalendarDays, TrendingUp } from "lucide-react";
 
 import CompanyIdentity from "./CompanyIdentity";

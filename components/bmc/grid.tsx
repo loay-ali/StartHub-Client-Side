@@ -1,16 +1,20 @@
 import { BMC } from "@/src/app/[locale]/dashboard/bmc/list/page";
+import { useTranslations } from "next-intl";
 
 export default function BMCComponent({bmc,updateBmc}:{bmc:BMC,updateBmc:Function}) {
+
+    const t = useTranslations();
+
     const bmcElements:any[] = [
-        {index: 7,className: "row-[1/3] col-[5/6]",slug: "customer-segments",value: bmc['customer-segments'],title: "Customer Segments"},
-        {index: 5,className: "row-[1/2] col-[4/5]",slug: "customer-relationships",value: bmc['customer-segments'],title: "Customer Relationships"},
-        {index: 6,className: "row-[2/3] col-[4/5]",slug: "channels",value: bmc['customer-segments'],title: "Channels"},
-        {index: 9,className: "row-[3/4] col-[4/6]",slug: "revenue-streams",value: bmc['customer-segments'],title: "Revenue Streams"},
-        {index: 2,className: "row-[1/2] col-[2/2]",slug: "key-activities",value: bmc['customer-segments'],title: "Key Activities"},
-        {index: 3,className: "row-[2/3] col-[2/2]",slug: "key-resources",value: bmc['customer-segments'],title: "Key Resources"},
-        {index: 1,className: "row-[1/3] col-[1/1]",slug: "key-partners",value: bmc['customer-segments'],title: "Key Partners"},
-        {index: 8,className: "row-[3/4] col-[1/4]",slug: "cost-structure",value: bmc['customer-segments'],title: "Cost Structure"},
-        {index: 4,className: "row-[1/3] col-[3/4]",slug: "value-propositions",value: bmc['customer-segments'],title: "Value Propositions"}
+        {index: 7,className: "row-[1/3] col-[5/6]",slug: "customer-segments",value: bmc['customer-segments'],title: t("dashboard.bmc.customer-segments")},
+        {index: 5,className: "row-[1/2] col-[4/5]",slug: "customer-relationships",value: bmc['customer-segments'],title: t("dashboard.bmc.customer-relationships")},
+        {index: 6,className: "row-[2/3] col-[4/5]",slug: "channels",value: bmc['customer-segments'],title: t("dashboard.bmc.Channels")},
+        {index: 9,className: "row-[3/4] col-[4/6]",slug: "revenue-streams",value: bmc['customer-segments'],title: t("dashboard.bmc.revenue-streams")},
+        {index: 2,className: "row-[1/2] col-[2/2]",slug: "key-activities",value: bmc['customer-segments'],title: t("dashboard.bmc.key-activities")},
+        {index: 3,className: "row-[2/3] col-[2/2]",slug: "key-resources",value: bmc['customer-segments'],title: t("dashboard.bmc.key-resources")},
+        {index: 1,className: "row-[1/3] col-[1/1]",slug: "key-partners",value: bmc['customer-segments'],title: t("dashboard.bmc.key-partners")},
+        {index: 8,className: "row-[3/4] col-[1/4]",slug: "cost-structure",value: bmc['customer-segments'],title: t("dashboard.bmc.cost-structure")},
+        {index: 4,className: "row-[1/3] col-[3/4]",slug: "value-propositions",value: bmc['customer-segments'],title: t("dashboard.bmc.value-propositions")}
     ];
 
     return (

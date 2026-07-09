@@ -77,14 +77,30 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
         })
         .then(res => res.status == 201 ? res.json():Promise.reject())
         .then(res => {
-            if( ! res.data ) return;
+            console.log(res);
 
-            setMessages((msgs: ChatMessage[]) => {
+            if( ! res ) return;
+
+            if( res instanceof Array ) {
+                for( const field of res ) {
+                    console.log("Field >>> ",field);
+                    const f = document.getElementById(field);
+                    if( f && res[field] ) {
+                        if( f.nodeName == "SELECT" ) {
+                            (f as HTMLSelectElement).selectedIndex = res[field];
+                        }else if( f.nodeName == 'INPUT' ) {
+                            (f as HTMLInputElement).value = res[field];
+                        }
+                    }
+                }
+            }
+
+            /*setMessages((msgs: ChatMessage[]) => {
                 if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
                 setConversationId(res.data.conversationId ?? '');
                 msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
                 return msgs;
-            });
+            });*/
         }).finally(() => {
             setIsSending(false);
             setMsg('');
