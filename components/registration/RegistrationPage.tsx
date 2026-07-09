@@ -21,7 +21,7 @@ import { forbidden } from "next/navigation";
 
 export default function RegistrationPage() {
 
-  const [currentStep,setCurrentStep] = useState(6);
+  const [currentStep,setCurrentStep] = useState(1);
 
   const [bmcMethod,setBmcMethod] = useState('');
 
@@ -38,6 +38,7 @@ export default function RegistrationPage() {
   const [companyWebsite,setCompanyWebsite] = useState('');
   const [companySize,setCompanySize] = useState('');
   const [companyCountry,setCompanyCountry] = useState('');
+  const [companyFoundDate,setCompanyFoundDate] = useState('');
 
   const [saveCompanyData,setSaveCompanyData] = useState(false);
 
@@ -69,10 +70,14 @@ export default function RegistrationPage() {
   const [errorFetching,setErrorFetching] = useState(false);
 
   useEffect(() => {
-    fetch('/api/registeration').then(() => setLoading(false)).catch(() => setErrorFetching(true));
+    if( loading ) fetch(config.apiUrl +'/registration/register',{method: 'POST',credentials: 'include'}).then(res => {
+      return res.status === 201 ? res.json():Promise.reject()
+    }).then(res => {
+      if( res.step ) setCurrentStep(res.step);
+    }).catch(() => setErrorFetching(true)).finally(() => setLoading(false));
 
     if( uploadingBmc ) {
-      fetch(config.apiUrl +'/registeration/fill-bmc?token=registerationToken',{
+      fetch(config.apiUrl +'/registration/fill-bmc',{
         method:"POST",
         credentials: 'include',
         headers: {
@@ -89,24 +94,27 @@ export default function RegistrationPage() {
     }
 
     if( errorFetching ) {
-      return forbidden();
+      setLoading(false);
+      return;
     }
 
     if( saveFounder ) {
+        if( founderPassword != founderConfirmPassword ) {
+          setError("password-not-match");
+          return;
+        }
+
         const formData = new FormData();
         if( founderImage ) formData.append('file',founderImage);
 
-        fetch(config.apiUrl +'/registeration/founder-image',{
+        fetch(config.apiUrl +'/upload-file/image',{
           method: 'POST',
           credentials: 'include',
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
           body: formData
         }).then(res => res.json())
         .then(({filePath}:{filePath:string}) => {
 
-          fetch(config.apiUrl +'/registeration/founder',{
+          fetch(config.apiUrl +'/registration/founder',{
               method: 'POST',
               credentials: 'include',
               headers: {
@@ -122,7 +130,8 @@ export default function RegistrationPage() {
               })
             }
           ).then(res => {
-            if( res.status == 200 ) {
+            if( res.status == 201 ) {
+              setSaveFounder(false);
               setCurrentStep(s => s + 1);
               return;
             }
@@ -139,52 +148,41 @@ export default function RegistrationPage() {
 
       //Upload Image
       if( companyImage ) {
-        fetch(config.apiUrl +'/registeration/company-image',{
+        fetch(config.apiUrl +'/upload-file/image',{
           method: 'POST',
-          credentials: 'include',
-          headers: {
-          'Content-Type': "multipart/form-data",
-        },body: formData}).then(response => response.status == 200 ? response.json():Promise.reject()).then(res => {
-            fetch(config.apiUrl +'/registeration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
-              image: res.filePath,
-              name: companyName,
-              industry: companyIndustry,
-              website: companyWebsite,
-              size: companySize,
-              country: companyCountry 
+          credentials: 'include'
+          ,body: formData}).then(response => response.status == 201 ? response.json():Promise.reject()).then(res => {
+            fetch(config.apiUrl +'/registration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
+              companyImage: res.filePath,
+              companyName: companyName,
+              companyIndustry: companyIndustry,
+              companyWebsite: companyWebsite,
+              companySize: companySize,
+              companyLocation: companyCountry,
+              companyFoundDate: companyFoundDate
             })}).then(() => {
               setSaveCompanyData(false);
               setCurrentStep(s => s + 1);
             });
         })
       }else {
-          fetch(config.apiUrl +'/registeration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
-            name: companyName,
-            industry: companyIndustry,
-            website: companyWebsite,
-            size: companySize,
-            country: companyCountry 
+          fetch(config.apiUrl +'/registration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
+            companyName: companyName,
+            companyIndustry: companyIndustry,
+            companyWebsite: companyWebsite,
+            companySize: companySize,
+            companyLocation: companyCountry,
+            companyFoundDate: companyFoundDate
           })}).then(() => {
             setSaveCompanyData(false);
             setCurrentStep(s => s + 1);
           }) 
       }
-
-      fetch(config.apiUrl +'/registeration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
-        name: companyName,
-        industry: companyIndustry,
-        website: companyWebsite,
-        size: companySize,
-        country: companyCountry 
-      })}).then(() => {
-        setSaveCompanyData(false);
-        setCurrentStep(s => s + 1);
-      })
     }
   },[saveCompanyData,saveFounder]);
 
   if( loading ) return (
-    <div className = 'p-5 flex items-center justify-center'>
+    <div className = 'h-[200px] flex items-center justify-center'>
       <ButtonLoader size = {30} />
     </div>
   );
@@ -197,7 +195,15 @@ export default function RegistrationPage() {
       return;
     }
 
-    setCurrentStep(step => step + 1);
+    switch(currentStep) {
+      case 1:
+        setSaveCompanyData(true);
+      break;
+
+      case 2:
+        setSaveFounder(true);
+      break;
+    }
   }
 
   return (
@@ -216,13 +222,16 @@ export default function RegistrationPage() {
         <Stepper currentStep={currentStep} />
 
         <section>
-          {currentStep === 1 
+          {saveCompanyData ? <div className = 'p-5 flex justify-center items-center'>
+            <ButtonLoader size = {30} />
+          </div>:currentStep === 1 
           && <CompanyInfoStep
               data = {{img: companyImage}}
               isErr = {isErr}
               formRef={formRef}
               errors = {error}
               setError = {setError}
+              setFoundYear={setCompanyFoundDate}
               setCountry = {setCompanyCountry}
               setSize = {setCompanySize}
               setWebsite = {setCompanyWebsite}
@@ -230,7 +239,9 @@ export default function RegistrationPage() {
               setName = {setCompanyName}
               setImage = {setCompanyImage}/>}
 
-          {currentStep === 2
+          {saveFounder ? <div className = 'p-5 flex justify-center items-center'>
+            <ButtonLoader size = {30} />
+          </div>:currentStep === 2
           && <FounderInfoStep
               isErr = {isErr}
               formRef={formRef}
@@ -264,7 +275,7 @@ export default function RegistrationPage() {
 
           {currentStep === 5 && <BmcScoreStep data = {''} score = {bmcScore} />}
 
-          {currentStep === 6 && <PaymentStep />}
+          {currentStep === 6 && <PaymentStep setCurrentStep = {setCurrentStep} />}
 
           {currentStep === 7 && <SuccessStep />}
         </section>
@@ -272,15 +283,8 @@ export default function RegistrationPage() {
         {currentStep >= 1 && currentStep < 7 && (
           <div className="mt-12 flex justify-between border-t border-border pt-8">
             <button
-              onClick = {() => setCurrentStep(currentStep - 1)}
-              className="rounded-xl border border-border px-6 py-3 transition hover:bg-slate-50"
-            >
-              Back
-            </button>
-
-            <button
               onClick = {() => nextStep()}
-              className="rounded-xl bg-primary px-6 py-3 font-medium text-white transition hover:opacity-90"
+              className="rounded-xl bg-primary px-6 w-full py-3 font-medium text-white transition hover:opacity-90"
             >
               {currentStep === 6 ? "Complete Registration" : "Next"}
             </button>

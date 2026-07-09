@@ -6,6 +6,8 @@ import { C } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
 import styles from "./home.module.css";
 
+import { useTranslations } from "next-intl";
+
 type Area = "hero" | "side1" | "side2" | "pivot";
 
 type Pain = {
@@ -94,6 +96,8 @@ export default function ProblemSection() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [active, setActive] = useState(0);
 
+  const t = useTranslations();
+
   useEffect(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
@@ -129,17 +133,15 @@ export default function ProblemSection() {
             label="Sound Familiar?"
             title={
               <>
-                Running a Startup Blind
-                <br />
-                Is{" "}
-                <span className={`${styles.accentText} ${styles.kineticWord}`}>Expensive</span>
+                {t('public.home.running-a-start-up-blind-is')}
+                <span className={`${styles.accentText} ${styles.kineticWord}`}>{t('public.home.expensive')}</span>
               </>
             }
-            sub="The average funded startup wastes 12 hours a week chasing data that already exists. That's 3 months a year your leadership team spends on reporting instead of building."
+            sub={t('public.home.problem')}
           />
         </Reveal>
 
-        <p className={styles.swipeHint}>Swipe to see what it&lsquo;s costing you →</p>
+        <p className={styles.swipeHint}>{t('public.home.swipe-hint')}</p>
 
         {/* One set of markup. CSS alone turns this into an asymmetric
             bento grid at tablet/desktop widths and a scroll-snap strip
@@ -178,7 +180,7 @@ export default function ProblemSection() {
 
         <Reveal delay={280}>
           <div className={styles.toolChaosWrap}>
-            <p className={styles.toolChaosLabel}>The average startup tool stack</p>
+            <p className={styles.toolChaosLabel}>{t('the-average-startup-tool-stack')}</p>
             <div className={styles.toolPills}>
               {tools.map((t, i) => (
                 <span
@@ -198,7 +200,7 @@ export default function ProblemSection() {
             </div>
             <div className={styles.toolChaosDivider}>
               <div className={styles.toolChaosLine} />
-              <p className={styles.toolChaosText}>No connection. No context. No clarity.</p>
+              <p className={styles.toolChaosText}>{t('public.home.no-connection-no-context-no-clarity')}</p>
               <div className={styles.toolChaosLine} />
             </div>
           </div>

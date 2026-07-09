@@ -4,8 +4,11 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, Label } from "./shared";
+import { useTranslations } from "next-intl";
 
 export default function FinalCTA() {
+  const t = useTranslations();
+
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0 120px", background: C.surfaceAlt }}>
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
@@ -41,7 +44,7 @@ export default function FinalCTA() {
             />
 
             <div style={{ position: "relative" }}>
-              <Label>Get Started Today</Label>
+              <Label>{t('public.home.get-started-today')}</Label>
 
               <h2
                 style={{
@@ -54,9 +57,7 @@ export default function FinalCTA() {
                   marginBottom: 20,
                 }}
               >
-                Your Company Is<br />
-                Trying to Tell You<br />
-                <span className="shimmer-text">Something.</span>
+                {t('public.home.your-company-is-trying-to-tell-you-something')}
               </h2>
 
               <p
@@ -65,32 +66,31 @@ export default function FinalCTA() {
                   maxWidth: 460, margin: "0 auto 44px",
                 }}
               >
-                Start your free trial today. Connect your first tools in minutes and see what
-                StarHub surfaces about your company before end of day.
+                {t('public.home.start-your-free-trial')}
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14, marginBottom: 24 }}>
-                <motion.button
+                {/*<motion.button
                   className="btn-primary"
                   whileHover={{ y: -2, boxShadow: "0 14px 42px rgba(20,184,166,.36)" }}
                   whileTap={{ scale: 0.98 }}
                   style={{ padding: "16px 32px", fontSize: 16, fontFamily: FONTS.display }}
                 >
                   Start Free — No Card Needed <ArrowRight size={17} />
-                </motion.button>
+                </motion.button>*/}
                 <motion.button
                   className="btn-ghost"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   style={{ padding: "16px 28px", fontSize: 16, fontFamily: FONTS.display }}
                 >
-                  Book a 30-Min Demo <ChevronRight size={17} />
+                  {t('public.home.start-now')} <ChevronRight size={17} />
                 </motion.button>
               </div>
 
-              <p style={{ fontSize: 12, color: C.textMuted }}>
+              {/*<p style={{ fontSize: 12, color: C.textMuted }}>
                 14-day free trial · No setup fees · SOC 2 Type II certified · Cancel anytime
-              </p>
+              </p>*/}
             </div>
           </div>
         </Reveal>

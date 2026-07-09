@@ -53,15 +53,39 @@ const CheckoutForm = ({redirect,paymentIntent,client_secret}:{redirect:Function,
   },[pay]);
 
   return (
-      <form className = "w-full max-w-[750px]" onSubmit = {s}>
-        <CardElement options = {{
-          hidePostalCode: true
-        }}/>
-        <button type = 'submit' className = 'button flex items-center justify-center'>
-          {pay ? <ButtonLoader />:t('dashboard.common.checkout')}
+      <form className="w-full max-w-md mx-auto space-y-6" onSubmit={s}>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200/60 p-4 transition-all hover:border-teal-200/50">
+          <CardElement options={{
+            hidePostalCode: true,
+            style: {
+              base: {
+                iconColor: '#0d9488', // teal-600
+                color: '#1e293b', // slate-800
+                fontWeight: '500',
+                fontFamily: 'Inter, system-ui, sans-serif',
+                fontSize: '16px',
+                fontSmoothing: 'antialiased',
+                '::placeholder': {
+                  color: '#94a3b8', // slate-400
+                },
+              },
+              invalid: {
+                iconColor: '#ef4444', // red-500
+                color: '#ef4444',
+              },
+            },
+          }}/>
+        </div>
+        <button 
+          type="submit" 
+          disabled={!!pay}
+          className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {pay ? <ButtonLoader color="white" /> : t('dashboard.common.checkout')}
         </button>
       </form>
   );
+
 };
 
 export default CheckoutForm;

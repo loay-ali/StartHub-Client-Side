@@ -5,7 +5,7 @@ import { MdClose } from "react-icons/md";
 export default function AreYouSureWindow({title,setWindowState,confirmCallback}:{title:string,confirmCallback:Function,setWindowState:Function}) {
 
     return (
-        <section className = 'rounded outline-[100vmax] outline-[#0007] z-1 flex flex-col fixed bg-white w-[500px] h-[200px] left-[calc(50%_-_250px)] top-[calc(50%_-_100px)]'>
+        <section className = 'rounded outline-[100vmax] outline-[#0007] z-[99999] flex flex-col fixed bg-white w-[500px] h-[200px] left-[calc(50%_-_250px)] top-[calc(50%_-_100px)]'>
             <header className = 'border-b-1 border-gray-200 p-4 flex justify-between'>
                 <strong>
                     {title}
