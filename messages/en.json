@@ -5,6 +5,76 @@
         }
     },
     "public": {
+        "home": {
+            "ai-operating-system": "AI operating system",
+            "one-ai": "One AI.",
+            "every-decision": "Every decision.",
+            "hero": "StarHub watches your hiring, cash, and growth in one place — then tells you exactly what \nneeds attention before it becomes a crisis.",
+            "syncing": "Syncing…",
+            "start-free": "Start free",
+            "booking": "Booking…",
+            "start-now": "Start Now",
+            "running-a-startup-blind-is": "Running a Startup Blind Is",
+            "expensive": "Expensive",
+            "problem": "The average funded startup wastes 12 hours a week chasing data that already exists. That's 3 months a year your leadership team spends on reporting instead of building.",
+            "swipe-hint": "Swipe to see what it's costing you →",
+            "the-average-startup-tool-stack": "The average startup tool stack",
+            "no-connection-no-context-no-clarity": "No connection. No context. No clarity.",
+            "one-platform-that-knows": "One Platform That Knows",
+            "everything-about-your-company": "Everything About Your Company",
+            "solution": "StarHub doesn't just show you data. It understands your company — and tells you exactly what to do about it.",
+            "everything-in-intelligence-out": "Everything In. Intelligence Out",
+            "sub-solution": "StarHub sits on top of your existing stack. Nothing to rip and replace — just add intelligence to what you already have.",
+            "hr-and-people": "Attrition risk, engagement signals, and hiring pipeline health, synced from every people tool you already use.",
+            "finance": "Live burn, runway, and revenue concentration risk, recalculated automatically as new data lands.",
+            "operations": "Cross-team workflows and bottlenecks flagged before a delay turns into a missed deadline.",
+            "sales": "Pipeline velocity, deal risk, and churn signals pulled straight from your CRM — no manual exports.",
+            "analytics": "Every dashboard your team already built, unified into one model the Core can reason about.",
+            "connected": "Connected.",
+            "smart": "Smart.",
+            "features-sub": "StarHub unifies all your tools and data into one intelligent platform.",
+            "connect-your-stack": "Connect your stack",
+            "connect-your-stack-body": "50+ native connectors. Slack, HubSpot, Stripe, Notion, Google Workspace, and more — live in under 10 minutes. No dev work required.",
+            "build-your-company-memory": "StarHub builds your company memory",
+            "build-your-company-memory-body": "We ingest your history and real-time data, map every relationship between people, metrics, and events, and build your company's intelligence graph.",
+            "agents-go-to-work": "Agents go to work immediately",
+            "agents-go-to-work-body": "Specialist AI agents start monitoring, analysing, and surfacing insights straight away — no dashboards to build, no reports to write.",
+            "you-get-clear-next-step": "You get clear next steps",
+            "you-get-clear-next-step-body": "Prioritised alerts and plain-English recommendations land where your team works — Slack, email, or your dashboard — ranked by business impact.",
+            "decisions-made": "Decisions compound over time",
+            "decisions-made-body": "Every action you take trains StarHub on your company. The longer you use it, the sharper, faster, and more valuable it becomes.",
+
+            "under-30-minutes": "Under 30 Minutes",
+            "under-30-minutes-body": "No onboarding calls. No 6-week implementation. No engineers. Just connect and go.",
+
+            "work-with-tools": "Works With the Tools",
+            "You-already-use": "You Already Use",
+            "work-with-tools-sub": "50+ native connectors. No ETL pipelines. No data engineers. Just plug in and watch it work.",
+
+            "integration-body": "+ 38 more: Pipedrive, Intercom, GitHub, Linear, Datadog, Salesforce, and custom API",
+
+            "get-started-today": "Get Started Today",
+            "your-company-is-trying-to-tell-you-something": "Your Company Is\nTrying to Tell You Something",
+            "start-your-free-trial": "Start your free trial today. Connect your first tools in minutes and see what\n StarHub surfaces about your company before end of day."
+        },
+        "login": {
+            "manage-your-companies": "Manage Your Companies",
+            "monitor-token-usage": "Monitor Token Usage",
+            "monitor-token-usage-body": "Keep full visibility on AI token consumption and platform activity.",
+            "manage-your-companies-body": "Track and manage all your companies from one centralized dashboard.",
+            "scale-with-confidence": "Scale With Confidence",
+            "scale-with-confidence-body": "Powerful analytics and tools to help your business grow faster.",
+
+            "welcome-back": "Welcome Back",
+            "signin-to-continue-to-your-dashboard": "Sign in to continue to your dashboard",
+
+            "enter-your-email": "Enter your email",
+            "enter-your-passowrd": "Enter your password",
+            "remember-me": "Remember me",
+            "forget-password": "Forgot password?",
+            "new-here": "New Here ?",
+            "join-now": "Join Now"
+        },
         "pay": {
             "per-month": "Per Month"
         },
@@ -43,9 +113,18 @@
             "billing-cycle": "Billing Cycle",
             "monthly": "Monthly",
             "yearly": "Yearly",
-            "flexible-monthly-billing": "Flexible monthly billing."
+            "flexible-monthly-billing": "Flexible monthly billing.",
+
+            "please-choose-payment-plan": "Please Choose Payment Plan",
+
+            "choose-plan": "Choose Plan"
         },
         "errors": {
+            "invalid-request": "Invalid Request",
+
+            "invalid-subscription": "Please Choose a Payment Subscription",
+            "invalid-billing-cycle": "Please Choose a Billing Cycle",
+
             "company-image-is-required": "Company Image Is Required",
             "company-name-is-required": "Company Name Is Required",
             "company-founded-date-is-required": "Company Establishment Date Is Required",

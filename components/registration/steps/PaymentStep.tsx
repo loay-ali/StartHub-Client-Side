@@ -9,15 +9,17 @@ import { forbidden } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiCheck, FiCreditCard, FiCalendar } from "react-icons/fi";
 
-export default function PaymentStep() {
+export default function PaymentStep({setCurrentStep}:{setCurrentStep:Function}) {
   const t = useTranslations();
 
   const [plans,setPlans] = useState<Plan[]>([]);
 
   const [loading,setLoading] = useState(true);
-  const [err,setErr] = useState(false);
+  const [err,setErr] = useState('');
 
   const [monthly,setMonthly] = useState(true);
+
+  const [choosenPlan,setChoosenPlan] = useState('');
 
   const [paymentData,setPaymentData] = useState({
       paymentIntent: '',
@@ -25,15 +27,24 @@ export default function PaymentStep() {
       price: 0
   });
 
+  const [confirmPayment,setConfirmPayment] = useState(false);
+
   useEffect(() => {
     if( loading ) {
       fetch(config.apiUrl +'/plans')
       .then(res => res.status == 200 ? res.json():Promise.reject())
       .then(res => {
         setPlans(res);
-      }).catch(() => setErr(true)).finally(() => setLoading(false));
+      }).catch(() => setErr('invalid-request')).finally(() => setLoading(false));
     }
-  },[]);
+
+    if( confirmPayment ) {
+      if( choosenPlan ) {
+        setErr('invalid-subscription');
+        return;
+      }
+    }
+  },[confirmPayment]);
 
   if( loading ) {
     return <div className = 'p-5 flex justify-center items-center'>
@@ -41,12 +52,13 @@ export default function PaymentStep() {
     </div>
   }
 
-  if( err ) {
+  if( loading == false && paymentData.client_secret == '' ) {
     return forbidden();
   }
 
   return (
     <div className="mx-auto max-w-6xl">
+      {err && <p className = 'text-red-500'>{t('public.errors.'+ err)}</p>}
       <div className="mb-10">
         <h2 className="text-3xl font-bold">{t('public.register.choose-your-subscription')}</h2>
 
@@ -85,7 +97,7 @@ export default function PaymentStep() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           {plans.map((plan:Plan) => {
-            return (<div className={"rounded-3xl border border-border p-8 "+ (plan.isRecommended ? "shadow-lg relative":"")}>
+            return (<div className={(choosenPlan == plan.id ? "scale[1.1] border-primary!":'') +" rounded-3xl border border-border p-8 "+ (plan.isRecommended ? "shadow-lg relative":"")}>
               {plan.isRecommended && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-sm font-medium text-white">
               {t('public.register.most-popular')}
             </div>}
@@ -94,6 +106,10 @@ export default function PaymentStep() {
             <p className="mt-4 text-5xl font-bold">{plan.monthlyPrice} USD</p>
 
             <p className="mt-2 text-text-secondary">{t('public.pay.per-month')}</p>
+
+            <button type= 'button' className = 'button' onClick = {() => setChoosenPlan(plan.id)}>
+                {t('public.register.choose-plan')}
+            </button>
 
             {/*<div className="mt-6 space-y-3">
               <div className="flex items-center gap-2">
@@ -111,7 +127,7 @@ export default function PaymentStep() {
       </div>
 
       <div className="rounded-3xl border border-border p-6">
-        <PaymentSection redirect = {() => {}} paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
+        <PaymentSection redirect = {() => setCurrentStep((s:number) => s + 1)} paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
       </div>
     </div>
     </div>

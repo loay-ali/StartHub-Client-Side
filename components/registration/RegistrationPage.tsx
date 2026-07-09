@@ -264,7 +264,7 @@ export default function RegistrationPage() {
 
           {currentStep === 5 && <BmcScoreStep data = {''} score = {bmcScore} />}
 
-          {currentStep === 6 && <PaymentStep />}
+          {currentStep === 6 && <PaymentStep setCurrentStep = {setCurrentStep} />}
 
           {currentStep === 7 && <SuccessStep />}
         </section>

@@ -14,7 +14,7 @@ export default function PaymentSection({redirect,paymentIntent,clientSecret,pric
         <strong className = 'text-3xl border-b-1 border-gray-200'>
             {price} USD
         </strong>
-        <Stripe redirect = {redirect} clientSecret = {clientSecret} paymentIntent = {paymentIntent}/>
+        {clientSecret == '' ? (<strong className = 'text-center'>{t('public.register.please-choose-payment-plan')}</strong>):<><Stripe redirect = {redirect} clientSecret = {clientSecret} paymentIntent = {paymentIntent}/></>}
         {/*<button onClick = {() => setConfirmPayment(true)} className = 'button flex items-center justify-center gap-5 max-w-[250px] text-center'>
             <BsCreditCard /> Pay Now
         </button>*/}

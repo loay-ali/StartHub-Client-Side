@@ -20,6 +20,8 @@ import { C } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
 import styles from "./home.module.css";
 
+import { useTranslations } from 'next-intl';
+
 type ModuleDef = {
   key: string;
   label: string;
@@ -29,49 +31,6 @@ type ModuleDef = {
   /** Vertical position within the diagram, 0 (top) to 1 (bottom). */
   y: number;
 };
-
-const MODULES: ModuleDef[] = [
-  {
-    key: "hr",
-    label: "HR & People",
-    icon: <Users size={18} />,
-    color: C.greenDk,
-    summary: "Attrition risk, engagement signals, and hiring pipeline health, synced from every people tool you already use.",
-    y: 0.06,
-  },
-  {
-    key: "finance",
-    label: "Finance",
-    icon: <DollarSign size={18} />,
-    color: C.primary,
-    summary: "Live burn, runway, and revenue concentration risk, recalculated automatically as new data lands.",
-    y: 0.3,
-  },
-  {
-    key: "ops",
-    label: "Operations",
-    icon: <Settings size={18} />,
-    color: C.amber,
-    summary: "Cross-team workflows and bottlenecks flagged before a delay turns into a missed deadline.",
-    y: 0.54,
-  },
-  {
-    key: "sales",
-    label: "Sales & CRM",
-    icon: <TrendingUp size={18} />,
-    color: C.teal2,
-    summary: "Pipeline velocity, deal risk, and churn signals pulled straight from your CRM — no manual exports.",
-    y: 0.78,
-  },
-  {
-    key: "analytics",
-    label: "Analytics",
-    icon: <BarChart3 size={18} />,
-    color: C.teal3,
-    summary: "Every dashboard your team already built, unified into one model the Core can reason about.",
-    y: 1,
-  },
-];
 
 const DIAGRAM_W = 420;
 const DIAGRAM_H = 420;
@@ -90,6 +49,51 @@ function pathFor(m: ModuleDef) {
 }
 
 export default function EcosystemSection() {
+  const t = useTranslations();
+
+const MODULES: ModuleDef[] = [
+  {
+    key: "hr",
+    label: "HR & People",
+    icon: <Users size={18} />,
+    color: C.greenDk,
+    summary: t('public.home.hr-and-people'),
+    y: 0.06,
+  },
+  {
+    key: "finance",
+    label: "Finance",
+    icon: <DollarSign size={18} />,
+    color: C.primary,
+    summary: t('public.home.finance'),
+    y: 0.3,
+  },
+  {
+    key: "ops",
+    label: "Operations",
+    icon: <Settings size={18} />,
+    color: C.amber,
+    summary: t('public.home.operations'),
+    y: 0.54,
+  },
+  {
+    key: "sales",
+    label: "Sales & CRM",
+    icon: <TrendingUp size={18} />,
+    color: C.teal2,
+    summary: t('public.home.sales'),
+    y: 0.78,
+  },
+  {
+    key: "analytics",
+    label: "Analytics",
+    icon: <BarChart3 size={18} />,
+    color: C.teal3,
+    summary: t('public.home.analytics'),
+    y: 1,
+  },
+];
+
   const [active, setActive] = useState(0);
   const reduceMotion = useReducedMotion();
   const activeModule = MODULES[active];
@@ -103,12 +107,12 @@ export default function EcosystemSection() {
             label="Features"
             title={
               <>
-                Connected.
+                {t('public.home.connected')}
                 <br />
-                <span className="grad-text">Smart.</span>
+                <span className="grad-text">{t('public.home.smart')}</span>
               </>
             }
-            sub="StarHub unifies all your tools and data into one intelligent platform."
+            sub={t('public.home.features-sub')}
           />
         </Reveal>
 
