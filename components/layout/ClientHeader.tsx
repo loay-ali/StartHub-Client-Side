@@ -188,25 +188,6 @@ useEffect(() => {
                                 </Link>
                             );
                         })}
-            
-                        <Link
-                            href={'/investor/login'}
-                            key={'investor'}
-                            className={`text-sm border-2 font-bolder relative py-2 px-4 transition-colors duration-300 rounded-xl whitespace-nowrap ${
-                                isActive('/investor') 
-                                    ? "text-[#14b8a6] font-bold" 
-                                    : "text-slate-600 dark:text-slate-300 hover:text-[#14b8a6] dark:hover:text-[#14b8a6]"
-                            }`}
-                        >
-                            {isActive('/investor/login') && (
-                                <motion.span
-                                    layoutId="activeIndicator"
-                                    className="absolute inset-0 bg-teal-50 dark:bg-teal-950/30 rounded-xl -z-10 border border-teal-500/10 dark:border-teal-500/5"
-                                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                />
-                            )}
-                            {t('public.navigation.investor')}
-                        </Link>
                     </div>
 
                     <div className="hidden md:block h-[20px] w-[1px] bg-slate-200 dark:bg-slate-800"></div>
