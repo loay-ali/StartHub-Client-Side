@@ -1,7 +1,14 @@
 import { useTranslations } from "next-intl";
 
-export default function AiDiscoveryStep({error,setError}:any) {
+export default function AiDiscoveryStep({ error, setError, answers = [], setAnswers }: any) {
   const t = useTranslations();
+
+  const handleChange = (index: number, val: string) => {
+    const newAns = [...answers];
+    newAns[index] = val;
+    setAnswers?.(newAns);
+  };
+
   return (
     <div className="mx-auto max-w-4xl">
       <div className="mb-10 text-center">
@@ -13,10 +20,10 @@ export default function AiDiscoveryStep({error,setError}:any) {
         </p>
       </div>
 
-      {error && <p className = 'text-red-500'>{t('public.errors.'+ error)}</p>}
+      {error && <p className='text-red-500'>{t('public.errors.' + error)}</p>}
 
       <div className="space-y-6">
-  
+
         <div>
           <label className="mb-2 block font-medium">
             What problem are you solving?
@@ -24,6 +31,8 @@ export default function AiDiscoveryStep({error,setError}:any) {
 
           <textarea
             rows={4}
+            value={answers[0] || ""}
+            onChange={(e) => handleChange(0, e.target.value)}
             placeholder="Describe the problem your startup solves..."
             className="w-full rounded-2xl border border-border px-4 py-3 outline-none"
           />
@@ -36,6 +45,8 @@ export default function AiDiscoveryStep({error,setError}:any) {
 
           <textarea
             rows={4}
+            value={answers[1] || ""}
+            onChange={(e) => handleChange(1, e.target.value)}
             placeholder="Describe your ideal customers..."
             className="w-full rounded-2xl border border-border px-4 py-3 outline-none"
           />
@@ -48,6 +59,8 @@ export default function AiDiscoveryStep({error,setError}:any) {
 
           <textarea
             rows={4}
+            value={answers[2] || ""}
+            onChange={(e) => handleChange(2, e.target.value)}
             placeholder="Subscriptions, commissions, licensing..."
             className="w-full rounded-2xl border border-border px-4 py-3 outline-none"
           />
@@ -60,6 +73,8 @@ export default function AiDiscoveryStep({error,setError}:any) {
 
           <textarea
             rows={4}
+            value={answers[3] || ""}
+            onChange={(e) => handleChange(3, e.target.value)}
             placeholder="Explain your competitive advantage..."
             className="w-full rounded-2xl border border-border px-4 py-3 outline-none"
           />

@@ -37,23 +37,28 @@ export default function PaymentStep({setCurrentStep}:{setCurrentStep:Function}) 
         setPlans(res);
       }).catch(() => setErr('invalid-request')).finally(() => setLoading(false));
     }
+  }, []);
 
-    if( confirmPayment ) {
-      if( choosenPlan ) {
-        setErr('invalid-subscription');
-        return;
-      }
+  useEffect(() => {
+    if (choosenPlan) {
+      setLoading(true);
+      fetch(config.apiUrl + '/payments/planCheckout/' + choosenPlan, {
+        method: 'POST',
+        credentials: 'include'
+      })
+      .then(res => res.status == 200 ? res.json() : Promise.reject())
+      .then(res => {
+        if (res.data) setPaymentData(res.data);
+      }).catch(err => {
+        console.log(err);
+      }).finally(() => setLoading(false));
     }
-  },[confirmPayment]);
+  }, [choosenPlan]);
 
-  if( loading ) {
+  if( loading && plans.length === 0 ) {
     return <div className = 'p-5 flex justify-center items-center'>
       <ButtonLoader size = {30} />
     </div>
-  }
-
-  if( loading == false && paymentData.client_secret == '' ) {
-    return forbidden();
   }
 
   return (

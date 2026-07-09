@@ -1,5 +1,6 @@
 'use client';
 
+import AIHelperButton from "@/components/ai/AIHelperButton";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import { useParams } from "next/navigation";
@@ -49,22 +50,34 @@ export default function EditTask() {
                     Task Data
                 </h2>
 
-                <div className = 'form-group'>
+                <div className = 'form-group relative'>
                     <label htmlFor="title">Title</label>
                     <input type = 'text' id = 'title' onInput = {ele => setTaskData(task => {
                         task.title = ele.currentTarget.value;
                         return task;
                     })} value = {taskData.title} />
+                    <AIHelperButton purpose = "taskTitle" message = {{
+                        content: "What Do You Need For Task Title Field ?",
+                        actions: [],
+                        //@ts-ignore
+                        additional: {title: taskData.title}
+                    }} />
                 </div>
 
-                <div className = 'form-group'>
-                    <label htmlFor="title">Title</label>
-                    <textarea defaultValue={taskData.details} onInput = {ele => {
+                <div className = 'form-group relative'>
+                    <label htmlFor="details">Details</label>
+                    <textarea id = 'details' defaultValue={taskData.details} onInput = {ele => {
                         setTaskData(task => {
                             task.details = ele.currentTarget.value;
                             return task;
                         })
                     }}></textarea>
+                    <AIHelperButton purpose = "taskDetails" message = {{
+                        content: "What Do You Need For Task Details Field ?",
+                        actions: [],
+                        //@ts-ignore
+                        additional: {details: taskData.details}
+                    }} />
                 </div>
 
                 <div className="form-group">

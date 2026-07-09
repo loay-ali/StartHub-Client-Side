@@ -6,6 +6,8 @@ import { FiUser, FiMail, FiLock, FiShield, FiCheckCircle, FiArrowLeft } from 're
 import { ButtonLoader } from '@/components/preloader/ButtonLoader';
 import config from '@/constants/config';
 import { notificationService } from '@/lib/notifiationSystem';
+import AIHelperButton from "@/components/ai/AIHelperButton";
+import AISection, { ActionType } from "@/components/ai/section/AISection";
 
 const ROLES = ['ADMIN', 'HR', 'MANAGER', 'EMPLOYEE'] as const;
 type Role = typeof ROLES[number];
@@ -30,7 +32,7 @@ function Field({
     id: string; label: string; icon?: React.ReactNode; error?: string; children: React.ReactNode;
 }) {
     return (
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 relative">
             <label htmlFor={id} className="text-sm font-semibold text-text-primary flex items-center gap-1.5">
                 {icon && <span className="text-text-secondary">{icon}</span>}
                 {label}
@@ -121,7 +123,8 @@ export default function NewUserPage() {
     }, [isSubmitting]);
 
     return (
-        <div className="max-w-2xl mx-auto px-4 py-8">
+        <div className="flex gap-5 justify-center items-start flex-wrap max-w-6xl mx-auto px-4 py-8">
+            <div className="w-full max-w-2xl grow order-[2] md:order-[1]">
             {/* Page Header */}
             <div className="mb-8">
                 <button
@@ -172,6 +175,12 @@ export default function NewUserPage() {
                                 onChange={set('firstName')}
                                 className={inputClass(!!errors.firstName)}
                             />
+                            <AIHelperButton purpose="userFirstName" message={{
+                                content: "What do you need for First Name field?",
+                                actions: [],
+                                //@ts-ignore
+                                additional: { firstName: form.firstName }
+                            }} />
                         </Field>
 
                         <Field id="lastName" label="Last Name (optional)" icon={<FiUser size={14} />}>
@@ -183,6 +192,12 @@ export default function NewUserPage() {
                                 onChange={set('lastName')}
                                 className={inputClass()}
                             />
+                            <AIHelperButton purpose="userLastName" message={{
+                                content: "What do you need for Last Name field?",
+                                actions: [],
+                                //@ts-ignore
+                                additional: { lastName: form.lastName }
+                            }} />
                         </Field>
                     </div>
 
@@ -196,6 +211,12 @@ export default function NewUserPage() {
                             onChange={set('email')}
                             className={inputClass(!!errors.email)}
                         />
+                        <AIHelperButton purpose="userEmail" message={{
+                            content: "What do you need for Email field?",
+                            actions: [],
+                            //@ts-ignore
+                            additional: { email: form.email }
+                        }} />
                     </Field>
                 </section>
 
@@ -295,6 +316,15 @@ export default function NewUserPage() {
                     </button>
                 </div>
             </form>
+            </div>
+            
+            <AISection
+                title="Need Some Guidance?"
+                Icon={FiUser}
+                initialActions={[
+                    { title: "Fill Using AI", action: 'fillUser', type: ActionType.CHAT }
+                ]}
+            />
         </div>
     );
 }

@@ -6,6 +6,7 @@ import { FiPlus, FiTrash2, FiCheck, FiAlertCircle } from 'react-icons/fi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import config from '@/constants/config';
 import { notificationService } from '@/lib/notifiationSystem';
+import AIHelperButton from "@/components/ai/AIHelperButton";
 
 type Account = {
     id: string;
@@ -266,7 +267,7 @@ export default function TransactionForm({ transactionId, initialData, isEdit = f
                         className="rounded-xl border border-border p-2.5 outline-none focus:border-primary transition font-medium"
                     />
                 </div>
-                <div className="md:col-span-2 flex flex-col gap-2">
+                <div className="md:col-span-2 flex flex-col gap-2 relative">
                     <label htmlFor="details" className="text-sm font-bold text-text-primary">
                         Memo / Description
                     </label>
@@ -276,8 +277,14 @@ export default function TransactionForm({ transactionId, initialData, isEdit = f
                         placeholder="Provide details about the transaction adjustment..."
                         value={details}
                         onChange={e => setDetails(e.target.value)}
-                        className="rounded-xl border border-border p-2.5 outline-none focus:border-primary transition font-medium"
+                        className="rounded-xl border border-border p-2.5 outline-none focus:border-primary transition font-medium pr-10"
                     />
+                    <AIHelperButton purpose="transactionDetails" message={{
+                        content: "What do you need for Memo / Description field?",
+                        actions: [],
+                        //@ts-ignore
+                        additional: { details }
+                    }} />
                 </div>
             </div>
 

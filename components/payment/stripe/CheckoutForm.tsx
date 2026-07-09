@@ -45,7 +45,7 @@ const CheckoutForm = ({redirect,paymentIntent,client_secret}:{redirect:Function,
           })
         }).then(res => res.status == 200 ? res.json():Promise.reject())
         .then(() => {
-
+            redirect();
         })
         .catch(console.warn)
         .finally(() => setPay(''));
