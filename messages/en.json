@@ -8,9 +8,7 @@
         "pay": {
             "per-month": "Per Month"
         },
-        "plans": {
-            
-        },
+        "plans": {},
         "register": {
             "email-verified": "E-Mail Verified Successfully",
             "your-email-address-has-been-verified-successfull": "Your E-Mail Address Has Been Verified Successfully",
@@ -46,12 +44,12 @@
             "flexible-monthly-billing": "Flexible monthly billing."
         },
         "errors": {
+            "invalid-request": "Invalid Request",
             "company-image-is-required": "Company Image Is Required",
             "company-name-is-required": "Company Name Is Required",
             "company-founded-date-is-required": "Company Establishment Date Is Required",
             "company-industry-is-required": "Company Industry Is Required",
             "company-size-is-required": "Company Size Is Required",
-
             "first-name-is-required": "First Name Is Required",
             "last-name-is-required": "Last Name Is Required",
             "email-is-required": "E-Mail Is Required",
@@ -90,10 +88,10 @@
         },
         "usage": {
             "all-logs": "All Logs",
-
             "AGENT_EXECUTION": "Chat"
         },
         "common": {
+            "are-you-sure": "Are You Sure ?",
             "name": "Name",
             "description": "Description",
             "title": "Title",
@@ -107,9 +105,7 @@
         "ai": {
             "need-help": "Need Help ?"
         },
-        "roles": {
-            
-        },
+        "roles": {},
         "fields": {
             "fullname": "Fullname",
             "email": "E-Mail",
@@ -117,7 +113,6 @@
             "password": "Password",
             "repeat-password": "Repeat Password",
             "role": "Role",
-
             "applied-job": "Applied Job",
             "cv": "CV",
             "download-cv": "Download CV"
@@ -138,19 +133,15 @@
         },
         "interviews": {
             "create-interview": "Create Interview",
-
             "add-interview-to-best-candidate": "Add Interview To The Best Candidate",
             "edit-interview-data": "Edit Current Interview's Data",
             "interviews-list": "Interviews List",
-
             "choose-interview-type": "Choose Interview Type",
             "hr": "HR Interivew",
             "final": "Final Interview",
             "technical": "Technical Interview",
             "behavioral": "Soft Skills Interview",
-
             "save-interview-data": "Save Interview Data",
-
             "interview-updated-successfully": "Interview Updated Successfully"
         },
         "home": {
@@ -168,28 +159,22 @@
         "service": {
             "order-service": "Order Service",
             "order-a-personal-professional-service-from-our-experts": "Order a Personal Professional Service From Our Experts",
-
             "choose-service": "Choose Service",
             "service-data": "Service Data",
             "payment": "Payment",
             "complete": "Complete",
-
             "please-choose-a-service": "Please Choose a Service"
         },
         "sidebar": {
             "dashboard": "Dashboard",
-
             "recruitments": "Recruitments",
             "postedjobs": "Posted Jobs",
             "candidates": "Candidates",
             "interviews": "Interviews",
-
             "HR": "Human Resources",
-
             "teams": "Teams",
             "manage-teams": "Manage Teams",
             "manage-tasks": "Manage Tasks",
-
             "finance": "Finance",
             "new-revenue-bill": "New Revenue Bill",
             "new-expense-bill": "New Expense Bill",
@@ -197,27 +182,20 @@
             "transactions": "Transactions",
             "accounts": "Accounts",
             "payrolls": "Payrolls",
-
             "BMC": "BMC",
             "create-bmc": "Create BMC",
             "my-list-of-bmcs": "My List Of BMCs",
-
             "users": "Users",
             "all-users": "All Users",
             "add-user": "Add User",
-
             "integrations": "Integrations",
-
             "logout": "Logout",
-
             "services": "Services",
             "order-service": "Order Service",
             "my-orders": "My Orders",
-
             "departments": "Departments",
             "all-departments": "All Departments",
             "add-department": "Add Department",
-
             "usage": "Usage"
         }
     }

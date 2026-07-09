@@ -71,8 +71,8 @@ export default function AccountsList() {
                 onAdd={() => router.replace('/dashboard/accounts/new')}
                 columns={[
                     {key: 'id',label: "#"},
-                    {key: 'account',label: 'Account ID',sortable: true},
-                    {key: 'isDebit',label: 'Debit/Credit',sortable: false}
+                    {key: 'accountId',label: 'Account',sortable: true,value: (row:any) => `${row.accountId} - ${row.slug}`},
+                    {key: 'isDebit',label: 'Debit/Credit',sortable: false,value: (row:any) => row.isDebit ? 'Debit' : 'Credit'}
                 ]}
                 />
         </>

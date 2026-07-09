@@ -19,10 +19,10 @@ export default function Countries({value,className,onChange}:{value?:string,clas
     };
     
     return (
-        <select required = {true} defaultValue = {value} onChange = {(ele) => onChange?.(ele)} className = {className}>
+        <select required = {true} defaultValue = {value} onChange = {(ele) => onChange?.(ele.target.value)} className = {className}>
             {Object.entries(countries).map(country => {
                 return (
-                    <option value = {country[0]}>
+                    <option key = {country[0]} value = {country[0]}>
                         {country[1]}
                     </option>
                 );

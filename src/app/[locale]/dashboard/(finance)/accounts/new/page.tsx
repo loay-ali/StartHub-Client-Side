@@ -27,17 +27,17 @@ export default function SingleAccount() {
 
     useEffect(() => {     
         if( loadingAccounts ) {
-            fetch(config.apiUrl +'/accounts',{credentials:"include"})
+            fetch(config.apiUrl +'/finance/account',{credentials:"include"})
                 .then(res => res.status == 200 ? res.json():Promise.reject())
                 .then(res => {
-                    setAllAcounts(res);
+                    setAllAcounts(res.data || res); // Handle both nested data array and flat array
                 }).finally(() => {
                     setLoadingAccounts(false);
                 });
         }
 
         if( updating ) {
-            fetch(config.apiUrl +'/accounts',{
+            fetch(config.apiUrl +'/finance/account',{
                 credentials: 'include',
                 method: "post",
                 headers: {
