@@ -6,29 +6,32 @@ import Lottie from "lottie-react";
 import analyticsAnimation from "../../src/assets/lottie/analytics.json";
 import dashboardAnimation from "../../src/assets/lottie/dashboard.json";
 import loginAnimation from "../../src/assets/lottie/loginlotti.json";
+import { useTranslations } from "next-intl";
+
+export default function AuthSlider() {
+  const t = useTranslations();
 
 const slides = [
   {
     animation: dashboardAnimation,
-    title: "Manage Your Companies",
+    title: t('public.login.manage-your-companies'),
     description:
-      "Track and manage all your companies from one centralized dashboard.",
+      t('public.login.manage-your-companies-body'),
   },
   {
     animation: analyticsAnimation,
-    title: "Monitor Token Usage",
+    title: t('public.login.monitor-token-usage'),
     description:
-      "Keep full visibility on AI token consumption and platform activity.",
+      t('public.login.monitor-token-usage-body'),
   },
   {
     animation: loginAnimation,
-    title: "Scale With Confidence",
+    title: t('public.login.scale-with-confidence'),
     description:
-      "Powerful analytics and tools to help your business grow faster.",
+      t('public.login.scale-with-confidence-body'),
   },
 ];
 
-export default function AuthSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 // src/components/home/IntegrationsSection.tsx
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
@@ -21,14 +22,16 @@ const integrations = [
 const tickerItems = [...integrations, ...integrations];
 
 export default function IntegrationsSection() {
+  const t = useTranslations();
+
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "72px 0", background: C.surfaceAlt, overflow: "hidden" }}>
       <div className="max-w-7xl mx-auto px-6">
         <Reveal>
           <SectionHeading
             label="Integrations"
-            title={<>Works With the Tools<br /><span className="grad-text">You Already Use</span></>}
-            sub="50+ native connectors. No ETL pipelines. No data engineers. Just plug in and watch it work."
+            title={<>{t('public.home.work-with-tools')}<br /><span className="grad-text">{t('public.home.you-already-use')}</span></>}
+            sub={t('public.home.work-with-tools-sub')}
           />
         </Reveal>
       </div>
@@ -71,7 +74,7 @@ export default function IntegrationsSection() {
       <div className="max-w-7xl mx-auto px-6">
         <Reveal className="text-center">
           <p style={{ fontSize: 13, color: C.muted }}>
-            + 38 more: Pipedrive, Intercom, GitHub, Linear, Datadog, Salesforce, and custom APIs
+            {t('public.home.integration-body')}
           </p>
         </Reveal>
       </div>

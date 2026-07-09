@@ -55,11 +55,11 @@ export default function SolutionSection() {
             label="The Fix"
             title={
               <>
-                One Platform That Knows<br />
-                <span className="grad-text">Everything About Your Company</span>
+                {t('public.home.one-platform-that-knows')}<br />
+                <span className="grad-text">{t('public.home.everything-about-your-compnay')}</span>
               </>
             }
-            sub="StarHub doesn't just show you data. It understands your company — and tells you exactly what to do about it."
+            sub={t('public.home.solution')}
           />
         </Reveal>
 
@@ -147,10 +147,10 @@ export default function SolutionSection() {
           >
             <div style={{ flex: 1, minWidth: 220 }}>
               <div style={{ fontFamily: FONTS.display, fontWeight: 800, fontSize: 21, color: C.text, marginBottom: 8 }}>
-                Everything in. Intelligence out.
+                {t('public.home.everything-in-intelligence-out')}
               </div>
               <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7 }}>
-                StarHub sits on top of your existing stack. Nothing to rip and replace — just add intelligence to what you already have.
+                {t('public.home.sub-solution')}
               </p>
             </div>
             <div

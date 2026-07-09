@@ -31,10 +31,10 @@ export default function SingleAccount() {
 
     useEffect(() => {
         if( loading ) {
-            fetch(config.apiUrl +'/accounts/'+ id,{credentials: 'include'})
+            fetch(config.apiUrl +'/finance/account/'+ id,{credentials: 'include'})
                 .then(res => res.status == 200 ? res.json():Promise.reject())
                 .then(res => {
-                    setAccount(res);
+                    setAccount(res.data || res); // Handle both nested data and flat format
                 })
                 .catch(err => {
                     console.warn(err);
@@ -44,17 +44,17 @@ export default function SingleAccount() {
         }
             
         if( loadingAccounts ) {
-            fetch(config.apiUrl +'/accounts',{credentials:"include"})
+            fetch(config.apiUrl +'/finance/account',{credentials:"include"})
                 .then(res => res.status == 200 ? res.json():Promise.reject())
                 .then(res => {
-                    setAllAcounts(res);
+                    setAllAcounts(res.data || res); // Handle both nested data and flat format
                 }).finally(() => {
                     setLoadingAccounts(false);
                 });
         }
 
         if( updating ) {
-            fetch(config.apiUrl +'/accounts/'+ id,{
+            fetch(config.apiUrl +'/finance/account/'+ id,{
                 credentials: 'include',
                 method: "put",
                 headers: {

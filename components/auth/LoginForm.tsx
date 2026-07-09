@@ -110,10 +110,10 @@ export default function LoginForm() {
       <div className="w-full max-w-md">
         <div className="mb-10 flex items-center gap-3"></div>
 
-        <h1 className="text-4xl font-bold text-text-primary">Welcome Back</h1>
+        <h1 className="text-4xl font-bold text-text-primary">{t('public.login.welcome-back')}</h1>
 
         <p className="mt-3 text-text-secondary">
-          Sign in to continue to your dashboard
+          {t('public.login.signin-to-continue-to-your-dashboard')}
         </p>
 
         {isInvalid ? <p className = 'flex items-center gap-3 text-red-500 text-center'>
@@ -123,14 +123,14 @@ export default function LoginForm() {
 
         <section className="mt-8 space-y-5">
           <div>
-            <label className="mb-2 block text-sm font-medium">Email</label>
+            <label className="mb-2 block text-sm font-medium">{t('dashboard.fields.email')}</label>
 
             <input
               type="email"
               onInput = {(event) => {
                 setEmailError('');
                 setEmail(event.currentTarget.value)}}
-              placeholder="Enter your email"
+              placeholder={t('public.login.enter-your-email')}
               className="w-full rounded-xl border border-border bg-background px-4 py-3 shadow-sm outline-none transition focus:border-primary"
             />
 
@@ -140,7 +140,7 @@ export default function LoginForm() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium">Password</label>
+            <label className="mb-2 block text-sm font-medium">{t('dashboard.fields.password')}</label>
 
             <input
               type="password"
@@ -148,7 +148,7 @@ export default function LoginForm() {
                 setPasswordError('');
                 setPassword(event.currentTarget.value);
               }}
-              placeholder="Enter your password"
+              placeholder={t('public.login.enter-your-password')}
               className="w-full rounded-xl border border-border bg-background px-4 py-3 shadow-sm outline-none transition focus:border-primary"
             />
 
@@ -160,14 +160,14 @@ export default function LoginForm() {
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2">
               <input type="checkbox" className="rounded border-border" />
-              Remember me
+              {t('public.login.remember-me')}
             </label>
 
             <Link
               href="/forgot-password"
               className="text-primary hover:underline"
             >
-              Forgot password?
+              {t('public.login.forget-password')}
             </Link>
           </div>
 
@@ -180,8 +180,8 @@ export default function LoginForm() {
           </button>
 
           <section className = 'flex gap-3'>
-            <p>New Here ?</p>
-            <Link href = '/register' className = 'button secondary'>Join Now</Link>
+            <p>{t('public.login.new-here')}</p>
+            <Link href = '/register' className = 'button secondary'>{t('public.login.join-now')}</Link>
           </section>
         </section>
       </div>

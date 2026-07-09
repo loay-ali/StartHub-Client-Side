@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 /* ================= Orbit data ================= */
 const innerChips = [
   { label: "HR", angle: -90 },
@@ -363,6 +365,8 @@ const HeroOrbit = React.memo(function HeroOrbit() {
 export default function HeroSection() {
   const { sectionRef, position } = usePointerGlow();
 
+  const t = useTranslations();
+
   /* Independent loading state per button */
   const [primaryLoading, setPrimaryLoading] = useState(false);
   const [ghostLoading,   setGhostLoading]   = useState(false);
@@ -397,17 +401,16 @@ export default function HeroSection() {
         <header className="shCol" style={{ containerType: "inline-size", containerName: "col" } as React.CSSProperties}>
           <div className="shEyebrow">
             <span className="shEyebrowDot" aria-hidden="true" />
-            <span>AI operating system</span>
+            <span>{t('public.home.ai-operating-system')}</span>
           </div>
 
           <h1 className="shH1">
-            <span className="shH1a">One AI.</span>
-            <span className="shH1b">Every decision.</span>
+            <span className="shH1a">{t('public.home.one-ai')}</span>
+            <span className="shH1b">{t('public.home.every-decision')}</span>
           </h1>
 
           <p className="shSub" style={{ textAlign: 'center' }}>
-            StarHub watches your hiring, cash, and growth in one place — then tells you exactly what
-            needs attention before it becomes a crisis.
+            {t('public.home.hero')}
           </p>
 
           <nav className="shCtas" aria-label="Primary actions">
@@ -422,11 +425,11 @@ export default function HeroSection() {
               {primaryLoading ? (
                 <>
                   <ButtonLoader size={16} />
-                  <span>Syncing…</span>
+                  <span>{t('public.home.syncing')}</span>
                 </>
               ) : (
                 <>
-                  <span>Start free</span>
+                  <span>{t('public.home.start-free')}</span>
                   <ArrowRight size={16} aria-hidden="true" />
                 </>
               )}
@@ -443,11 +446,11 @@ export default function HeroSection() {
               {ghostLoading ? (
                 <>
                   <ButtonLoader size={16} />
-                  <span>Booking…</span>
+                  <span>{t('public.home.booking')}</span>
                 </>
               ) : (
                 <>
-                  <span>Book a demo</span>
+                  <span>{t('public.home.start-now')}</span>
                   <ChevronRight size={16} aria-hidden="true" />
                 </>
               )}
