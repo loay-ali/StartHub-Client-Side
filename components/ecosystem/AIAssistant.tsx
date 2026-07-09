@@ -4,6 +4,7 @@ import { Send, Sparkles, User, Bot, Check, ArrowRight, Activity, AlertCircle } f
 import { Reveal, SectionHeading } from "../home/shared";
 import styles from "./ecosystem.module.css";
 import { motion, AnimatePresence } from "framer-motion";
+import config from "@/constants/config";
 
 interface ResultItem {
   emoji: string;
@@ -62,6 +63,7 @@ export default function AIAssistant() {
   const [inputVal, setInputVal] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string>("");
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -86,31 +88,50 @@ export default function AIAssistant() {
     setInputVal("");
     setIsTyping(true);
 
-    // AI answer simulation
-    setTimeout(() => {
-      let replyText = "I processed your request, but that exact query didn't return matches. Try clicking one of the suggested prompts below for a live demo.";
-      let replyResults: ResultItem[] | undefined;
-
-      const matchKey = Object.keys(mockReplies).find((k) =>
-        text.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(text.toLowerCase())
-      );
-
-      if (matchKey) {
-        replyText = mockReplies[matchKey].text;
-        replyResults = mockReplies[matchKey].results;
-      }
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          sender: "ai",
-          text: replyText,
-          results: replyResults,
-        },
-      ]);
-      setIsTyping(false);
-    }, 1500);
+    fetch(config.apiUrl + "/ai/ecosystem-chat", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        msg: text,
+        conversationId: conversationId || undefined,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error("Failed to send message");
+        }
+      })
+      .then((res) => {
+        if (!res.data) return;
+        setConversationId(res.data.conversationId ?? "");
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            sender: "ai",
+            text: res.data.response,
+          },
+        ]);
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            sender: "ai",
+            text: "Sorry, I encountered an error. Please make sure you are logged in and try again.",
+          },
+        ]);
+      })
+      .finally(() => {
+        setIsTyping(false);
+      });
   };
 
   return (
@@ -184,7 +205,7 @@ export default function AIAssistant() {
                           ? "bg-gradient-to-br from-teal-500 to-teal-700 text-white rounded-tr-none"
                           : "bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/80 text-slate-800 dark:text-slate-250 rounded-tl-none"
                       }`}>
-                        <p>{m.text}</p>
+                        <p dangerouslySetInnerHTML={{ __html: m.text }} />
 
                         {/* Rich Result Cards */}
                         {m.results && (

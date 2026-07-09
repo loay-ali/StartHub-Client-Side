@@ -39,7 +39,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         if (res.status == 200) {
           return res.json();
         }
-        if (res.status == 401) {
+        else {
           // Genuinely unauthenticated — this is the only case that
           // should send someone away from the dashboard.
           redirect('/login');
@@ -53,13 +53,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           setUserData(res);
         }
       }).catch(() => {
+        redirect('/login');
         // Backend unreachable (not running, CORS, etc.) — same as
         // above, don't punish the founder for a network hiccup.
       });
   }, []);
 
   return (
-    <AIContext.Provider value={{ addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
+    <AIContext.Provider value={{suggestions: [], addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
       <div className="flex min-h-screen bg-background">
         {/* Desktop Sidebar */}
         <div className="hidden md:block">
