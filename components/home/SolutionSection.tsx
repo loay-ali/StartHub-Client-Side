@@ -4,6 +4,7 @@ import { Bell, Brain, Database, GitBranch, TrendingUp, Zap } from "lucide-react"
 import { motion } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
+import { useTranslations } from "next-intl";
 
 const steps = [
   { n: "01", label: "Connect",  icon: <GitBranch size={17} />, color: C.primary,  desc: "Plug in 50+ tools in under 10 minutes. No engineers needed." },
@@ -11,10 +12,11 @@ const steps = [
   { n: "03", label: "Detect",   icon: <Brain size={17} />,     color: C.teal3,    desc: "AI finds patterns, risks, and opportunities in real time." },
   { n: "04", label: "Predict",  icon: <TrendingUp size={17} />,color: C.greenDk,  desc: "Know what's coming — not just what already happened." },
   { n: "05", label: "Alert",    icon: <Bell size={17} />,      color: C.amber,    desc: "The right signal reaches the right person before it's urgent." },
-  { n: "06", label: "Execute",  icon: <Zap size={17} />,       color: C.green,    desc: "Automated actions close the loop. No manual follow-up." },
+  { n: "06", label: "Execute",  icon: <Zap size={17} />`11`,       color: C.green,    desc: "Automated actions close the loop. No manual follow-up." },
 ];
 
 export default function SolutionSection() {
+  const t = useTranslations()
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
       <style>{`
