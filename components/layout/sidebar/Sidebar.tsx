@@ -268,7 +268,6 @@ export default function Sidebar({ email, companyName }: { email: string, company
         <SidebarLink
           action = {() => setIsLogout(true)}
           className = "bg-red-50"
-          className="bg-red-50"
           collapsed={collapsed}
           item={{
             title: t("dashboard.sidebar.logout"),

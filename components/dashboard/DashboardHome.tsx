@@ -14,7 +14,10 @@ import { useEffect, useState } from "react";
 import SettingsWindow from "./Settings";
 import config from "@/constants/config";
 
+import { FaUsers } from "react-icons/fa";
 import { MdOutlineGeneratingTokens } from "react-icons/md";
+import { FaBuilding } from "react-icons/fa";
+
 import { useTranslations } from "next-intl";
 
 
@@ -26,13 +29,15 @@ export default function DashboardHome() {
   const [loadingDashboard,setLoadingDashboard] = useState(true);
 
   const icons: Record<string, IconType> = {
-    'tokens': MdOutlineGeneratingTokens
+    'tokens': MdOutlineGeneratingTokens,
+    'users': FaUsers,
+    'building': FaBuilding
   };
 
   useEffect(() => {
     if( loadingDashboard ) {
       fetch(config.apiUrl +'/dashboard/getClientDashboard',{credentials: 'include'})
-        .then(res => res.status == 200 ? res.json():Promise.reject())
+        .then(res => {console.log(res);return res.status == 200 ? res.json():Promise.reject()})
         .then(res => {
           setDashboardWidgets(res);
         }).finally(() => setLoadingDashboard(false))

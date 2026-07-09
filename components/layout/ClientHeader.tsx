@@ -144,7 +144,7 @@ useEffect(() => {
                 }`}
         >
             <div className="flex items-center justify-between p-3 px-6 w-full">
-                <Link href="/" id="identity" className="flex items-center justify-between gap-3 bg-primary-dark rounded-full" style = {{boxShadow: "-10px 0 0 30px #030a0f"}}>
+                <Link href="/" id="identity" className="flex items-center justify-between gap-3 rounded-full">
                     <h1>
                         <motion.img
                             whileHover={{ scale: 1.05, rotate: -1 }}

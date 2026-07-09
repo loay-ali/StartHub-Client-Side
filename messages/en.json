@@ -77,7 +77,12 @@
 
             "forget-password": "Forgot password?",
             "new-here": "New Here ?",
-            "join-now": "Join Now"
+            "join-now": "Join Now",
+
+            "signin-to-review-your-deal-flow-and-matches": "Sign in to review your deal flow and matches.",
+            "investor-portal": "Investor Portal",
+            "sign-in": "Sign In"
+
         },
         "pay": {
             "per-month": "Per Month"
@@ -248,7 +253,9 @@
             "interview-updated-successfully": "Interview Updated Successfully"
         },
         "home": {
-            "tokens_used": "Tokens Used"
+            "tokens_used": "Tokens Used",
+            "employee_count": "Employee Count",
+            "department_count": "Department Count"
         },
         "header": {
             "tokens": "Tokens"
