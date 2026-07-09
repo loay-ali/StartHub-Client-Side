@@ -5,6 +5,7 @@ import DashboardLayout from "@/components/layout/dashboard-layout/DashboardLayou
 import { SearchProvider } from "@/components/providers/SearchProvider";
 import { NotificationProvider } from "@/components/notificationSystem/NotificationProvider";
 import { ToastContainer } from "@/components/notificationSystem/ToastContainer";
+import GlobalAIShell from "@/components/ai/GlobalAIShell";
 
 export const metadata: Metadata = {
   title: "StartHub",
@@ -23,6 +24,8 @@ export default function RootLayout({
           {children}
         </DashboardLayout>
         <ToastContainer />
+        {/* AI floating button + chat panel — dashboard only */}
+        <GlobalAIShell />
       </SearchProvider>
     </NotificationProvider>
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState, useCallback } from 'react';
 
 /* ─── Types ─── */
@@ -26,20 +27,23 @@ const COLORS = {
   muted: '#94A3B8',
 };
 
-const PHASES = [
-  'Connecting your company data',
-  'Building Company Memory',
-  'Awakening AI Agents',
-  'Syncing intelligence layer',
-  "Your company's brain is ready",
-];
-
 const PHASE_KEYS = ['connecting', 'memory', 'agents', 'syncing', 'ready'] as const;
 const PHASE_DURATIONS = [900, 900, 900, 900, 800]; // ms
 const TOTAL_DURATION = PHASE_DURATIONS.reduce((a, b) => a + b, 0);
 
 /* ─── Component ─── */
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
+
+  const t = useTranslations();
+
+  const PHASES = [
+    t('public.loading.connecting-your-company-data'),
+    t('public.loading.building-company-memory'),
+    t('public.loading.awakening-ai-agents'),
+    t('public.loading.syncing-intelligence-layer'),
+    t("public.loading.your-companys-brain-is-ready"),
+  ];
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);

@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 
 import { ChatData } from "@/types/requests/ai";
 import { useAIContext } from "@/components/providers/AIProvider";
+import { useTranslations } from "next-intl";
 
 type ChatProps = ChatData & {
     isSending?: boolean;
@@ -26,6 +27,8 @@ export default function Chat(data: ChatProps) {
 
     const isEmpty = data.messages.length === 0 && !data.isSending;
 
+    const t = useTranslations();
+
     return (
         <section className="min-h-0 flex-1 overflow-y-auto bg-background px-4 py-4">
             {isEmpty && (
@@ -34,9 +37,9 @@ export default function Chat(data: ChatProps) {
                         <Bot size={22} className="text-primary" />
                     </span>
                     <div>
-                        <p className="font-bold text-text-primary">Ask your Founder Copilot</p>
+                        <p className="font-bold text-text-primary">{t('dashboard.ai.ask-your-founder-copilot')}</p>
                         <p className="mt-1 text-sm text-text-secondary">
-                            Get answers about your business model, risks, and next steps.
+                            {t('dashboard.ai.body')}
                         </p>
                     </div>
                     <div className="flex w-full flex-col gap-2">
@@ -47,7 +50,7 @@ export default function Chat(data: ChatProps) {
                                 onClick={() => data.onSuggestion?.(suggestion)}
                                 className="rounded-xl border-none shadow-sm bg-surface px-3 py-2 text-left text-sm text-text-secondary transition hover:border-primary hover:text-primary"
                             >
-                                {suggestion}
+                                {t('dashboard.ai.'+ suggestion)}
                             </button>
                         ))}
                     </div>
@@ -111,7 +114,7 @@ export default function Chat(data: ChatProps) {
                                     {msg.datetime}
                                 </time>
                             </div>
-                        </div>
+                        </div>suggestion
                     </div>
                 );
             })}

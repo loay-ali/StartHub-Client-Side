@@ -211,7 +211,7 @@ export default function AIAssistant() {
 
                                 <button
                                   onClick={() => showToast(`Match introduction request sent to ${r.title}!`)}
-                                  className="px-2.5 py-1 text-[10px] font-bold border border-slate-350 dark:border-slate-700 hover:border-teal-500/40 hover:bg-teal-500/5 hover:text-[#14b8a6] rounded-lg transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                                  className="px-2.5 py-1 text-[10px] font-bold border border-slate-300 dark:border-slate-700 hover:border-teal-500/40 hover:bg-teal-500/5 hover:text-[#14b8a6] rounded-lg transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
                                 >
                                   <span>Request Intro</span>
                                   <ArrowRight size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />

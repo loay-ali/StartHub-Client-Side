@@ -39,27 +39,21 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         if (res.status == 200) {
           return res.json();
         }
-        if (res.status == 401) {
-          // Genuinely unauthenticated — this is the only case that
-          // should send someone away from the dashboard.
+        else {
           redirect('/login');
         }
-        // Any other status (404 because the route isn't built yet, 500,
-        // etc.) is a backend/wiring issue, not "you're logged out" —
-        // leave the dashboard as-is.
         return null;
       }).then((res) => {
         if (res) {
           setUserData(res);
         }
       }).catch(() => {
-        // Backend unreachable (not running, CORS, etc.) — same as
-        // above, don't punish the founder for a network hiccup.
+        redirect('/login');
       });
   }, []);
 
   return (
-    <AIContext.Provider value={{ addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
+    <AIContext.Provider value={{ suggestions: [],addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
       <div className="flex min-h-screen bg-background">
         {/* Desktop Sidebar */}
         <div className="hidden md:block">

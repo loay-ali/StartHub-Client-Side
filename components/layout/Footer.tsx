@@ -10,7 +10,9 @@ export default function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const pathname = usePathname();
 
-  const isInvestorAuth = pathname?.includes('/investor/login') || pathname?.includes('/investor/register');
+  const isAuthPage = 
+    pathname?.includes('/login') || 
+    pathname?.includes('/register');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +26,7 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (isInvestorAuth) {
+  if (isAuthPage) {
     return null;
   }
 

@@ -5,6 +5,9 @@
         }
     },
     "public": {
+        "delete": {
+            "if-you-confirm-you-cant-access-this-record-once-again": "If you confirm you Can't Access This Record Once Again"
+        },
         "home": {
             "ai-operating-system": "AI operating system",
             "one-ai": "One AI.",
@@ -69,8 +72,9 @@
             "signin-to-continue-to-your-dashboard": "Sign in to continue to your dashboard",
 
             "enter-your-email": "Enter your email",
-            "enter-your-passowrd": "Enter your password",
+            "enter-your-password": "Enter your password",
             "remember-me": "Remember me",
+
             "forget-password": "Forgot password?",
             "new-here": "New Here ?",
             "join-now": "Join Now"
@@ -117,6 +121,13 @@
 
             "choose-plan": "Choose Plan"
         },
+        "loading": {
+            "connecting-your-company-data": "Connecting your company data",
+            "building-company-memory": "Building Company Memory",
+            "awakening-ai-agents": "Awakening AI Agents",
+            "syncing-intelligence-layer": "Syncing Intelligence Layer",
+            "your-companys-brain-is-ready": "Your Company's Brain Is Ready"
+        },
         "errors": {
             "invalid-request": "Invalid Request",
 
@@ -150,6 +161,16 @@
         }
     },
     "dashboard": {
+        "bmc": {
+            "customer-segments": "Customer Segments",
+            "customer-relationships": "Customer Relatinoships",
+            "revenue-streams": "Revenue Streams",
+            "key-activities": "Key Activities",
+            "key-resources": "Key Resources",
+            "key-partners": "Key Partners",
+            "cost-structure": "Cost Structure",
+            "value-propositions": "Value Propositions"
+        },
         "departments": {
             "the-department-was-removed-successfully": "The Department Was Removed Successfully",
             "could-not-delete-the-department-please-try-again": "Could not delete the department, please try again",
@@ -178,10 +199,14 @@
             "create": "Create",
             "checkout": "checkout",
             "search": "Search",
-            "add-new": "Add New"
+            "add-new": "Add New",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
         },
         "ai": {
-            "need-help": "Need Help ?"
+            "need-help": "Need Help ?",
+            "ask-your-founder-copilot": "Ask your Founder Copilot",
+            "body": "Get answers about your business model, risks, and next steps."
         },
         "roles": {},
         "fields": {
