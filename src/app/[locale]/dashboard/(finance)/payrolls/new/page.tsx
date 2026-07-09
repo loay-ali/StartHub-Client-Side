@@ -4,6 +4,9 @@ import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AISection, { ActionType } from "@/components/ai/section/AISection";
+import AIHelperButton from "@/components/ai/AIHelperButton";
+import { BsCashCoin } from "react-icons/bs";
 
 export default function NewPayroll() {
     const router = useRouter();
@@ -47,8 +50,8 @@ export default function NewPayroll() {
     },[saving]);
 
     return (
-        <section className = 'flex items-start gap-10'>
-            <section className = 'bg-white p-2 rounded shadow'>
+        <section className = 'flex items-start justify-center gap-5 flex-wrap max-w-[1000px] m-auto'>
+            <section className = 'bg-white p-5 rounded shadow w-full max-w-[750px] grow order-[2] md:order-[1]'>
                 <h2>New Payroll</h2>
 
                 <div className = 'form-group'>
@@ -83,9 +86,10 @@ export default function NewPayroll() {
                         })}/> USD</div>
                 </div>*/}
 
-                <div className = 'form-group'>
-                    <label htmlFor="employee">Bonus</label>
+                <div className = 'form-group relative'>
+                    <label htmlFor="bonus">Bonus</label>
                     <div className = 'flex items-center gap-5'><input
+                        id = 'bonus'
                         value = {payroll.bonus}
                         type = 'number'
                         min = '0'
@@ -93,11 +97,18 @@ export default function NewPayroll() {
                             payroll.bonus = ele.currentTarget.value;
                             return payroll;
                         })}/> USD</div>
+                    <AIHelperButton purpose = "payrollBonus" message = {{
+                        content: "What Do You Need For Payroll Bonus Field ?",
+                        actions: [],
+                        //@ts-ignore
+                        additional: {bonus: payroll.bonus}
+                    }} />
                 </div>
 
-                <div className = 'form-group'>
-                    <label htmlFor="employee">Deduction</label>
+                <div className = 'form-group relative'>
+                    <label htmlFor="deduction">Deduction</label>
                     <div className = 'flex items-center gap-5'><input
+                        id = 'deduction'
                         value = {payroll.deduction}
                         type = 'number'
                         min = '0'
@@ -106,6 +117,12 @@ export default function NewPayroll() {
                             payroll.deduction = ele.currentTarget.value;
                             return payroll;
                         })}/> USD</div>
+                    <AIHelperButton purpose = "payrollDeduction" message = {{
+                        content: "What Do You Need For Payroll Deduction Field ?",
+                        actions: [],
+                        //@ts-ignore
+                        additional: {deduction: payroll.deduction}
+                    }} />
                 </div>
 
                 <div className = 'form-group'>
@@ -119,10 +136,17 @@ export default function NewPayroll() {
                         })}/>
                 </div>
                     
-                <button className = 'button' onClick = {() => setSaving(true)}>
+                <button className = 'button mt-5' onClick = {() => setSaving(true)}>
                     {saving ? <ButtonLoader />:<>Save Payroll</>}
                 </button>
             </section>
+            <AISection
+                title="Need Some Guidance?"
+                Icon={BsCashCoin}
+                initialActions={[
+                    { title: "Fill Using AI", action: 'fillPayroll', type: ActionType.CHAT }
+                ]}
+            />
         </section>
     )
 }

@@ -22,7 +22,6 @@ export default async function SingleJob() {
     const [jobData,setJobData] = useState<Job>({
         title: "",
         timeModel: "fulltime",
-        status: "ACTIVE",
         description: "",
         responsibilities: "",
         role: "",
@@ -123,11 +122,11 @@ export default async function SingleJob() {
                     j.responsibilities = ele.currentTarget.value;
                     return j;
                 })} defaultValue = {jobData.responsibilities} id = 'responsibilites'></textarea>
-                <AIHelperButton purpose = "jobResponsibilies" message = {{
-                    content: "What Do You Need For Job Responsibilites Field ?",
+                <AIHelperButton purpose = "jobResponsibilities" message = {{
+                    content: "What Do You Need For Job Responsibilities Field ?",
                     actions: [],
                     //@ts-ignore
-                    additional: {responsibilites: jobData.responsibilites}
+                    additional: {responsibilities: jobData.responsibilities}
                 }} />
             </div>
 
@@ -205,7 +204,7 @@ export default async function SingleJob() {
                     })
                 }}>
                 </select>
-                <AIHelperButton purpose = "status" message = {{
+                <AIHelperButton purpose = "jobStatus" message = {{
                     content: "What Do You Need For Job Status Field ?",
                     actions: [],
                     //@ts-ignore

@@ -77,20 +77,53 @@ export default function RegistrationPage() {
     }).catch(() => setErrorFetching(true)).finally(() => setLoading(false));
 
     if( uploadingBmc ) {
-      fetch(config.apiUrl +'/registration/fill-bmc',{
-        method:"POST",
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          answers: bmcAnswer,
-          method: bmcMethod
-        })
-      }).then(res => res.json())
-      .then(res => {
-        
-      });
+      if (bmcMethod === 'upload' && uploadedBmc) {
+        const formData = new FormData();
+        formData.append('file', uploadedBmc);
+
+        fetch(config.apiUrl + '/upload-file/file', {
+          method: 'POST',
+          credentials: 'include',
+          body: formData
+        }).then(res => res.json())
+        .then(({filePath}) => {
+            fetch(config.apiUrl +'/registration/fill-bmc',{
+              method:"POST",
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                bmcFile: filePath,
+                method: bmcMethod
+              })
+            }).then(res => res.json())
+            .then(res => {
+              setBmcScore(res.score || 50);
+              setUploadingBmc(false);
+              setCurrentStep(s => s + 1);
+            }).catch(() => setUploadingBmc(false));
+        }).catch(() => setUploadingBmc(false));
+      } else if (bmcMethod === 'ai') {
+        fetch(config.apiUrl +'/registration/fill-bmc',{
+          method:"POST",
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            answers: bmcAnswer,
+            method: bmcMethod
+          })
+        }).then(res => res.json())
+        .then(res => {
+          setBmcScore(res.score || 50);
+          setUploadingBmc(false);
+          setCurrentStep(s => s + 1);
+        }).catch(() => setUploadingBmc(false));
+      } else {
+        setUploadingBmc(false);
+      }
     }
 
     if( errorFetching ) {
@@ -203,6 +236,14 @@ export default function RegistrationPage() {
       case 2:
         setSaveFounder(true);
       break;
+
+      case 4:
+        setUploadingBmc(true);
+      break;
+      
+      case 5:
+        setCurrentStep(s => s + 1);
+      break;
     }
   }
 
@@ -271,7 +312,7 @@ export default function RegistrationPage() {
             />
           )}
 
-          {currentStep === 4 && bmcMethod == 'ai' && <AiDiscoveryStep error = {error} setError = {setError}/>}
+          {currentStep === 4 && bmcMethod == 'ai' && <AiDiscoveryStep answers={bmcAnswer} setAnswers={setBmcAnswers} error = {error} setError = {setError}/>}
 
           {currentStep === 5 && <BmcScoreStep data = {''} score = {bmcScore} />}
 

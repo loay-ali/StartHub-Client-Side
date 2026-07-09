@@ -67,6 +67,7 @@ export default function BMCList() {
             confirmCallback={() => setConfirmDeleting(true)}/>}
         {deleting != '' && confirmDeleting == true ? <ButtonLoader />:<section className = 'flex items-start justify-center gap-5'>
             <CollectionPage
+            currentPage = {1}
                 title = "BMCs"
                 data = {bmcList}
                 columns={[

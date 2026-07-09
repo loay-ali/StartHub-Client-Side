@@ -1,5 +1,6 @@
 'use client';
 
+import AIHelperButton from "@/components/ai/AIHelperButton";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import { useTranslations } from "next-intl";
@@ -59,12 +60,18 @@ export default function NewTeam() {
         <section className = 'bg-white rounded shadow p-4 grow max-w-[750px]'>
             <h2>Create New Team</h2>
 
-            <div className = 'form-group'>
+            <div className = 'form-group relative'>
                 <label htmlFor="name">Team Name</label>
                 <input type = 'text' id = 'name' value = {team.name} onInput = {ele => setTeam(tm => {
                     tm.name = ele.currentTarget.value;
                     return tm;
                 })} />
+                <AIHelperButton purpose = "teamName" message = {{
+                    content: "What Do You Need For Team Name Field ?",
+                    actions: [],
+                    //@ts-ignore
+                    additional: {name: team.name}
+                }} />
             </div>
 
             <div className = 'form-group'>

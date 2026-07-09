@@ -105,7 +105,7 @@ export default function NewJob() {
                         Responsibilites
                     </label>
                     <textarea defaultValue = {responsibilities} onInput = {(ele) => setResponsibilities(ele.currentTarget.value)} name = 'responsibilites' id = 'responsibilites'></textarea>
-                    <AIHelperButton purpose = "jobResponsibilites" message = {{
+                    <AIHelperButton purpose = "jobResponsibilities" message = {{
                         content: "What Do You Need For Job Responsibilities Field ?",
                         actions: [],
                         //@ts-ignore

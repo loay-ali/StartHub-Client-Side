@@ -1,5 +1,6 @@
 'use client';
 
+import AIHelperButton from "@/components/ai/AIHelperButton";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import { getAccount } from "@/src/services/financial";
@@ -87,12 +88,18 @@ export default function SingleAccount() {
                     Account Page
                 </h2>
 
-                <div className = 'form-group'>
+                <div className = 'form-group relative'>
                     <label htmlFor="slug">Slug</label>
                     <input type = 'text' defaultValue={account.slug} onInput = {ele => setAccount(account => {
                         account.slug = ele.currentTarget.value;
                         return account;
                     })}/>
+                    <AIHelperButton purpose = "accountSlug" message = {{
+                        content: "What Do You Need For Account Slug Field ?",
+                        actions: [],
+                        //@ts-ignore
+                        additional: {slug: account.slug}
+                    }} />
                 </div>
 
                 <div className = 'form-group'>

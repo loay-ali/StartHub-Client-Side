@@ -7,6 +7,7 @@ import { ButtonLoader } from '@/components/preloader/ButtonLoader';
 import config from '@/constants/config';
 import { notificationService } from '@/lib/notifiationSystem';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import AIHelperButton from '@/components/ai/AIHelperButton';
 
 const ROLES = ['ADMIN', 'HR', 'MANAGER', 'EMPLOYEE'] as const;
 type Role = typeof ROLES[number];
@@ -26,17 +27,26 @@ const ROLE_COLORS: Record<Role, string> = {
 };
 
 function Field({
-    id, label, icon, error, children,
+    id, label, icon, error, aiPurpose, aiValue, children,
 }: {
-    id: string; label: string; icon?: React.ReactNode; error?: string; children: React.ReactNode;
+    id: string; label: string; icon?: React.ReactNode; error?: string;
+    aiPurpose?: string; aiValue?: unknown; children: React.ReactNode;
 }) {
     return (
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 relative">
             <label htmlFor={id} className="text-sm font-semibold text-text-primary flex items-center gap-1.5">
                 {icon && <span className="text-text-secondary">{icon}</span>}
                 {label}
             </label>
             {children}
+            {aiPurpose && (
+                <AIHelperButton purpose={aiPurpose} message={{
+                    content: `What do you need for the ${label} field?`,
+                    actions: [],
+                    //@ts-ignore
+                    additional: { [id]: aiValue }
+                }} />
+            )}
             {error && (
                 <p className="text-xs text-danger font-medium mt-0.5">{error}</p>
             )}
@@ -206,7 +216,7 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
                     <h2 className="font-bold text-text-primary text-sm uppercase tracking-wider">Personal Information</h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <Field id="firstName" label="First Name" icon={<FiUser size={14} />} error={errors.firstName}>
+                        <Field id="firstName" label="First Name" icon={<FiUser size={14} />} error={errors.firstName} aiPurpose="userFirstName" aiValue={form.firstName}>
                             <input
                                 id="firstName"
                                 type="text"
@@ -214,23 +224,23 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
                                 placeholder="e.g. John"
                                 value={form.firstName}
                                 onChange={set('firstName')}
-                                className={inputClass(!!errors.firstName)}
+                                className={inputClass(!!errors.firstName) + ' pr-10'}
                             />
                         </Field>
 
-                        <Field id="lastName" label="Last Name (optional)" icon={<FiUser size={14} />}>
+                        <Field id="lastName" label="Last Name (optional)" icon={<FiUser size={14} />} aiPurpose="userLastName" aiValue={form.lastName}>
                             <input
                                 id="lastName"
                                 type="text"
                                 placeholder="e.g. Doe"
                                 value={form.lastName}
                                 onChange={set('lastName')}
-                                className={inputClass()}
+                                className={inputClass() + ' pr-10'}
                             />
                         </Field>
                     </div>
 
-                    <Field id="email" label="Email Address" icon={<FiMail size={14} />} error={errors.email}>
+                    <Field id="email" label="Email Address" icon={<FiMail size={14} />} error={errors.email} aiPurpose="userEmail" aiValue={form.email}>
                         <input
                             id="email"
                             type="email"
@@ -238,7 +248,7 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
                             placeholder="john.doe@company.com"
                             value={form.email}
                             onChange={set('email')}
-                            className={inputClass(!!errors.email)}
+                            className={inputClass(!!errors.email) + ' pr-10'}
                         />
                     </Field>
                 </section>
@@ -247,12 +257,12 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
                 <section className="bg-surface rounded-2xl border border-border p-6 shadow-sm space-y-5">
                     <h2 className="font-bold text-text-primary text-sm uppercase tracking-wider">Access & Role</h2>
 
-                    <Field id="role" label="Role" icon={<FiShield size={14} />}>
+                    <Field id="role" label="Role" icon={<FiShield size={14} />} aiPurpose="userRole" aiValue={form.role}>
                         <select
                             id="role"
                             value={form.role}
                             onChange={set('role')}
-                            className={inputClass()}
+                            className={inputClass() + ' pr-10'}
                         >
                             {ROLES.map(r => (
                                 <option key={r} value={r}>{ROLE_LABELS[r]}</option>

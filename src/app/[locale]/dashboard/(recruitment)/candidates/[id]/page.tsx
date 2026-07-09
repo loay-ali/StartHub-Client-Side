@@ -1,5 +1,6 @@
 'use client';
 
+import AIHelperButton from "@/components/ai/AIHelperButton";
 import AISection, { ActionType } from "@/components/ai/section/AISection";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
@@ -136,7 +137,7 @@ export default function CandidatePage() {
         <section className = 'bg-white mx-auto p-5 rounded shadow'>
             <h2 className = 'text-2xl'>{t('dashboard.candidates.create-a-candidate')}</h2>
 
-            <div className = 'form-group'>
+            <div className = 'form-group relative'>
                 <label htmlFor = 'fullname'>
                     {t('dashboard.fields.fullname')}
                 </label>
@@ -146,9 +147,15 @@ export default function CandidatePage() {
                         return data;
                     });
                 }} value = {candidate.fullname} type="text" name="fullname" id="fullname" />
+                <AIHelperButton purpose = "candidateFullName" message = {{
+                    content: "What Do You Need For Candidate Full Name Field ?",
+                    actions: [],
+                    //@ts-ignore
+                    additional: {fullname: candidate.fullname}
+                }} />
             </div>
 
-            <div className = 'form-group'>
+            <div className = 'form-group relative'>
                 <label htmlFor = 'email'>
                     {t('dashboard.fields.email')}
                 </label>
@@ -158,9 +165,15 @@ export default function CandidatePage() {
                         return data;
                     });
                 }} value = {candidate.email} type="email" name="email" id="email" />
+                <AIHelperButton purpose = "candidateEmail" message = {{
+                    content: "What Do You Need For Candidate Email Field ?",
+                    actions: [],
+                    //@ts-ignore
+                    additional: {email: candidate.email}
+                }} />
             </div>
 
-            <div className = 'form-group'>
+            <div className = 'form-group relative'>
                 <label htmlFor = 'phone'>
                     {t('dashboard.fields.phone')}
                 </label>
@@ -170,9 +183,15 @@ export default function CandidatePage() {
                         return data;
                     });
                 }} value = {candidate.phone} type="tel" name="phone" id = "phone" />
+                <AIHelperButton purpose = "candidatePhone" message = {{
+                    content: "What Do You Need For Candidate Phone Field ?",
+                    actions: [],
+                    //@ts-ignore
+                    additional: {phone: candidate.phone}
+                }} />
             </div>
 
-            <div className = 'form-group'>
+            <div className = 'form-group relative'>
                 <label htmlFor = 'job'>
                     {t('dashboard.fields.applied-job')}
                 </label>
@@ -184,6 +203,12 @@ export default function CandidatePage() {
                         {job.title}
                     </option>))}
                 </select>
+                <AIHelperButton purpose = "candidateAppliedJob" message = {{
+                    content: "What Do You Need For Applied Job Field ?",
+                    actions: [],
+                    //@ts-ignore
+                    additional: {appliedJob: candidate.appliedJob}
+                }} />
             </div>
 
             <div className = 'form-group'>

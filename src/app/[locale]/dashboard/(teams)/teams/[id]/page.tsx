@@ -1,5 +1,6 @@
 'use client';
 
+import AIHelperButton from "@/components/ai/AIHelperButton";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import { useParams, useRouter } from "next/navigation";
@@ -92,12 +93,18 @@ export default function SingleTeam() {
                     Team's Data
                 </h2>
 
-                <div className = 'form-group'>
+                <div className = 'form-group relative'>
                     <label htmlFor="name">Name</label>
                     <input type="text" value = {teamData.name} id="name" onInput = {ele => setTeamData(team => {
                         team.name = ele.currentTarget.value;
                         return team;
                     })}/>
+                    <AIHelperButton purpose = "teamName" message = {{
+                        content: "What Do You Need For Team Name Field ?",
+                        actions: [],
+                        //@ts-ignore
+                        additional: {name: teamData.name}
+                    }} />
                 </div>
 
                 <div className = 'form-group'>

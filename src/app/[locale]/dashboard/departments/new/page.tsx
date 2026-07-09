@@ -8,6 +8,9 @@ import { ButtonLoader } from '@/components/preloader/ButtonLoader';
 import { useTranslations } from 'next-intl';
 
 import { CiSearch } from "react-icons/ci";
+import AIHelperButton from "@/components/ai/AIHelperButton";
+import AISection, { ActionType } from "@/components/ai/section/AISection";
+import { BsBuilding } from "react-icons/bs";
 
 export default function NewDepartment() {
     const router = useRouter();
@@ -65,10 +68,11 @@ export default function NewDepartment() {
     }
 
     return (
-        <section className='max-w-[750px] m-auto p-5 bg-white rounded'>
-            <h2 className = 'text-2xl'>{t('dashboard.sidebar.add-department')}</h2>
+        <section className='flex gap-5 justify-center items-start flex-wrap max-w-[1000px] m-auto'>
+            <section className='w-full max-w-[750px] p-5 bg-white rounded shadow grow order-[2] md:order-[1]'>
+                <h2 className = 'text-2xl'>{t('dashboard.sidebar.add-department')}</h2>
 
-            <div className='form-group flex flex-col my-5'>
+                <div className='form-group flex flex-col my-5 relative'>
                 <label htmlFor='name'>{t('dashboard.common.title')}</label>
                 <input
                     required
@@ -79,15 +83,27 @@ export default function NewDepartment() {
                     id='name'
                     placeholder={t("dashboard.departments.department-name")}
                 />
+                <AIHelperButton purpose="departmentName" message={{
+                    content: "What do you need for Department Name field?",
+                    actions: [],
+                    //@ts-ignore
+                    additional: { departmentName }
+                }} />
             </div>
 
-            <div className = 'form-group'>
+            <div className = 'form-group relative'>
                 <label htmlFor="description">
                     {t('dashboard.common.description')}
                 </label>
                 <textarea
                     defaultValue={departmentDesc}
                     onInput = {e => setDepartmentDesc(e.currentTarget.value)}></textarea>
+                <AIHelperButton purpose="departmentDescription" message={{
+                    content: "What do you need for Department Description field?",
+                    actions: [],
+                    //@ts-ignore
+                    additional: { departmentDesc }
+                }} />
             </div>
 
             <div className = 'form-group'>
@@ -131,11 +147,20 @@ export default function NewDepartment() {
 
             <button
                 type='submit'
-                className='button w-full flex justify-center items-center'
+                className='button w-full flex justify-center items-center mt-5'
                 onClick={() => setIsSubmitting(true)}
             >
                 {isSubmitting ? <ButtonLoader /> : t('dashboard.common.create')}
             </button>
+            </section>
+            
+            <AISection
+                title="Need Some Guidance?"
+                Icon={BsBuilding}
+                initialActions={[
+                    { title: "Fill Using AI", action: 'fillDepartment', type: ActionType.CHAT }
+                ]}
+            />
         </section>
     );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import AIHelperButton from "@/components/ai/AIHelperButton";
 import config from "@/constants/config";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
@@ -63,18 +64,30 @@ export default function Bill({t}:{t:string}) {
     <section className = 'bg-white p-5 rounded mx-auto mt-20 shadow max-w-[750px]'>
         <h2>New {t == 'revenue' ? <>Revenue</>:<>Expense</>}</h2>
 
-        <div className = 'form-group'>
+        <div className = 'form-group relative'>
             <label htmlFor="type">Type</label>
             <select name = 'type' id = 'type' defaultValue = {type} onChange = {ele => setType(ele.currentTarget.value)}>
                 {revenueTypes.map((option:{id:string,label:string}) => {
                     return <option key = {option.id} value = {option.id}>{option.label}</option>
                 })}
             </select>
+            <AIHelperButton purpose = "billType" message = {{
+                content: "What Do You Need For Bill Type Field ?",
+                actions: [],
+                //@ts-ignore
+                additional: {type}
+            }} />
         </div>
 
-        <div className = 'form-group'>
+        <div className = 'form-group relative'>
             <label htmlFor="details">Details</label>
             <textarea className = 'border-1 rounded border-gray-500' onInput = {ele => setDetails(ele.currentTarget.value)} name="details" id="details" defaultValue={details}></textarea>
+            <AIHelperButton purpose = "billDetails" message = {{
+                content: "What Do You Need For Bill Details Field ?",
+                actions: [],
+                //@ts-ignore
+                additional: {details}
+            }} />
         </div>
             
         {revenueTypes.find((ty:{id:string}) => ty.id == type) && <div className = 'form-group'>
