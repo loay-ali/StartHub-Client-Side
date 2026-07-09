@@ -12,6 +12,7 @@ import { AiOutlineLoading } from 'react-icons/ai';
 import { FaExclamationCircle } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { notificationService } from "@/lib/notifiationSystem";
+import AuthSwitcher from "./AuthSwitcher";
 
 export default function LoginForm() {
 
@@ -65,7 +66,7 @@ export default function LoginForm() {
       }
 
       if( password.length < 8 ) {
-        setPasswordError(t('public.auth.passowrd-must-be-more-than-8-characters'));
+        setPasswordError(t('public.auth.password-must-be-more-than-8-characters'));
         setIsLogin(false);
         return;
       }
@@ -102,7 +103,7 @@ export default function LoginForm() {
   },[isLogin]);
 
   return (
-    <div className="flex items-center justify-center bg-surface px-6 py-10" onKeyDown={(event) => {
+    <div className="flex items-center justify-center bg-surface px-6 py-10 pt-28 lg:pt-10" onKeyDown={(event) => {
       if( event.key == 'Enter' ) {
         setIsLogin(true);
       }
@@ -176,13 +177,19 @@ export default function LoginForm() {
             type="submit"
             className="button flex justify-center"
           >
-            {! isLogin ? 'Sign In':<AiOutlineLoading className = 'spinner-loading' />}
+            {! isLogin ? t('public.login.sign-in'):<AiOutlineLoading className = 'spinner-loading' />}
           </button>
 
           <section className = 'flex gap-3'>
             <p>{t('public.login.new-here')}</p>
             <Link href = '/register' className = 'button secondary'>{t('public.login.join-now')}</Link>
           </section>
+
+          <AuthSwitcher 
+            text={t('public.login.are-you-an-investor')} 
+            buttonText={t('public.login.login-as-investor')} 
+            href="/investor/login" 
+          />
         </section>
       </div>
     </div>

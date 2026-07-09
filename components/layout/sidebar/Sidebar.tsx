@@ -15,6 +15,7 @@ import { LuBriefcaseBusiness } from "react-icons/lu";
 import { FaRankingStar } from "react-icons/fa6";
 import { MdOutlineIntegrationInstructions } from "react-icons/md";
 import { LuLogs } from "react-icons/lu";
+import { CalendarDays, TrendingUp } from "lucide-react";
 
 import CompanyIdentity from "./CompanyIdentity";
 import SidebarLink from "./SidebarLink";
@@ -24,58 +25,57 @@ import config from "@/constants/config";
 import { useTranslations } from "next-intl";
 
 
-export default function Sidebar({email,companyName}:{email:string,companyName:string}) {
+export default function Sidebar({ email, companyName }: { email: string, companyName: string }) {
   const [collapsed, setCollapsed] = useState(true);
 
-  const [isLogout,setIsLogout] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
 
   const router = useRouter();
 
   const t = useTranslations();
 
   useEffect(() => {
-    if( isLogout ) {
-      fetch(config.apiUrl +'/auth/logout',{
+    if (isLogout) {
+      fetch(config.apiUrl + '/auth/logout', {
         method: "POST",
         credentials: 'include'
       }).then(res => {
-        if( res.status === 200 ) {
+        if (res.status === 200) {
           router.replace('/');
-        }else {
+        } else {
           setIsLogout(false);
         }
       });
     }
-  },[isLogout]);
+  }, [isLogout]);
 
   return (
     <aside
-      className={`relative h-screen border-r border-border bg-surface p-4 transition-all duration-300 ${
-        collapsed ? "w-20" : "w-64"
-      }`}
+      className={`relative flex flex-col h-screen border-r border-border bg-surface p-4 transition-all duration-300 ${collapsed ? "w-20" : "w-64"
+        }`}
     >
       <SidebarBrand
         collapsed={collapsed}
         onToggle={() => setCollapsed(!collapsed)}
       />
 
-        {collapsed && (
-          <div className="mb-6 flex justify-center absolute top-14 -right-4 z-[999]">
-            <button
-              onClick={() => setCollapsed(false)}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white shadow-md transition hover:bg-slate-50 text-slate-600"
-              title="Expand sidebar"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-          </div>
-        )}
+      {collapsed && (
+        <div className="mb-6 flex justify-center absolute top-14 -right-4 z-[999]">
+          <button
+            onClick={() => setCollapsed(false)}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white shadow-md transition hover:bg-slate-50 text-slate-600"
+            title="Expand sidebar"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+        </div>
+      )}
 
-        {!collapsed && (
-          <CompanyIdentity companyName="StartHub" companyPlan="Enterprise Plan" />
-        )}
+      {!collapsed && (
+        <CompanyIdentity companyName="StartHub" companyPlan="Enterprise Plan" />
+      )}
 
-      <div className="mt-8 space-y-1">
+      <div className="mt-8 flex-1 min-h-0 overflow-y-auto custom-scrollbar space-y-1 pb-2">
         {!collapsed && <SidebarSection title="Overview" />}
 
         <SidebarLink
@@ -119,8 +119,8 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             href: "/feature/employees/list",
             icon: <BsClipboard2Data />,
             children: [
-              {title: "Employees",href: "/dashboard/employees/list"},
-              {title: "Attendance",href: "/dashboard/attendance/list"},
+              { title: t("dashboard.sidebar.employees"), href: "/dashboard/employees/list" },
+              { title: t("dashboard.sidebar.attendance"), href: "/dashboard/attendance/list" },
             ]
           }}
         />
@@ -132,8 +132,8 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             href: "/feature/teams",
             icon: <AiOutlineTeam />,
             children: [
-              {href: "/dashboard/teams/list",title: t('dashboard.sidebar.manage-teams')},
-              {href: "/dashboard/tasks/list",title: t('dashboard.sidebar.manage-tasks')}
+              { href: "/dashboard/teams/list", title: t('dashboard.sidebar.manage-teams') },
+              { href: "/dashboard/tasks/list", title: t('dashboard.sidebar.manage-tasks') }
             ]
           }}
         />
@@ -145,15 +145,15 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             href: "/feature/finance",
             icon: <TbCoins />,
             children: [
-              {title: t("dashboard.sidebar.new-revenue-bill"),href: "/dashboard/bills/new/revenue"},
-              {title: t("dashboard.sidebar.new-expense-bill"),href: "/dashboard/bills/new/expenses"},
+              { title: t("dashboard.sidebar.new-revenue-bill"), href: "/dashboard/bills/new/revenue" },
+              { title: t("dashboard.sidebar.new-expense-bill"), href: "/dashboard/bills/new/expenses" },
 
-              {title: t("dashboard.sidebar.payrolls"),href: "/dashboard/payrolls/list"},
+              { title: t("dashboard.sidebar.payrolls"), href: "/dashboard/payrolls/list" },
 
-              {title: t("dashboard.sidebar.reports"),href: "/dashboard/reports/list"},
+              { title: t("dashboard.sidebar.reports"), href: "/dashboard/reports/list" },
 
-              {title: t("dashboard.sidebar.accounts"),href: "/dashboard/accounts/list"},
-              {title: t("dashboard.sidebar.transactions"),href: "/dashboard/transactions/list"},
+              { title: t("dashboard.sidebar.accounts"), href: "/dashboard/accounts/list" },
+              { title: t("dashboard.sidebar.transactions"), href: "/dashboard/transactions/list" },
             ]
           }}
         />
@@ -165,8 +165,8 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
             href: "/dashboard/bmc",
             icon: <LuBriefcaseBusiness />,
             children: [
-              {href: "/dashboard/bmc/new",title: t("dashboard.sidebar.create-bmc")},
-              {href: "/dashboard/bmc/list",title: t("dashboard.sidebar.my-list-of-bmcs")}
+              { href: "/dashboard/bmc/new", title: t("dashboard.sidebar.create-bmc") },
+              { href: "/dashboard/bmc/list", title: t("dashboard.sidebar.my-list-of-bmcs") }
             ]
           }}
         />
@@ -232,6 +232,24 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         <SidebarLink
           collapsed={collapsed}
           item={{
+            title: t("dashboard.sidebar.opportunities"),
+            href: "/dashboard/opportunities",
+            icon: <TrendingUp size={18} />,
+          }}
+        />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
+            title: t("dashboard.sidebar.events"),
+            href: "/dashboard/events",
+            icon: <CalendarDays size={18} />,
+          }}
+        />
+
+        <SidebarLink
+          collapsed={collapsed}
+          item={{
             title: t("dashboard.sidebar.integrations"),
             href: "/dashboard/integrations",
             icon: <MdOutlineIntegrationInstructions />,
@@ -239,25 +257,17 @@ export default function Sidebar({email,companyName}:{email:string,companyName:st
         />
 
         <SidebarLink
-          collapsed={collapsed}
-          item={{
-            title: t("dashboard.sidebar.usage"),
-            href: "/dashboard/usage",
-            icon: <LuLogs />,
-          }}
-        />
-
-        <SidebarLink
-          action = {() => setIsLogout(true)}
-          className = "bg-red-50"
+          action={() => setIsLogout(true)}
+          className="bg-red-50"
           collapsed={collapsed}
           item={{
             title: t("dashboard.sidebar.logout"),
             href: "#",
-            icon: isLogout ? <AiOutlineLoading className = 'loading-spinner' />:<RiLogoutBoxFill />
+            icon: isLogout ? <AiOutlineLoading className='loading-spinner' /> : <RiLogoutBoxFill />
           }}
         />
       </div>
+
     </aside>
   );
 }

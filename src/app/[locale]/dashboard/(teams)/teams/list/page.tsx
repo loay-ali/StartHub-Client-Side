@@ -4,11 +4,12 @@ import CollectionPage from "@/components/collection/CollectionPage";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function TeamsList() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [teams,setTeams] = useState([]);
     const [loading,setLoading] = useState(true);
@@ -59,6 +60,7 @@ export default function TeamsList() {
                 <ButtonLoader size = {30}/>
             </div>:
             <CollectionPage
+                currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
                 title = "Teams List"
                 data = {teams}
                 columns={[

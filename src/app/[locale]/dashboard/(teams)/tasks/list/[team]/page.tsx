@@ -3,7 +3,7 @@
 import CollectionPage from '@/components/collection/CollectionPage';
 import config from '@/constants/config';
 import { useTranslations } from 'next-intl';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function TasksList() {
@@ -15,6 +15,7 @@ export default function TasksList() {
     const [loading,setLoading] = useState(true);
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         if( loading ) {
@@ -31,6 +32,7 @@ export default function TasksList() {
     return (
         <section className = 'flex items-start gap-5'>
             <CollectionPage
+                currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
                 title = "Tasks List"
                 data = {tasks}
                 columns = {[]}

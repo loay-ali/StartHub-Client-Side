@@ -14,8 +14,8 @@ type Pain = {
   key: string;
   icon: ReactNode;
   color: string;
-  title: string;
-  body: string;
+  titleKey: string;
+  bodyKey: string;
   area: Area;
 };
 
@@ -24,32 +24,32 @@ const pains: Pain[] = [
     key: "tools",
     icon: <Layers size={22} />,
     color: C.lightRed,
-    title: "14 tools. Zero connection.",
-    body: `Your team lives in Slack, Notion, HubSpot, QuickBooks, and Greenhouse — but none of them talk. Every Monday you're stitching spreadsheets just to answer "how are we doing?"`,
+    titleKey: "public.home.problem-section.pains.tools.title",
+    bodyKey: "public.home.problem-section.pains.tools.body",
     area: "hero",
   },
   {
     key: "buried",
     icon: <Database size={22} />,
     color: C.amber,
-    title: "The insight is in there. Somewhere.",
-    body: "You know the data exists. It's buried in dashboards nobody checks and reports nobody reads. Finding it costs you hours every week.",
+    titleKey: "public.home.problem-section.pains.buried.title",
+    bodyKey: "public.home.problem-section.pains.buried.body",
     area: "side1",
   },
   {
     key: "crisis",
     icon: <AlertTriangle size={22} />,
     color: C.lightRed,
-    title: "By the time you notice, it's a crisis.",
-    body: "Churn creep. Runway drift. A star employee going quiet. These aren't surprises — they're signals you missed because no one was watching all the data at once.",
+    titleKey: "public.home.problem-section.pains.crisis.title",
+    bodyKey: "public.home.problem-section.pains.crisis.body",
     area: "side2",
   },
   {
     key: "lag",
     icon: <Target size={22} />,
     color: C.primary,
-    title: "You're solving last month's problems.",
-    body: "Without real-time intelligence, your decisions lag reality by weeks. Opportunities close, risks compound, and leadership keeps asking questions ops can't answer fast enough.",
+    titleKey: "public.home.problem-section.pains.lag.title",
+    bodyKey: "public.home.problem-section.pains.lag.body",
     area: "pivot",
   },
 ];
@@ -63,6 +63,7 @@ function PainCard({ pain }: { pain: Pain }) {
   const isHero = pain.area === "hero";
   const isPivot = pain.area === "pivot";
   const big = isHero || isPivot;
+  const t = useTranslations();
 
   return (
     <article
@@ -83,8 +84,8 @@ function PainCard({ pain }: { pain: Pain }) {
           {pain.icon}
         </div>
         <div className={styles.cardText}>
-          <h3 className={isHero ? styles.titleHero : styles.title}>{pain.title}</h3>
-          <p className={isHero ? styles.bodyHero : styles.body}>{pain.body}</p>
+          <h3 className={isHero ? styles.titleHero : styles.title}>{t(pain.titleKey)}</h3>
+          <p className={isHero ? styles.bodyHero : styles.body}>{t(pain.bodyKey)}</p>
         </div>
       </div>
     </article>
@@ -130,10 +131,10 @@ export default function ProblemSection() {
       <div className="max-w-7xl mx-auto px-6">
         <Reveal>
           <SectionHeading
-            label="Sound Familiar?"
+            label={t('public.home.sound-familiar')}
             title={
               <>
-                {t('public.home.running-a-start-up-blind-is')}
+                {t('public.home.running-a-startup-blind-is')}
                 <span className={`${styles.accentText} ${styles.kineticWord}`}>{t('public.home.expensive')}</span>
               </>
             }
@@ -180,7 +181,7 @@ export default function ProblemSection() {
 
         <Reveal delay={280}>
           <div className={styles.toolChaosWrap}>
-            <p className={styles.toolChaosLabel}>{t('the-average-startup-tool-stack')}</p>
+            <p className={styles.toolChaosLabel}>{t('public.home.the-average-startup-tool-stack')}</p>
             <div className={styles.toolPills}>
               {tools.map((t, i) => (
                 <span

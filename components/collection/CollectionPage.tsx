@@ -95,7 +95,7 @@ export default function CollectionPage<T extends Record<string, any>>({
 
       <CollectionTable
         columns={columns}
-        data={data}
+        data={filteredData}
         onEdit={onEdit}
         onDelete={onDelete}
         isDeleting={isDeleting}

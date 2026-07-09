@@ -31,9 +31,9 @@ export default function EditInterview() {
 
     const INTERVIEW_TYPES = {
         'HR': t('dashboard.interviews.hr'),
-        'TECHNICAL': t('dashboard.interview.technical'),
-        'FINAL': t('dashboard.interview.final'),
-        'BEHAVIORAL': t('dashboard.interview.behavioral')
+        'TECHNICAL': t('dashboard.interviews.technical'),
+        'FINAL': t('dashboard.interviews.final'),
+        'BEHAVIORAL': t('dashboard.interviews.behavioral')
     };
 
     const [jobs,setJobs] = useState<Job[]>([]);

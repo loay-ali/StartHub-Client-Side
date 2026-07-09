@@ -8,6 +8,7 @@ export default function EmployeesList() {
 
     return (
     <CollectionPage
+    currentPage={1}
             onAdd = {() => {
                 router.push('/dashboard/employees/new');
             }}

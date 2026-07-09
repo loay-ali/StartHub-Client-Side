@@ -216,7 +216,7 @@ export default function CandidatePage() {
                     {t('dashboard.fields.cv')}
                 </label>
                 {candidate.cvUrl && <Link className = "button" href = {candidate.cvUrl} download = {true}>
-                        {t("dashboard.field.download-cv")}
+                        {t("dashboard.fields.download-cv")}
                 </Link>}
                 <input onInput = {(ele) => setCandidate((data) => {
                     data.cv = ele.currentTarget.files?.[0] ?? null;
@@ -229,7 +229,7 @@ export default function CandidatePage() {
             </button>
         </section>
         <AISection
-            title = "How Can I Help You ?"
+            title = {t('dashboard.ai.need-help')}
             Icon = {Bot}
             initialActions={[
                 {title: t('dashboard.ai.is-this-candidate-qualified'),type: ActionType.CHAT,action: "analyzeCandidate"}

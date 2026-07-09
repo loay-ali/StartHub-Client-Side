@@ -12,6 +12,7 @@ const HIGHLIGHTS = [
 export default function PricingHero() {
   return (
     <section
+    id="hero" data-header-theme="dark"
       style={{
         position: "relative",
         overflow: "hidden",

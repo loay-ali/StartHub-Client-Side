@@ -6,7 +6,7 @@ import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
 import Job from "@/types/requests/jobs";
 
-import {redirect,useRouter} from 'next/navigation';
+import {redirect,useRouter,useSearchParams} from 'next/navigation';
 import { useEffect, useState } from "react";
 import { notificationService } from "@/lib/notifiationSystem";
 
@@ -22,6 +22,7 @@ export default function JobsList() {
     const [isError,setIsError] = useState(false);
     
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         /*if(isLoading) {
@@ -78,6 +79,7 @@ export default function JobsList() {
         setConfirmRemoving(true);
     }} setWindowState = {setIsRemoving} title = "Delete a Job Post"/>}
     <CollectionPage
+        currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
         title = "Jobs List"
         data = {jobs}
         columns = {[

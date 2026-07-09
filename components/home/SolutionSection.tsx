@@ -4,17 +4,19 @@ import { Bell, Brain, Database, GitBranch, TrendingUp, Zap } from "lucide-react"
 import { motion } from "framer-motion";
 import { C, FONTS } from "../../lib/tokens";
 import { Reveal, SectionHeading } from "./shared";
+import { useTranslations } from "next-intl";
 
 const steps = [
-  { n: "01", label: "Connect",  icon: <GitBranch size={17} />, color: C.primary,  desc: "Plug in 50+ tools in under 10 minutes. No engineers needed." },
-  { n: "02", label: "Unify",    icon: <Database size={17} />,  color: C.teal2,    desc: "StarHub builds one living picture of your entire company." },
-  { n: "03", label: "Detect",   icon: <Brain size={17} />,     color: C.teal3,    desc: "AI finds patterns, risks, and opportunities in real time." },
-  { n: "04", label: "Predict",  icon: <TrendingUp size={17} />,color: C.greenDk,  desc: "Know what's coming — not just what already happened." },
-  { n: "05", label: "Alert",    icon: <Bell size={17} />,      color: C.amber,    desc: "The right signal reaches the right person before it's urgent." },
-  { n: "06", label: "Execute",  icon: <Zap size={17} />,       color: C.green,    desc: "Automated actions close the loop. No manual follow-up." },
+  { n: "01", labelKey: "public.home.solution-section.steps.connect.label", icon: <GitBranch size={17} />, color: C.primary, descKey: "public.home.solution-section.steps.connect.desc" },
+  { n: "02", labelKey: "public.home.solution-section.steps.unify.label", icon: <Database size={17} />, color: C.teal2, descKey: "public.home.solution-section.steps.unify.desc" },
+  { n: "03", labelKey: "public.home.solution-section.steps.detect.label", icon: <Brain size={17} />, color: C.teal3, descKey: "public.home.solution-section.steps.detect.desc" },
+  { n: "04", labelKey: "public.home.solution-section.steps.predict.label", icon: <TrendingUp size={17} />, color: C.greenDk, descKey: "public.home.solution-section.steps.predict.desc" },
+  { n: "05", labelKey: "public.home.solution-section.steps.alert.label", icon: <Bell size={17} />, color: C.amber, descKey: "public.home.solution-section.steps.alert.desc" },
+  { n: "06", labelKey: "public.home.solution-section.steps.execute.label", icon: <Zap size={17} />, color: C.green, descKey: "public.home.solution-section.steps.execute.desc" },
 ];
 
 export default function SolutionSection() {
+  const t = useTranslations()
   return (
     <section style={{ position: "relative", zIndex: 1, padding: "96px 0", background: C.surfaceAlt }}>
       <style>{`
@@ -52,11 +54,11 @@ export default function SolutionSection() {
       <div className="max-w-7xl mx-auto px-6">
         <Reveal>
           <SectionHeading
-            label="The Fix"
+            label={t('public.home.solution-section.the-fix')}
             title={
               <>
                 {t('public.home.one-platform-that-knows')}<br />
-                <span className="grad-text">{t('public.home.everything-about-your-compnay')}</span>
+                <span className="grad-text">{t('public.home.everything-about-your-company')}</span>
               </>
             }
             sub={t('public.home.solution')}
@@ -66,7 +68,7 @@ export default function SolutionSection() {
         {/* Step grid */}
         <div className="solution-grid">
           {steps.map((s, i) => (
-            <Reveal key={s.label} delay={i * 65}>
+            <Reveal key={s.n} delay={i * 65}>
               <motion.div
                 whileHover={{ y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 24 }}
@@ -113,7 +115,7 @@ export default function SolutionSection() {
                     color: s.color, letterSpacing: ".07em", marginBottom: 8,
                   }}
                 >
-                  Step {s.n}
+                  {t('public.home.solution-section.step')} {s.n}
                 </div>
                 <h3
                   style={{
@@ -121,9 +123,9 @@ export default function SolutionSection() {
                     fontSize: 16, color: C.text, marginBottom: 8,
                   }}
                 >
-                  {s.label}
+                  {t(s.labelKey)}
                 </h3>
-                <p style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.7 }}>{s.desc}</p>
+                <p style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.7 }}>{t(s.descKey)}</p>
               </motion.div>
             </Reveal>
           ))}

@@ -5,6 +5,11 @@ export default [
         'href': '/'
     },
     {
+        'slug': 'about',
+        'name': "About",
+        'href': "/about"
+    },
+    {
         'slug': 'features',
         'name': "Features",
         'href': '/features'
@@ -17,11 +22,6 @@ export default [
         'slug': 'pricing',
         'name': 'Pricing',
         'href': '/plans'
-    },
-    {
-        'slug': 'about',
-        'name': "About",
-        'href': "/about"
     },
     {
         'slug': 'contact',

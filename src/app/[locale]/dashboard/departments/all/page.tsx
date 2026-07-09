@@ -44,7 +44,7 @@ export default function AllDepartments() {
                 })
                 .then(res => res.status === 200 ? res.json():Promise.reject())
                 .then(() => {
-                    notificationService.success("Department deleted",t('dasbhoard.departments.the-department-was-removed-successfully'));
+                    notificationService.success("Department deleted",t('dashboard.departments.the-department-was-removed-successfully'));
                     router.refresh();
                 })
                 .catch(() => {
@@ -84,7 +84,7 @@ export default function AllDepartments() {
                     { key: 'name', label: t('dashboard.common.title'), sortable: true },
                     {key: 'employees',label: t('dashboard.employees.employees')}
                 ]}
-                title="Departments"
+                title={t('dashboard.sidebar.departments')}
             />
             <AISection
                 Icon = {Bot}

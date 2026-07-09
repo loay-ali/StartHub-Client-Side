@@ -4,6 +4,7 @@ import { Send, Sparkles, User, Bot, Check, ArrowRight, Activity, AlertCircle } f
 import { Reveal, SectionHeading } from "../home/shared";
 import styles from "./ecosystem.module.css";
 import { motion, AnimatePresence } from "framer-motion";
+import config from "@/constants/config";
 
 interface ResultItem {
   emoji: string;
@@ -26,30 +27,7 @@ const suggestions = [
   "Show vetted AI startups with over $1M ARR",
 ];
 
-const mockReplies: Record<string, { text: string; results?: ResultItem[] }> = {
-  "Find investors in CleanTech with $500k+ tickets": {
-    text: "I scanned our capital network and identified 3 venture funds matching CleanTech mandate with ticket sizes starting at $500k+:",
-    results: [
-      { emoji: "🌲", title: "Sequoia Capital", sub: "Ticket: $1M - $15M · Focus: SaaS, AI/ML, CleanTech", matchVal: 98 },
-      { emoji: "⚡", title: "General Catalyst", sub: "Ticket: $1.5M - $12M · Focus: HealthTech, Climate", matchVal: 92 },
-      { emoji: "🌱", title: "Angel Syndicate Alpha", sub: "Ticket: $100k - $500k · Focus: DeepTech, Security", matchVal: 90 },
-    ],
-  },
-  "Show me open corporate challenges in FinTech": {
-    text: "Here are active innovation briefs published by global financial institutions seeking pilot startups:",
-    results: [
-      { emoji: "💳", title: "Standard Chartered Bank", sub: "Cross-Border Settlement AI Engine · Prize: $175k · Deadline: 30 days", matchVal: 96 },
-      { emoji: "🔒", title: "Barclays Labs", sub: "Real-time High-frequency Fraud Detection · Prize: $100k · Deadline: 12 days", matchVal: 89 },
-    ],
-  },
-  "Show vetted AI startups with over $1M ARR": {
-    text: "Here are high-growth, vetted AI-native startups with over $1M ARR currently active in our sandbox:",
-    results: [
-      { emoji: "🤖", title: "Optima AI", sub: "Autonomous Customer Success · $2.4M ARR · YoY Growth: 140%", matchVal: 98 },
-      { emoji: "🛡️", title: "Aura Cyber", sub: "Zero-Knowledge Kubernetes Guard · $1.8M ARR · SLA: 99.99%", matchVal: 91 },
-    ],
-  },
-};
+
 
 export default function AIAssistant() {
   const [messages, setMessages] = useState<Message[]>([
@@ -62,6 +40,7 @@ export default function AIAssistant() {
   const [inputVal, setInputVal] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string>("");
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -86,31 +65,50 @@ export default function AIAssistant() {
     setInputVal("");
     setIsTyping(true);
 
-    // AI answer simulation
-    setTimeout(() => {
-      let replyText = "I processed your request, but that exact query didn't return matches. Try clicking one of the suggested prompts below for a live demo.";
-      let replyResults: ResultItem[] | undefined;
-
-      const matchKey = Object.keys(mockReplies).find((k) =>
-        text.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(text.toLowerCase())
-      );
-
-      if (matchKey) {
-        replyText = mockReplies[matchKey].text;
-        replyResults = mockReplies[matchKey].results;
-      }
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          sender: "ai",
-          text: replyText,
-          results: replyResults,
-        },
-      ]);
-      setIsTyping(false);
-    }, 1500);
+    fetch(config.apiUrl + "/ai/ecosystem", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        msg: text,
+        conversationId: conversationId || undefined,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error("Failed to send message");
+        }
+      })
+      .then((res) => {
+        if (!res.data) return;
+        setConversationId(res.data.conversationId ?? "");
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            sender: "ai",
+            text: res.data.response,
+          },
+        ]);
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            sender: "ai",
+            text: "Sorry, I encountered an error. Please make sure you are logged in and try again.",
+          },
+        ]);
+      })
+      .finally(() => {
+        setIsTyping(false);
+      });
   };
 
   return (
@@ -152,9 +150,9 @@ export default function AIAssistant() {
                   </div>
                 </div>
 
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-teal-500/5 border border-teal-500/10 rounded-lg">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-lg">
                   <AlertCircle size={12} className="text-teal-500" />
-                  <span className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">Demo Sandbox Mode</span>
+                  <span className="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">Live AI Mode</span>
                 </div>
               </div>
 
@@ -184,7 +182,7 @@ export default function AIAssistant() {
                           ? "bg-gradient-to-br from-teal-500 to-teal-700 text-white rounded-tr-none"
                           : "bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/80 text-slate-800 dark:text-slate-250 rounded-tl-none"
                       }`}>
-                        <p>{m.text}</p>
+                        <p dangerouslySetInnerHTML={{ __html: m.text }} />
 
                         {/* Rich Result Cards */}
                         {m.results && (
@@ -211,7 +209,7 @@ export default function AIAssistant() {
 
                                 <button
                                   onClick={() => showToast(`Match introduction request sent to ${r.title}!`)}
-                                  className="px-2.5 py-1 text-[10px] font-bold border border-slate-350 dark:border-slate-700 hover:border-teal-500/40 hover:bg-teal-500/5 hover:text-[#14b8a6] rounded-lg transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                                  className="px-2.5 py-1 text-[10px] font-bold border border-slate-300 dark:border-slate-700 hover:border-teal-500/40 hover:bg-teal-500/5 hover:text-[#14b8a6] rounded-lg transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
                                 >
                                   <span>Request Intro</span>
                                   <ArrowRight size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />

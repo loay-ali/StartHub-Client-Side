@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-export default function AiDiscoveryStep({error, setError, answers = [], setAnswers}: any) {
+export default function AiDiscoveryStep({ error, setError, answers = [], setAnswers }: any) {
   const t = useTranslations();
 
   const handleChange = (index: number, val: string) => {
@@ -20,10 +20,10 @@ export default function AiDiscoveryStep({error, setError, answers = [], setAnswe
         </p>
       </div>
 
-      {error && <p className = 'text-red-500'>{t('public.errors.'+ error)}</p>}
+      {error && <p className='text-red-500'>{t('public.errors.' + error)}</p>}
 
       <div className="space-y-6">
-  
+
         <div>
           <label className="mb-2 block font-medium">
             What problem are you solving?

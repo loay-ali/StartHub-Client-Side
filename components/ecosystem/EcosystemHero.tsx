@@ -23,11 +23,12 @@ function useCounter(target: number, duration: number) {
 }
 
 export default function EcosystemHero() {
-  const [statA, statB, statC] = heroStats;
+  const [statA, statB, statC, statD] = heroStats;
   const cA = useCounter(statA?.value ?? 0, 2000);
   const cB = useCounter(statB?.value ?? 0, 1800);
   const cC = useCounter(statC?.value ?? 0, 1500);
-  const heroCounters = [cA, cB, cC];
+  const cD = useCounter(statD?.value ?? 0, 1200);
+  const heroCounters = [cA, cB, cC, cD];
 
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
@@ -61,7 +62,7 @@ export default function EcosystemHero() {
   };
 
   return (
-    <section className={styles.heroSection}>
+    <section id="hero" data-header-theme="light" className={styles.heroSection}>
       {/* Background elements */}
       <div className={styles.heroBgMesh} />
       <div className={styles.heroBgGrid} />
@@ -150,7 +151,7 @@ export default function EcosystemHero() {
               {/* Outer nodes */}
               {/* Node 1 - Startup Hub */}
               <g
-                className="cursor-pointer animate-none"
+                className="cursor-pointer"
                 onMouseEnter={() => setHoveredNode("startups")}
                 onMouseLeave={() => setHoveredNode(null)}
               >

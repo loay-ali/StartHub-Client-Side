@@ -1,9 +1,339 @@
 {
+    "shared": {
+        "currencies": {
+            "USD": "دولار أمريكي"
+        }
+    },
     "public": {
-        "homepage": {
+        "home": {
+            "ai-operating-system": "نظام تشغيل الذكاء الاصطناعي",
+            "one-ai": "ذكاء اصطناعي واحد.",
+            "every-decision": "كل قرار.",
+            "hero": "يراقب StarHub التوظيف والنقد والنمو في مكان واحد - ثم يخبرك بالضبط بما يحتاج إلى اهتمام قبل أن يتحول إلى أزمة.",
+            "syncing": "جاري المزامنة…",
+            "start-free": "ابدأ مجانًا",
+            "booking": "جاري الحجز…",
+            "start-now": "ابدأ الآن",
+            "running-a-startup-blind-is": "إدارة شركة ناشئة بشكل أعمى أمر",
+            "expensive": "مكلف",
+            "problem": "تضيع الشركة الناشئة المتوسطة الممولة 12 ساعة في الأسبوع في مطاردة البيانات الموجودة بالفعل. هذا يعني 3 أشهر في السنة يقضيها فريق القيادة في التقارير بدلاً من البناء.",
+            "swipe-hint": "اسحب لترى ما يكلفك ذلك ←",
+            "the-average-startup-tool-stack": "مجموعة أدوات الشركة الناشئة المتوسطة",
+            "no-connection-no-context-no-clarity": "لا اتصال. لا سياق. لا وضوح.",
+            "one-platform-that-knows": "منصة واحدة تعرف",
+            "everything-about-your-company": "كل شيء عن شركتك",
+            "solution": "لا يعرض لك StarHub البيانات فحسب. بل يفهم شركتك - ويخبرك بالضبط بما يجب عليك فعله حيال ذلك.",
+            "everything-in-intelligence-out": "كل شيء يدخل. الذكاء يخرج",
+            "sub-solution": "يعمل StarHub فوق أدواتك الحالية. لا داعي للتخلي عن أي شيء واستبداله - فقط أضف الذكاء إلى ما لديك بالفعل.",
+            "hr-and-people": "مخاطر المغادرة، وإشارات الارتباط، وصحة مسار التوظيف، متزامنة من كل أداة للموارد البشرية تستخدمها بالفعل.",
+            "finance": "معدل الحرق المباشر، والسيولة النقدية، ومخاطر تركز الإيرادات، يتم إعادة حسابها تلقائيًا مع وصول بيانات جديدة.",
+            "operations": "سير العمل المشترك بين الفرق والعقبات التي يتم رصدها قبل أن يتحول التأخير إلى فوات للموعد النهائي.",
+            "sales": "سرعة تدفق الصفقات، ومخاطر الصفقات، وإشارات إلغاء الاشتراك التي يتم سحبها مباشرة من نظام إدارة علاقات العملاء (CRM) الخاص بك - بدون تصدير يدوي.",
+            "analytics": "كل لوحة معلومات بناها فريقك بالفعل، موحدة في نموذج واحد يمكن للنظام التفكير فيه.",
+            "connected": "متصل.",
+            "smart": "ذكي.",
+            "features-sub": "يوحد StarHub جميع أدواتك وبياناتك في منصة ذكية واحدة.",
+            "connect-your-stack": "ربط أدواتك",
+            "connect-your-stack-body": "أكثر من 50 موصلًا أصليًا. Slack، HubSpot، Stripe، Notion، Google Workspace والمزيد - تعمل في أقل من 10 دقائق. لا يتطلب عملاً برمجياً.",
+            "build-your-company-memory": "يبني StarHub ذاكرة شركتك",
+            "build-your-company-memory-body": "نقوم باستيعاب تاريخك وبياناتك في الوقت الفعلي، ورسم خريطة لكل علاقة بين الأشخاص والمقاييس والأحداث، وبناء رسم بياني لذكاء شركتك.",
+            "agents-go-to-work": "الوكلاء يبدأون العمل فوراً",
+            "agents-go-to-work-body": "يبدأ وكلاء الذكاء الاصطناعي المتخصصون في مراقبة وتحليل وتقديم الرؤى على الفور - لا لوحات معلومات لبنائها، ولا تقارير لكتابتها.",
+            "you-get-clear-next-step": "تحصل على خطوات تالية واضحة",
+            "you-get-clear-next-step-body": "تصل التنبيهات ذات الأولوية والتوصيات باللغة العربية البسيطة إلى مكان عمل فريقك - Slack، البريد الإلكتروني، أو لوحة التحكم الخاصة بك - مرتبة حسب التأثير على الأعمال.",
+            "decisions-made": "القرارات تتراكم مع مرور الوقت",
+            "decisions-made-body": "كل إجراء تتخذه يدرب StarHub على شركتك. كلما طالت فترة استخدامك له، أصبح أكثر دقة وسرعة وقيمة.",
+            "under-30-minutes": "أقل من 30 دقيقة",
+            "under-30-minutes-body": "لا مكالمات تهيئة وإعداد. لا يستغرق التنفيذ 6 أسابيع. لا حاجة للمهندسين. فقط اتصل وابدأ.",
+            "work-with-tools": "يعمل مع الأدوات",
+            "You-already-use": "التي تستخدمها بالفعل",
+            "work-with-tools-sub": "أكثر من 50 موصلًا أصليًا. لا خطوط أنابيب نقل بيانات (ETL). لا مهندسي بيانات. فقط قم بالتوصيل وشاهده يعمل.",
+            "integration-body": "+ 38 إضافية: Pipedrive, Intercom, GitHub, Linear, Datadog, Salesforce, وواجهة برمجة تطبيقات مخصصة",
+            "get-started-today": "ابدأ اليوم",
+            "your-company-is-trying-to-tell-you-something": "شركتك تحاول\nأن تخبرك بشيء ما",
+            "start-your-free-trial": "ابدأ تجربتك المجانية اليوم. اربط أدواتك الأولى في دقائق وشاهد ما يكتشفه StarHub عن شركتك قبل نهاية اليوم.",
+            "integrations": "التكاملات",
+            "sound-familiar": "هل يبدو هذا مألوفًا؟",
+            "how-it-works": "كيف يعمل",
+            "problem-section": {
+                "pains": {
+                    "tools": {
+                        "title": "14 أداة. صفر اتصال.",
+                        "body": "يعيش فريقك في Slack و Notion و HubSpot و QuickBooks و Greenhouse - ولكن لا أحد منهم يتحدث مع الآخر. في كل يوم اثنين، تقوم بتجميع جداول البيانات لمجرد الإجابة على سؤال 'كيف حالنا؟'"
+                    },
+                    "buried": {
+                        "title": "الرؤية موجودة هناك. في مكان ما.",
+                        "body": "أنت تعلم أن البيانات موجودة. إنها مدفونة في لوحات المعلومات التي لا يتحقق منها أحد والتقارير التي لا يقرأها أحد. العثور عليها يكلفك ساعات كل أسبوع."
+                    },
+                    "crisis": {
+                        "title": "بحلول الوقت الذي تلاحظ فيه، تكون أزمة.",
+                        "body": "تسلل العملاء المغادرين. انحراف السيولة النقدية. موظف نجم يلتزم الصمت. هذه ليست مفاجآت - إنها إشارات فاتتك لأنه لم يكن أحد يراقب كل البيانات في نفس الوقت."
+                    },
+                    "lag": {
+                        "title": "أنت تحل مشاكل الشهر الماضي.",
+                        "body": "بدون ذكاء في الوقت الفعلي، تتأخر قراراتك عن الواقع بأسابيع. تغلق الفرص، وتتراكم المخاطر، ويستمر فريق القيادة في طرح أسئلة لا تستطيع العمليات الإجابة عليها بالسرعة الكافية."
+                    }
+                }
+            },
+            "solution-section": {
+                "the-fix": "الحل",
+                "step": "خطوة",
+                "steps": {
+                    "connect": {
+                        "label": "اتصل",
+                        "desc": "قم بتوصيل أكثر من 50 أداة في أقل من 10 دقائق. لا داعي لمهندسين."
+                    },
+                    "unify": {
+                        "label": "وحّد",
+                        "desc": "يبني StarHub صورة حية واحدة لشركتك بأكملها."
+                    },
+                    "detect": {
+                        "label": "اكتشف",
+                        "desc": "يجد الذكاء الاصطناعي الأنماط والمخاطر والفرص في الوقت الفعلي."
+                    },
+                    "predict": {
+                        "label": "توقع",
+                        "desc": "اعرف ما هو قادم - وليس فقط ما حدث بالفعل."
+                    },
+                    "alert": {
+                        "label": "نبّه",
+                        "desc": "تصل الإشارة الصحيحة إلى الشخص المناسب قبل أن تصبح عاجلة."
+                    },
+                    "execute": {
+                        "label": "نفّذ",
+                        "desc": "الإجراءات المؤتمتة تغلق الحلقة. لا متابعة يدوية."
+                    }
+                }
+            }
         },
-        "dashboard": {
-            "tokens_used": "Tokens Used"
+        "login": {
+            "manage-your-companies": "إدارة شركاتك",
+            "monitor-token-usage": "مراقبة استخدام الرموز",
+            "monitor-token-usage-body": "حافظ على رؤية كاملة لاستهلاك رموز الذكاء الاصطناعي ونشاط المنصة.",
+            "manage-your-companies-body": "تتبع ودر شركاتك من لوحة تحكم مركزية واحدة.",
+            "scale-with-confidence": "توسع بثقة",
+            "scale-with-confidence-body": "تحليلات وأدوات قوية لمساعدة عملك على النمو بشكل أسرع.",
+            "welcome-back": "مرحبًا بعودتك",
+            "signin-to-continue-to-your-dashboard": "سجل الدخول للمتابعة إلى لوحة التحكم الخاصة بك",
+            "enter-your-email": "أدخل بريدك الإلكتروني",
+            "enter-your-password": "أدخل كلمة المرور",
+            "remember-me": "تذكرني",
+            "forget-password": "هل نسيت كلمة المرور؟",
+            "new-here": "جديد هنا؟",
+            "join-now": "انضم الآن",
+            "login": "تسجيل الدخول",
+            "sign-in": "تسجيل الدخول",
+            "are-you-an-investor": "هل أنت مستثمر؟",
+            "login-as-investor": "تسجيل الدخول كمستثمر"
+        },
+        "pay": {
+            "per-month": "شهرياً"
+        },
+        "plans": {},
+        "register": {
+            "email-verified": "تم التحقق من البريد الإلكتروني بنجاح",
+            "your-email-address-has-been-verified-successfull": "تم التحقق من عنوان بريدك الإلكتروني بنجاح",
+            "registration-completed": "اكتمل التسجيل",
+            "your-company-workspace-has-been-created-successfully": "تم إنشاء مساحة عمل شركتك بنجاح.",
+            "all-you-need-to-do-now-is-verifying-your-email-address-through-the-email-weve-sent-to-your-inbox": "كل ما عليك فعله الآن هو التحقق من عنوان بريدك الإلكتروني من خلال البريد الذي أرسلناه إلى صندوق الوارد الخاص بك",
+            "welcome-to-startHub": "مرحبًا بك في StartHub",
+            "most-popular": "الأكثر شيوعًا",
+            "select-a-plan": "اختر خطة",
+            "tell-us-more-about-your-business": "أخبرنا المزيد عن شركتك وأعمالك.",
+            "company-image": "صورة الشركة",
+            "upload-your-company-logo": "تحميل شعار شركتك",
+            "company-information": "معلومات الشركة",
+            "startup-registeration": "تسجيل الشركة الناشئة",
+            "founder-information": "معلومات المؤسس",
+            "personal-information": "المعلومات الشخصية",
+            "upload-profile-photo": "تحميل صورة الملف الشخصي",
+            "profile-photo": "صورة الملف الشخصي",
+            "first-name": "الاسم الأول",
+            "last-name": "اسم العائلة",
+            "phone": "الهاتف",
+            "email": "البريد الإلكتروني",
+            "password": "كلمة المرور",
+            "repeat-password": "إعادة كلمة المرور",
+            "compelete-the-onboarding-process-to-create-your-workspace": "أكمل عملية التهيئة لإنشاء مساحة عملك.",
+            "upload-photo": "تحميل صورة",
+            "create-the-primary-account-owner-for-your-company": "أنشئ مالك الحساب الرئيسي لشركتك.",
+            "choose-your-subscription": "اختر اشتراكك",
+            "select-a-plan-and-billing-cycle-to-activate-your-workspace": "اختر خطة ودورة فوترة لتنشيط مساحة عملك.",
+            "billing-cycle": "دورة الفوترة",
+            "monthly": "شهرياً",
+            "yearly": "سنوياً",
+            "flexible-monthly-billing": "فوترة شهرية مرنة.",
+            "please-choose-payment-plan": "يرجى اختيار خطة الدفع",
+            "choose-plan": "اختر الخطة",
+            "looking-to-invest-instead": "هل تبحث عن الاستثمار بدلاً من ذلك؟",
+            "register-as-investor": "سجل كمستثمر",
+            "complete-registration": "إتمام التسجيل",
+            "next": "التالي"
+        },
+        "errors": {
+            "invalid-request": "طلب غير صالح",
+            "invalid-subscription": "يرجى اختيار اشتراك الدفع",
+            "invalid-billing-cycle": "يرجى اختيار دورة الفوترة",
+            "company-image-is-required": "صورة الشركة مطلوبة",
+            "company-name-is-required": "اسم الشركة مطلوب",
+            "company-founded-date-is-required": "تاريخ تأسيس الشركة مطلوب",
+            "company-industry-is-required": "قطاع الشركة مطلوب",
+            "company-size-is-required": "حجم الشركة مطلوب",
+            "first-name-is-required": "الاسم الأول مطلوب",
+            "last-name-is-required": "اسم العائلة مطلوب",
+            "email-is-required": "البريد الإلكتروني مطلوب",
+            "phone-is-required": "الهاتف مطلوب",
+            "password-is-required": "كلمة المرور مطلوبة",
+            "password-not-match": "تكرار كلمة المرور غير متطابق"
+        },
+        "navigation": {
+            "investor": "المستثمر"
+        },
+        "homepage": {
+            "hello-world": "مرحبا بالعالم"
+        },
+        "auth": {
+            "email-required": "البريد الإلكتروني مطلوب",
+            "password-required": "كلمة المرور مطلوبة",
+            "email-must-be-more-than-3-characters": "يجب أن يكون البريد الإلكتروني أكثر من 3 أحرف",
+            "password-must-be-more-than-8-characters": "يجب أن تكون كلمة المرور أكثر من 8 أحرف",
+            "invalid-email-or-password": "البريد الإلكتروني أو كلمة المرور غير صالحة"
+        }
+    },
+    "dashboard": {
+        "departments": {
+            "the-department-was-removed-successfully": "تمت إزالة القسم بنجاح",
+            "could-not-delete-the-department-please-try-again": "تعذر حذف القسم، يرجى المحاولة مرة أخرى",
+            "remove-department": "إزالة القسم",
+            "create-department": "إنشاء قسم",
+            "department-name": "اسم القسم"
+        },
+        "employees": {
+            "employees": "الموظفين",
+            "no-employees": "لا يوجد موظفين"
+        },
+        "users": {
+            "user": "المستخدم"
+        },
+        "usage": {
+            "all-logs": "جميع السجلات",
+            "AGENT_EXECUTION": "المحادثة"
+        },
+        "common": {
+            "are-you-sure": "هل أنت متأكد؟",
+            "name": "الاسم",
+            "description": "الوصف",
+            "title": "العنوان",
+            "updated": "تم التحديث",
+            "submit": "إرسال",
+            "create": "إنشاء",
+            "checkout": "الدفع",
+            "search": "بحث",
+            "add-new": "إضافة جديد"
+        },
+        "ai": {
+            "need-help": "هل تحتاج مساعدة؟",
+            "is-this-candidate-qualified": "هل هذا المرشح مؤهل؟"
+        },
+        "roles": {},
+        "fields": {
+            "fullname": "الاسم الكامل",
+            "email": "البريد الإلكتروني",
+            "phone": "الهاتف",
+            "password": "كلمة المرور",
+            "repeat-password": "إعادة كلمة المرور",
+            "role": "الدور",
+            "applied-job": "الوظيفة المتقدم لها",
+            "cv": "السيرة الذاتية",
+            "download-cv": "تحميل السيرة الذاتية"
+        },
+        "jobs": {
+            "job": "الوظيفة",
+            "create-a-job": "إنشاء وظيفة",
+            "no-jobs": "لا توجد وظائف",
+            "choose-job": "اختر وظيفة"
+        },
+        "candidates": {
+            "candidate": "المرشح",
+            "create-a-candidate": "إنشاء مرشح",
+            "no-jobs-to-apply-candidates-to": "لا توجد وظائف لتقديم المرشحين إليها",
+            "create-candidate": "إنشاء مرشح",
+            "no-candidates": "لا يوجد مرشحين",
+            "choose-candidate": "اختر مرشحًا"
+        },
+        "interviews": {
+            "create-interview": "إنشاء مقابلة",
+            "add-interview-to-best-candidate": "إضافة مقابلة لأفضل مرشح",
+            "edit-interview-data": "تعديل بيانات المقابلة الحالية",
+            "interviews-list": "قائمة المقابلات",
+            "choose-interview-type": "اختر نوع المقابلة",
+            "hr": "مقابلة الموارد البشرية",
+            "final": "المقابلة النهائية",
+            "technical": "المقابلة التقنية",
+            "behavioral": "مقابلة المهارات الشخصية",
+            "save-interview-data": "حفظ بيانات المقابلة",
+            "interview-updated-successfully": "تم تحديث المقابلة بنجاح",
+            "duration-minutes": "المدة (بالدقائق)",
+            "scheduled-at": "جدولة في",
+            "update-interview": "تحديث المقابلة"
+        },
+        "home": {
+            "tokens_used": "الرموز المستخدمة"
+        },
+        "header": {
+            "tokens": "الرموز"
+        },
+        "integrations": {
+            "database": "قاعدة البيانات",
+            "url": "رابط URL",
+            "username": "اسم المستخدم",
+            "apikey": "مفتاح API"
+        },
+        "service": {
+            "order-service": "طلب خدمة",
+            "order-a-personal-professional-service-from-our-experts": "اطلب خدمة مهنية شخصية من خبرائنا",
+            "choose-service": "اختر خدمة",
+            "service-data": "بيانات الخدمة",
+            "payment": "الدفع",
+            "complete": "مكتمل",
+            "please-choose-a-service": "يرجى اختيار خدمة"
+        },
+        "sidebar": {
+            "dashboard": "لوحة التحكم",
+            "recruitments": "التوظيف",
+            "postedjobs": "الوظائف المعلنة",
+            "candidates": "المرشحين",
+            "interviews": "المقابلات",
+            "HR": "الموارد البشرية",
+            "teams": "الفرق",
+            "manage-teams": "إدارة الفرق",
+            "manage-tasks": "إدارة المهام",
+            "finance": "المالية",
+            "new-revenue-bill": "فاتورة إيراد جديدة",
+            "new-expense-bill": "فاتورة مصروف جديدة",
+            "reports": "التقارير",
+            "transactions": "المعاملات",
+            "accounts": "الحسابات",
+            "payrolls": "الرواتب",
+            "BMC": "مخطط نموذج العمل التجاري",
+            "create-bmc": "إنشاء مخطط نموذج العمل",
+            "my-list-of-bmcs": "قائمة مخططاتي للعمل",
+            "users": "المستخدمين",
+            "all-users": "جميع المستخدمين",
+            "add-user": "إضافة مستخدم",
+            "integrations": "التكاملات",
+            "logout": "تسجيل الخروج",
+            "services": "الخدمات",
+            "order-service": "طلب خدمة",
+            "my-orders": "طلباتي",
+            "departments": "الأقسام",
+            "all-departments": "جميع الأقسام",
+            "add-department": "إضافة قسم",
+            "usage": "الاستخدام",
+            "opportunities": "الفرص",
+            "events": "الفعاليات",
+            "employees": "الموظفين",
+            "attendance": "الحضور"
         }
     }
 }

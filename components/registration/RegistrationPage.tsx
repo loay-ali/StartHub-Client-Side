@@ -11,6 +11,7 @@ import FounderInfoStep from "./steps/FounderInfoStep";
 import PaymentStep from "./steps/PaymentStep";
 import SuccessStep from "./steps/SuccessStep";
 import { init } from "@/src/services/registeration";
+import AuthSwitcher from "../auth/AuthSwitcher";
 
 import { useState,useEffect, useRef } from 'react';
 import config from "@/constants/config";
@@ -248,7 +249,7 @@ export default function RegistrationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-8 mt-20">
+    <div className="min-h-screen bg-background p-4 sm:p-8 pt-28 sm:pt-32">
       <div className="mx-auto max-w-7xl rounded-3xl bg-surface p-10 shadow-sm">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-text-primary">
@@ -327,10 +328,16 @@ export default function RegistrationPage() {
               onClick = {() => nextStep()}
               className="rounded-xl bg-primary px-6 w-full py-3 font-medium text-white transition hover:opacity-90"
             >
-              {currentStep === 6 ? "Complete Registration" : "Next"}
+              {currentStep === 6 ? t('public.register.complete-registration') : t('public.register.next')}
             </button>
           </div>
         )}
+
+        <AuthSwitcher 
+          text={t('public.register.looking-to-invest-instead')} 
+          buttonText={t('public.register.register-as-investor')} 
+          href="/investor/register" 
+        />
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ export default function AttendanceList() {
 
     return (
         <CollectionPage
+        currentPage={1}
             onAdd={() => {
                 router.push('/dashboard/attendance/new/date');
             }}

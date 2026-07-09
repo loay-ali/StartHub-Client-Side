@@ -6,16 +6,14 @@ import { Compass, Users, Target, MessageSquare } from "lucide-react";
 
 import EcosystemHero from "./EcosystemHero";
 import MetricsSection from "./MetricsSection";
-import ChallengeMarketplace from "./ChallengeMarketplace";
 import IndustryGrid from "./IndustryGrid";
-import StartupDiscovery from "./StartupDiscovery";
 import InvestorDiscovery from "./InvestorDiscovery";
-import ProgramsSection from "./ProgramsSection";
 import CommunityFeed from "./CommunityFeed";
 import AIAssistant from "./AIAssistant";
 import InnovationProcess from "./InnovationProcess";
 import SuccessStories from "./SuccessStories";
 import EcosystemFinalCTA from "./EcosystemFinalCTA";
+import ExploreOpportunities from "./ExploreOpportunities";
 import OpportunitiesTimeline from "./Opportunitiestimeline";
 
 const TABS = [
@@ -76,32 +74,27 @@ export default function EcosystemPage() {
           >
             {activeTab === "all" && (
               <>
-                <ChallengeMarketplace />
-                <OpportunitiesTimeline />
-                <IndustryGrid />
-                <StartupDiscovery />
-                <InvestorDiscovery />
-                <ProgramsSection />
-                <CommunityFeed />
                 <AIAssistant />
+                <ExploreOpportunities />
+                <OpportunitiesTimeline/>
+                <IndustryGrid />
+                <InvestorDiscovery />
                 <InnovationProcess />
                 <SuccessStories />
+                <CommunityFeed />
               </>
             )}
 
             {activeTab === "directory" && (
               <>
-                <StartupDiscovery />
-                <InvestorDiscovery />
                 <IndustryGrid />
+                <InvestorDiscovery />
               </>
             )}
 
             {activeTab === "opportunities" && (
               <>
-                <OpportunitiesTimeline />
-                <ChallengeMarketplace />
-                <ProgramsSection />
+                <ExploreOpportunities />
                 <InnovationProcess />
               </>
             )}

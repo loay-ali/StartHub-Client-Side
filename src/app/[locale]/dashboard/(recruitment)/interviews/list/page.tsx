@@ -55,7 +55,7 @@ export default function InterviewsList() {
     return (
         <section className = 'flex items-start gap-5 max-w-[750px] mx-auto'>
             {isRemoving != '' && confirmRemoving == false && <AreYouSureWindow
-            title = "Are You Sure ?" confirmCallback={() => setConfirmRemoving(true)}
+            title = {t('dashboard.common.are-you-sure')} confirmCallback={() => setConfirmRemoving(true)}
             setWindowState={() => setIsRemoving('')}/>}
             {isRemoving != '' && confirmRemoving == true ? (
             <div className = 'p-5 flex justify-center items-center'>
@@ -63,12 +63,13 @@ export default function InterviewsList() {
             </div>
             ):(
             <CollectionPage
+            currentPage={1}
                 title = {t('dashboard.interviews.interviews-list')}
                 data = {interviews as any}
                 columns={[
                     {key: 'id',label: "#",sortable: false},
-                    {key: 'candidate',label: t("dashboard.candidate.candidate"),sortable: true},
-                    {key: 'job',label: t('dashboard.job.job'),sortable: true}
+                    {key: 'candidate',label: t("dashboard.candidates.candidate"),sortable: true},
+                    {key: 'job',label: t('dashboard.jobs.job'),sortable: true}
                 ]}
                 onAdd={() => {
                     redirect('/dashboard/interviews/new');
@@ -81,7 +82,7 @@ export default function InterviewsList() {
                 }}/>)}
             <AISection
                 Icon = {Bot}
-                title = "Do You Need Help ?"
+                title = {t('dashboard.ai.need-help')}
                 initialActions={[
                     {title: "Create Interview Using AI",type: ActionType.CHAT,action: "createInterview"}
                 ]}/>

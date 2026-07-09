@@ -1,5 +1,6 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import config from "@/constants/config";
 import { Sparkles, ArrowRight, ShieldCheck, Search, Filter } from "lucide-react";
 import { Reveal, SectionHeading } from "../home/shared";
 import styles from "./ecosystem.module.css";
@@ -85,6 +86,32 @@ const CATEGORIES = ["All", "Venture Capital", "Seed Accelerator", "Angel Syndica
 export default function InvestorDiscovery() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isLoggedIn, setIsLoggedIn] = useState<any>(null);
+
+  useEffect(() => {
+    if (isLoggedIn == null) {
+      fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
+        .then(res => {
+          if (res.status == 200) {
+            return res.json();
+          } else {
+            setIsLoggedIn(false);
+          }
+        }).then(res => {
+          if (res) {
+            setIsLoggedIn(res);
+          }
+        }).catch(() => {
+          setIsLoggedIn(false);
+        });
+    }
+  }, [isLoggedIn]);
+
+  const isStartup = isLoggedIn && (
+    String(isLoggedIn.role).toLowerCase() === 'founder' ||
+    String(isLoggedIn.role).toLowerCase() === 'startup' ||
+    String(isLoggedIn.accountType).toLowerCase() === 'startup'
+  );
 
   const filteredInvestors = useMemo(() => {
     return investors.filter((inv) => {
@@ -143,7 +170,7 @@ export default function InvestorDiscovery() {
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
                     active
                       ? "bg-teal-500/10 border-teal-500/25 text-[#14b8a6]"
-                      : "bg-white dark:bg-slate-950 border-slate-200/60 dark:border-slate-800/80 text-slate-600 dark:text-slate-400 hover:border-slate-350 dark:hover:border-slate-700"
+                      : "bg-white dark:bg-slate-950 border-slate-200/60 dark:border-slate-800/80 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700"
                   }`}
                 >
                   {cat}
@@ -208,16 +235,18 @@ export default function InvestorDiscovery() {
                 </div>
 
                 {/* AI Compatibility bar */}
-                <div className={styles.aiCompatRow}>
-                  <span className={styles.aiCompatLabel}>Mandate Match</span>
-                  <div className={styles.aiCompatBarWrap}>
-                    <div
-                      className={styles.aiCompatFill}
-                      style={{ width: `${inv.compatVal}%` }}
-                    />
+                {isStartup && (
+                  <div className={styles.aiCompatRow}>
+                    <span className={styles.aiCompatLabel}>Mandate Match</span>
+                    <div className={styles.aiCompatBarWrap}>
+                      <div
+                        className={styles.aiCompatFill}
+                        style={{ width: `${inv.compatVal}%` }}
+                      />
+                    </div>
+                    <span className={styles.aiCompatScore}>{inv.compat}</span>
                   </div>
-                  <span className={styles.aiCompatScore}>{inv.compat}</span>
-                </div>
+                )}
               </motion.div>
             ))}
           </AnimatePresence>
