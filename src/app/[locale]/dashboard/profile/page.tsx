@@ -33,30 +33,30 @@ export default function ProfilePage({user}:{user: {image:string,name:string,role
         [name]: value,
         }));
     };
-
-    useEffect(() => {
-        if( isFetching ) {
-            fetch(config.apiUrl +'/auth/profile',{credentials: 'include'})
-                .then(res => {
-                    if( res.status == 200 ) {
-                        return res.json();
-                    }else {
-                        return Promise.reject();
-                    }
-                }).then(res => {
-                    setFormData((prev:any) => ({
-                        ...prev,
-                        fullName: res.fullname ?? "",
-                        email: res.email
-                    }));
-                });
+useEffect(() => {
+  if (isFetching) {
+    fetch(config.apiUrl + "/auth/profile", {
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
         }
 
-        if( isUpdating == true && isChanging == true ) {
-            notificationService.info("Profile Update", "Changes detected. Click Save to update your profile.");
-        }
-    },[isUpdating])
-
+        throw new Error(`Failed to fetch profile: ${res.status}`);
+      })
+      .then((res) => {
+        setFormData((prev: any) => ({
+          ...prev,
+          fullName: res.fullname ?? "",
+          email: res.email,
+        }));
+      })
+      .catch((err) => {
+        console.error("Profile fetch failed:", err);
+      });
+  }
+}, [isFetching]);
     return (
     <div className="bg-white max-w-[500px] mx-auto mt-20 rounded p-5">
       <div className="profile-card">

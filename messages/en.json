@@ -270,12 +270,9 @@
         },
         "ai": {
             "need-help": "Need Help ?",
-<<<<<<< HEAD
-            "is-this-candidate-qualified": "Is this candidate qualified?"
-=======
+            "is-this-candidate-qualified": "Is this candidate qualified?",
             "ask-your-founder-copilot": "Ask your Founder Copilot",
             "body": "Get answers about your business model, risks, and next steps."
->>>>>>> origin/main
         },
         "roles": {},
         "fields": {
