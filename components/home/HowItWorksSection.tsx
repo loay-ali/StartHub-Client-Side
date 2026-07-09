@@ -10,7 +10,7 @@ export default function HowItWorksSection() {
   
   const steps = [
     { n: "01", title: t('public.home.connect-your-stack'),                icon: <GitBranch size={18} />, color: C.primary,
-      body: t('public.home-connect-your-stack-body') },
+      body: t('public.home.connect-your-stack-body') },
     { n: "02", title: t('public.home.build-your-company-memory'), icon: <Brain size={18} />,     color: C.teal2,
       body: t('public.home.build-your-company-memory-body') },
     { n: "03", title: t('public.home.agents-go-to-work'),      icon: <Cpu size={18} />,       color: C.greenDk,
@@ -26,7 +26,7 @@ export default function HowItWorksSection() {
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
         <Reveal>
           <SectionHeading
-            label="How It Works"
+            label={t('public.home.how-it-works')}
             title={<>Up and Running in<br /><span className="grad-text">{t('public.home.under-30-minutes')}</span></>}
             sub={t('public.home.under-30-minutes-body')}
           />
@@ -77,7 +77,7 @@ export default function HowItWorksSection() {
                 {/* Text */}
                 <div style={{ paddingRight: 60 }}>
                   <div style={{ fontFamily: FONTS.mono, fontSize: 10, color: s.color, letterSpacing: ".08em", marginBottom: 7 }}>
-                    Step {s.n}
+                    {t('public.home.solution-section.step')} {s.n}
                   </div>
                   <h3 style={{ fontFamily: FONTS.display, fontWeight: 700, fontSize: 18, color: C.text, marginBottom: 9 }}>
                     {s.title}

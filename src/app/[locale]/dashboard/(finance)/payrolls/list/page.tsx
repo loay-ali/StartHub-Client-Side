@@ -3,7 +3,7 @@
 import CollectionPage from "@/components/collection/CollectionPage";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function PayrollList() {
@@ -11,6 +11,7 @@ export default function PayrollList() {
     const [loading,setLoading] = useState(true);
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         if( loading ) {
@@ -28,6 +29,7 @@ export default function PayrollList() {
 
     return (
         <CollectionPage
+            currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
             title = "Payrolls"
             data = {payrolls}
             columns = {[

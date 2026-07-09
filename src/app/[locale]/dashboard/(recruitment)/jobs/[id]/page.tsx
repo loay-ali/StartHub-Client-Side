@@ -26,8 +26,7 @@ export default async function SingleJob() {
         description: "",
         responsibilities: "",
         role: "",
-        workspaceModel: "onsite",
-        status: "PAUSED"
+        workspaceModel: "onsite"
     });
     const [roles,setRoles] = useState<Role[]>([]);
 
@@ -200,7 +199,7 @@ export default async function SingleJob() {
                 <label htmlFor="status">Status</label>
                 <select defaultValue={jobData.status} id = 'status' onChange = {ele => {
                     setJobData(j => {
-                        j.status = ele.target.value;
+                        j.status = ele.target.value as "OPEN" | "CLOSED" | "PAUSED" | "ACTIVE";
                         return j;
                     })
                 }}>

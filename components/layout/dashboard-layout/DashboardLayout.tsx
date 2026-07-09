@@ -34,29 +34,26 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
 
   useEffect(() => {
-    fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
+    if( loadingLoggedIn ) {
+      fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
       .then(res => {
         if (res.status == 200) {
           return res.json();
         }
         else {
-          // Genuinely unauthenticated — this is the only case that
-          // should send someone away from the dashboard.
+          setLoadingLoggedIn(false);
           redirect('/login');
         }
-        // Any other status (404 because the route isn't built yet, 500,
-        // etc.) is a backend/wiring issue, not "you're logged out" —
-        // leave the dashboard as-is.
-        return null;
       }).then((res) => {
         if (res) {
+          setIsLoggedIn(true);
           setUserData(res);
         }
       }).catch(() => {
+        setLoadingLoggedIn(false);
         redirect('/login');
-        // Backend unreachable (not running, CORS, etc.) — same as
-        // above, don't punish the founder for a network hiccup.
       });
+    }
   }, []);
 
   return (

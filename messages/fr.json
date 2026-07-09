@@ -1,7 +1,339 @@
 {
+    "shared": {
+        "currencies": {
+            "USD": "USD"
+        }
+    },
     "public": {
+        "home": {
+            "ai-operating-system": "Système d'exploitation IA",
+            "one-ai": "Une seule IA.",
+            "every-decision": "Chaque décision.",
+            "hero": "StarHub surveille vos recrutements, votre trésorerie et votre croissance en un seul endroit — puis vous indique exactement ce qui nécessite votre attention avant que cela ne devienne une crise.",
+            "syncing": "Synchronisation…",
+            "start-free": "Commencer gratuitement",
+            "booking": "Réservation…",
+            "start-now": "Commencer maintenant",
+            "running-a-startup-blind-is": "Gérer une startup à l'aveugle est",
+            "expensive": "Coûteux",
+            "problem": "La startup moyenne financée perd 12 heures par semaine à chercher des données qui existent déjà. C'est 3 mois par an que votre équipe dirigeante passe sur les rapports plutôt que sur la création.",
+            "swipe-hint": "Faites glisser pour voir ce que cela vous coûte →",
+            "the-average-startup-tool-stack": "La suite d'outils moyenne d'une startup",
+            "no-connection-no-context-no-clarity": "Pas de connexion. Pas de contexte. Pas de clarté.",
+            "one-platform-that-knows": "Une plateforme qui sait",
+            "everything-about-your-company": "Tout sur votre entreprise",
+            "solution": "StarHub ne fait pas que vous montrer des données. Il comprend votre entreprise — et vous dit exactement quoi faire.",
+            "everything-in-intelligence-out": "Toutes les données entrent. L'intelligence en sort",
+            "sub-solution": "StarHub s'intègre au-dessus de vos outils existants. Rien à remplacer — ajoutez simplement de l'intelligence à ce que vous avez déjà.",
+            "hr-and-people": "Risque d'attrition, signaux d'engagement et santé du pipeline de recrutement, synchronisés depuis tous vos outils RH.",
+            "finance": "Burn rate en direct, runway et risque de concentration des revenus, recalculés automatiquement dès l'arrivée de nouvelles données.",
+            "operations": "Flux de travail inter-équipes et goulots d'étranglement signalés avant qu'un retard ne devienne un problème majeur.",
+            "sales": "Vélocité du pipeline, risque sur les opportunités et signaux de désabonnement extraits directement de votre CRM — sans export manuel.",
+            "analytics": "Chaque tableau de bord déjà construit par votre équipe, unifié dans un modèle unique que le cœur du système peut analyser.",
+            "connected": "Connecté.",
+            "smart": "Intelligent.",
+            "features-sub": "StarHub unifie tous vos outils et données dans une plateforme intelligente unique.",
+            "connect-your-stack": "Connectez vos outils",
+            "connect-your-stack-body": "Plus de 50 connecteurs natifs. Slack, HubSpot, Stripe, Notion, Google Workspace et plus encore — opérationnel en moins de 10 minutes. Aucun développement requis.",
+            "build-your-company-memory": "StarHub construit la mémoire de votre entreprise",
+            "build-your-company-memory-body": "Nous ingérons votre historique et vos données en temps réel, cartographions chaque relation entre personnes, métriques et événements, et construisons le graphe d'intelligence de votre entreprise.",
+            "agents-go-to-work": "Les agents se mettent au travail immédiatement",
+            "agents-go-to-work-body": "Des agents IA spécialisés commencent à surveiller, analyser et faire remonter des informations tout de suite — pas de tableaux de bord à construire, pas de rapports à rédiger.",
+            "you-get-clear-next-step": "Vous obtenez des étapes suivantes claires",
+            "you-get-clear-next-step-body": "Les alertes prioritaires et les recommandations en français simple arrivent là où travaille votre équipe — Slack, e-mail ou votre tableau de bord — classées par impact commercial.",
+            "decisions-made": "Les décisions se cumulent avec le temps",
+            "decisions-made-body": "Chaque action que vous prenez entraîne StarHub sur votre entreprise. Plus vous l'utilisez, plus il devient précis, rapide et précieux.",
+            "under-30-minutes": "Moins de 30 minutes",
+            "under-30-minutes-body": "Pas d'appels d'intégration. Pas de déploiement de 6 semaines. Pas d'ingénieurs. Connectez-vous et c'est parti.",
+            "work-with-tools": "Fonctionne avec les outils",
+            "You-already-use": "Que vous utilisez déjà",
+            "work-with-tools-sub": "Plus de 50 connecteurs natifs. Pas de pipelines ETL. Pas d'ingénieurs de données. Branchez et regardez le système fonctionner.",
+            "integration-body": "+ 38 autres : Pipedrive, Intercom, GitHub, Linear, Datadog, Salesforce, et API personnalisée",
+            "get-started-today": "Commencer aujourd'hui",
+            "your-company-is-trying-to-tell-you-something": "Votre entreprise essaie\nde vous dire quelque chose",
+            "start-your-free-trial": "Commencez votre essai gratuit aujourd'hui. Connectez vos premiers outils en quelques minutes et découvrez ce que StarHub révèle sur votre entreprise avant la fin de la journée.",
+            "integrations": "Intégrations",
+            "sound-familiar": "Cela vous parle ?",
+            "how-it-works": "Comment ça marche",
+            "problem-section": {
+                "pains": {
+                    "tools": {
+                        "title": "14 outils. Zéro connexion.",
+                        "body": "Votre équipe vit dans Slack, Notion, HubSpot, QuickBooks et Greenhouse — mais aucun ne communique. Chaque lundi, vous compilez des feuilles de calcul juste pour répondre à 'comment ça va ?'"
+                    },
+                    "buried": {
+                        "title": "L'information est bien là. Quelque part.",
+                        "body": "Vous savez que les données existent. Elles sont enfouies dans des tableaux de bord que personne ne consulte et des rapports que personne ne lit. Les trouver vous prend des heures chaque semaine."
+                    },
+                    "crisis": {
+                        "title": "Le temps de le remarquer, c'est déjà la crise.",
+                        "body": "Hausse du taux de départ des clients. Dérive de la trésorerie. Un employé clé qui devient silencieux. Ce ne sont pas des surprises — ce sont des signaux que vous avez manqués parce que personne ne surveillait toutes les données à la fois."
+                    },
+                    "lag": {
+                        "title": "Vous résolvez les problèmes du mois dernier.",
+                        "body": "Sans intelligence en temps réel, vos décisions ont des semaines de retard sur la réalité. Les opportunités se ferment, les risques s'accumulent et la direction continue de poser des questions auxquelles les équipes ne peuvent répondre assez vite."
+                    }
+                }
+            },
+            "solution-section": {
+                "the-fix": "La Solution",
+                "step": "Étape",
+                "steps": {
+                    "connect": {
+                        "label": "Connecter",
+                        "desc": "Connectez plus de 50 outils en moins de 10 minutes. Aucun ingénieur requis."
+                    },
+                    "unify": {
+                        "label": "Unifier",
+                        "desc": "StarHub construit une image vivante unique de toute votre entreprise."
+                    },
+                    "detect": {
+                        "label": "Détecter",
+                        "desc": "L'IA trouve des modèles, des risques et des opportunités en temps réel."
+                    },
+                    "predict": {
+                        "label": "Prédire",
+                        "desc": "Sachez ce qui s'en vient — pas seulement ce qui s'est déjà produit."
+                    },
+                    "alert": {
+                        "label": "Alerter",
+                        "desc": "Le bon signal atteint la bonne personne avant que ce ne soit urgent."
+                    },
+                    "execute": {
+                        "label": "Exécuter",
+                        "desc": "Les actions automatisées ferment la boucle. Aucun suivi manuel."
+                    }
+                }
+            }
+        },
+        "login": {
+            "manage-your-companies": "Gérer vos entreprises",
+            "monitor-token-usage": "Suivre l'utilisation des jetons",
+            "monitor-token-usage-body": "Gardez une visibilité complète sur la consommation de jetons d'IA et l'activité de la plateforme.",
+            "manage-your-companies-body": "Suivez et gérez toutes vos entreprises à partir d'un seul tableau de bord centralisé.",
+            "scale-with-confidence": "Développez-vous en toute confiance",
+            "scale-with-confidence-body": "Des analyses et des outils puissants pour aider votre entreprise à croître plus rapidement.",
+            "welcome-back": "Bon retour",
+            "signin-to-continue-to-your-dashboard": "Connectez-vous pour continuer vers votre tableau de bord",
+            "enter-your-email": "Entrez votre adresse e-mail",
+            "enter-your-password": "Entrez votre mot de passe",
+            "remember-me": "Se souvenir de moi",
+            "forget-password": "Mot de passe oublié ?",
+            "new-here": "Nouveau ici ?",
+            "join-now": "Rejoindre maintenant",
+            "login": "Connexion",
+            "sign-in": "Se connecter",
+            "are-you-an-investor": "Êtes-vous un investisseur ?",
+            "login-as-investor": "Connexion en tant qu'investisseur"
+        },
+        "pay": {
+            "per-month": "Par mois"
+        },
+        "plans": {},
+        "register": {
+            "email-verified": "E-mail vérifié avec succès",
+            "your-email-address-has-been-verified-successfull": "Votre adresse e-mail a été vérifiée avec succès",
+            "registration-completed": "Inscription complétée",
+            "your-company-workspace-has-been-created-successfully": "Votre espace de travail d'entreprise a été créé avec succès.",
+            "all-you-need-to-do-now-is-verifying-your-email-address-through-the-email-weve-sent-to-your-inbox": "Tout ce que vous devez faire maintenant est de vérifier votre adresse e-mail via l'e-mail que nous avons envoyé dans votre boîte de réception",
+            "welcome-to-startHub": "Bienvenue sur StartHub",
+            "most-popular": "Le plus populaire",
+            "select-a-plan": "Sélectionnez un abonnement",
+            "tell-us-more-about-your-business": "Parlez-nous en plus de votre entreprise.",
+            "company-image": "Image de l'entreprise",
+            "upload-your-company-logo": "Télécharger le logo de l'entreprise",
+            "company-information": "Informations sur l'entreprise",
+            "startup-registeration": "Inscription de Startup",
+            "founder-information": "Informations sur le fondateur",
+            "personal-information": "Informations personnelles",
+            "upload-profile-photo": "Télécharger une photo de profil",
+            "profile-photo": "Photo de profil",
+            "first-name": "Prénom",
+            "last-name": "Nom",
+            "phone": "Téléphone",
+            "email": "E-mail",
+            "password": "Mot de passe",
+            "repeat-password": "Répéter le mot de passe",
+            "compelete-the-onboarding-process-to-create-your-workspace": "Complétez le processus d'intégration pour créer votre espace de travail.",
+            "upload-photo": "Télécharger une photo",
+            "create-the-primary-account-owner-for-your-company": "Créez le propriétaire principal du compte pour votre entreprise.",
+            "choose-your-subscription": "Choisissez votre abonnement",
+            "select-a-plan-and-billing-cycle-to-activate-your-workspace": "Sélectionnez un abonnement et un cycle de facturation pour activer votre espace de travail.",
+            "billing-cycle": "Cycle de facturation",
+            "monthly": "Mensuel",
+            "yearly": "Annuel",
+            "flexible-monthly-billing": "Facturation mensuelle flexible.",
+            "please-choose-payment-plan": "Veuillez choisir une formule de paiement",
+            "choose-plan": "Choisir l'abonnement",
+            "looking-to-invest-instead": "Vous cherchez plutôt à investir ?",
+            "register-as-investor": "S'inscrire comme investisseur",
+            "complete-registration": "Terminer l'inscription",
+            "next": "Suivant"
+        },
+        "errors": {
+            "invalid-request": "Requête invalide",
+            "invalid-subscription": "Veuillez choisir un abonnement de paiement",
+            "invalid-billing-cycle": "Veuillez choisir un cycle de facturation",
+            "company-image-is-required": "L'image de l'entreprise est requise",
+            "company-name-is-required": "Le nom de l'entreprise est requis",
+            "company-founded-date-is-required": "La date de création de l'entreprise est requise",
+            "company-industry-is-required": "Le secteur de l'entreprise est requis",
+            "company-size-is-required": "La taille de l'entreprise est requise",
+            "first-name-is-required": "Le prénom est requis",
+            "last-name-is-required": "Le nom est requis",
+            "email-is-required": "L'e-mail est requis",
+            "phone-is-required": "Le téléphone est requis",
+            "password-is-required": "Le mot de passe est requis",
+            "password-not-match": "La répétition du mot de passe ne correspond pas"
+        },
+        "navigation": {
+            "investor": "Investisseur"
+        },
         "homepage": {
-            
+            "hello-world": "Bonjour le monde"
+        },
+        "auth": {
+            "email-required": "L'e-mail est requis",
+            "password-required": "Le mot de passe est requis",
+            "email-must-be-more-than-3-characters": "L'e-mail doit comporter plus de 3 caractères",
+            "password-must-be-more-than-8-characters": "Le mot de passe doit comporter plus de 8 caractères",
+            "invalid-email-or-password": "E-mail ou mot de passe invalide"
+        }
+    },
+    "dashboard": {
+        "departments": {
+            "the-department-was-removed-successfully": "Le département a été supprimé avec succès",
+            "could-not-delete-the-department-please-try-again": "Impossible de supprimer le département, veuillez réessayer",
+            "remove-department": "Supprimer le département",
+            "create-department": "Créer un département",
+            "department-name": "Nom du département"
+        },
+        "employees": {
+            "employees": "Employés",
+            "no-employees": "Aucun employé"
+        },
+        "users": {
+            "user": "Utilisateur"
+        },
+        "usage": {
+            "all-logs": "Tous les journaux",
+            "AGENT_EXECUTION": "Discussion"
+        },
+        "common": {
+            "are-you-sure": "Êtes-vous sûr ?",
+            "name": "Nom",
+            "description": "Description",
+            "title": "Titre",
+            "updated": "Mis à jour",
+            "submit": "Soumettre",
+            "create": "Créer",
+            "checkout": "Paiement",
+            "search": "Rechercher",
+            "add-new": "Ajouter un nouveau"
+        },
+        "ai": {
+            "need-help": "Besoin d'aide ?",
+            "is-this-candidate-qualified": "Ce candidat est-il qualifié ?"
+        },
+        "roles": {},
+        "fields": {
+            "fullname": "Nom complet",
+            "email": "E-mail",
+            "phone": "Téléphone",
+            "password": "Mot de passe",
+            "repeat-password": "Répéter le mot de passe",
+            "role": "Rôle",
+            "applied-job": "Poste postulé",
+            "cv": "CV",
+            "download-cv": "Télécharger le CV"
+        },
+        "jobs": {
+            "job": "Poste",
+            "create-a-job": "Créer un poste",
+            "no-jobs": "Aucun poste",
+            "choose-job": "Choisir un poste"
+        },
+        "candidates": {
+            "candidate": "Candidat",
+            "create-a-candidate": "Créer un candidat",
+            "no-jobs-to-apply-candidates-to": "Aucun poste disponible pour y affecter des candidats",
+            "create-candidate": "Créer le candidat",
+            "no-candidates": "Aucun candidat",
+            "choose-candidate": "Choisir un candidat"
+        },
+        "interviews": {
+            "create-interview": "Créer une entrevue",
+            "add-interview-to-best-candidate": "Ajouter une entrevue au meilleur candidat",
+            "edit-interview-data": "Modifier les données de l'entrevue actuelle",
+            "interviews-list": "Liste des entrevues",
+            "choose-interview-type": "Choisir le type d'entrevue",
+            "hr": "Entrevue RH",
+            "final": "Entrevue finale",
+            "technical": "Entrevue technique",
+            "behavioral": "Entrevue comportementale",
+            "save-interview-data": "Enregistrer les données de l'entrevue",
+            "interview-updated-successfully": "Entrevue mise à jour avec succès",
+            "duration-minutes": "Durée (Minutes)",
+            "scheduled-at": "Planifiée le",
+            "update-interview": "Mettre à jour l'entrevue"
+        },
+        "home": {
+            "tokens_used": "Jetons utilisés"
+        },
+        "header": {
+            "tokens": "Jetons"
+        },
+        "integrations": {
+            "database": "Base de données",
+            "url": "URL",
+            "username": "Nom d'utilisateur",
+            "apikey": "Clé API"
+        },
+        "service": {
+            "order-service": "Commander un service",
+            "order-a-personal-professional-service-from-our-experts": "Commandez un service professionnel personnalisé auprès de nos experts",
+            "choose-service": "Choisir un service",
+            "service-data": "Données du service",
+            "payment": "Paiement",
+            "complete": "Terminé",
+            "please-choose-a-service": "Veuillez choisir un service"
+        },
+        "sidebar": {
+            "dashboard": "Tableau de bord",
+            "recruitments": "Recrutements",
+            "postedjobs": "Postes publiés",
+            "candidates": "Candidats",
+            "interviews": "Entrevues",
+            "HR": "Ressources Humaines",
+            "teams": "Équipes",
+            "manage-teams": "Gérer les équipes",
+            "manage-tasks": "Gérer les tâches",
+            "finance": "Finance",
+            "new-revenue-bill": "Nouvelle facture de revenus",
+            "new-expense-bill": "Nouvelle facture de dépenses",
+            "reports": "Rapports",
+            "transactions": "Transactions",
+            "accounts": "Comptes",
+            "payrolls": "Salaires",
+            "BMC": "BMC",
+            "create-bmc": "Créer un BMC",
+            "my-list-of-bmcs": "Ma liste de BMCs",
+            "users": "Utilisateurs",
+            "all-users": "Tous les utilisateurs",
+            "add-user": "Ajouter un utilisateur",
+            "integrations": "Intégrations",
+            "logout": "Se déconnecter",
+            "services": "Services",
+            "order-service": "Commander un service",
+            "my-orders": "Mes commandes",
+            "departments": "Départements",
+            "all-departments": "Tous les départements",
+            "add-department": "Ajouter un département",
+            "usage": "Utilisation",
+            "opportunities": "Opportunités",
+            "events": "Événements",
+            "employees": "Employés",
+            "attendance": "Présence"
         }
     }
 }

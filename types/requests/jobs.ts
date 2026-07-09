@@ -6,7 +6,7 @@ export default class Job {
 
     role!:string;
 
-    status:string = 'CLOSED';
+    status?: 'OPEN'|'CLOSED'|'PAUSED'|'ACTIVE';
 
     workspaceModel!:string
 
@@ -17,6 +17,4 @@ export default class Job {
     responsibilities?:string;
 
     expectedSalary?:number;
-
-    status?:'OPEN'|'CLOSED'|'PAUSED';
 }

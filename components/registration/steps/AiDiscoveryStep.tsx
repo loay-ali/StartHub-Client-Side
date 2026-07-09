@@ -1,4 +1,7 @@
+import { useTranslations } from "next-intl";
+
 export default function AiDiscoveryStep({error,setError}:any) {
+  const t = useTranslations();
   return (
     <div className="mx-auto max-w-4xl">
       <div className="mb-10 text-center">

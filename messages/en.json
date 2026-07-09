@@ -55,7 +55,60 @@
 
             "get-started-today": "Get Started Today",
             "your-company-is-trying-to-tell-you-something": "Your Company Is\nTrying to Tell You Something",
-            "start-your-free-trial": "Start your free trial today. Connect your first tools in minutes and see what\n StarHub surfaces about your company before end of day."
+            "start-your-free-trial": "Start your free trial today. Connect your first tools in minutes and see what\n StarHub surfaces about your company before end of day.",
+            "integrations": "Integrations",
+            "sound-familiar": "Sound Familiar?",
+            "how-it-works": "How It Works",
+            "problem-section": {
+                "pains": {
+                    "tools": {
+                        "title": "14 tools. Zero connection.",
+                        "body": "Your team lives in Slack, Notion, HubSpot, QuickBooks, and Greenhouse — but none of them talk. Every Monday you're stitching spreadsheets just to answer \"how are we doing?\""
+                    },
+                    "buried": {
+                        "title": "The insight is in there. Somewhere.",
+                        "body": "You know the data exists. It's buried in dashboards nobody checks and reports nobody reads. Finding it costs you hours every week."
+                    },
+                    "crisis": {
+                        "title": "By the time you notice, it's a crisis.",
+                        "body": "Churn creep. Runway drift. A star employee going quiet. These aren't surprises — they're signals you missed because no one was watching all the data at once."
+                    },
+                    "lag": {
+                        "title": "You're solving last month's problems.",
+                        "body": "Without real-time intelligence, your decisions lag reality by weeks. Opportunities close, risks compound, and leadership keeps asking questions ops can't answer fast enough."
+                    }
+                }
+            },
+            "solution-section": {
+                "the-fix": "The Fix",
+                "step": "Step",
+                "steps": {
+                    "connect": {
+                        "label": "Connect",
+                        "desc": "Plug in 50+ tools in under 10 minutes. No engineers needed."
+                    },
+                    "unify": {
+                        "label": "Unify",
+                        "desc": "StarHub builds one living picture of your entire company."
+                    },
+                    "detect": {
+                        "label": "Detect",
+                        "desc": "AI finds patterns, risks, and opportunities in real time."
+                    },
+                    "predict": {
+                        "label": "Predict",
+                        "desc": "Know what's coming — not just what already happened."
+                    },
+                    "alert": {
+                        "label": "Alert",
+                        "desc": "The right signal reaches the right person before it's urgent."
+                    },
+                    "execute": {
+                        "label": "Execute",
+                        "desc": "Automated actions close the loop. No manual follow-up."
+                    }
+                }
+            }
         },
         "login": {
             "manage-your-companies": "Manage Your Companies",
@@ -69,11 +122,15 @@
             "signin-to-continue-to-your-dashboard": "Sign in to continue to your dashboard",
 
             "enter-your-email": "Enter your email",
-            "enter-your-passowrd": "Enter your password",
+            "enter-your-password": "Enter your password",
             "remember-me": "Remember me",
             "forget-password": "Forgot password?",
             "new-here": "New Here ?",
-            "join-now": "Join Now"
+            "join-now": "Join Now",
+            "login": "Login",
+            "sign-in": "Sign In",
+            "are-you-an-investor": "Are you an Investor?",
+            "login-as-investor": "Login as Investor"
         },
         "pay": {
             "per-month": "Per Month"
@@ -115,7 +172,11 @@
 
             "please-choose-payment-plan": "Please Choose Payment Plan",
 
-            "choose-plan": "Choose Plan"
+            "choose-plan": "Choose Plan",
+            "looking-to-invest-instead": "Looking to invest instead?",
+            "register-as-investor": "Register as Investor",
+            "complete-registration": "Complete Registration",
+            "next": "Next"
         },
         "errors": {
             "invalid-request": "Invalid Request",
@@ -145,7 +206,7 @@
             "email-required": "E-Mail Is Required",
             "password-required": "Password Is Required",
             "email-must-be-more-than-3-characters": "E-Mail Must Be More Than 3 Characters",
-            "passowrd-must-be-more-than-8-characters": "Password Must Be More Than 8 Characters",
+            "password-must-be-more-than-8-characters": "Password Must Be More Than 8 Characters",
             "invalid-email-or-password": "Invalid E-Mail Or Password"
         }
     },
@@ -181,7 +242,8 @@
             "add-new": "Add New"
         },
         "ai": {
-            "need-help": "Need Help ?"
+            "need-help": "Need Help ?",
+            "is-this-candidate-qualified": "Is this candidate qualified?"
         },
         "roles": {},
         "fields": {
@@ -220,7 +282,10 @@
             "technical": "Technical Interview",
             "behavioral": "Soft Skills Interview",
             "save-interview-data": "Save Interview Data",
-            "interview-updated-successfully": "Interview Updated Successfully"
+            "interview-updated-successfully": "Interview Updated Successfully",
+            "duration-minutes": "Duration (Minutes)",
+            "scheduled-at": "Scheduled At",
+            "update-interview": "Update Interview"
         },
         "home": {
             "tokens_used": "Tokens Used"
@@ -274,7 +339,11 @@
             "departments": "Departments",
             "all-departments": "All Departments",
             "add-department": "Add Department",
-            "usage": "Usage"
+            "usage": "Usage",
+            "opportunities": "Opportunities",
+            "events": "Events",
+            "employees": "Employees",
+            "attendance": "Attendance"
         }
     }
 }

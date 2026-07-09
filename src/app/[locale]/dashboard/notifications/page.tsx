@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 import { AiOutlineLoading } from "react-icons/ai";
 
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 export default function NotificationsList() {
 
@@ -15,6 +15,7 @@ export default function NotificationsList() {
     const [loading,setLoading] = useState(true);
 
     const router = useParams();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         if( loading ) {
@@ -46,6 +47,7 @@ export default function NotificationsList() {
 
     return (
     <CollectionPage
+        currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
         title = "Notifications"
         data = {notifications}
         columns = {[

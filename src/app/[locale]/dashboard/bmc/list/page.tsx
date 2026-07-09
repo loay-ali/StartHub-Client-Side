@@ -4,7 +4,7 @@ import CollectionPage from "@/components/collection/CollectionPage";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export type BMC = {
@@ -21,6 +21,7 @@ export type BMC = {
 
 export default function BMCList() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [bmcList,setBmcList] = useState<BMC[]>([]);
     const [loading,setLoading] = useState(true);
@@ -67,6 +68,7 @@ export default function BMCList() {
             confirmCallback={() => setConfirmDeleting(true)}/>}
         {deleting != '' && confirmDeleting == true ? <ButtonLoader />:<section className = 'flex items-start justify-center gap-5'>
             <CollectionPage
+                currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
                 title = "BMCs"
                 data = {bmcList}
                 columns={[

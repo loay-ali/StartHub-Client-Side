@@ -1,10 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Trophy, Landmark, Rocket, CalendarClock } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Trophy, Landmark, Rocket, CalendarClock, ChevronLeft, ChevronRight } from "lucide-react";
 import { fetchOpportunities, Opportunity, OpportunityType } from "@/lib/opportunities-service";
+import { seedOpportunities } from "@/lib/seed-opportunities";
 
-const PALETTE = ["#e8ab4e", "#3ba7c4", "#b1517a", "#3fa17e", "#7c6fce", "#d97757"];
+// Brand palette — teal family, ordered dark → light. Each shade carries its
+// own text color so contrast stays correct on the lighter tones.
+const PALETTE: { bg: string; text: string }[] = [
+  { bg: "#0f766e", text: "#ffffff" }, // teal-700
+  { bg: "#14b8a6", text: "#ffffff" }, // teal-500
+  { bg: "#0d9488", text: "#ffffff" }, // teal-600
+  { bg: "#134e4a", text: "#ffffff" }, // teal-900
+  { bg: "#2dd4bf", text: "#0f172a" }, // teal-400
+  { bg: "#5eead4", text: "#0f172a" }, // teal-300
+];
 
 const TYPE_META: Record<OpportunityType, { label: string; icon: typeof Trophy }> = {
   COMPETITION: { label: "Competition", icon: Trophy },
@@ -18,6 +28,7 @@ const TYPE_META: Record<OpportunityType, { label: string; icon: typeof Trophy }>
 const ARROW_WIDTH = 210;
 const ARROW_HEIGHT = 56;
 const NOTCH_OVERLAP = 32; // ~15% of ARROW_WIDTH, matches the clip-path notch
+const STEP = ARROW_WIDTH - NOTCH_OVERLAP; // distance between consecutive item anchors
 const DOT_RADIUS = 6;
 const LINE_LENGTH = 56;
 const CIRCLE_DIAMETER = 84;
@@ -33,20 +44,29 @@ function chevronClipPath(isFirst: boolean) {
 }
 
 export default function OpportunitiesTimeline() {
-  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  const [opportunities, setOpportunities] = useState<Opportunity[]>(seedOpportunities);
   const [isLoading, setIsLoading] = useState(true);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
 
   async function load() {
     try {
       const data = await fetchOpportunities();
-      setOpportunities((prev) => {
-        const merged = new Map(prev.map((o) => [o.id, o]));
-        data.forEach((o) => merged.set(o.id, o));
-        return Array.from(merged.values());
+
+      setOpportunities(() => {
+        const merged = new Map(seedOpportunities.map((item) => [item.id, item]));
+        data.forEach((item) => {
+          merged.set(item.id, item);
+        });
+        return [...merged.values()];
       });
       console.log(opportunities);
     } catch {
-      // Non-blocking — section just stays empty/stale instead of breaking the page.
+      // Keep showing seed data if the API is unavailable.
     } finally {
       setIsLoading(false);
     }
@@ -67,6 +87,45 @@ export default function OpportunitiesTimeline() {
     [opportunities],
   );
 
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+    setActiveIndex(Math.round(el.scrollLeft / STEP));
+    setItemsPerPage(Math.max(1, Math.floor(el.clientWidth / STEP)));
+  }, []);
+
+  useEffect(() => {
+    updateScrollState();
+
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver(updateScrollState);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [sorted, updateScrollState]);
+
+  const pageCount = Math.max(1, Math.ceil(sorted.length / itemsPerPage));
+  const activePage = Math.min(pageCount - 1, Math.floor(activeIndex / itemsPerPage));
+
+  function scrollToIndex(index: number) {
+    const el = scrollRef.current;
+    if (!el) return;
+    const clamped = Math.max(0, Math.min(index, sorted.length - 1));
+    el.scrollTo({ left: clamped * STEP, behavior: "smooth" });
+  }
+
+  function scrollByPage(direction: -1 | 1) {
+    scrollToIndex(activeIndex + direction * itemsPerPage);
+  }
+
+  function scrollToPage(page: number) {
+    scrollToIndex(page * itemsPerPage);
+  }
+
   return (
     <section className="relative py-24 px-4 bg-slate-50 dark:bg-[#060a0f] overflow-hidden">
       <div className="max-w-6xl mx-auto">
@@ -85,91 +144,169 @@ export default function OpportunitiesTimeline() {
           </p>
         )}
 
-        <div className="overflow-x-auto scrollbar-none">
-          <div
-            className="flex items-center min-w-max mx-auto"
-            style={{ paddingTop: LINE_LENGTH + CIRCLE_DIAMETER + 12, paddingBottom: LINE_LENGTH + CIRCLE_DIAMETER + 12 }}
-          >
-            {sorted.map((item, index) => {
-              const color = PALETTE[index % PALETTE.length];
-              const isUp = index % 2 === 0;
-              const isFirst = index === 0;
-              const Icon = TYPE_META[item.type].icon;
-              const dotAnchor = `calc(50% + ${DOT_RADIUS + 2}px)`;
-              const circleAnchor = `calc(50% + ${DOT_RADIUS + 2 + LINE_LENGTH}px)`;
-              const label =
-                item.status === "CLOSING_SOON" ? `${item.daysLeft}d left` : formatDeadline(item.deadline);
+        {sorted.length > 0 && (
+          <div className="relative">
+            {/* Prev / next controls */}
+            <button
+              type="button"
+              onClick={() => scrollByPage(-1)}
+              disabled={!canScrollLeft}
+              aria-label="Scroll to earlier opportunities"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 grid place-items-center w-9 h-9 rounded-full
+                         bg-white dark:bg-[#0b1017] border border-slate-200 dark:border-slate-700
+                         text-slate-600 dark:text-slate-300 shadow-md transition-opacity duration-200
+                         disabled:opacity-0 disabled:pointer-events-none
+                         hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400"
+            >
+              <ChevronLeft size={18} />
+            </button>
 
-              return (
-                <div
-                  key={item.id}
-                  className="relative flex-shrink-0"
-                  style={{
-                    width: ARROW_WIDTH,
-                    height: ARROW_HEIGHT,
-                    marginLeft: isFirst ? 0 : -NOTCH_OVERLAP,
-                  }}
-                >
-                  {/* Chevron / arrow bar */}
-                  <div
-                    className="absolute inset-0 flex items-center justify-center text-white text-xs md:text-sm font-semibold"
-                    style={{ backgroundColor: color, clipPath: chevronClipPath(isFirst) }}
-                  >
-                    <span className="truncate px-6 max-w-[160px]">{item.title}</span>
-                  </div>
+            <button
+              type="button"
+              onClick={() => scrollByPage(1)}
+              disabled={!canScrollRight}
+              aria-label="Scroll to later opportunities"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 grid place-items-center w-9 h-9 rounded-full
+                         bg-white dark:bg-[#0b1017] border border-slate-200 dark:border-slate-700
+                         text-slate-600 dark:text-slate-300 shadow-md transition-opacity duration-200
+                         disabled:opacity-0 disabled:pointer-events-none
+                         hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400"
+            >
+              <ChevronRight size={18} />
+            </button>
 
-                  {/* Type label, same side as the circle, like "Add Text Here" in the reference */}
-                  <div
-                    className="absolute left-2 flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400 whitespace-nowrap"
-                    style={isUp ? { bottom: "calc(100% + 10px)" } : { top: "calc(100% + 10px)" }}
-                  >
-                    <Icon size={12} />
-                    {TYPE_META[item.type].label}
-                  </div>
+            {/* Edge fades to hint there's more content off-screen */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-12 z-10 bg-gradient-to-r from-slate-50 dark:from-[#060a0f] to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-12 z-10 bg-gradient-to-l from-slate-50 dark:from-[#060a0f] to-transparent" />
 
-                  {/* Node dot at the right tip of the arrow */}
-                  <div
-                    className="absolute rounded-full ring-2 ring-slate-50 dark:ring-[#060a0f] z-10"
-                    style={{
-                      backgroundColor: color,
-                      width: DOT_RADIUS * 2,
-                      height: DOT_RADIUS * 2,
-                      right: -DOT_RADIUS,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                    }}
-                  />
+            <div
+              ref={scrollRef}
+              onScroll={updateScrollState}
+              className="overflow-x-auto scrollbar-none scroll-smooth"
+              style={{ scrollSnapType: "x mandatory" }}
+            >
+              <div
+                className="flex items-center min-w-max mx-auto"
+                style={{ paddingTop: LINE_LENGTH + CIRCLE_DIAMETER + 12, paddingBottom: LINE_LENGTH + CIRCLE_DIAMETER + 12 }}
+              >
+                {sorted.map((item, index) => {
+                  const color = PALETTE[index % PALETTE.length];
+                  const isUp = index % 2 === 0;
+                  const isFirst = index === 0;
+                  const Icon = TYPE_META[item.type].icon;
+                  const dotAnchor = `calc(50% + ${DOT_RADIUS + 2}px)`;
+                  const circleAnchor = `calc(50% + ${DOT_RADIUS + 2 + LINE_LENGTH}px)`;
+                  const label =
+                    item.status === "CLOSING_SOON" ? `${item.daysLeft}d left` : formatDeadline(item.deadline);
 
-                  {/* Connector line */}
-                  <div
-                    className="absolute"
-                    style={{
-                      backgroundColor: color,
-                      width: 2,
-                      right: -1,
-                      height: LINE_LENGTH,
-                      ...(isUp ? { bottom: dotAnchor } : { top: dotAnchor }),
-                    }}
-                  />
+                  return (
+                    <div
+                      key={item.id}
+                      className="relative flex-shrink-0"
+                      style={{
+                        width: ARROW_WIDTH,
+                        height: ARROW_HEIGHT,
+                        marginLeft: isFirst ? 0 : -NOTCH_OVERLAP,
+                        scrollSnapAlign: "start",
+                      }}
+                    >
+                      {/* Chevron / arrow bar */}
+                      <div
+                        className="absolute inset-0 flex items-center justify-center text-xs md:text-sm font-semibold"
+                        style={{ backgroundColor: color.bg, color: color.text, clipPath: chevronClipPath(isFirst) }}
+                      >
+                        <span className="truncate px-6 max-w-[160px]">{item.title}</span>
+                      </div>
 
-                  {/* Date circle */}
-                  <div
-                    className="absolute rounded-full flex items-center justify-center text-white text-xs font-bold text-center px-2 shadow-md"
-                    style={{
-                      backgroundColor: color,
-                      width: CIRCLE_DIAMETER,
-                      height: CIRCLE_DIAMETER,
-                      right: -(CIRCLE_DIAMETER / 2 - 1),
-                      ...(isUp ? { bottom: circleAnchor } : { top: circleAnchor }),
-                    }}
-                  >
-                    {label}
-                  </div>
+                      {/* Type label, same side as the circle, like "Add Text Here" in the reference */}
+                      <div
+                        className="absolute left-2 flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400 whitespace-nowrap"
+                        style={isUp ? { bottom: "calc(100% + 10px)" } : { top: "calc(100% + 10px)" }}
+                      >
+                        <Icon size={12} />
+                        {TYPE_META[item.type].label}
+                      </div>
+
+                      {/* Node dot at the right tip of the arrow */}
+                      <div
+                        className="absolute rounded-full ring-2 ring-slate-50 dark:ring-[#060a0f] z-10"
+                        style={{
+                          backgroundColor: color.bg,
+                          width: DOT_RADIUS * 2,
+                          height: DOT_RADIUS * 2,
+                          right: -DOT_RADIUS,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                        }}
+                      />
+
+                      {/* Connector line */}
+                      <div
+                        className="absolute"
+                        style={{
+                          backgroundColor: color.bg,
+                          width: 2,
+                          right: -1,
+                          height: LINE_LENGTH,
+                          ...(isUp ? { bottom: dotAnchor } : { top: dotAnchor }),
+                        }}
+                      />
+
+                      {/* Date circle */}
+                      <div
+                        className="absolute rounded-full flex items-center justify-center text-xs font-bold text-center px-2 shadow-md"
+                        style={{
+                          backgroundColor: color.bg,
+                          color: color.text,
+                          width: CIRCLE_DIAMETER,
+                          height: CIRCLE_DIAMETER,
+                          right: -(CIRCLE_DIAMETER / 2 - 1),
+                          ...(isUp ? { bottom: circleAnchor } : { top: circleAnchor }),
+                        }}
+                      >
+                        {label}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Pagination — dots for a manageable number of pages, a counter once it grows past that */}
+            <div className="flex items-center justify-center gap-3 mt-4">
+              {pageCount <= 8 ? (
+                <div className="flex gap-1.5">
+                  {Array.from({ length: pageCount }).map((_, page) => (
+                    <button
+                      key={page}
+                      type="button"
+                      onClick={() => scrollToPage(page)}
+                      aria-label={`Go to page ${page + 1}`}
+                      aria-current={page === activePage}
+                      className="h-1.5 rounded-full transition-all duration-200"
+                      style={{
+                        width: page === activePage ? 20 : 6,
+                        backgroundColor: page === activePage ? "#14b8a6" : undefined,
+                      }}
+                    >
+                      <span
+                        className={
+                          page === activePage
+                            ? "hidden"
+                            : "block h-1.5 w-full rounded-full bg-slate-300 dark:bg-slate-700"
+                        }
+                      />
+                    </button>
+                  ))}
                 </div>
-              );
-            })}
+              ) : (
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400 tabular-nums">
+                  {activePage + 1} / {pageCount}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

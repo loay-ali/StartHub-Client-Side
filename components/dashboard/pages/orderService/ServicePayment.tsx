@@ -32,7 +32,6 @@ export default function ServicePayments() {
     useEffect(() => {
         if( loading && once == false ) {
             setOnce(true);
-            console.count("Inside");
             fetch(config.apiUrl +'/payments/serviceCheckout/'+ params.get('service'),{
                 method: "POST",
                 credentials: 'include'})
@@ -55,6 +54,6 @@ export default function ServicePayments() {
     }
 
     return (<>
-        <PaymentSection redirect = {() => router.push('?step=4')}paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
+        <PaymentSection redirect = {() => router.push('?step=4')} paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
     </>);
 }

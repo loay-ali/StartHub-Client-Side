@@ -29,8 +29,8 @@ export default function IntegrationsSection() {
       <div className="max-w-7xl mx-auto px-6">
         <Reveal>
           <SectionHeading
-            label="Integrations"
-            title={<>{t('public.home.work-with-tools')}<br /><span className="grad-text">{t('public.home.you-already-use')}</span></>}
+            label={t('public.home.integrations')}
+            title={<>{t('public.home.work-with-tools')}<br /><span className="grad-text">{t('public.home.You-already-use')}</span></>}
             sub={t('public.home.work-with-tools-sub')}
           />
         </Reveal>

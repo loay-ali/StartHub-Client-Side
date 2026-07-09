@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import CollectionPage from "@/components/collection/CollectionPage";
 import AreYouSureWindow from '@/components/window/AreYouSure';
 import config from '@/constants/config';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function TransactionsList() {
     const route = useRouter();
+    const searchParams = useSearchParams();
     const [transactions, setTransactions] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isRemoving, setIsRemoving] = useState('');
@@ -60,17 +61,18 @@ export default function TransactionsList() {
         <>
             {isRemoving !== '' && !confirmRemoving && (
                 <AreYouSureWindow 
-                    title="Delete Transaction" 
-                    setWindowState={() => {
-                        setConfirmRemoving(false);
-                        setIsRemoving('');
-                    }} 
-                    confirmCallback={() => {
-                        setConfirmRemoving(true);
-                    }}
+                     title="Delete Transaction" 
+                     setWindowState={() => {
+                         setConfirmRemoving(false);
+                         setIsRemoving('');
+                     }} 
+                     confirmCallback={() => {
+                         setConfirmRemoving(true);
+                     }}
                 />
             )}
             <CollectionPage
+                currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
                 onAdd={() => {
                     route.replace('/dashboard/transactions/new');
                 }}

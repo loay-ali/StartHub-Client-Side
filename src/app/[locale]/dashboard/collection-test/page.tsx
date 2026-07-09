@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CollectionPage from "@/components/collection/CollectionPage";
 import { notificationService } from "@/lib/notifiationSystem";
+import { useSearchParams } from "next/navigation";
 
 const initialCompanies = [
   {
@@ -41,6 +42,7 @@ const initialCompanies = [
 
 export default function Page() {
   const [companies, setCompanies] = useState(initialCompanies);
+  const searchParams = useSearchParams();
 
   const handleDelete = (company: (typeof initialCompanies)[number]) => {
     setCompanies((prev) => prev.filter((item) => item.id !== company.id));
@@ -54,6 +56,7 @@ export default function Page() {
 
   return (
     <CollectionPage
+      currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
       title="Companies"
       data={companies}
       columns={[

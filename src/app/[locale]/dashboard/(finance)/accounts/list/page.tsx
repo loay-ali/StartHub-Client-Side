@@ -3,13 +3,14 @@
 import CollectionPage from "@/components/collection/CollectionPage";
 import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { notificationService } from "@/lib/notifiationSystem";
 
 export default function AccountsList() {
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [accounts,setAccounts] = useState([]);
 
@@ -59,6 +60,7 @@ export default function AccountsList() {
                 setIsRemoving('');
             }}/>}
             <CollectionPage
+                currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
                 isDeleting = {confirmRemoving && isRemoving != ''}
                 title = "Accountant Accounts"
                 data = {accounts}

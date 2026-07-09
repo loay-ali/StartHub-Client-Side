@@ -4,7 +4,7 @@ import CollectionPage from "@/components/collection/CollectionPage";
 import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function MyOwnTasks() {
@@ -13,6 +13,7 @@ export default function MyOwnTasks() {
     const [loading,setLoading] = useState(true);
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [deleting,setDeleting] = useState('');
     const [confirmDeleting,setConfirmDeleting] = useState(false);
@@ -60,6 +61,7 @@ export default function MyOwnTasks() {
             confirmCallback={() => setConfirmDeleting(true)}/>}
         {deleting != '' && confirmDeleting == true ? <div className = 'p-5 flex justify-center items-center'><ButtonLoader size = {30}/></div>:<section className = 'flex items-start justify-center gap-5'>
             <CollectionPage
+                currentPage={searchParams.has('p') ? Math.abs(Number(searchParams.get('p'))):1}
                 title = "My Tasks"
                 data = {tasks}
                 columns={[

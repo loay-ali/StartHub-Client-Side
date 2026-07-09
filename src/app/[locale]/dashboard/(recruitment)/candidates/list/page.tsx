@@ -63,6 +63,7 @@ export default function CandidatesList() {
     return (
     <section className = 'flex items-start gap-5 justify-center mx-auto max-w-[1200px]'>
         <CollectionPage
+        currentPage={1}
             onAdd={() => router.replace('/dashboard/candidates/new')}
             onEdit={(row:{id:string}) => router.replace('/dashboard/candidates/'+ row.id)}
             onDelete={(row:{id:string}) => {

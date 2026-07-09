@@ -34,11 +34,21 @@ export default function VerifyEmail() {
         }
     },[]);
 
+    useEffect(() => {
+        if (!verifing) {
+            notificationService.info(t('public.register.email-verified'), t('public.register.your-email-address-has-been-verified-successfull'));
+        }
+    }, [verifing]);
+
     if( verifing ) {
         return <div className = 'p-5 flex justify-center items-center'>
             <ButtonLoader size = {30} />
         </div>
     }
 
-    return notificationService.info(t('public.register.email-verified'),t('public.register.your-email-address-has-been-verified-successfull'));
+    return (
+        <div className="p-5 text-center">
+            {t('public.register.email-verified')}
+        </div>
+    );
 }

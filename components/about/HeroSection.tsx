@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-24 lg:py-32">
+    <section id="hero" data-header-theme="light" className="relative overflow-hidden py-24 lg:py-32">
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="bg-primary-light/30 absolute top-0 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full blur-3xl" />

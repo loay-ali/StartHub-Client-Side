@@ -72,7 +72,7 @@ export default function EventsPage() {
 
           <DatePicker
             selected={eventDate}
-            onChange={(date) => setEventDate(date)}
+            onChange={(date: Date | null) => setEventDate(date)}
             dateFormat="MMMM d, yyyy"
             placeholderText="Select event date"
             wrapperClassName="w-full"
@@ -170,7 +170,7 @@ export default function EventsPage() {
 
         <DatePicker
           selected={eventTime}
-          onChange={(date) => setEventTime(date)}
+          onChange={(date: Date | null) => setEventTime(date)}
           showTimeSelect
           showTimeSelectOnly
           timeIntervals={30}

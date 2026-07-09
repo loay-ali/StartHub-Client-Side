@@ -1,8 +1,13 @@
 import CollectionPage from "@/components/collection/CollectionPage";
 import { getUserServiceOrders } from "@/src/services/services";
 
+interface MyOrdersProps {
+    searchParams?: Promise<{ p?: string }>;
+}
 
-export default async function MyOrders() {
+export default async function MyOrders({ searchParams }: MyOrdersProps) {
+    const params = await searchParams;
+    const currentPage = params?.p ? Math.abs(Number(params.p)) : 1;
 
     //const orders = await getUserServiceOrders();
 
@@ -16,6 +21,7 @@ export default async function MyOrders() {
 
     return (
     <CollectionPage
+        currentPage={currentPage}
         title="My Orders"
         data={[]}
         columns={[
