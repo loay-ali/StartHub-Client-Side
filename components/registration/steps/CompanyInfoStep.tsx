@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import config from "@/constants/config";
 import { useTranslations } from "next-intl";
 
-export default function CompanyInfoStep({formRef,errors,setError,setWebsite,setIndustry,setSize,setCountry,setName,setImage}:{data:any,isErr:boolean,formRef:any,errors:string,setError:Function,setWebsite:Function,setIndustry:Function,setSize:Function,setCountry:Function,setName:Function,setImage:Function}) {
+export default function CompanyInfoStep({formRef,errors,setFoundYear,setError,setWebsite,setIndustry,setSize,setCountry,setName,setImage}:{data:any,isErr:boolean,formRef:any,errors:string,setError:Function,setFoundYear:Function,setWebsite:Function,setIndustry:Function,setSize:Function,setCountry:Function,setName:Function,setImage:Function}) {
   
   const t = useTranslations();
 
@@ -95,7 +95,7 @@ export default function CompanyInfoStep({formRef,errors,setError,setWebsite,setI
               className="rounded-xl border border-border px-4 py-3"
             />
 
-            <Countries className = "rounded-xl border border-border px-4 py-3" onChange = {(ele:any) => setCountry(ele.target.value)}/>
+            <Countries className = "rounded-xl border border-border px-4 py-3" onChange = {(ele:string) => setCountry(ele)}/>
           </div>
         </div>
 
@@ -112,6 +112,7 @@ export default function CompanyInfoStep({formRef,errors,setError,setWebsite,setI
             </select>
 
             <input
+              onInput = {e => setFoundYear(e.currentTarget.value)}
               data-error = "company-founded-date-is-required"
               required = {true}
               type="month"
