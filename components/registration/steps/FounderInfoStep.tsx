@@ -2,7 +2,25 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FiUser, FiMail, FiPhone, FiLock, FiUploadCloud } from "react-icons/fi";
 
-export default function FounderInfoStep({formRef,isErr,error,setError,setImage,setFirstname,setLastname,setPhone,setEmail,setPassword,setConfirmPassword}:any) {
+export default function FounderInfoStep({
+  formRef,
+  isErr,
+  error,
+  setError,
+  setImage,
+  setFirstname,
+  setLastname,
+  setPhone,
+  setEmail,
+  setPassword,
+  setConfirmPassword,
+  founderFirstName = '',
+  founderLastName = '',
+  founderEmail = '',
+  founderPhone = '',
+  founderPassword = '',
+  founderConfirmPassword = ''
+}: any) {
   const t = useTranslations();
   
   const handleFileChange = (e:any) => {
@@ -56,6 +74,7 @@ export default function FounderInfoStep({formRef,isErr,error,setError,setImage,s
               <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                defaultValue={founderFirstName}
                 required = {true}
                 data-error = "first-name-is-required"
                 onInput = {(ele) => setFirstname(ele.currentTarget.value)}
@@ -68,9 +87,10 @@ export default function FounderInfoStep({formRef,isErr,error,setError,setImage,s
               <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
-              required = {true}
-              data-error = "last-name-is-required"
-              onInput = {(ele) => setLastname(ele.currentTarget.value)}
+                defaultValue={founderLastName}
+                required = {true}
+                data-error = "last-name-is-required"
+                onInput = {(ele) => setLastname(ele.currentTarget.value)}
                 placeholder={t('public.register.last-name')}
                 className="w-full rounded-xl border border-border py-3 pl-11 pr-4"
               />
@@ -80,8 +100,9 @@ export default function FounderInfoStep({formRef,isErr,error,setError,setImage,s
               <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
-              required = {true}
-              data-error = "email-is-required"
+                defaultValue={founderEmail}
+                required = {true}
+                data-error = "email-is-required"
                 onInput = {(ele) => setEmail(ele.currentTarget.value)}
                 type="email"
                 placeholder={t('public.register.email')}
@@ -93,6 +114,7 @@ export default function FounderInfoStep({formRef,isErr,error,setError,setImage,s
               <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                defaultValue={founderPhone}
                 required = {true}
                 data-error = "phone-is-required"
                 onInput = {(ele) => setPhone(ele.currentTarget.value)}
@@ -111,6 +133,7 @@ export default function FounderInfoStep({formRef,isErr,error,setError,setImage,s
               <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                defaultValue={founderPassword}
                 required = {true}
                 data-error = "password-is-required"
                 onInput = {(ele) => setPassword(ele.currentTarget.value)}
@@ -124,6 +147,7 @@ export default function FounderInfoStep({formRef,isErr,error,setError,setImage,s
               <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary" />
 
               <input
+                defaultValue={founderConfirmPassword}
                 required = {true}
                 data-error = "password-not-match"
                 onInput = {(ele) => setConfirmPassword(ele.currentTarget.value)}

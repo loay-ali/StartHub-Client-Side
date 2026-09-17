@@ -129,6 +129,14 @@
         "pay": {
             "per-month": "Par mois"
         },
+        "plan": {
+            "Starter Plan": "Plan Starter",
+            "Growth Plan": "Plan Croissance",
+            "Enterprise Plan": "Plan Entreprise",
+            "STARTER": "Plan Starter",
+            "GROWTH": "Plan Croissance",
+            "ENTERPRISE": "Plan Entreprise"
+        },
         "plans": {},
         "register": {
             "email-verified": "E-mail vérifié avec succès",
@@ -167,8 +175,9 @@
             "choose-plan": "Choisir l'abonnement",
             "looking-to-invest-instead": "Vous cherchez plutôt à investir ?",
             "register-as-investor": "S'inscrire comme investisseur",
-            "complete-registration": "Terminer l'inscription",
-            "next": "Suivant"
+            "complete-registration": "Finaliser l'inscription",
+            "next": "Suivant",
+            "back": "Retour"
         },
         "errors": {
             "invalid-request": "Requête invalide",
@@ -184,7 +193,12 @@
             "email-is-required": "L'e-mail est requis",
             "phone-is-required": "Le téléphone est requis",
             "password-is-required": "Le mot de passe est requis",
-            "password-not-match": "La répétition du mot de passe ne correspond pas"
+            "password-not-match": "La répétition du mot de passe ne correspond pas",
+            "please-select-bmc-method": "Veuillez sélectionner une méthode BMC pour continuer",
+            "please-upload-bmc-file": "Veuillez télécharger un fichier BMC pour continuer",
+            "bmc-upload-failed": "Échec du traitement du fichier BMC",
+            "bmc-file-upload-failed": "Échec du téléchargement du fichier BMC",
+            "bmc-ai-failed": "Échec de la génération du BMC par IA"
         },
         "navigation": {
             "investor": "Investisseur"

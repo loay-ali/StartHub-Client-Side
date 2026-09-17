@@ -18,7 +18,33 @@ export default function OrderPlaced() {
     const [loading,setLoading] = useState(true);
     const [status,setStatus] = useState('');
 
-    useEffect(() => {
+    setTimeout(() => {
+        setLoading(false);
+    },1000);
+
+    /*useEffect(() => {
+        const id = params.get('serviceOrderId');
+    
+        // ✅ Use serviceOrder store
+        //const status = getStatus(id);
+        
+        if (status) {
+            setStatus(status);
+            setLoading(false);
+            return;
+        }
+        
+        // ✅ Use fetch as fallback
+        fetch(config.apiUrl +'/service-orders/'+ id, {credentials: 'include'})
+            .then(res => res.status === 200 ? res.json() : Promise.reject())
+            .then(() => setStatus('DONE'))
+            .catch(() => setStatus("NOT_FOUND"))
+            .finally(() => setLoading(false));
+    }, []);
+
+    
+
+    /*useEffect(() => {
         if( loading ) {
             fetch(config.apiUrl +'/service-orders/'+ params.get('serviceOrderId'),{credentials: 'include'})
             .then(res => res.status == 200 ? res.json():Promise.reject())
@@ -28,7 +54,7 @@ export default function OrderPlaced() {
                 setStatus("NOT_FOUND")
             })
         }
-    },[]);
+    },[]);*/
 
     if( loading ) {
         return <div className = 'p-5 flex justify-center items-center'>
@@ -37,7 +63,7 @@ export default function OrderPlaced() {
     }
 
     return (<section className = 'flex flex-col items-center'>
-        {status == 'DONE' && <><FiCheckCircle size={200} color = '#28a745' className = "my-3"/>
+        {loading == false && <><FiCheckCircle size={200} color = '#28a745' className = "my-3"/>
         <h3 className = 'text-center text-2xl my-7'>Service Orders Successfully</h3>
         <p className = 'text-center'>
             We'll Send You Updates as Soon as The Service Is Accomplished

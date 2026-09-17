@@ -6,6 +6,8 @@
     },
     "public": {
         "home": {
+            "department_count": "عدد الأقسام",
+            "employee_count": "عدد الموظفيين",
             "ai-operating-system": "نظام تشغيل الذكاء الاصطناعي",
             "one-ai": "ذكاء اصطناعي واحد.",
             "every-decision": "كل قرار.",
@@ -129,6 +131,14 @@
         "pay": {
             "per-month": "شهرياً"
         },
+        "plan": {
+            "Starter Plan": "الخطة المبتدئة",
+            "Growth Plan": "خطة النمو",
+            "Enterprise Plan": "خطة الشركات",
+            "STARTER": "الخطة المبتدئة",
+            "GROWTH": "خطة النمو",
+            "ENTERPRISE": "خطة الشركات"
+        },
         "plans": {},
         "register": {
             "email-verified": "تم التحقق من البريد الإلكتروني بنجاح",
@@ -168,7 +178,15 @@
             "looking-to-invest-instead": "هل تبحث عن الاستثمار بدلاً من ذلك؟",
             "register-as-investor": "سجل كمستثمر",
             "complete-registration": "إتمام التسجيل",
-            "next": "التالي"
+            "next": "التالي",
+            "back": "السابق"
+        },
+        "loading": {
+  "connecting-your-company-data": "جارٍ ربط بيانات شركتك",
+  "building-company-memory": "جارٍ بناء ذاكرة الشركة",
+  "awakening-ai-agents": "جارٍ إيقاظ وكلاء الذكاء الاصطناعي",
+  "syncing-intelligence-layer": "جارٍ مزامنة طبقة الذكاء",
+  "your-companys-brain-is-ready": "أصبح عقل شركتك جاهزًا"
         },
         "errors": {
             "invalid-request": "طلب غير صالح",
@@ -184,7 +202,12 @@
             "email-is-required": "البريد الإلكتروني مطلوب",
             "phone-is-required": "الهاتف مطلوب",
             "password-is-required": "كلمة المرور مطلوبة",
-            "password-not-match": "تكرار كلمة المرور غير متطابق"
+            "password-not-match": "تكرار كلمة المرور غير متطابق",
+            "please-select-bmc-method": "يرجى اختيار طريقة نموذج العمل للمتابعة",
+            "please-upload-bmc-file": "يرجى تحميل ملف نموذج العمل للمتابعة",
+            "bmc-upload-failed": "فشل معالجة ملف نموذج العمل",
+            "bmc-file-upload-failed": "فشل تحميل ملف نموذج العمل",
+            "bmc-ai-failed": "فشل إنتاج نموذج العمل بالذكاء الاصطناعي"
         },
         "navigation": {
             "investor": "المستثمر"
@@ -278,6 +301,8 @@
             "update-interview": "تحديث المقابلة"
         },
         "home": {
+            "department_count": "عدد الأقسام",
+            "employee_count": "عدد الموظفيين",
             "tokens_used": "الرموز المستخدمة"
         },
         "header": {

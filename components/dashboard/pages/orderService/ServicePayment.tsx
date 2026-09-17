@@ -34,6 +34,10 @@ export default function ServicePayments() {
         price: 0
     });
 
+    function confirmPay(serviceOrderId:string) {
+        router.push('?step=4&serviceOrderId='+ serviceOrderId)
+    }
+
     useEffect(() => {
         if( confirmPayment ) {
             fetch(config.apiUrl +'/payments/confirm',{
@@ -45,7 +49,11 @@ export default function ServicePayments() {
                     paymentMethod: 'card',
                     paymentIntent: paymentData.paymentIntent
                 })
-            }).then(res => res.status == 201 ? router.push('?step=4'):Promise.reject())
+            }).then(res => res.status == 200 ? res.json():Promise.reject())
+            .then(res => {
+                console.log('confirmation '+ res);
+                //router.push('?step=4&serviceOrderId='+res.serviceOrderId)
+            })
             .catch(() => {
 
             })
@@ -57,7 +65,8 @@ export default function ServicePayments() {
                 method: "POST",
                 credentials: 'include'})
                 .then(res => {
-                    return res.status == 201 ? res.json():Promise.reject()})
+                        console.log(res)
+                        return res.status == 200 ? res.json():Promise.reject()})
                 .then(res => {
                     setPaymentData(res.data);
                 }).catch(err => {
@@ -75,6 +84,6 @@ export default function ServicePayments() {
     }
 
     return (<>
-        <PaymentSection redirect = {() => router.push('?step=4')} paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
+        <PaymentSection redirect = {confirmPay} paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
     </>);
 }

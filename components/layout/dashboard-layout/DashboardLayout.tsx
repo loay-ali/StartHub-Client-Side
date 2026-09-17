@@ -6,7 +6,8 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
 import config from "@/constants/config";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 
 // Re-export so any code that still imports useAIContext from this file
 // continues to work without a breaking change.
@@ -20,41 +21,51 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [isLoggedIn,setIsLoggedIn] = useState(false);
-  const [loadingLoggedIn,setLoadingLoggedIn] = useState(true);
-
-  const [userData,setUserData] = useState<any>({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loadingLoggedIn, setLoadingLoggedIn] = useState(true);
+  const [userData, setUserData] = useState<any>({});
+  const router = useRouter();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const [isUsingAI,setIsUsingAI] = useState(false);
-
-  const [aiPurpose,setAiPurpose] = useState('');
-
-  const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
+  const [isUsingAI, setIsUsingAI] = useState(false);
+  const [aiPurpose, setAiPurpose] = useState('');
+  const [addMessage, setAddMessage] = useState<(msg: string) => any>(() => {});
 
   useEffect(() => {
-    if( loadingLoggedIn ) {
-      fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
+    fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
       .then(res => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           return res.json();
-        }
-        else {
+        } else {
           setLoadingLoggedIn(false);
-          redirect('/login');
+          router.replace('/login');
+          return null;
         }
-      }).then((res) => {
+      })
+      .then((res) => {
         if (res) {
           setIsLoggedIn(true);
           setUserData(res);
+          setLoadingLoggedIn(false);
         }
-      }).catch(() => {
+      })
+      .catch(() => {
         setLoadingLoggedIn(false);
-        redirect('/login');
+        router.replace('/login');
       });
-    }
-  }, []);
+  }, [router]);
+
+  if (loadingLoggedIn) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background p-10">
+        <ButtonLoader size={40} />
+      </div>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return null;
+  }
 
   return (
     <AIContext.Provider value={{ suggestions: [],addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>

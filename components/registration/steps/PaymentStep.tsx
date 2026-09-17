@@ -9,7 +9,21 @@ import { forbidden } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiCheck, FiCreditCard, FiCalendar } from "react-icons/fi";
 
-export default function PaymentStep({setCurrentStep}:{setCurrentStep:Function}) {
+function getPlanTitle(t: (key: string) => string, planName: string): string {
+  if (!planName) return '';
+  const key = 'public.plan.' + planName;
+  try {
+    const translation = t(key);
+    if (translation && translation !== key) {
+      return translation;
+    }
+  } catch {
+    // fallback
+  }
+  return planName;
+}
+
+export default function PaymentStep({ setCurrentStep, onCompleteRegistration }: { setCurrentStep: Function; onCompleteRegistration?: () => void }) {
   const t = useTranslations();
 
   const [plans,setPlans] = useState<Plan[]>([]);
@@ -102,11 +116,11 @@ export default function PaymentStep({setCurrentStep}:{setCurrentStep:Function}) 
 
         <div className="grid gap-6 lg:grid-cols-3">
           {plans.map((plan:Plan) => {
-            return (<div className={(choosenPlan == plan.id ? "scale[1.1] border-primary!":'') +" rounded-3xl border border-border p-8 "+ (plan.isRecommended ? "shadow-lg relative":"")}>
+            return (<div key={plan.id} className={(choosenPlan == plan.id ? "scale[1.1] border-primary!":'') +" rounded-3xl border border-border p-8 "+ (plan.isRecommended ? "shadow-lg relative":"")}>
               {plan.isRecommended && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-sm font-medium text-white">
               {t('public.register.most-popular')}
             </div>}
-            <h4 className="text-xl font-semibold">{t('public.plan.'+ plan.name)}</h4>
+            <h4 className="text-xl font-semibold">{getPlanTitle(t, plan.name)}</h4>
 
             <p className="mt-4 text-5xl font-bold">{plan.monthlyPrice} USD</p>
 
@@ -132,7 +146,13 @@ export default function PaymentStep({setCurrentStep}:{setCurrentStep:Function}) 
       </div>
 
       <div className="rounded-3xl border border-border p-6">
-        <PaymentSection redirect = {() => setCurrentStep((s:number) => s + 1)} paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
+        <PaymentSection redirect = {() => {
+          if (onCompleteRegistration) {
+            onCompleteRegistration();
+          } else {
+            setCurrentStep((s:number) => s + 1);
+          }
+        }} paymentIntent = {paymentData.paymentIntent} clientSecret = {paymentData.client_secret} price = {paymentData.price} payment="service" additional=""/>
       </div>
     </div>
     </div>

@@ -42,6 +42,9 @@ export default function LoginForm() {
             setIsLoggedIn(false);
           }
         })
+        .catch(() => {
+          setIsLoggedIn(false);
+        });
     }
 
     if( isLogin ) {

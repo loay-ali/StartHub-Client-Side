@@ -5,6 +5,8 @@ import "./[locale]/globals.css";
 import PreloaderWrapper from "@/components/preloader/PreloaderWrapper";
 import { AIProvider } from "@/components/providers/AIProvider";
 
+import { getLocale } from 'next-intl/server';
+
 export const metadata: Metadata = {
   title: "Starthub",
   description: "",
@@ -17,7 +19,8 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params?: Promise<{ locale?: string }>;
 }>) {
-  const { locale = "en" } = (await params) || {};
+
+    const locale = await getLocale(); 
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className="h-full antialiased">

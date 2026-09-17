@@ -80,18 +80,18 @@ export default function AllDepartments() {
                 }}
                 data={data}
                 columns={[
-                    { key: 'id', label: "#", sortable: false },
+                    { key: 'index', label: "#", sortable: false },
                     { key: 'name', label: t('dashboard.common.title'), sortable: true },
                     {key: 'employees',label: t('dashboard.employees.employees')}
                 ]}
                 title={t('dashboard.sidebar.departments')}
             />
-            <AISection
+            {/*<AISection
                 Icon = {Bot}
                 title = {t('dashboard.ai.need-help')}
                 initialActions={[
                     {title: t('dashboard.departments.create-department'),type: ActionType.CHAT,action: "createDepartment"}
-                ]}/>
+                ]}/>*/}
         </section>
     );
 }

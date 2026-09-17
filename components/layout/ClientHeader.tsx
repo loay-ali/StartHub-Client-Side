@@ -84,6 +84,11 @@ useEffect(() => {
 }, []);
 
     useEffect(() => {
+        if (CURRENT_PATHNAME.includes('/register')) {
+            setIsLoggedIn(false);
+            return;
+        }
+
         if (isLoggedIn == null) {
             fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
                 .then(res => {
@@ -91,6 +96,7 @@ useEffect(() => {
                         return res.json();
                     } else {
                         setIsLoggedIn(false);
+                        return null;
                     }
                 }).then(res => {
                     if (res) {
@@ -100,7 +106,7 @@ useEffect(() => {
                     setIsLoggedIn(false);
                 });
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, CURRENT_PATHNAME]);
 
     // Close an open desktop dropdown on outside click or Escape.
     useEffect(() => {

@@ -193,7 +193,10 @@ export default function RegistrationLoader() {
     if( step <= 4 ) {
       fetch(config.apiUrl +'/registeration/prepare-account/'+ (step.toString() +'?registerationToken='+ registerationToken),{
         credentials: 'include'})
-        .then(res => res.status == 200 ? setStep(step + 1):Promise.reject());
+        .then(res => res.status == 200 ? setStep(step + 1):Promise.reject(new Error(`HTTP error! status: ${res.status}`)))
+        .catch(err => {
+          console.error("Account preparation failed:", err);
+        });
     }else if( step == 5 ) {
       router.push('/dashboard');
     }

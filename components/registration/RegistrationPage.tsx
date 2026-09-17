@@ -18,9 +18,11 @@ import config from "@/constants/config";
 import { register } from "module";
 import { ButtonLoader } from "../preloader/ButtonLoader";
 import { useTranslations } from "next-intl";
-import { forbidden } from "next/navigation";
+import { forbidden, useRouter } from "next/navigation";
 
 export default function RegistrationPage() {
+  const router = useRouter();
+  const [isFinalizing, setIsFinalizing] = useState(false);
 
   const [currentStep,setCurrentStep] = useState(1);
 
@@ -72,12 +74,15 @@ export default function RegistrationPage() {
 
   useEffect(() => {
     if( loading ) fetch(config.apiUrl +'/registration/register',{method: 'POST',credentials: 'include'}).then(res => {
-      return res.status === 201 ? res.json():Promise.reject()
+      return res.status === 201 ? res.json():Promise.reject(new Error(`HTTP error! status: ${res.status}`))
     }).then(res => {
-      if( res.step ) setCurrentStep(res.step);
+      if( res.step && res.step >= 1 && res.step <= 6 ) {
+        setCurrentStep(res.step);
+      }
     }).catch(() => setErrorFetching(true)).finally(() => setLoading(false));
 
     if( uploadingBmc ) {
+      
       if (bmcMethod === 'upload' && uploadedBmc) {
         const formData = new FormData();
         formData.append('file', uploadedBmc);
@@ -103,8 +108,16 @@ export default function RegistrationPage() {
               setBmcScore(res.score || 50);
               setUploadingBmc(false);
               setCurrentStep(s => s + 1);
-            }).catch(() => setUploadingBmc(false));
-        }).catch(() => setUploadingBmc(false));
+            }).catch(err => {
+              console.error("Fill BMC failed:", err);
+              setError("bmc-upload-failed");
+              setUploadingBmc(false);
+            });
+        }).catch(err => {
+          console.error("BMC file upload failed:", err);
+          setError("bmc-file-upload-failed");
+          setUploadingBmc(false);
+        });
       } else if (bmcMethod === 'ai') {
         fetch(config.apiUrl +'/registration/fill-bmc',{
           method:"POST",
@@ -121,7 +134,11 @@ export default function RegistrationPage() {
           setBmcScore(res.score || 50);
           setUploadingBmc(false);
           setCurrentStep(s => s + 1);
-        }).catch(() => setUploadingBmc(false));
+        }).catch(err => {
+          console.error("AI BMC fill failed:", err);
+          setError("bmc-ai-failed");
+          setUploadingBmc(false);
+        });
       } else {
         setUploadingBmc(false);
       }
@@ -135,48 +152,68 @@ export default function RegistrationPage() {
     if( saveFounder ) {
         if( founderPassword != founderConfirmPassword ) {
           setError("password-not-match");
+          setSaveFounder(false);
           return;
         }
 
-        const formData = new FormData();
-        if( founderImage ) formData.append('file',founderImage);
-
-        fetch(config.apiUrl +'/upload-file/image',{
-          method: 'POST',
-          credentials: 'include',
-          body: formData
-        }).then(res => res.json())
-        .then(({filePath}:{filePath:string}) => {
-
-          fetch(config.apiUrl +'/registration/founder',{
-              method: 'POST',
-              credentials: 'include',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                image: filePath,
-                firstName:founderFirstName,
-                lastName:founderLastName,
-                phone: founderPhone,
-                email: founderEmail,
-                password: founderPassword
-              })
-            }
-          ).then(res => {
-            if( res.status == 201 ) {
+        const submitFounder = (imagePath?: string) => {
+          fetch(config.apiUrl + '/registration/founder', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              ...(imagePath ? { image: imagePath } : {}),
+              firstName: founderFirstName,
+              lastName: founderLastName,
+              phone: founderPhone || undefined,
+              email: founderEmail,
+              password: founderPassword
+            })
+          })
+          .then(async (res) => {
+            if (res.status === 201 || res.status === 200) {
               setSaveFounder(false);
               setCurrentStep(s => s + 1);
               return;
             }
-
-            return Promise.reject();
+            const errorData = await res.json().catch(() => null);
+            const message = Array.isArray(errorData?.message)
+              ? errorData.message.join(', ')
+              : errorData?.message || `HTTP error! status: ${res.status}`;
+            throw new Error(message);
           })
-        })
+          .catch(err => {
+            console.error("Founder registration failed:", err);
+            setError(err.message || "Registration failed");
+            setSaveFounder(false);
+          });
+        };
+
+        if (founderImage) {
+          const formData = new FormData();
+          formData.append('file', founderImage);
+
+          fetch(config.apiUrl + '/upload-file/image', {
+            method: 'POST',
+            credentials: 'include',
+            body: formData
+          })
+          .then(res => res.json())
+          .then(({ filePath }: { filePath: string }) => {
+            submitFounder(filePath);
+          })
+          .catch(err => {
+            console.error("Founder image upload failed:", err);
+            setSaveFounder(false);
+          });
+        } else {
+          submitFounder();
+        }
     }
 
     if( saveCompanyData ) {
-
       const formData = new FormData();
       if( companyImage ) formData.append('file',companyImage);
 
@@ -184,9 +221,25 @@ export default function RegistrationPage() {
       if( companyImage ) {
         fetch(config.apiUrl +'/upload-file/image',{
           method: 'POST',
-          credentials: 'include'
-          ,body: formData}).then(response => response.status == 201 ? response.json():Promise.reject()).then(res => {
-            fetch(config.apiUrl +'/registration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
+          credentials: 'include',
+          body: formData
+        })
+        .then(async (response) => {
+          if (response.status === 201 || response.status === 200) {
+            return response.json();
+          }
+          const errorData = await response.json().catch(() => null);
+          const message = Array.isArray(errorData?.message)
+            ? errorData.message.join(', ')
+            : errorData?.message || `HTTP error! status: ${response.status}`;
+          throw new Error(message);
+        })
+        .then(res => {
+          fetch(config.apiUrl +'/registration/company',{
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
               companyImage: res.filePath,
               companyName: companyName,
               companyIndustry: companyIndustry,
@@ -194,26 +247,62 @@ export default function RegistrationPage() {
               companySize: companySize,
               companyLocation: companyCountry,
               companyFoundDate: companyFoundDate
-            })}).then(() => {
+            })
+          })
+          .then(async (res) => {
+            if (res.status === 201 || res.status === 200) {
               setSaveCompanyData(false);
               setCurrentStep(s => s + 1);
-            });
+              return;
+            }
+            const errorData = await res.json().catch(() => null);
+            const message = Array.isArray(errorData?.message)
+              ? errorData.message.join(', ')
+              : errorData?.message || `HTTP error! status: ${res.status}`;
+            throw new Error(message);
+          })
+          .catch(err => {
+            console.error("Company registration failed:", err);
+            setSaveCompanyData(false);
+          });
         })
-      }else {
-          fetch(config.apiUrl +'/registration/company',{method: 'POST',credentials: 'include',headers: {'Content-Type': 'application/json'},body: JSON.stringify({
+        .catch(err => {
+          console.error("Company image upload failed:", err);
+          setSaveCompanyData(false);
+        });
+      } else {
+        fetch(config.apiUrl +'/registration/company',{
+          method: 'POST',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
             companyName: companyName,
             companyIndustry: companyIndustry,
             companyWebsite: companyWebsite,
             companySize: companySize,
             companyLocation: companyCountry,
             companyFoundDate: companyFoundDate
-          })}).then(() => {
+          })
+        })
+        .then(async (res) => {
+          if (res.status === 201 || res.status === 200) {
             setSaveCompanyData(false);
             setCurrentStep(s => s + 1);
-          }) 
+            return;
+          }
+          const errorData = await res.json().catch(() => null);
+          const message = Array.isArray(errorData?.message)
+            ? errorData.message.join(', ')
+            : errorData?.message || `HTTP error! status: ${res.status}`;
+          throw new Error(message);
+        })
+        .catch(err => {
+          console.error("Company registration failed:", err);
+          setSaveCompanyData(false);
+        });
       }
     }
-  },[saveCompanyData,saveFounder]);
+  },[saveCompanyData,saveFounder,uploadingBmc]);
 
   if( loading ) return (
     <div className = 'h-[200px] flex items-center justify-center'>
@@ -221,12 +310,57 @@ export default function RegistrationPage() {
     </div>
   );
 
+  const handleCompleteRegistration = async () => {
+    if (isFinalizing) return;
+    setIsFinalizing(true);
+    setError('');
+
+    try {
+      const res = await fetch(config.apiUrl + '/registration/complete', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (res.ok || res.status === 200 || res.status === 201) {
+        setCurrentStep(7);
+        setTimeout(() => {
+          router.replace('/dashboard');
+        }, 1500);
+        return;
+      }
+
+      const errorData = await res.json().catch(() => null);
+      const message = Array.isArray(errorData?.message)
+        ? errorData.message.join(', ')
+        : errorData?.message || `HTTP error! status: ${res.status}`;
+
+      throw new Error(message);
+    } catch (err: any) {
+      console.error("Registration finalization failed:", err);
+      setError(err?.message || "Failed to complete registration");
+      setIsFinalizing(false);
+    }
+  };
+
+  const goBack = () => {
+    if (currentStep > 1 && currentStep <= 6 && !isFinalizing && !saveCompanyData && !saveFounder && !uploadingBmc) {
+      setError('');
+      setIsErr(false);
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
   function nextStep() {
     setIsErr(false);
-    if( formRef?.current?.checkValidity?.() == false ) {
-      formRef?.current?.scrollIntoView();
-      setIsErr(true);
-      return;
+    setError('');
+
+    if (currentStep === 1 || currentStep === 2) {
+      if( formRef?.current?.checkValidity?.() == false ) {
+        formRef?.current?.scrollIntoView();
+        setIsErr(true);
+        return;
+      }
     }
 
     switch(currentStep) {
@@ -238,15 +372,35 @@ export default function RegistrationPage() {
         setSaveFounder(true);
       break;
 
+      case 3:
+        if (!bmcMethod) {
+          setError("please-select-bmc-method");
+          setIsErr(true);
+          return;
+        }
+        setCurrentStep(4);
+      break;
+
       case 4:
+        if (bmcMethod === 'upload' && !uploadedBmc) {
+          setError("please-upload-bmc-file");
+          setIsErr(true);
+          return;
+        }
         setUploadingBmc(true);
       break;
-      
+
       case 5:
-        setCurrentStep(s => s + 1);
+        setCurrentStep(6);
+      break;
+
+      case 6:
+        handleCompleteRegistration();
       break;
     }
   }
+
+  const isBusy = saveCompanyData || saveFounder || uploadingBmc || isFinalizing;
 
   return (
     <div className="min-h-screen bg-background p-4 sm:p-8 pt-28 sm:pt-32">
@@ -279,7 +433,13 @@ export default function RegistrationPage() {
               setWebsite = {setCompanyWebsite}
               setIndustry = {setCompanyIndustry}
               setName = {setCompanyName}
-              setImage = {setCompanyImage}/>}
+              setImage = {setCompanyImage}
+              companyName = {companyName}
+              companyIndustry = {companyIndustry}
+              companyWebsite = {companyWebsite}
+              companySize = {companySize}
+              companyCountry = {companyCountry}
+              companyFoundDate = {companyFoundDate}/>}
 
           {saveFounder ? <div className = 'p-5 flex justify-center items-center'>
             <ButtonLoader size = {30} />
@@ -295,12 +455,20 @@ export default function RegistrationPage() {
               setEmail = {setFounderEmail}
               setPhone = {setFounderPhone}
               setPassword = {setFounderPassword}
-              setConfirmPassword = {setFounderConfirmPassword}/>}
+              setConfirmPassword = {setFounderConfirmPassword}
+              founderFirstName = {founderFirstName}
+              founderLastName = {founderLastName}
+              founderEmail = {founderEmail}
+              founderPhone = {founderPhone}
+              founderPassword = {founderPassword}
+              founderConfirmPassword = {founderConfirmPassword}/>}
 
 
           {currentStep === 3 && <BmcMethodStep onSelect={(method:string) => {
+            setError('');
+            setIsErr(false);
             setBmcMethod(method);
-            setCurrentStep(s => s + 1);
+            setCurrentStep(4);
           }} />}
 
 
@@ -309,7 +477,7 @@ export default function RegistrationPage() {
             error = {error}
             setError = {setError}
             selectedFile={uploadedBmc}
-            onFileSelect={(file:File):void => setUploadedBmc(file)}
+            onFileSelect={(file:File):void => { setError(''); setUploadedBmc(file); }}
             />
           )}
 
@@ -317,18 +485,37 @@ export default function RegistrationPage() {
 
           {currentStep === 5 && <BmcScoreStep data = {''} score = {bmcScore} />}
 
-          {currentStep === 6 && <PaymentStep setCurrentStep = {setCurrentStep} />}
+          {currentStep === 6 && <PaymentStep setCurrentStep = {setCurrentStep} onCompleteRegistration = {handleCompleteRegistration} />}
 
           {currentStep === 7 && <SuccessStep />}
         </section>
 
         {currentStep >= 1 && currentStep < 7 && (
-          <div className="mt-12 flex justify-between border-t border-border pt-8">
+          <div className="mt-12 flex justify-between items-center border-t border-border pt-8 gap-4">
+            {currentStep > 1 ? (
+              <button
+                type="button"
+                onClick={goBack}
+                disabled={isBusy}
+                className="rounded-xl border border-border px-6 py-3 font-medium transition hover:bg-surface-hover disabled:opacity-50"
+              >
+                {t('public.register.back')}
+              </button>
+            ) : <div />}
+
             <button
-              onClick = {() => nextStep()}
-              className="rounded-xl bg-primary px-6 w-full py-3 font-medium text-white transition hover:opacity-90"
+              type="button"
+              onClick={() => nextStep()}
+              disabled={isBusy}
+              className="rounded-xl bg-primary px-8 py-3 font-medium text-white transition hover:opacity-90 flex items-center justify-center gap-2 disabled:opacity-50 min-w-[140px]"
             >
-              {currentStep === 6 ? t('public.register.complete-registration') : t('public.register.next')}
+              {isBusy ? (
+                <ButtonLoader size={20} />
+              ) : currentStep === 6 ? (
+                t('public.register.complete-registration')
+              ) : (
+                t('public.register.next')
+              )}
             </button>
           </div>
         )}

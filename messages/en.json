@@ -143,6 +143,14 @@
         "pay": {
             "per-month": "Per Month"
         },
+        "plan": {
+            "Starter Plan": "Starter Plan",
+            "Growth Plan": "Growth Plan",
+            "Enterprise Plan": "Enterprise Plan",
+            "STARTER": "Starter Plan",
+            "GROWTH": "Growth Plan",
+            "ENTERPRISE": "Enterprise Plan"
+        },
         "plans": {},
         "register": {
             "email-verified": "E-Mail Verified Successfully",
@@ -184,7 +192,8 @@
             "looking-to-invest-instead": "Looking to invest instead?",
             "register-as-investor": "Register as Investor",
             "complete-registration": "Complete Registration",
-            "next": "Next"
+            "next": "Next",
+            "back": "Back"
         },
         "loading": {
             "connecting-your-company-data": "Connecting your company data",
@@ -209,7 +218,12 @@
             "email-is-required": "E-Mail Is Required",
             "phone-is-required": "Phone Is Required",
             "password-is-required": "Password Is Required",
-            "password-not-match": "Password Repetation Doesn't Match"
+            "password-not-match": "Password Repetation Doesn't Match",
+            "please-select-bmc-method": "Please Select a BMC Method to Continue",
+            "please-upload-bmc-file": "Please Upload a BMC File to Continue",
+            "bmc-upload-failed": "Failed to Process BMC File",
+            "bmc-file-upload-failed": "Failed to Upload BMC File",
+            "bmc-ai-failed": "Failed to Generate BMC with AI"
         },
         "navigation": {
             "investor": "Investor"

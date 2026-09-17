@@ -43,9 +43,9 @@ const CheckoutForm = ({redirect,paymentIntent,client_secret}:{redirect:Function,
             clientSecret: client_secret,
             paymentMethod: pay
           })
-        }).then(res => res.status == 200 ? res.json():Promise.reject())
-        .then(() => {
-            redirect();
+        }).then(res => res.status == 200 ? res.json():Promise.reject(new Error(`HTTP error! status: ${res.status}`)))
+        .then((data) => {
+            if( data != false ) redirect(data);
         })
         .catch(console.warn)
         .finally(() => setPay(''));

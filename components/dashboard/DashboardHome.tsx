@@ -19,14 +19,21 @@ import { MdOutlineGeneratingTokens } from "react-icons/md";
 import { FaBuilding } from "react-icons/fa";
 
 import { useTranslations } from "next-intl";
+import { ButtonLoader } from "../preloader/ButtonLoader";
 
+
+interface DashboardWidget {
+  slug: string;
+  value: string;
+  change?: string;
+  icon?: string;
+}
 
 export default function DashboardHome() {
   const ai = useAIContext();
-  const [openSettingsWindow,setOpenSettingsWindow] = useState(false);
-  const [dashboardWidgets,setDashboardWidgets] = useState([]);
-
-  const [loadingDashboard,setLoadingDashboard] = useState(true);
+  const [openSettingsWindow, setOpenSettingsWindow] = useState(false);
+  const [dashboardWidgets, setDashboardWidgets] = useState<DashboardWidget[]>([]);
+  const [loadingDashboard, setLoadingDashboard] = useState(true);
 
   const icons: Record<string, IconType> = {
     'tokens': MdOutlineGeneratingTokens,
@@ -35,16 +42,32 @@ export default function DashboardHome() {
   };
 
   useEffect(() => {
-    if( loadingDashboard ) {
-      fetch(config.apiUrl +'/dashboard/getClientDashboard',{credentials: 'include'})
-        .then(res => {console.log(res);return res.status == 200 ? res.json():Promise.reject()})
-        .then(res => {
-          setDashboardWidgets(res);
-        }).finally(() => setLoadingDashboard(false))
-    }
-  },[]);
+    fetch(config.apiUrl + '/dashboard/getClientDashboard', { credentials: 'include' })
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        return [];
+      })
+      .then((data: DashboardWidget[]) => {
+        setDashboardWidgets(Array.isArray(data) ? data : []);
+      })
+      .catch(err => {
+        console.error("Failed to load client dashboard:", err);
+        setDashboardWidgets([]);
+      })
+      .finally(() => {
+        setLoadingDashboard(false);
+      });
+  }, []);
 
   const t = useTranslations()
+
+  if( loadingDashboard ) {
+    return <div className = 'flex justify-center items-center p-10'>
+      <ButtonLoader size = {40} />
+    </div>
+  }
 
   return (
     <>

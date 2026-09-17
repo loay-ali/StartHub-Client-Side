@@ -114,7 +114,7 @@ export default function Chat(data: ChatProps) {
                                     {msg.datetime}
                                 </time>
                             </div>
-                        </div>suggestion
+                        </div>
                     </div>
                 );
             })}

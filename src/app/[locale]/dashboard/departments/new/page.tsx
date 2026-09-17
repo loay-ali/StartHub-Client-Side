@@ -83,12 +83,12 @@ export default function NewDepartment() {
                     id='name'
                     placeholder={t("dashboard.departments.department-name")}
                 />
-                <AIHelperButton purpose="departmentName" message={{
+                {/*<AIHelperButton purpose="departmentName" message={{
                     content: "What do you need for Department Name field?",
                     actions: [],
                     //@ts-ignore
                     additional: { departmentName }
-                }} />
+                }} />*/}
             </div>
 
             <div className = 'form-group relative'>
@@ -98,12 +98,12 @@ export default function NewDepartment() {
                 <textarea
                     defaultValue={departmentDesc}
                     onInput = {e => setDepartmentDesc(e.currentTarget.value)}></textarea>
-                <AIHelperButton purpose="departmentDescription" message={{
+                {/*<AIHelperButton purpose="departmentDescription" message={{
                     content: "What do you need for Department Description field?",
                     actions: [],
                     //@ts-ignore
                     additional: { departmentDesc }
-                }} />
+                }} />*/}
             </div>
 
             <div className = 'form-group'>
@@ -154,13 +154,13 @@ export default function NewDepartment() {
             </button>
             </section>
             
-            <AISection
+            {/*<AISection
                 title="Need Some Guidance?"
                 Icon={BsBuilding}
                 initialActions={[
                     { title: "Fill Using AI", action: 'fillDepartment', type: ActionType.CHAT }
                 ]}
-            />
+            />*/}
         </section>
     );
 }

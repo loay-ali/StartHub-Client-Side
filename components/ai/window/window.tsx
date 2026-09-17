@@ -75,12 +75,9 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
                 notes: msg
             })
         })
-        .then(res => res.status == 201 ? res.json():Promise.reject())
+        .then(res => res.status == 200 ? res.json():Promise.reject(new Error(`HTTP error! status: ${res.status}`)))
         .then(res => {
-            console.log(res);
-
             if( ! res ) return;
-
             if( res instanceof Array ) {
                 for( const field of res ) {
                     console.log("Field >>> ",field);
@@ -101,7 +98,11 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
                 msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
                 return msgs;
             });*/
-        }).finally(() => {
+        })
+        .catch(err => {
+            console.error("AI purpose chat request failed:", err);
+        })
+        .finally(() => {
             setIsSending(false);
             setMsg('');
         })
@@ -110,7 +111,6 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
     useEffect(() => {
         if(isSending && msg) {
             fetch(config.apiUrl +'/ai/chat',{
-
                 method: 'POST',
                 credentials: "include",
                 headers: {
@@ -120,20 +120,25 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
                     msg,
                     conversationId
                 })})
-                .then(res => res.status == 200 ? res.json():Promise.reject())
+                .then(res => res.status == 200 ? res.json():Promise.reject(new Error(`HTTP error! status: ${res.status}`)))
                 .then(res => {
+                    console.log(res);
                     if( ! res.data ) return;
 
-                setMessages((msgs: ChatMessage[]) => {
-                    if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
-                    setConversationId(res.data.conversationId ?? '');
-                    msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
-                    return msgs;
-                });
-            }).finally(() => {
-                setIsSending(false);
-                setMsg('');
-            })
+                    setMessages((msgs: ChatMessage[]) => {
+                        if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;
+                        setConversationId(res.data.conversationId ?? '');
+                        msgs.push({datetime: getCurrentDateTime(),_id: res.data.request_id,role: 'assistant',content: res.data.response, actions: []});
+                        return msgs;
+                    });
+                })
+                .catch(err => {
+                    console.error("AI chat request failed:", err);
+                })
+                .finally(() => {
+                    setIsSending(false);
+                    setMsg('');
+                })
         }
     },[isSending]);
 
@@ -175,7 +180,7 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
             </button>
         </header>
 
-        <Chat messages={messages} conversationId={conversationId} isSending={isSending} onSuggestion={() => setConfirmSendPurpose} />
+        <Chat messages={messages} conversationId={conversationId} isSending={isSending} onSuggestion={() => setConfirmSendPurpose(true)} />
 
         <Message isSending={isSending} sendMessage={handleSend} />
     </section>);
