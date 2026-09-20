@@ -10,6 +10,9 @@ import { redirect } from "next/navigation";
 
 // Re-export so any code that still imports useAIContext from this file
 // continues to work without a breaking change.
+import { AIContext } from '@/components/providers/AIProvider';
+import AIMainButton from "@/components/ai/MainButton";
+import AIWindow from "@/components/ai/window/window";
 export { useAIContext } from "@/components/providers/AIProvider";
 
 interface DashboardLayoutProps {
@@ -17,15 +20,18 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  // Note: /auth/me isn't implemented on the backend yet (only admin
-  // endpoints exist under authentication/admin.module). So this check
-  // runs, but a missing/failing endpoint must NOT lock founders out of
-  // the dashboard — only a definitive 401 means "not logged in".
-  // We also don't block initial render on this resolving, since that
-  // would hide the whole dashboard (sidebar, header, AI assistant)
-  // behind a spinner every time the endpoint 404s.
-  const [userData, setUserData] = useState<any>({});
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+  const [loadingLoggedIn,setLoadingLoggedIn] = useState(true);
+
+  const [userData,setUserData] = useState<any>({});
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [isUsingAI,setIsUsingAI] = useState(false);
+
+  const [aiPurpose,setAiPurpose] = useState('');
+
+  const [addMessage,setAddMessage] = useState<(msg:string) => any>(() => {});
 
   useEffect(() => {
     fetch(config.apiUrl + '/auth/me', { credentials: 'include' })
@@ -53,35 +59,36 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Desktop Sidebar */}
-      <div className="hidden md:block">
-        <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
-      </div>
+    <AIContext.Provider value={{ addMessage: addMessage, purpose: aiPurpose, open: isUsingAI, setPurpose: (purpose: string) => setAiPurpose(purpose), toggleAI: () => setIsUsingAI(s => !s) }}>
+      <div className="flex min-h-screen bg-background">
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block">
+          <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
+        </div>
 
-      {/* Mobile Sidebar */}
-      {sidebarOpen && (
-        <>
-          <div
-            className="fixed inset-0 z-40 bg-black/40 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-          <div className="fixed left-0 top-0 z-50 md:hidden">
-            <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
-          </div>
-        </>
-      )}
+        {/* Mobile Sidebar */}
+        {sidebarOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-40 bg-black/40 md:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <div className="fixed left-0 top-0 z-50 md:hidden">
+              <Sidebar email={userData.email} companyName={userData.companyName ?? ''} />
+            </div>
+          </>
+        )}
 
       <div className="min-w-0 flex flex-1 flex-col">
-        <Header email={userData.email} onMenuClick={() => setSidebarOpen(true)} />
+        <Header tokens = {userData.tokensLeft} email = {userData.email} onMenuClick={() => setSidebarOpen(true)} />
 
         <main className="flex-1 p-4 md:p-6">
-          {children}
-        </main>
+            {children}
+        <AIMainButton setOpen={() => setIsUsingAI(s => !s)} opened={isUsingAI} />
+        <AIWindow aiPurpose={aiPurpose} open={isUsingAI} closeWindow={() => setIsUsingAI(false)} />
+              </main>
+        </div>
       </div>
-
-      {/* AI Assistant (AIMainButton + AIWindow) are now rendered at the
-          root locale layout level so they persist across all pages. */}
-    </div>
+      </AIContext.Provider>
   );
 }

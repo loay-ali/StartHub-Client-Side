@@ -1,7 +1,9 @@
 'use client';
 
+import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import Job from "@/types/requests/jobs";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -86,26 +88,30 @@ export default function NewCandidate() {
         }
     },[isSavingCandidate]);
 
-    if( isLoadingJobs ) return <div className = 'p-5 flex justify-center items-center'><AiOutlineLoading className = 'spinner-loading' /></div>
+    const t = useTranslations();
+
+    if( isLoadingJobs ) return <div className = 'p-5 flex justify-center items-center'>
+        <ButtonLoader size = {30} />
+    </div>
 
     if (jobs.length == 0) {
         return (
             <section className='flex flex-col justify-center items-center gap-5 mt-20'>
                 <PiEmptyLight size={80} />
-                <strong>No Jobs To Apply Candidates To</strong>
+                <strong>{t('dashboard.candidates.no-jobs-to-apply-candidates-to')}</strong>
 
-                <Link className='button' href="/dashboard/jobs/new">Create a Job</Link>
+                <Link className='button' href="/dashboard/jobs/new">{t('dashboard.jobs.create-a-job')}</Link>
             </section>
         );
     }
 
     return (
-    <section className = 'bg-white max-w-[500px] my-5 mx-auto p-5 rounded shadow'>
-        <h2 className = 'text-2xl'>Create a Candidate</h2>
+    <section className = 'bg-white max-w-[1200px] my-5 mx-auto p-5 rounded shadow'>
+        <h2 className = 'text-2xl'>{t('dashboard.candidates.create-a-candidate')}</h2>
 
         <div className = 'form-group'>
             <label htmlFor = 'fullname'>
-                Fullname
+                {t('dashboard.fields.fullname')}
             </label>
             <input onInput = {(ele) => {
                 setCandidate(data => {
@@ -117,7 +123,7 @@ export default function NewCandidate() {
 
         <div className = 'form-group'>
             <label htmlFor = 'email'>
-                E-Mail
+                {t('dashboard.fields.email')}
             </label>
             <input onInput = {(ele) => {
                 setCandidate(data => {
@@ -129,7 +135,7 @@ export default function NewCandidate() {
 
         <div className = 'form-group'>
             <label htmlFor = 'phone'>
-                Phone
+                {t('dashboard.fields.phone')}
             </label>
             <input onInput = {(ele) => {
                 setCandidate(data => {
@@ -141,7 +147,7 @@ export default function NewCandidate() {
 
         <div className = 'form-group'>
             <label htmlFor = 'job'>
-                Applied Job
+                {t('dashboard.fields.applied-job')}
             </label>
             <select onInput = {(ele) => setCandidate((data) => {
                 data.appliedJob = ele.currentTarget.value;
@@ -155,7 +161,7 @@ export default function NewCandidate() {
 
         <div className = 'form-group'>
             <label htmlFor = 'cv'>
-                CV
+                {t('dashboard.fields.cv')}
             </label>
             <input onInput = {(ele) => setCandidate((data) => {
                 data.cv = ele.currentTarget.files?.[0] ?? null;
@@ -164,7 +170,7 @@ export default function NewCandidate() {
         </div>
 
         <button onClick = {() => setIsSavingCandidate(true)} type ='submit' className = 'button w-full flex justify-center items-center'>
-            {isSavingCandidate ? <AiOutlineLoading className = 'spinner-loading' />:<>Add Candidate</>}
+            {isSavingCandidate ? <ButtonLoader />:<>{t('dashboard.candidates.create-candidate')}</>}
         </button>
     </section>
     );

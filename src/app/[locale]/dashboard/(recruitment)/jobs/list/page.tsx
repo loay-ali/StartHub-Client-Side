@@ -1,6 +1,6 @@
 'use client';
 
-import AISection from "@/components/ai/section/AISection";
+import AISection,{ActionType} from "@/components/ai/section/AISection";
 import CollectionPage from "@/components/collection/CollectionPage";
 import AreYouSureWindow from "@/components/window/AreYouSure";
 import config from "@/constants/config";
@@ -10,7 +10,7 @@ import {redirect,useRouter} from 'next/navigation';
 import { useEffect, useState } from "react";
 import { notificationService } from "@/lib/notifiationSystem";
 
-import { Bot } from "lucide-react";
+import { BsSuitcaseLg } from "react-icons/bs";
 
 export default function JobsList() {
     const [jobs,setJobs] = useState([{title: "Job Title",description: "Description",role: 'CEO',workspaceModel: "Some Model",timeModel: "parttime"}]);
@@ -73,11 +73,10 @@ export default function JobsList() {
     }
 
     return (
-    <>
+    <section className = 'flex items-start gap-5 wrap'>
     {isRemoving != '' && confirmRemoving == false && <AreYouSureWindow confirmCallback = {() => {
         setConfirmRemoving(true);
     }} setWindowState = {setIsRemoving} title = "Delete a Job Post"/>}
-    <AISection title="Suggesting Jobs To Look For" Icon={Bot} initialActions={[]} />
     <CollectionPage
         title = "Jobs List"
         data = {jobs}
@@ -97,5 +96,9 @@ export default function JobsList() {
             setIsRemoving(row.id);
         }}
         isDeleting = {isRemoving != '' && confirmRemoving}/>
-        </>);
+        <AISection title="Do You Need Help ?" Icon={BsSuitcaseLg} initialActions={[
+            {type: ActionType.CHAT,title:"Jobs I Need",action: "suggestJobs"},
+            {type: ActionType.CHAT,title:"Analyze Current Jobs",action: "analyzeJobs"}
+        ]} />
+        </section>);
 }

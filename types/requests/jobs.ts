@@ -17,4 +17,6 @@ export default class Job {
     responsibilities?:string;
 
     expectedSalary?:number;
+
+    status?:'OPEN'|'CLOSED'|'PAUSED';
 }

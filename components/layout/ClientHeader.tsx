@@ -8,41 +8,13 @@ import { useEffect, useRef, useState } from 'react';
 import config from '@/constants/config';
 import LanguageSwitcher from './header/LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Menu, X, ArrowRight, LayoutDashboard, LogIn, Sparkles,
-    ChevronDown, Rocket, TrendingUp,
-} from 'lucide-react';
-
-// Login/Join Now both branch into two audiences. Centralized here so the
-// desktop dropdown and mobile accordion stay in sync with one source of truth.
-const AUDIENCE_OPTIONS = {
-    login: [
-        { label: 'As a Startup', href: '/login', icon: Rocket },
-        { label: 'As an Investor', href: '/investor/login', icon: TrendingUp },
-    ],
-    join: [
-        { label: 'Join as Startup', href: '/register', icon: Rocket },
-        { label: 'Join as Investor', href: '/investor/register', icon: TrendingUp },
-    ],
-} as const;
-
-type MenuKey = keyof typeof AUDIENCE_OPTIONS; // 'login' | 'join'
+import { Menu, X, ArrowRight, LayoutDashboard, LogIn, Sparkles } from 'lucide-react';
 
 export default function Header() {
     const CURRENT_PATHNAME = usePathname();
     const [isLoggedIn, setIsLoggedIn] = useState<any>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [logoTheme, setLogoTheme] = useState<'dark' | 'light'>('dark');
-    // Desktop dropdowns: only one of Login/Join Now open at a time.
-    const [openMenu, setOpenMenu] = useState<MenuKey | null>(null);
-    // Mobile accordion: same idea, inline instead of a floating panel.
-    const [mobileExpanded, setMobileExpanded] = useState<MenuKey | null>(null);
-
-    const authAreaRef = useRef<HTMLDivElement>(null);
-
-    const [overDarkBg, setOverDarkBg] = useState(true); // true = header is over the dark hero
-
 
     useEffect(() => {
         const handleScroll = () => {
@@ -135,20 +107,21 @@ export default function Header() {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
-            className={`fixed left-1/2 -translate-x-1/2 rounded-2xl backdrop-blur-xl z-[99999] flex flex-col transition-all duration-300 ${scrolled
-                ? 'w-[90vw] md:w-[80vw] lg:w-[75vw] top-[15px] bg-white/85 dark:bg-slate-950/85 border border-slate-200/40 dark:border-slate-800/40 shadow-lg shadow-teal-500/5'
-                : 'w-[92vw] md:w-[85vw] lg:w-[80vw] top-[20px] bg-white/60 dark:bg-slate-950/60 border border-transparent dark:border-transparent'
-                }`}
+            className={`fixed left-1/2 -translate-x-1/2 rounded-2xl backdrop-blur-xl z-[99999] flex flex-col transition-all duration-300 ${
+                scrolled
+                    ? 'w-[90vw] md:w-[80vw] lg:w-[75vw] top-[15px] bg-white/85 dark:bg-slate-950/85 border border-slate-200/40 dark:border-slate-800/40 shadow-lg shadow-teal-500/5'
+                    : 'w-[92vw] md:w-[85vw] lg:w-[80vw] top-[20px] bg-white/60 dark:bg-slate-950/60 border border-transparent dark:border-transparent'
+            }`}
         >
             <div className="flex items-center justify-between p-3 px-6 w-full">
-                <Link href="/" id="identity" className="flex items-center justify-between gap-3">
+                <Link href="/" id="identity" className="flex items-center justify-between gap-3 bg-primary-dark rounded-full" style = {{boxShadow: "-10px 0 0 30px #030a0f"}}>
                     <h1>
                         <motion.img
                             whileHover={{ scale: 1.05, rotate: -1 }}
                             whileTap={{ scale: 0.95 }}
-                            src={logoTheme === 'dark' ? '/starthub-dark-bg.png' : '/starthub-light-bg.png'}
+                            src="/starthub.png"
                             className="h-[32px] w-auto transition-transform duration-300"
-                            alt="StarHub Logo"
+                            alt="StarHub Logo"  
                         />
                     </h1>
                 </Link>
@@ -178,6 +151,25 @@ export default function Header() {
                                 </Link>
                             );
                         })}
+            
+                        <Link
+                            href={'/investor/login'}
+                            key={'investor'}
+                            className={`text-sm border-2 font-bolder relative py-2 px-4 transition-colors duration-300 rounded-xl whitespace-nowrap ${
+                                isActive('/investor') 
+                                    ? "text-[#14b8a6] font-bold" 
+                                    : "text-slate-600 dark:text-slate-300 hover:text-[#14b8a6] dark:hover:text-[#14b8a6]"
+                            }`}
+                        >
+                            {isActive('/investor/login') && (
+                                <motion.span
+                                    layoutId="activeIndicator"
+                                    className="absolute inset-0 bg-teal-50 dark:bg-teal-950/30 rounded-xl -z-10 border border-teal-500/10 dark:border-teal-500/5"
+                                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                />
+                            )}
+                            {t('public.navigation.investor')}
+                        </Link>
                     </div>
 
                     <div className="hidden md:block h-[20px] w-[1px] bg-slate-200 dark:bg-slate-800"></div>

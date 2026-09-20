@@ -29,7 +29,7 @@ export async function fetchOpportunities(
   if (params.status) query.set('status', params.status);
 
   const res = await fetch(
-    `${API_BASE}/dashboard/ecosystem/opportunities?${query.toString()}`,
+    `${API_BASE}/event?${query.toString()}`,
     {
       credentials: 'include',
       cache: 'no-store',

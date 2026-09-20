@@ -1,10 +1,14 @@
 'use client';
 
+import AISection, { ActionType } from "@/components/ai/section/AISection";
+import { ButtonLoader } from "@/components/preloader/ButtonLoader";
 import config from "@/constants/config";
 import Job from "@/types/requests/jobs";
+import { Bot } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { useParams, useRouter } from 'next/navigation';
+import { forbidden, useParams, useRouter } from 'next/navigation';
 
 import { useEffect, useState } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -14,7 +18,9 @@ export default function CandidatePage() {
 
     const {id} = useParams();
 
-    if( ! id ) return <>Invalid</>;
+    if( ! id ) return forbidden();
+
+    const t = useTranslations();
 
     const router = useRouter();
 
@@ -110,87 +116,99 @@ export default function CandidatePage() {
         }
     },[isSavingCandidate]);
 
-    if( isLoadingJobs || isLoadingData ) return <div className = 'p-5 flex justify-center items-center'><AiOutlineLoading className = 'spinner-loading' /></div>
+    if( isLoadingJobs || isLoadingData ) return <div className = 'p-5 flex justify-center items-center'>
+        <ButtonLoader size = {30} />
+    </div>
 
     if( jobs.length == 0 ) {
         return (
             <section className = 'flex flex-col justify-center items-center gap-5 mt-20'>
                 <PiEmptyLight size = {80} />
-                <strong>No Jobs To Apply Candidates To</strong>
+                <strong>{t('dashboard.candidates.no-jobs-to-apply-candidates-to')}</strong>
 
-                <Link className = 'button' href = "/dashboard/jobs/new">Create a Job</Link>
+                <Link className = 'button' href = "/dashboard/jobs/new">{t('dashboard.jobs.create-a-job')}</Link>
             </section>
             );
     }
 
     return (
-    <section className = 'bg-white max-w-[500px] my-5 mx-auto p-5 rounded shadow'>
-        <h2 className = 'text-2xl'>Create a Candidate</h2>
+    <section className = 'flex items-start gap-5 justify-center max-w-[1200px] mx-auto'>
+        <section className = 'bg-white mx-auto p-5 rounded shadow'>
+            <h2 className = 'text-2xl'>{t('dashboard.candidates.create-a-candidate')}</h2>
 
-        <div className = 'form-group'>
-            <label htmlFor = 'fullname'>
-                Fullname
-            </label>
-            <input onInput = {(ele) => {
-                setCandidate(data => {
-                    data.fullname = ele.currentTarget.value;
+            <div className = 'form-group'>
+                <label htmlFor = 'fullname'>
+                    {t('dashboard.fields.fullname')}
+                </label>
+                <input onInput = {(ele) => {
+                    setCandidate(data => {
+                        data.fullname = ele.currentTarget.value;
+                        return data;
+                    });
+                }} value = {candidate.fullname} type="text" name="fullname" id="fullname" />
+            </div>
+
+            <div className = 'form-group'>
+                <label htmlFor = 'email'>
+                    {t('dashboard.fields.email')}
+                </label>
+                <input onInput = {(ele) => {
+                    setCandidate(data => {
+                        data.email = ele.currentTarget.value;
+                        return data;
+                    });
+                }} value = {candidate.email} type="email" name="email" id="email" />
+            </div>
+
+            <div className = 'form-group'>
+                <label htmlFor = 'phone'>
+                    {t('dashboard.fields.phone')}
+                </label>
+                <input onInput = {(ele) => {
+                    setCandidate(data => {
+                        data.phone = ele.currentTarget.value;
+                        return data;
+                    });
+                }} value = {candidate.phone} type="tel" name="phone" id = "phone" />
+            </div>
+
+            <div className = 'form-group'>
+                <label htmlFor = 'job'>
+                    {t('dashboard.fields.applied-job')}
+                </label>
+                <select onInput = {(ele) => setCandidate((data) => {
+                    data.appliedJob = ele.currentTarget.value;
                     return data;
-                });
-            }} value = {candidate.fullname} type="text" name="fullname" id="fullname" />
-        </div>
+                })} defaultValue = {candidate.appliedJob} name="job" id="job">
+                    {jobs.map(job => (<option value = {job.id}>
+                        {job.title}
+                    </option>))}
+                </select>
+            </div>
 
-        <div className = 'form-group'>
-            <label htmlFor = 'email'>
-                E-Mail
-            </label>
-            <input onInput = {(ele) => {
-                setCandidate(data => {
-                    data.email = ele.currentTarget.value;
+            <div className = 'form-group'>
+                <label htmlFor = 'cv'>
+                    {t('dashboard.fields.cv')}
+                </label>
+                {candidate.cvUrl && <Link className = "button" href = {candidate.cvUrl} download = {true}>
+                        {t("dashboard.field.download-cv")}
+                </Link>}
+                <input onInput = {(ele) => setCandidate((data) => {
+                    data.cv = ele.currentTarget.files?.[0] ?? null;
                     return data;
-                });
-            }} value = {candidate.email} type="email" name="email" id="email" />
-        </div>
+                })} type = 'file' name = 'cv' id = 'cv' accept = '*.png,*.jpg,*.pdf' />
+            </div>
 
-        <div className = 'form-group'>
-            <label htmlFor = 'phone'>
-                Phone
-            </label>
-            <input onInput = {(ele) => {
-                setCandidate(data => {
-                    data.phone = ele.currentTarget.value;
-                    return data;
-                });
-            }} value = {candidate.phone} type="tel" name="phone" id = "phone" />
-        </div>
-
-        <div className = 'form-group'>
-            <label htmlFor = 'job'>
-                Applied Job
-            </label>
-            <select onInput = {(ele) => setCandidate((data) => {
-                data.appliedJob = ele.currentTarget.value;
-                return data;
-            })} defaultValue = {candidate.appliedJob} name="job" id="job">
-                {jobs.map(job => (<option value = {job.id}>
-                    {job.title}
-                </option>))}
-            </select>
-        </div>
-
-        <div className = 'form-group'>
-            <label htmlFor = 'cv'>
-                CV
-            </label>
-            {candidate.cvUrl && <Link className = "button" href = {candidate.cvUrl} download = {true}>Download CV</Link>}
-            <input onInput = {(ele) => setCandidate((data) => {
-                data.cv = ele.currentTarget.files?.[0] ?? null;
-                return data;
-            })} type = 'file' name = 'cv' id = 'cv' accept = '*.png,*.jpg,*.pdf' />
-        </div>
-
-        <button onClick = {() => setIsSavingCandidate(true)} type ='submit' className = 'button w-full flex justify-center items-center'>
-            {isSavingCandidate ? <AiOutlineLoading className = 'spinner-loading' />:<>Add Candidate</>}
-        </button>
+            <button onClick = {() => setIsSavingCandidate(true)} type ='submit' className = 'button w-full flex justify-center items-center'>
+                {isSavingCandidate ? <ButtonLoader />:<>{t('dashboard.candidates.create-candidate')}</>}
+            </button>
+        </section>
+        <AISection
+            title = "How Can I Help You ?"
+            Icon = {Bot}
+            initialActions={[
+                {title: t('dashboard.ai.is-this-candidate-qualified'),type: ActionType.CHAT,action: "analyzeCandidate"}
+            ]} />
     </section>
     );
 }

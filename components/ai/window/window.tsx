@@ -102,11 +102,10 @@ export default function AIWindow({aiPurpose,open,closeWindow}:{aiPurpose:string,
                 body: JSON.stringify({
                     msg,
                     conversationId
-                })
-            })
-            .then(res => res.json())
-            .then(res => {
-                if( ! res.data ) return;
+                })})
+                .then(res => res.status == 200 ? res.json():Promise.reject())
+                .then(res => {
+                    if( ! res.data ) return;
 
                 setMessages((msgs: ChatMessage[]) => {
                     if( !! msgs.find(ele => ele._id == res.data.request_id) ) return msgs;

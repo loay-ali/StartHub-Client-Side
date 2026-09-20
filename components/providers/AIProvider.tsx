@@ -21,7 +21,7 @@ interface AIContextValue {
 
 // ── Context ───────────────────────────────────────────────────────────────────
 
-const AIContext = createContext<AIContextValue>({
+export const AIContext = createContext<AIContextValue>({
   open: false,
   purpose: '',
   toggleAI: () => {},

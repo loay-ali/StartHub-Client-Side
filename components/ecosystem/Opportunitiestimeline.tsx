@@ -44,6 +44,7 @@ export default function OpportunitiesTimeline() {
         data.forEach((o) => merged.set(o.id, o));
         return Array.from(merged.values());
       });
+      console.log(opportunities);
     } catch {
       // Non-blocking — section just stays empty/stale instead of breaking the page.
     } finally {

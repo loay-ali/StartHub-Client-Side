@@ -16,8 +16,10 @@ export enum ActionType {
 export default function AISection({
     Icon,
     title,
-    initialActions
+    initialActions,
+    additional
 }:{
+    additional?:Record<string,any>,
     Icon:ElementType,
     title:string,
     initialActions: {title:string,type:ActionType,action:Function|string}[]
