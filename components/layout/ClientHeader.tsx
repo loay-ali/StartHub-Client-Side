@@ -9,12 +9,15 @@ import config from '@/constants/config';
 import LanguageSwitcher from './header/LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight, LayoutDashboard, LogIn, Sparkles } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function Header() {
     const CURRENT_PATHNAME = usePathname();
     const [isLoggedIn, setIsLoggedIn] = useState<any>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+
+    const t = useTranslations();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -107,7 +110,7 @@ export default function Header() {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
-            className={`fixed left-1/2 -translate-x-1/2 rounded-2xl backdrop-blur-xl z-[99999] flex flex-col transition-all duration-300 ${
+            className={`overflow-hidden fixed left-1/2 -translate-x-1/2 rounded-2xl backdrop-blur-xl z-[99999] flex flex-col transition-all duration-300 ${
                 scrolled
                     ? 'w-[90vw] md:w-[80vw] lg:w-[75vw] top-[15px] bg-white/85 dark:bg-slate-950/85 border border-slate-200/40 dark:border-slate-800/40 shadow-lg shadow-teal-500/5'
                     : 'w-[92vw] md:w-[85vw] lg:w-[80vw] top-[20px] bg-white/60 dark:bg-slate-950/60 border border-transparent dark:border-transparent'
@@ -120,7 +123,7 @@ export default function Header() {
                             whileHover={{ scale: 1.05, rotate: -1 }}
                             whileTap={{ scale: 0.95 }}
                             src="/starthub.png"
-                            className="h-[32px] w-auto transition-transform duration-300"
+                            className="bg-[#030a0f] h-[32px] w-auto transition-transform duration-300"
                             alt="StarHub Logo"  
                         />
                     </h1>
